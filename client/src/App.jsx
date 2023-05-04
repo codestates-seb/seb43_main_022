@@ -14,7 +14,7 @@ function App() {
       <GlobalStyles />
       <div className="container">
         <Div>
-          <ImgBtn imgstyle={"Share"} />
+          <ImgBtn imgstyle={"Hate"} />
         </Div>
 
         <Button btnstyle="Btn">로그인</Button>

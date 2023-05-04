@@ -5,6 +5,9 @@ import { ReactComponent as Heart } from "./img/heart.svg";
 import { ReactComponent as Like } from "./img/like.svg";
 import { ReactComponent as Share } from "./img/share.svg";
 import { ReactComponent as Hate } from "./img/hate.svg";
+import { ReactComponent as View } from "./img/view.svg";
+import { ReactComponent as Check } from "./img/check.svg";
+import { ReactComponent as X } from "./img/x.svg";
 
 const Btn = styled.button`
   border: none;
@@ -37,8 +40,21 @@ export default function Plusfunc({ imgstyle }) {
         color = "var(--red-600)";
         break;
 
+      case "View":
+        type = View;
+        color = "var(--black-200)";
+        break;
+      case "Check":
+        type = Check;
+        color = "var(--black-900)";
+        break;
+      case "X":
+        type = X;
+        color = "none";
+        break;
+
       default:
-        color = "var(--eatsgreen)";
+        color = "var(--white)";
         break;
     }
   };

@@ -9,31 +9,28 @@ const GlobalStyles = createGlobalStyle`
     font-family: -apple-system, "system-ui", "Segoe UI Adjusted", "Segoe UI", "Liberations Sans", sans-serif;
     font-weight: 400; 
     white-space: nowrap;
-    font-size: 13px; 
+    font-size: 13px;  
+    background: #FEFEFE;
   }
-  
+
   .container {
-    max-width: 1920px;
-    margin: 0 auto;
-    width: 1920;
-    height: max-content;
-    min-height: 1024px;
+    width: 1200px;
+    height: 100vh;
+    margin: 0;
+    padding: 0;
     display: flex;
     justify-content: center;
-    margin: 0 auto 0;
-    flex: 1 0 auto;
   }
-
+  
   body {
-    width: 1440px;
+    
+    width: 1920px;
     height: 100vh;
     position: ${(prop) => prop.posi || "none"};
+    display: flex;
+    justify-content: center;
+    
   }
-  .root {
-    height: 100vh;
-  }
-
-
   a {
     text-decoration: none;
   }
@@ -58,8 +55,17 @@ const GlobalStyles = createGlobalStyle`
     --green-700: hsl(140,41%,31%);
     --eatsgreen: hsl(144, 40%, 47%);
     --footergreen: hsl(144, 17%, 41%);
+    --red-500: hsl(0, 81%, 54%);
+    --red-600: hsl(0, 100%, 26%);
 
 
+    --x-small-font : 12px;
+    --small-font : 13px;
+    --medium-font: 16px;
+    --large-font: 20px;
+    --x-large-font: 22px;
+    --xx-large-font: 28px;
+    
   }
 `;
 

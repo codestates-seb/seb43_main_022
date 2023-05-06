@@ -29,10 +29,5 @@ public class RestaurantResponseDto {
     private int total_views;
     private int total_favorite;
     private double rating;// 평점이니까 decimal을 java.math.BigDecimal double 타입으로 변환이 아니라 double 변환해줘도괜찮.....?
-    @Positive
-    private long memberId;
-    @Positive
-    private long menuId;
-    @Positive
-    private long categoryId;
+
 }

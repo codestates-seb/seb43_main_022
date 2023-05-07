@@ -9,7 +9,8 @@ public enum ExceptionCode {
     INVALID_PERMISSION(403, "권한이 유효하지 않습니다."),
     REVIEW_NOT_FOUND(404, "Review not found"),
     RESTAURANT_NOT_FOUND(404, "Restaurant not found"),
-    RESTAURANT_EXISTS (409, "Restaurant exists");
+    RESTAURANT_EXISTS (409, "Restaurant exists"),
+    MENU_NOT_FOUND(409, "메뉴를 찾을수 없습니다.");
 
     @Getter
     private int status;

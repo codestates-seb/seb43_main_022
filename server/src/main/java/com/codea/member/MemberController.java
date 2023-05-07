@@ -1,16 +1,9 @@
-package com.codea.member.controller;
+package com.codea.member;
 
 
-import com.codea.member.dto.MemberPatchDto;
-import com.codea.member.dto.MemberPostDto;
-import com.codea.member.dto.MemberResponseDto;
-import com.codea.member.entity.Member;
-import com.codea.member.mapper.MemberMapper;
-import com.codea.member.service.MemberService;
 import com.codea.util.UriCreator;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Page;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +13,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;
 import java.net.URI;
-import java.util.List;
 
 @AllArgsConstructor
 @RestController
@@ -32,10 +24,10 @@ public class MemberController {
     private final MemberMapper memberMapper;
 
     @PostMapping
-    public ResponseEntity postMember(@Valid @RequestBody MemberPostDto requestBody) {
+    public ResponseEntity postMember(@Valid @RequestBody MemberDto.Post requestBody) {
         Member member = memberMapper.memberPostDtoToMember(requestBody);
         Member createMember = memberService.createMember(member);
-        MemberResponseDto responseDto = memberMapper.memberToMemberResponseDto(createMember);
+        MemberDto.Response responseDto = memberMapper.memberToMemberResponseDto(createMember);
 
         URI location = UriCreator.createUri("/members", createMember.getMemberId());
         HttpHeaders headers = new HttpHeaders();
@@ -47,12 +39,12 @@ public class MemberController {
 
     @PatchMapping("/{member-id}")
     public ResponseEntity patchMember(@PathVariable("member-id") @Positive long memberId,
-                                      @Valid @RequestBody MemberPatchDto requestBody
+                                      @Valid @RequestBody MemberDto.Patch requestBody
                                       /*@RequestHeader("Authorization") String token*/) {
 //        memberService.sameMemberTest(memberId, token); // jwt 이후
         requestBody.setMemberId(memberId);
         Member updateMember = memberService.updateMember(memberMapper.memberPatchDtoToMember(requestBody));
-        MemberResponseDto responseDto = memberMapper.memberToMemberResponseDto(updateMember);
+        MemberDto.Response responseDto = memberMapper.memberToMemberResponseDto(updateMember);
 
         return new ResponseEntity(responseDto, HttpStatus.OK);
     }
@@ -62,7 +54,7 @@ public class MemberController {
     public ResponseEntity getMember(
             @PathVariable("member-id") @Positive long memberId) {
         Member member = memberService.findMember(memberId);
-        MemberResponseDto responseDto = memberMapper.memberToMemberResponseDto(member);
+        MemberDto.Response responseDto = memberMapper.memberToMemberResponseDto(member);
         return new ResponseEntity(responseDto, HttpStatus.OK);
     }
 

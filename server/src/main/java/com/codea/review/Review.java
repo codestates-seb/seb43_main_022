@@ -1,6 +1,8 @@
 package com.codea.review;
 
 import com.codea.BaseEntity.BaseEntity;
+import com.codea.member.Member;
+import com.codea.restaurant.Restaurant;
 import lombok.*;
 
 import javax.persistence.*;
@@ -23,6 +25,12 @@ public class Review extends BaseEntity {
     private Rating rating;
     @Enumerated(EnumType.STRING)
     private ReviewStatus status = ReviewStatus.REVIEW_VALID;
+    @ManyToOne
+    @JoinColumn(name = "MEMBER_ID")
+    private Member member;
+    @ManyToOne
+    @JoinColumn(name = "RESTAURANT_ID")
+    private Restaurant restaurant;
 
     public enum Rating {
         GOOD("맛있어요"),

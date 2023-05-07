@@ -1,10 +1,8 @@
-package com.codea.member.service;
+package com.codea.member;
 
 
-import com.codea.excption.BusinessLogicException;
-import com.codea.excption.ExceptionCode;
-import com.codea.member.entity.Member;
-import com.codea.member.repository.MemberRepository;
+import com.codea.exception.ExceptionCode;
+import com.codea.exception.BusinessLogicException;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;

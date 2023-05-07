@@ -1,13 +1,28 @@
 package com.codea.exception;
 
+import com.codea.exception.ExceptionCode;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 
-public class BusinessLogicException extends RuntimeException {
-    @Getter
-    private ExceptionCode exceptionCode;
+@Getter
+@AllArgsConstructor
+public class BusinessLogicException extends RuntimeException{
 
-    public BusinessLogicException(ExceptionCode exceptionCode) {
-        super(exceptionCode.getMessage());
+    private ExceptionCode exceptionCode;
+    private String message;
+
+    public BusinessLogicException(ExceptionCode exceptionCode){
         this.exceptionCode = exceptionCode;
+        this.message = null;
+    }
+
+
+    @Override
+    public String getMessage(){
+        if(message == null){
+            return exceptionCode.getMessage();
+        }
+
+        return String.format("%s. %s,", exceptionCode.getMessage(), message);
     }
 }

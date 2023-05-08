@@ -10,5 +10,5 @@ import org.mapstruct.Mapper;
 public interface RestaurantMapper {
     Restaurant restaurantPostDtoToRestaurant(RestaurantPostDto restaurantPostDto);
     Restaurant restaurantPatchDtoToRestaurant(RestaurantPatchDto restaurantPatchDto);
-    RestaurantResponseDto restaurantToResponseDto(Restaurant restaurant);
+    RestaurantResponseDto restaurantToRestaurantResponseDto(Restaurant restaurant);
 }

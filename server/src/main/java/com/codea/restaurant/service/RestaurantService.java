@@ -35,8 +35,8 @@ public class RestaurantService {
                .ifPresent(location-> findRestaurant.setLocation(location));
        Optional.ofNullable(restaurant.getTel())
                .ifPresent(tel-> findRestaurant.setTel(tel));
-       Optional.ofNullable(restaurant.getPhoto())
-               .ifPresent(photo-> findRestaurant.setPhoto(photo));
+      /* Optional.ofNullable(restaurant.getPhoto())
+               .ifPresent(photo-> findRestaurant.setPhoto(photo)); */
        Optional.ofNullable(restaurant.getOpentime())
                .ifPresent(opentime-> findRestaurant.setOpentime(opentime));
        findRestaurant.setModifiedAt(LocalDateTime.now());

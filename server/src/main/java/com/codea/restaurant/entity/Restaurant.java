@@ -32,9 +32,9 @@ public class Restaurant {
     @Column(nullable = false,unique = true)
     @NotBlank
     private String tel;
-    @Column(nullable = false,unique = true)
+   /* @Column(nullable = false,unique = true)
     @NotBlank
-    private byte[] photo;
+    private byte[] photo; */
     @Column(nullable = false)
     @NotBlank
     private String opentime;

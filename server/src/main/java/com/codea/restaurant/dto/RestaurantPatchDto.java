@@ -12,17 +12,16 @@ import java.time.LocalDateTime;
 public class RestaurantPatchDto {
     @Positive
     private long restaurantId;
-    @NotBlank
+
     private String name;
-    @NotBlank
+
     private String content;
-    @NotBlank
     private String location;
-    @NotBlank
+
     private String tel;
-    @NotBlank
-    private byte[] photo;
-    @NotBlank
+
+   // private byte[] photo;
+
     private String opentime;
     private LocalDateTime created_at;
     private LocalDateTime modified_at;

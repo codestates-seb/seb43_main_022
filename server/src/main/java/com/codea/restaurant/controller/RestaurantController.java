@@ -4,6 +4,7 @@ import com.codea.restaurant.dto.RestaurantPatchDto;
 import com.codea.restaurant.dto.RestaurantPostDto;
 import com.codea.restaurant.entity.Restaurant;
 import com.codea.restaurant.service.RestaurantService;
+import com.codea.utils.UriCreator;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +14,7 @@ import com.codea.restaurant.mapper.RestaurantMapper;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;
+import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -21,6 +23,7 @@ import java.util.List;
 public class RestaurantController {
     private final RestaurantService restaurantService;
     private final RestaurantMapper restaurantMapper;
+    private final static String RESTAURANT_DEFAULT_URL = "/restaurant";
 
 
     public RestaurantController(RestaurantService restaurantService,RestaurantMapper restaurantMapper){
@@ -30,7 +33,9 @@ public class RestaurantController {
     @PostMapping
     public ResponseEntity postRestaurant(@Valid @RequestBody RestaurantPostDto restaurantPostDto){
         Restaurant restaurant = restaurantService.createRestaurant(restaurantMapper.restaurantPostDtoToRestaurant(restaurantPostDto));
-        return  new ResponseEntity (restaurantPostDto, HttpStatus.CREATED);
+
+        URI location = UriCreator.createUri(RESTAURANT_DEFAULT_URL, restaurant.getRestaurantId());
+        return  ResponseEntity.created(location).build();
     }
 
     @PatchMapping("/{restaurantId}")

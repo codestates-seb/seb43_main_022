@@ -12,8 +12,8 @@ const InputType = {
 const TextInput = styled.input`
   ${(p) => p.inputType}
 
-  width: var(--width, 293px);
-  height: var(--height, 41px);
+  width: ${(props) => props.width || "293px"};
+  height: ${(props) => props.height || "41px"};
   font-size: var(--medium-font);
   border: var(--border, 1px solid var(--black-200));
   border-radius: 10px;
@@ -29,6 +29,7 @@ function Input({
   type,
   placeholder,
   onChange,
+  name,
   value,
   id,
   width,
@@ -43,6 +44,7 @@ function Input({
       placeholder={placeholder}
       onChange={onChange}
       id={id}
+      name={name}
       value={value}
       width={width}
       height={height}

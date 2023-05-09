@@ -29,14 +29,12 @@ public class Member extends BaseEntity {
     @Enumerated(value = EnumType.STRING)
     @Column(length = 20, nullable = false)
     private MemberStatus memberStatus = MemberStatus.MEMBER_ACTIVE;
-
     @ElementCollection(fetch = FetchType.EAGER)
     private List<String> roles = new ArrayList<>();
     @OneToMany(mappedBy = "member")
     private List<Restaurant> restaurants = new ArrayList<>();
     @OneToMany(mappedBy = "member")
     private List<Review> reviews = new ArrayList<>();
-
     public enum MemberStatus {
         MEMBER_ACTIVE("활동중"),
         MEMBER_SLEEP("휴면 상태"),

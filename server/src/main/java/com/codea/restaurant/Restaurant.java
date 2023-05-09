@@ -1,6 +1,7 @@
 package com.codea.restaurant;
 
 import com.codea.BaseEntity.BaseEntity;
+import com.codea.Menu.Menu;
 import com.codea.member.Member;
 import lombok.*;
 
@@ -8,6 +9,9 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Positive;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+
 @Getter
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -39,5 +43,8 @@ public class Restaurant extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "MEMBER_ID")
     private Member member;
+
+    @OneToMany(mappedBy = "restaurant")
+    private List<Menu> menu = new ArrayList<>();
 
 }

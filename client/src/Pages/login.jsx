@@ -63,6 +63,14 @@ export default function Login() {
   const [err, setErr] = useState(true);
   const [errMessage, setErrMessage] = useState("");
   const [errPw, setErrPw] = useState("");
+  const [member, setMember] = useState({
+    email: "",
+    password: "",
+  });
+
+  const handleInputValue = (key) => (e) => {
+    setMember({ ...member, [key]: e.target.value });
+  };
 
   function onClick() {
     setErr(!err);
@@ -78,10 +86,18 @@ export default function Login() {
         <Textdiv>
           <P>이메일</P>
           {err ? (
-            <Input inputType="default" placeholder="email" />
+            <Input
+              inputType="default"
+              placeholder="email"
+              onChange={handleInputValue("email")}
+            />
           ) : (
             <>
-              <Input inputType="error" placeholder="email" />
+              <Input
+                inputType="error"
+                placeholder="email"
+                onChange={handleInputValue("email")}
+              />
               <Errdiv>
                 <Errspan>* {errMessage}</Errspan>
               </Errdiv>
@@ -91,10 +107,20 @@ export default function Login() {
         <Textdiv>
           <P>비밀번호</P>
           {err ? (
-            <Input type="password" inputType="default" placeholder="password" />
+            <Input
+              type="password"
+              inputType="default"
+              placeholder="password"
+              onChange={handleInputValue("password")}
+            />
           ) : (
             <>
-              <Input type="password" inputType="error" placeholder="password" />
+              <Input
+                type="password"
+                inputType="error"
+                placeholder="password"
+                onChange={handleInputValue("password")}
+              />
               <Errdiv>
                 <Errspan>* {errPw}</Errspan>
               </Errdiv>

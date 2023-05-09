@@ -2,7 +2,6 @@ import styled from "styled-components";
 import Button from "../Component/style/button";
 import Input from "../Component/style/Input";
 import Plus from "../Component/style/img/signup.svg";
-import SelectImg from "../Component/style/img/select.svg";
 import Auth from "../Component/Auth";
 import { useState, useRef } from "react";
 import Select from "react-select";
@@ -22,10 +21,6 @@ const Container = styled.div`
   justify-content: center;
   align-items: center;
   padding: 20px 30px;
-`;
-const Img = styled.img`
-  width: ${(prop) => prop.width || "100%"};
-  height: ${(prop) => prop.height || "100%"};
 `;
 
 const Imgdiv = styled.div`
@@ -100,15 +95,31 @@ const Authdiv = styled.div`
 const { kakao } = window;
 
 function Signup() {
+  const [member, setMember] = useState({
+    email: "",
+    username: "",
+    password: "",
+    location: "",
+    la: "",
+    ma: "",
+    CEO: false,
+  });
+
   const [imgFile, setImgFile] = useState("");
-  const [coor, setCoor] = useState("");
   const imgRef = useRef();
-  const selectRef = useRef();
   const selectOption = [{ value: "강남구", label: "강남구" }];
 
-  const saveImgFile = () => {
+  const handleInputValue = (key) => (e) => {
+    setMember({ ...member, [key]: e.target.value });
+  };
+
+  const saveImgFile = (e) => {
+    const leng = e.target.files;
     const file = imgRef.current.files[0];
     const reader = new FileReader();
+    if (leng.length === 0) {
+      return;
+    }
     reader.readAsDataURL(file);
     reader.onloadend = () => {
       setImgFile(reader.result);
@@ -116,18 +127,26 @@ function Signup() {
   };
 
   // 주소 => 좌표 변환
-  // const coordFunc = (coord) => {
-  //   const geocoder = new kakao.maps.services.Geocoder();
+  const coordFunc = (coord) => {
+    const geocoder = new kakao.maps.services.Geocoder();
 
-  //   geocoder.addressSearch(`${coord}`, function (result, status) {
-  //     // 정상적으로 검색이 완료됐으면
-  //     if (status === kakao.maps.services.Status.OK) {
-  //       var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
-  //       console.log(coords.La);
-  //       console.log(coords.Ma);
-  //     }
-  //   });
-  // };
+    geocoder.addressSearch(
+      `서울특별시 ${coord} 강남대로 지하396`,
+      function (result, status) {
+        // 정상적으로 검색이 완료됐으면
+        if (status === kakao.maps.services.Status.OK) {
+          var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+          setMember({
+            ...member,
+            la: coords.La,
+            ma: coords.Ma,
+            location: coord,
+          });
+        }
+      }
+    );
+  };
+
   return (
     <Main>
       <Container>
@@ -147,36 +166,54 @@ function Signup() {
             type="file"
             accept="image/*"
             id="profileImg"
-            onChange={((e) => setImgFile(e.target.files), saveImgFile)}
+            onChange={
+              ((e) => setImgFile(e.target.files), (e) => saveImgFile(e))
+            }
             ref={imgRef}
           ></ImgBtn>
         </Imgdiv>
         <P>프로필 사진</P>
         <Textdiv>
           <P>닉네임</P>
-          <Input inputType="default" placeholder="username" />
+          <Input
+            inputType="default"
+            placeholder="username"
+            onChange={handleInputValue("username")}
+          />
         </Textdiv>
         <Textdiv>
           <P>이메일</P>
-          <Input inputType="default" placeholder="email" />
+          <Input
+            inputType="default"
+            placeholder="email"
+            onChange={handleInputValue("email")}
+          />
         </Textdiv>
         <Textdiv>
           <P>비밀번호</P>
-          <Input type="password" inputType="default" placeholder="password" />
+          <Input
+            type="password"
+            inputType="default"
+            placeholder="password"
+            onChange={handleInputValue("password")}
+          />
         </Textdiv>
         <Textdiv>
           <P>비밀번호 확인</P>
-          <Input type="password" inputType="default" placeholder="email" />
+          <Input
+            type="password"
+            inputType="default"
+            placeholder="비밀번호 확인"
+          />
         </Textdiv>
         <Textdiv>
           <P>지역</P>
           <Select
-            onChange={(e) => {
-              setCoor(e.value);
-            }}
+            onChange={(e) => coordFunc(e.value)}
             placeholder="주소"
             options={selectOption}
           ></Select>
+          {}
         </Textdiv>
         <Textdiv>
           <P>사장님 계정</P>
@@ -188,6 +225,7 @@ function Signup() {
               placeholder="email"
               width="15px"
               height="15px"
+              onChange={(e) => setMember({ ...member, CEO: e.target.checked })}
             />
           </Ceodiv>
         </Textdiv>

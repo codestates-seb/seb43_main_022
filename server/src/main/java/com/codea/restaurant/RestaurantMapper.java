@@ -8,6 +8,6 @@ import java.util.List;
 public interface RestaurantMapper {
     Restaurant restaurantPostDtoToRestaurant(RestaurantDto.Post restaurantPostDto);
     Restaurant restaurantPatchDtoToRestaurant(RestaurantDto.Patch restaurantPatchDto);
-    RestaurantDto.Response restaurantToResponseDto(Restaurant restaurant);
-    List<RestaurantDto.Response> restaurantToResponseDtos(List<Restaurant> restaurant);
+    RestaurantDto.Response restaurantToRestaurantResponseDto(Restaurant restaurant);
+    List<RestaurantDto.Response> restaurantToRestaurantResponseDtos(List<Restaurant> restaurant);
 }

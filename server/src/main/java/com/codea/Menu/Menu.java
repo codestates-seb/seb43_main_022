@@ -15,7 +15,7 @@ import javax.persistence.*;
 public class Menu {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private long menuId;
     @Column(length = 20, nullable = false)
     private String name;
     @Column(nullable = false)

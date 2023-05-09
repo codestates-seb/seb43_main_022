@@ -24,8 +24,8 @@ public class MenuService {
         return menuRepository.save(menu);
     }
 
-    public Menu updateMenu(long id, Menu menu) {
-        Menu findMenu = findMenu(id);
+    public Menu updateMenu(long menuId, Menu menu) {
+        Menu findMenu = findMenu(menuId);
 
         Optional.ofNullable(menu.getName()).ifPresent(name -> findMenu.setName(name));
         Optional.ofNullable(menu.getPrice()).ifPresent(price -> findMenu.setPrice(price));
@@ -33,16 +33,16 @@ public class MenuService {
         return menuRepository.save(findMenu);
     }
 
-    public Menu findMenu(long id) {
-        return menuRepository.findById(id).orElseThrow(() -> new BusinessLogicException(ExceptionCode.MENU_NOT_FOUND));
+    public Menu findMenu(long menuId) {
+        return menuRepository.findById(menuId).orElseThrow(() -> new BusinessLogicException(ExceptionCode.MENU_NOT_FOUND));
     }
 
     public Page<Menu> findMenus(int page, int size) {
-        return menuRepository.findAll(PageRequest.of(page, size, Sort.by("id").descending()));
+        return menuRepository.findAll(PageRequest.of(page, size, Sort.by("menuId").descending()));
     }
 
-    public void deleteMenu(long id) {
-        Menu findMenu = findMenu(id);
+    public void deleteMenu(long menuId) {
+        Menu findMenu = findMenu(menuId);
 
         menuRepository.delete(findMenu);
     }

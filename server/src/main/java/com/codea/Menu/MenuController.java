@@ -14,10 +14,10 @@ import java.net.URI;
 import java.util.List;
 
 @RestController
-@RequestMapping
+@RequestMapping("/menu")
 @Validated
 public class MenuController {
-    private final static String MENU_DEFAULT_URL = "/menus";
+    private final static String MENU_DEFAULT_URL = "/menu";
     private final MenuService menuService;
 
     private final MenuMapper mapper;
@@ -31,29 +31,29 @@ public class MenuController {
     public ResponseEntity postMenu(@Valid @RequestBody MenuDto.Post requestBody) {
         Menu menu = menuService.createMenu(mapper.menuPostDtoToMenu(requestBody));
 
-        URI location = UriCreator.createUri(MENU_DEFAULT_URL, menu.getId());
+        URI location = UriCreator.createUri(MENU_DEFAULT_URL, menu.getMenuId());
 
         return ResponseEntity.created(location).build();
     }
 
-    @PatchMapping("/{id}")
-    public ResponseEntity patchMenu(@PathVariable("id") @Positive long id,
+    @PatchMapping("/{menu-id}")
+    public ResponseEntity patchMenu(@PathVariable("menu-id") @Positive long menuId,
                                       @Valid @RequestBody MenuDto.Patch requestBody) {
-        Menu menu = menuService.updateMenu(id, mapper.menuPatchDtoToMenu(requestBody));
+        Menu menu = menuService.updateMenu(menuId, mapper.menuPatchDtoToMenu(requestBody));
 
         return new ResponseEntity<>(mapper.menuToMenuResponseDto(menu),HttpStatus.OK);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity getMenu(@PathVariable("id") @Positive long id) {
-        Menu menu = menuService.findMenu(id);
+    @GetMapping("/{menu-id}")
+    public ResponseEntity getMenu(@PathVariable("menu-id") @Positive long menuId) {
+        Menu menu = menuService.findMenu(menuId);
 
         return new ResponseEntity<>(mapper.menuToMenuResponseDto(menu),HttpStatus.OK);
     }
 
     @GetMapping
     public ResponseEntity getMenus(@Positive @RequestParam(value = "page", required = false) Integer page,
-                                     @Positive @RequestParam(value = "size", required = false) Integer size) {
+                                   @Positive @RequestParam(value = "size", required = false) Integer size) {
         if(page == null) page = 1;
         if(size == null) size = 10;
         Page<Menu> menuPage = menuService.findMenus(page - 1, size);
@@ -63,9 +63,9 @@ public class MenuController {
                 new MultiResponseDto<>(mapper.menuToMenuResponseDto(menu), menuPage), HttpStatus.OK);
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity deleteMenu(@PathVariable("id") @Positive long id) {
-        menuService.deleteMenu(id);
+    @DeleteMapping("/{menu-id}")
+    public ResponseEntity deleteMenu(@PathVariable("menu-id") @Positive long menuId) {
+        menuService.deleteMenu(menuId);
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }

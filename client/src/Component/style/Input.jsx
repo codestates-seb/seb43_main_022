@@ -1,11 +1,20 @@
 import styled, { css } from "styled-components";
 
 const InputType = {
-  default: css``,
+  default: css`
+    --width: ${(props) => props.width || "293px"};
+    --height: ${(props) => props.height || "41px"};
+  `,
   error: css`
     --width: ${(props) => props.width || "293px"};
     --height: ${(props) => props.height || "41px"};
     --border: 1px solid var(--red-500);
+  `,
+  keyword: css`
+    --width: ${(props) => props.width || "293px"};
+    --height: ${(props) => props.height || "41px"};
+    --border: ${(props) => props.border || "1px solid black"};
+    --border-radius: ${(props) => props.radius || "10px"};
   `,
 };
 
@@ -16,7 +25,7 @@ const TextInput = styled.input`
   height: ${(props) => props.height || "41px"};
   font-size: var(--medium-font);
   border: var(--border, 1px solid var(--black-200));
-  border-radius: 10px;
+  border-radius: var(--border-radius, 10px);
   padding: 0px 10px;
 
   &:active,
@@ -34,6 +43,7 @@ function Input({
   id,
   width,
   height,
+  radius,
   inputType,
 }) {
   const inputStyle = InputType[inputType];
@@ -48,6 +58,7 @@ function Input({
       value={value}
       width={width}
       height={height}
+      radius={radius}
       inputType={inputStyle}
     ></TextInput>
   );

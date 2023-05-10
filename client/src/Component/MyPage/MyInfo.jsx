@@ -60,6 +60,7 @@ const Buttons = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+
   padding-top: 40px;
 `;
 
@@ -80,13 +81,20 @@ const Btn1 = styled.div`
     margin: var(--margin, 0px, 0px, 0px, 0px);
     cursor: pointer;
   }
-
+  & > * {
+    margin-right: 10px;
+  }
   display: flex;
   flex-direction: row;
+  align-items: center;
 `;
 const Btn2 = styled.div`
   display: flex;
   flex-direction: row;
+  & > * {
+    margin-right: 10px;
+  }
+  align-items: center;
 `;
 
 const MyInfo = () => {

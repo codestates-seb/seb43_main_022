@@ -5,6 +5,7 @@ const ReviewList = () => {
   return (
     <div>
       <ReviewItem />
+      <ReviewItem />
     </div>
   );
 };

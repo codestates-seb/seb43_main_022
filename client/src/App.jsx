@@ -1,10 +1,9 @@
 import GlobalStyles from "./Globalstyle";
-// import MyPage from "./Pages/MyPage";
+
 // import styled from "styled-components";
 // import Button from "./Component/style/button";
 // import Input from "./Component/style/Input";
 // import ImgBtn from "./Component/style/ImgBtn.jsx";
-import DetailPage from "./Pages/DetailPage";
 
 function App() {
   // const Div = styled.div`
@@ -14,8 +13,7 @@ function App() {
   return (
     <>
       <GlobalStyles />
-      <DetailPage />
-      {/* <MyPage /> */}
+
       <div className="container">
         {/* <Div>
           <ImgBtn imgstyle={"Hate"} />

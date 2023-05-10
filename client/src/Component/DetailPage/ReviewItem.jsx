@@ -7,6 +7,7 @@ import profile from "../style/img/profile.png";
 const Container = styled.div`
   width: 1200px;
   margin-top: 30px;
+  margin-bottom: 150px;
   display: flex;
   flex-direction: column;
 `;

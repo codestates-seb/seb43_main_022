@@ -46,9 +46,21 @@ const Modify = styled.div`
   justify-content: end;
   align-items: center;
   margin-top: 70px;
+  position: relative;
   > span {
     font-size: var(--medium-font);
     color: var(--black-350);
+  }
+  &::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 0%;
+    width: 900px;
+
+    height: 1px;
+    background-color: var(--black-200);
+    transform: translateY(-50%); /* 수직 가운데 정렬 */
   }
 `;
 

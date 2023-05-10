@@ -13,7 +13,7 @@ import AddMenu from "../Component/AddStoreComp/AddMenu";
 const AddContainer = styled.div`
   box-sizing: border-box;
   padding: 60px 0;
-  width: 100%;
+  width: 1200px;
   display: flex;
   flex-wrap: wrap;
   flex-direction: column;

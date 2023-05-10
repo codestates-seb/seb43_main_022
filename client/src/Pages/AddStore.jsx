@@ -1,6 +1,6 @@
 // AddStore.jsx
 import React, { useState } from "react";
-// import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import AddHeader from "../Component/AddStoreComp/AddHeader";
 import AddImg from "../Component/AddStoreComp/AddImg";
@@ -34,7 +34,7 @@ const AddBtnWrap = styled.div`
   gap: 10px;
 `;
 const AddStore = () => {
-  // const history = useNavigate();
+  const history = useNavigate();
   const initFormData = {
     storeName: "",
     storePhoto: null,
@@ -62,7 +62,7 @@ const AddStore = () => {
 
   const handleCancel = () => {
     setFormData(initFormData);
-    // history.goBack();
+    history(-1);
   };
   return (
     <AddContainer>

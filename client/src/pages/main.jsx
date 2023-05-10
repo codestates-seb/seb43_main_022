@@ -233,6 +233,7 @@ const BasicContainer = styled.div`
 `;
 const BannerContainer = styled.div`
   width: 100%;
+  max-width: 1200px;
   display: flex;
   flex-direction: column;
   margin: 200px 0px 20px 0px;

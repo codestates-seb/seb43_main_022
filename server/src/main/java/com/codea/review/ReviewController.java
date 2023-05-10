@@ -14,12 +14,10 @@ import java.net.URI;
 import java.util.List;
 
 @RestController
-@RequestMapping("/reviews")
+@RequestMapping
 @Validated
 public class ReviewController {
-    private final static String REVIEW_DEFAULT_URL = "/reviews";
     private final ReviewService reviewService;
-
     private final ReviewMapper mapper;
 
     public ReviewController(ReviewService reviewService, ReviewMapper mapper) {
@@ -27,45 +25,48 @@ public class ReviewController {
         this.mapper = mapper;
     }
 
-    @PostMapping
-    public ResponseEntity postReview(@Valid @RequestBody ReviewDto.Post requestBody) {
-        Review review = reviewService.createReview(mapper.reviewPostDtoToReview(requestBody));
+    @PostMapping("/restaurants/{restaurant-id}/reviews")
+    public ResponseEntity postReview(@PathVariable("restaurant-id") @Positive long restaurantId,
+                                     @Valid @RequestBody ReviewDto.Post requestBody) {
+        Review review = reviewService.createReview(restaurantId, mapper.reviewPostDtoToReview(requestBody));
 
-        URI location = UriCreator.createUri(REVIEW_DEFAULT_URL, review.getId());
+        String ReviewUrl = "/restaurants/" + restaurantId + "/reviews";
+        URI location = UriCreator.createUri(ReviewUrl, review.getReviewId());
 
         return ResponseEntity.created(location).build();
     }
 
-    @PatchMapping("/{id}")
-    public ResponseEntity patchReview(@PathVariable("id") @Positive long id,
+    @PatchMapping("/reviews/{review-id}")
+    public ResponseEntity patchReview(@PathVariable("review-id") @Positive long reviewId,
                                       @Valid @RequestBody ReviewDto.Patch requestBody) {
-        Review review = reviewService.updateReview(id, mapper.reviewPatchDtoToReview(requestBody));
+        Review review = reviewService.updateReview(reviewId, mapper.reviewPatchDtoToReview(requestBody));
 
         return new ResponseEntity<>(mapper.reviewToReviewResponseDto(review),HttpStatus.OK);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity getReview(@PathVariable("id") @Positive long id) {
-        Review review = reviewService.findReview(id);
+    @GetMapping("/reviews/{review-id}")
+    public ResponseEntity getReview(@PathVariable("review-id") @Positive long reviewId) {
+        Review review = reviewService.findReview(reviewId);
 
         return new ResponseEntity<>(mapper.reviewToReviewResponseDto(review),HttpStatus.OK);
     }
 
-    @GetMapping
-    public ResponseEntity getReviews(@Positive @RequestParam(value = "page", required = false) Integer page,
+    @GetMapping("/restaurants/{restaurant-id}/reviews")
+    public ResponseEntity getReviews(@PathVariable("restaurant-id") @Positive long restaurantId,
+                                     @Positive @RequestParam(value = "page", required = false) Integer page,
                                      @Positive @RequestParam(value = "size", required = false) Integer size) {
         if(page == null) page = 1;
         if(size == null) size = 10;
-        Page<Review> reviewPage = reviewService.findReviews(page - 1, size);
+        Page<Review> reviewPage = reviewService.findReviews(restaurantId,page - 1, size);
         List<Review> review = reviewPage.getContent();
 
         return new ResponseEntity<>(
                 new MultiResponseDto<>(mapper.reviewToReviewResponseDto(review), reviewPage), HttpStatus.OK);
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity deleteReview(@PathVariable("id") @Positive long id) {
-        reviewService.deleteReview(id);
+    @DeleteMapping("/reviews/{review-id}")
+    public ResponseEntity deleteReview(@PathVariable("review-id") @Positive long reviewId) {
+        reviewService.deleteReview(reviewId);
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }

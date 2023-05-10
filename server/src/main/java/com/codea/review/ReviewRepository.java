@@ -7,6 +7,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.Optional;
 
 public interface ReviewRepository extends JpaRepository<Review, Long> {
-    Optional<Review> findById(Long id);
-    Page<Review> findByStatus(Review.ReviewStatus status, Pageable pageable);
+    Page<Review> findByRestaurant_RestaurantIdAndStatus(long restaurantId, Review.ReviewStatus status, Pageable pageable);
 }

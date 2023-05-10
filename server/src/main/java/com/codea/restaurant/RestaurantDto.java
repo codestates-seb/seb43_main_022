@@ -1,5 +1,7 @@
 package com.codea.restaurant;
 
+import com.codea.Menu.MenuDto;
+import com.codea.review.ReviewDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -7,6 +9,7 @@ import lombok.Setter;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Positive;
 import java.time.LocalDateTime;
+import java.util.List;
 
 
 public class RestaurantDto {
@@ -52,5 +55,7 @@ public class RestaurantDto {
         private int total_reviews;
         private int total_favorite;
         private double rating;
+        private List<MenuDto.Response> menu;
+        private List<ReviewDto.Response> reviews;
     }
 }

@@ -3,6 +3,8 @@ package com.codea.Menu;
 import com.codea.exception.BusinessLogicException;
 import com.codea.exception.ExceptionCode;
 import com.codea.member.Member;
+import com.codea.restaurant.Restaurant;
+import com.codea.restaurant.RestaurantRepository;
 import com.codea.review.Review;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -15,12 +17,17 @@ import java.util.Optional;
 @Service
 public class MenuService {
     private final MenuRepository menuRepository;
+    private final RestaurantRepository restaurantRepository;
 
-    public MenuService(MenuRepository menuRepository) {
+    public MenuService(MenuRepository menuRepository, RestaurantRepository restaurantRepository) {
         this.menuRepository = menuRepository;
+        this.restaurantRepository = restaurantRepository;
     }
 
-    public Menu createMenu(Menu menu) {
+    public Menu createMenu(long restaurantId, Menu menu) {
+        Restaurant restaurant = restaurantRepository.findById(restaurantId).orElseThrow(() -> new BusinessLogicException(ExceptionCode.RESTAURANT_NOT_FOUND));
+        menu.setRestaurant(restaurant);
+
         return menuRepository.save(menu);
     }
 
@@ -37,8 +44,8 @@ public class MenuService {
         return menuRepository.findById(menuId).orElseThrow(() -> new BusinessLogicException(ExceptionCode.MENU_NOT_FOUND));
     }
 
-    public Page<Menu> findMenus(int page, int size) {
-        return menuRepository.findAll(PageRequest.of(page, size, Sort.by("menuId").descending()));
+    public Page<Menu> findMenus(long restaurantId, int page, int size) {
+        return menuRepository.findByRestaurant_RestaurantId(restaurantId, PageRequest.of(page, size, Sort.by("menuId").descending()));
     }
 
     public void deleteMenu(long menuId) {

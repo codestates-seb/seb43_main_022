@@ -19,7 +19,7 @@ public class ReviewDto {
 
     @Getter
     public static class Patch {
-        private long id;
+        private long reviewId;
         private String title;
         private String content;
         private byte[] photo;
@@ -29,12 +29,14 @@ public class ReviewDto {
     @Getter
     @AllArgsConstructor
     public static class Response {
-        private long id;
+        private long reviewId;
         private String title;
         private String content;
         private byte[] photo;
         private LocalDateTime created_at;
         private LocalDateTime modified_at;
         private Review.Rating rating;
+        private Long memberId;
+        private String memberNickName;
     }
 }

@@ -13,7 +13,6 @@ const GlobalStyles = createGlobalStyle`
   }
 
   .container {
-    width: 100vw;
     min-width: 1200px;
     height: max-content;
     min-height: 100vh;
@@ -30,8 +29,6 @@ const GlobalStyles = createGlobalStyle`
     position: ${(prop) => prop.posi || "none"};
     display: flex;
     justify-content: center;
-    
-    
   }
   a {
     text-decoration: none;

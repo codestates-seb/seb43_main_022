@@ -37,18 +37,6 @@ const Review = () => {
     title: "",
     detail: "",
   });
-
-  function onTestChange() {
-    var key = window.event.keyCode;
-    // If the user has pressed enter
-    if (key === 13) {
-      document.getElementById("detail").value =
-        document.getElementById("detail").value + "\n*";
-      return false;
-    } else {
-      return true;
-    }
-  }
   return (
     <BasicContainer className="Basic-Container">
       <RestaurantContainer className="restaurant-Container">
@@ -145,8 +133,8 @@ export default Review;
 
 const BasicContainer = styled.div`
   width: 100%;
+  max-width: 1200px;
   height: 100vh;
-
   display: flex;
   flex-direction: column;
   justify-content: center;

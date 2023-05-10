@@ -68,10 +68,10 @@ const Header = () => {
     <>
       {isLogin ? (
         <Container>
-          <LogoBtn />
           <Link to="/">
-            <Hinput placeholder="지역/ 상호/ 키워드를 입력해주세요." />
+            <LogoBtn />
           </Link>
+          <Hinput placeholder="지역/ 상호/ 키워드를 입력해주세요." />
           <LoginDiv>
             <Link to="/login">
               <Button btnstyle="HBtn">로그인</Button>

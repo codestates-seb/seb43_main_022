@@ -60,20 +60,6 @@ const P = styled.div`
   margin-bottom: 10px;
 `;
 
-// Select = styled.select`
-//   width: 293px;
-//   height: 41px;
-//   border: 1px solid var(--black-200);
-//   border-radius: 10px;
-//   padding: 10px;
-//   -webkit-appearance: none;
-//   -moz-appearance: none;
-//   appearance: none;
-//   background-image: url(${SelectImg});
-//   background-repeat: no-repeat;
-//   background-position: 98% center;
-// `;
-
 const Ceodiv = styled.div`
   display: flex;
   justify-content: space-between;

@@ -67,7 +67,6 @@ const PriceInput = styled(MenuInput)`
     -webkit-appearance: none;
     margin: 0;
   }
-  -moz-appearance: textfield;
 `;
 
 const AddMenu = ({ formData, setFormData }) => {

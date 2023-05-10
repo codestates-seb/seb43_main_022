@@ -8,28 +8,27 @@ const GlobalStyles = createGlobalStyle`
     border: 0;
     font-family: -apple-system, "system-ui", "Segoe UI Adjusted", "Segoe UI", "Liberations Sans", sans-serif;
     font-weight: 400; 
-    white-space: nowrap;
     font-size: 13px;  
-    background: #FEFEFE;
+    
   }
 
   .container {
-    width: 1200px;
-    height: 100vh;
+    width: 100vw;
+    height: max-content;
+    min-height: 100vh;
     margin: 0;
-    padding: 0;
+    padding: 10px 0;
     display: flex;
     justify-content: center;
+    align-items: center;
   }
   
   body {
-    
-    width: 1920px;
-    height: 100vh;
+    background: #FEFEFE;
+    width: 100%;
     position: ${(prop) => prop.posi || "none"};
     display: flex;
     justify-content: center;
-    
   }
   a {
     text-decoration: none;

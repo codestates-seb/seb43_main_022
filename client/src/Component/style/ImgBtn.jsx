@@ -11,6 +11,7 @@ import { ReactComponent as X } from "./img/x.svg";
 
 const Btn = styled.button`
   border: none;
+  background: transparent;
 `;
 
 export default function Plusfunc({ imgstyle }) {
@@ -63,12 +64,14 @@ export default function Plusfunc({ imgstyle }) {
 
   const Style = styled(type)`
     color: var(--black-200);
+    background-color: var(--white);
+    border: none;
     &: hover {
       path {
         fill: ${color};
       }
     }
-    &: active {
+    &:active {
       path {
         fill: ${color};
       }

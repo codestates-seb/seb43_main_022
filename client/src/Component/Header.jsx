@@ -27,8 +27,8 @@ const LogoBtn = styled.button`
 
 const LoginDiv = styled.div`
   display: flex;
-  justify-content: space-between;
-  width: 200px;
+  justify-content: space-around;
+  width: 300px;
 `;
 
 const Hinput = styled.input`
@@ -39,6 +39,7 @@ const Hinput = styled.input`
   border-radius: 10px;
   padding: 0px 20px;
   flex-grow: 0.2;
+  margin: 0px 20px;
 
   background-image: url(${Search});
   background-repeat: no-repeat;
@@ -55,7 +56,9 @@ const IsLoginInput = styled(Hinput)`
 `;
 
 const Frameicon = styled.img`
-  margin-right: 8px;
+  width: 17px;
+  height: 17px;
+  margin: 0px 5px;
 `;
 
 const Header = () => {
@@ -82,10 +85,13 @@ const Header = () => {
         <Container>
           <LogoBtn />
           <IsLoginInput placeholder="지역/ 상호/ 키워드를 입력해주세요." />
-          <Button btnstyle="HBtn">
-            <Frameicon src={Frame} alt="" />
-            마이페이지
-          </Button>
+          <LoginDiv>
+            <Button btnstyle="HBtn">
+              <Frameicon src={Frame} alt="" />
+              마이페이지
+            </Button>
+            <Button btnstyle="HBtn">로그아웃</Button>
+          </LoginDiv>
         </Container>
       )}
     </>

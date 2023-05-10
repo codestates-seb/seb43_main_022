@@ -5,7 +5,7 @@ import Logo from "../Component/style/img/Eaaaaaaats.svg";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import Auth from "../Component/Auth";
-
+import Modal from "../Component/Modal";
 const Main = styled.div`
   flex-direction: column;
 `;
@@ -67,6 +67,7 @@ export default function Login() {
     email: "",
     password: "",
   });
+  const [modal, setModal] = useState(false);
 
   const handleInputValue = (key) => (e) => {
     setMember({ ...member, [key]: e.target.value });
@@ -78,70 +79,116 @@ export default function Login() {
     setErrPw("패스워드가 맞지 않습니다.");
   }
 
-  return (
-    <Main>
-      <Container>
-        <Img src={Logo} alt="" />
+  const showModal = () => {
+    setModal(!modal);
+  };
 
-        <Textdiv>
-          <P>이메일</P>
-          {err ? (
-            <Input
-              inputType="default"
-              placeholder="email"
-              onChange={handleInputValue("email")}
-            />
-          ) : (
-            <>
+  const menu = [
+    { menu: "샌드위치", price: 4000 },
+    { menu: "B", price: 2000 },
+    { menu: "햄버거", price: 7000 },
+    { menu: "샌드위치", price: 4000 },
+    { menu: "콜라", price: 2000 },
+    { menu: "햄버거", price: 7000 },
+    { menu: "샌드위치", price: 4000 },
+    { menu: "사이다", price: 2000 },
+    { menu: "A", price: 7000 },
+    { menu: "1", price: 4000 },
+    { menu: "2", price: 2000 },
+    { menu: "3", price: 7000 },
+    { menu: "4", price: 4000 },
+    { menu: "5", price: 2000 },
+    { menu: "햄버거", price: 7000 },
+    { menu: "샌드위치", price: 4000 },
+    { menu: "콜라", price: 2000 },
+    { menu: "햄버거", price: 7000 },
+    { menu: "2", price: 2000 },
+    { menu: "3", price: 7000 },
+    { menu: "4", price: 4000 },
+    { menu: "5", price: 2000 },
+    { menu: "햄버거", price: 7000 },
+    { menu: "샌드위치", price: 4000 },
+    { menu: "콜라", price: 2000 },
+    { menu: "햄버거", price: 7000 },
+    { menu: "2", price: 2000 },
+    { menu: "3", price: 7000 },
+    { menu: "4", price: 4000 },
+    { menu: "5", price: 2000 },
+    { menu: "햄버거", price: 7000 },
+    { menu: "샌드위치", price: 4000 },
+    { menu: "콜라", price: 2000 },
+    { menu: "햄버거", price: 7000 },
+  ];
+
+  return (
+    <>
+      <div>{modal ? <Modal menu={menu} showModal={showModal} /> : null}</div>
+      <Main>
+        <button onClick={showModal}> 모달 테스트 </button>
+
+        <Container>
+          <Img src={Logo} alt="" />
+
+          <Textdiv>
+            <P>이메일</P>
+            {err ? (
               <Input
-                inputType="error"
+                inputType="default"
                 placeholder="email"
                 onChange={handleInputValue("email")}
               />
-              <Errdiv>
-                <Errspan>* {errMessage}</Errspan>
-              </Errdiv>
-            </>
-          )}
-        </Textdiv>
-        <Textdiv>
-          <P>비밀번호</P>
-          {err ? (
-            <Input
-              type="password"
-              inputType="default"
-              placeholder="password"
-              onChange={handleInputValue("password")}
-            />
-          ) : (
-            <>
+            ) : (
+              <>
+                <Input
+                  inputType="error"
+                  placeholder="email"
+                  onChange={handleInputValue("email")}
+                />
+                <Errdiv>
+                  <Errspan>* {errMessage}</Errspan>
+                </Errdiv>
+              </>
+            )}
+          </Textdiv>
+          <Textdiv>
+            <P>비밀번호</P>
+            {err ? (
               <Input
                 type="password"
-                inputType="error"
+                inputType="default"
                 placeholder="password"
                 onChange={handleInputValue("password")}
               />
-              <Errdiv>
-                <Errspan>* {errPw}</Errspan>
-              </Errdiv>
-            </>
-          )}
-        </Textdiv>
-        <Btndiv>
-          <Button btnstyle="Btn" width="120px" onClick={onClick}>
-            로그인
-          </Button>
-          <Link to="/signup">
-            <Button btnstyle="Btn" width="120px">
-              회원가입
+            ) : (
+              <>
+                <Input
+                  type="password"
+                  inputType="error"
+                  placeholder="password"
+                  onChange={handleInputValue("password")}
+                />
+                <Errdiv>
+                  <Errspan>* {errPw}</Errspan>
+                </Errdiv>
+              </>
+            )}
+          </Textdiv>
+          <Btndiv>
+            <Button btnstyle="Btn" width="120px" onClick={onClick}>
+              로그인
             </Button>
-          </Link>
-        </Btndiv>
-      </Container>
-      <Authdiv>
-        <Auth Btnstyle="google"> 구글로 로그인 </Auth>
-        <Auth Btnstyle="kakao"> 카카오로 로그인 </Auth>
-      </Authdiv>
-    </Main>
+            <Link to="/signup">
+              <Button btnstyle="Btn" width="120px">
+                회원가입
+              </Button>
+            </Link>
+          </Btndiv>
+        </Container>
+        <Authdiv>
+          <Auth Btnstyle="google"> 구글로 로그인 </Auth>
+          <Auth Btnstyle="kakao"> 카카오로 로그인 </Auth>
+        </Authdiv>
+      </Main>
+    </>
   );
 }

@@ -1,6 +1,7 @@
 package com.codea.member.controller;
 
 
+import com.codea.dto.MultiResponseDto;
 import com.codea.member.dto.MemberPatchDto;
 import com.codea.member.dto.MemberPostDto;
 import com.codea.member.dto.MemberResponseDto;
@@ -31,7 +32,7 @@ public class MemberController {
     private final MemberService memberService;
     private final MemberMapper memberMapper;
 
-    @PostMapping
+    @PostMapping("/signup")
     public ResponseEntity postMember(@Valid @RequestBody MemberPostDto requestBody) {
         Member member = memberMapper.memberPostDtoToMember(requestBody);
         Member createMember = memberService.createMember(member);
@@ -47,9 +48,10 @@ public class MemberController {
 
     @PatchMapping("/{member-id}")
     public ResponseEntity patchMember(@PathVariable("member-id") @Positive long memberId,
-                                      @Valid @RequestBody MemberPatchDto requestBody
-                                      /*@RequestHeader("Authorization") String token*/) {
-//        memberService.sameMemberTest(memberId, token); // jwt 이후
+                                      @Valid @RequestBody MemberPatchDto requestBody,
+                                      @RequestHeader("Authorization") String token) {
+        System.out.println("@@@@@@@@@@@@@@@@@@@@@@@"+ token);
+        memberService.sameMemberTest(memberId, token);
         requestBody.setMemberId(memberId);
         Member updateMember = memberService.updateMember(memberMapper.memberPatchDtoToMember(requestBody));
         MemberResponseDto responseDto = memberMapper.memberToMemberResponseDto(updateMember);
@@ -66,21 +68,21 @@ public class MemberController {
         return new ResponseEntity(responseDto, HttpStatus.OK);
     }
 
-//    @GetMapping // jwt 이후
-//    public ResponseEntity getMembers(@Positive @RequestParam int page,
-//                                     @Positive @RequestParam int size) {
-//        Page<Member> pageMembers = memberService.findMembers(page - 1, size);
-//        List<Member> members = pageMembers.getContent();
-//        return new ResponseEntity<>(
-//                new MultiResponseDto<>(memberMapper.membersToMemberResponses(members),
-//                        pageMembers),
-//                HttpStatus.OK);
-//    }
+    @GetMapping
+    public ResponseEntity getMembers(@Positive @RequestParam int page,
+                                     @Positive @RequestParam int size) {
+        Page<Member> pageMembers = memberService.findMembers(page - 1, size);
+        List<Member> members = pageMembers.getContent();
+        return new ResponseEntity<>(
+                new MultiResponseDto<>(memberMapper.memberToMemberResponseDto(members),
+                        pageMembers),
+                HttpStatus.OK);
+    }
 
     @DeleteMapping("/{member-id}")
     public ResponseEntity deleteMember(
             @PathVariable("member-id") @Positive long memberId, @RequestHeader("Authorization") String token) {
-//        memberService.sameMemberTest(memberId, token); // jwt 이후
+        memberService.sameMemberTest(memberId, token);
 
         memberService.deleteMember(memberId);
 

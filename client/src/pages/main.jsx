@@ -217,7 +217,6 @@ const BasicContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin-top: 200px;
   * {
     background: none;
     font-size: var(--large-font);
@@ -231,7 +230,7 @@ const BannerContainer = styled.div`
   max-width: 1200px;
   display: flex;
   flex-direction: column;
-  margin: 200px 0px 20px 0px;
+  margin: 70px 0px 20px 0px;
   padding: 40px 80px;
   border-radius: 20px;
   opacity: 0.7;

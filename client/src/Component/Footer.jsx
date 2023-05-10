@@ -29,7 +29,6 @@ const Copyright = styled.div`
 
 const Intro = styled.div`
   background: var(--footergreen);
-
   margin-top: 27px;
   display: flex;
   justify-content: center;

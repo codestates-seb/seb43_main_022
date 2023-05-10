@@ -14,6 +14,7 @@ const GlobalStyles = createGlobalStyle`
 
   .container {
     width: 100vw;
+    min-width: 1200px;
     height: max-content;
     min-height: 100vh;
     margin: 0;
@@ -26,7 +27,6 @@ const GlobalStyles = createGlobalStyle`
   body {
     background: #FEFEFE;
     width: 100%;
-  
     position: ${(prop) => prop.posi || "none"};
     display: flex;
     justify-content: center;

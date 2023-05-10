@@ -2,22 +2,27 @@ import styled, { css } from "styled-components";
 
 const BtnType = {
   Btn: css`
+    --width: ${(props) => props.width || "auto"};
+    --height: ${(props) => props.height || "38px"};
+    --padding: 10px 20px 10px 20px;
     &: active {
       --box-shadow: 0px 1px 1px 0px #00000040;
     }
   `,
   Btn2: css`
-    --width: 118px;
+    --width: auto;
+    --padding: 10px 10px 10px 10px;
     --height: 35px;
     --background: var(--white);
-    --border: 1px solid var(--black-900);
+    --border: 1px solid var(--black-200);
     --font-size: 16px;
     --color: var(--black-900);
   `,
   HBtn: css`
-    --width: 87px;
+    --min-width: 87px;
+    --width: auto;
     --height: 40px;
-    --font-size: 24px;
+    --font-size: 18px;
     --color: var(--black-900);
     --border: none;
 
@@ -52,7 +57,7 @@ const BtnType = {
   SBtn2: css`
     --width: 41px;
     --height: 27px;
-    --font-size: 22px;
+    --font-size: 18px;
     --color: var(--black-350);
     --border: none;
 
@@ -106,8 +111,9 @@ function Button({
 
 export const StyleButton = styled.button`
   ${(p) => p.btnstyle}
-  width: var(--width, 120px);
-  height: var(--height, 46px);
+  width: var(--width, auto);
+  height: var(--height, 41px);
+  min-width: 100px;
   background: var(--background, var(--white));
   color: var(--color, var(--eatsgreen));
   border: var(--border, 1px solid var(--eatsgreen));

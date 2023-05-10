@@ -2,6 +2,7 @@ package com.codea.exception;
 
 import lombok.Getter;
 
+
 public enum ExceptionCode {
     DUPLICATED_EMAIL(409, "이메일을 찾을수 없습니다."),
     MEMBER_EXISTS(409, "이메일이 이미 존재"),
@@ -9,7 +10,10 @@ public enum ExceptionCode {
     INVALID_PERMISSION(403, "권한이 유효하지 않습니다."),
     REVIEW_NOT_FOUND(404, "Review not found"),
     RESTAURANT_NOT_FOUND(404, "Restaurant not found"),
-    RESTAURANT_EXISTS (409, "Restaurant exists");
+    RESTAURANT_EXISTS (409, "Restaurant exists"),
+    CATEGORY_EXISTS(409,"Category exists"),
+    CATEGORY_NOT_FOUND(404, "Category not found" );
+
 
     @Getter
     private int status;

@@ -8,6 +8,8 @@ import Footer from "./Component/Footer";
 import Login from "./Pages/login";
 import Signup from "./Pages/signup";
 
+import RouteList from "./routes/RouteList";
+
 function App() {
   return (
     <BrowserRouter>
@@ -15,13 +17,15 @@ function App() {
       <Header />
       <div className="container">
         <Routes>
+          {RouteList.map((route, idx) => (
+            <Route path={route.path} element={route.element} key={idx} />
+          ))}
           <Route path="/" element={<StoreList />} />
           <Route path="/add" element={<AddStore />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
         </Routes>
       </div>
-
       <Footer />
     </BrowserRouter>
   );

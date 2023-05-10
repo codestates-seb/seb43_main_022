@@ -1,7 +1,11 @@
 import styled, { css } from "styled-components";
 
 const InputType = {
-  default: css``,
+  default: css`
+    --width: ${(props) => props.width || "293px"};
+    --height: ${(props) => props.height || "41px"};
+    --border: 1px solid var(--black-500);
+  `,
   error: css`
     --width: ${(props) => props.width || "293px"};
     --height: ${(props) => props.height || "41px"};

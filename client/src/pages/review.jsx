@@ -134,7 +134,6 @@ export default Review;
 const BasicContainer = styled.div`
   width: 100%;
   max-width: 1200px;
-  height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: center;

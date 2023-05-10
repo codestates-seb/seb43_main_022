@@ -68,6 +68,11 @@ export default function Plusfunc({ imgstyle }) {
         fill: ${color};
       }
     }
+    &: active {
+      path {
+        fill: ${color};
+      }
+    }
   `;
   return (
     <Btn>

@@ -7,8 +7,10 @@ const AddInfoTagWrap = styled.div`
   width: 70%;
   padding: 0 8px;
   border-radius: 6px;
+  margin-bottom: 6px;
+
   &:focus-within {
-    border: 1px solid var(--eatsgreen);
+    box-shadow: 0 0 0 1px var(--eatsgreen);
   }
 `;
 const TagInput = styled.input`
@@ -24,6 +26,7 @@ const TagInput = styled.input`
 const TagUl = styled.ul`
   display: flex;
   flex-wrap: wrap;
+
   padding: 0;
   margin: 8px 0 0 0;
 `;

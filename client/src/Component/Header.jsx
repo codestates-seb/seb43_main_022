@@ -1,12 +1,12 @@
 import styled from "styled-components";
-import Button from "./style/button";
+import Button from "./style/Button";
 import Logo from "./style/img/Eaaaaaaats.svg";
 import Search from "./style/img/search.png";
 import Frame from "./style/img/Frame.svg";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 const Container = styled.header`
-  width: 100%;
+  width: 100vw;
   height: 69px;
   display: flex;
   justify-content: space-between;
@@ -68,10 +68,10 @@ const Header = () => {
     <>
       {isLogin ? (
         <Container>
-          <LogoBtn />
           <Link to="/">
-            <Hinput placeholder="지역/ 상호/ 키워드를 입력해주세요." />
+            <LogoBtn />
           </Link>
+          <Hinput placeholder="지역/ 상호/ 키워드를 입력해주세요." />
           <LoginDiv>
             <Link to="/login">
               <Button btnstyle="HBtn">로그인</Button>

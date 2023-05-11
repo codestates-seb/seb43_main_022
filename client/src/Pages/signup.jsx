@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import Button from "../Component/style/button";
+import Button from "../Component/style/Button";
 import Input from "../Component/style/Input";
 import Plus from "../Component/style/img/signup.svg";
 import Auth from "../Component/Auth";

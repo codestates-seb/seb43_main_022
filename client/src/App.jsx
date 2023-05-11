@@ -1,9 +1,10 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import React from "react";
 import GlobalStyles from "./Globalstyle";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Header from "./Component/Header";
 import Footer from "./Component/Footer";
-import Login from "./Pages/login";
-import Signup from "./Pages/signup";
+
+import RouteList from "./routes/RouteList";
 
 function App() {
   return (
@@ -12,11 +13,11 @@ function App() {
       <Header />
       <div className="container">
         <Routes>
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<Signup />} />
+          {RouteList.map((route, idx) => (
+            <Route path={route.path} element={route.element} key={idx} />
+          ))}
         </Routes>
       </div>
-
       <Footer />
     </BrowserRouter>
   );

@@ -37,6 +37,7 @@ function Input({
   type,
   placeholder,
   onChange,
+  name,
   value,
   id,
   width,
@@ -52,6 +53,7 @@ function Input({
       placeholder={placeholder}
       onChange={onChange}
       id={id}
+      name={name}
       value={value}
       width={width}
       height={height}

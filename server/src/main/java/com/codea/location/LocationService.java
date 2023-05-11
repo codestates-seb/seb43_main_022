@@ -1,5 +1,7 @@
 package com.codea.location;
 
+import com.codea.address.Address;
+import com.codea.address.AddressRepository;
 import com.codea.exception.BusinessLogicException;
 import com.codea.exception.ExceptionCode;
 import com.codea.restaurant.RestaurantRepository;
@@ -13,14 +15,21 @@ import java.util.Optional;
 @Service
 public class LocationService {
     private final LocationRepository locationRepository;
-    private final RestaurantRepository restaurantRepository;
+    private final AddressRepository addressRepository;
 
-    public LocationService(LocationRepository locationRepository, RestaurantRepository restaurantRepository) {
+    public LocationService(LocationRepository locationRepository, AddressRepository addressRepository) {
         this.locationRepository = locationRepository;
-        this.restaurantRepository = restaurantRepository;
+        this.addressRepository = addressRepository;
     }
 
-    public Location createLocation(Location location) {
+    public Location createLocation(LocationDto.Post post) {
+        Address address = addressRepository.findById(post.getAddressId()).orElseThrow(() -> new BusinessLogicException(ExceptionCode.ADDRESS_NOT_FOUND));
+
+        Location location = new Location();
+        location.setLatitude(post.getLatitude());
+        location.setLongitude(post.getLongitude());
+        location.setAddress(address);
+
         return locationRepository.save(location);
     }
 
@@ -34,7 +43,7 @@ public class LocationService {
     }
 
     public Location findLocation(long locationId) {
-        return locationRepository.findById(locationId).orElseThrow(() -> new BusinessLogicException(ExceptionCode.MENU_NOT_FOUND));
+        return locationRepository.findById(locationId).orElseThrow(() -> new BusinessLogicException(ExceptionCode.LOCATION_NOT_FOUND));
     }
 
     public Page<Location> findLocations(int page, int size) {

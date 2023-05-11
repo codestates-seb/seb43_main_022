@@ -18,7 +18,6 @@ public class Address {
     private long addressId;
     @Column(length = 50, nullable = false, unique = true)
     private String streetAddress;
-
-    @OneToOne(mappedBy = "address", cascade = CascadeType.REMOVE)
+    @OneToOne(mappedBy = "address", cascade = CascadeType.ALL)
     private Location location;
 }

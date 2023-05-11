@@ -4,20 +4,20 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 public class LocationDto {
     @Getter
-    @AllArgsConstructor
     public static class Post {
-        @NotBlank
+        @NotNull
         private double latitude;
-        @NotBlank
+        @NotNull
         private double longitude;
-
+        @NotNull
+        private long addressId;
     }
 
     @Getter
-    @AllArgsConstructor
     public static class Patch {
         private long locationId;
         private double latitude;

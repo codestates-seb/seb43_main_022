@@ -13,11 +13,8 @@ import java.util.Optional;
 @Service
 public class AddressService {
     private final AddressRepository addressRepository;
-    private final RestaurantRepository restaurantRepository;
-
-    public AddressService(AddressRepository addressRepository, RestaurantRepository restaurantRepository) {
+    public AddressService(AddressRepository addressRepository) {
         this.addressRepository = addressRepository;
-        this.restaurantRepository = restaurantRepository;
     }
 
     public Address createAddress(Address address) {
@@ -33,7 +30,7 @@ public class AddressService {
     }
 
     public Address findAddress(long addressId) {
-        return addressRepository.findById(addressId).orElseThrow(() -> new BusinessLogicException(ExceptionCode.MENU_NOT_FOUND));
+        return addressRepository.findById(addressId).orElseThrow(() -> new BusinessLogicException(ExceptionCode.ADDRESS_NOT_FOUND));
     }
 
     public Page<Address> findAddresss(int page, int size) {

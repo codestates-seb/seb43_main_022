@@ -27,7 +27,7 @@ public class LocationController {
 
     @PostMapping
     public ResponseEntity postLocation(@Valid @RequestBody LocationDto.Post requestBody) {
-        Location location = locationService.createLocation(mapper.locationPostDtoToLocation(requestBody));
+        Location location = locationService.createLocation(requestBody);
 
         URI urlLocation = UriCreator.createUri("/location", location.getLocationId());
 

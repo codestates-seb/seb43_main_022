@@ -50,7 +50,7 @@ public class AddressController {
     }
 
     @GetMapping
-    public ResponseEntity getAddresss(@Positive @RequestParam(value = "page", required = false) Integer page,
+    public ResponseEntity getAddresses(@Positive @RequestParam(value = "page", required = false) Integer page,
                                       @Positive @RequestParam(value = "size", required = false) Integer size) {
         if(page == null) page = 1;
         if(size == null) size = 10;

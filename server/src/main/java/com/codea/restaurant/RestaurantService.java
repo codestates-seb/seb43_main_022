@@ -40,7 +40,7 @@ public class RestaurantService {
         Optional.ofNullable(restaurant.getTel()).ifPresent(tel-> findRestaurant.setTel(tel));
         Optional.ofNullable(restaurant.getPhoto()).ifPresent(photo-> findRestaurant.setPhoto(photo));
         Optional.ofNullable(restaurant.getOpen_time()).ifPresent(open_time-> findRestaurant.setOpen_time(open_time));
-        findRestaurant.setModified_at(LocalDateTime.now());
+        findRestaurant.setModifiedAt(LocalDateTime.now());
 
         return restaurantRepository.save(findRestaurant);
     }

@@ -23,8 +23,4 @@ public class BaseEntity {
     @Setter
     @Column(updatable = false)
     private LocalDateTime modifiedAt;
-
 }
-
-
-

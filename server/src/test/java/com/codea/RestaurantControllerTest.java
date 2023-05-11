@@ -89,7 +89,7 @@ public class RestaurantControllerTest {
                                         fieldWithPath("location").type(JsonFieldType.STRING).description("지역"),
                                         fieldWithPath("tel").type(JsonFieldType.STRING).description("전화번호"),
                                         fieldWithPath("open_time").type(JsonFieldType.STRING).description("영업 시간"),
-                                        fieldWithPath("photo").type(JsonFieldType.STRING).description("사진").optional()
+                                        fieldWithPath("photo").type(JsonFieldType.STRING).description("사진 (경로)").optional()
                                 )
                         ),
                         responseHeaders(
@@ -106,8 +106,9 @@ public class RestaurantControllerTest {
 
         RestaurantDto.Response response = new RestaurantDto.Response(restaurantId, "맛집", "맛집 설명", "지역", "1234-1234",
                 "10:00 ~", "photo/photo.png", LocalDateTime.now(), LocalDateTime.now(), 1, 1, 1, 4.5,
-                List.of(new MenuDto.Response(1,"김밥",2000)), List.of(new ReviewDto.Response(1, "리뷰 제목", "리뷰 내용", "photo/photo.jpg",
-                LocalDateTime.now(), LocalDateTime.now(), Review.Rating.GOOD, 1L, "홍길동")));
+                List.of(new MenuDto.Response(1,"김밥",2000), new MenuDto.Response(2,"라면",2500)), List.of(new ReviewDto.Response(1, "리뷰 제목1", "리뷰 내용1", "photo/photo1.jpg",
+                LocalDateTime.now(), LocalDateTime.now(), Review.Rating.GOOD, 1L, "홍길동1"), new ReviewDto.Response(2, "리뷰 제목2", "리뷰 내용2", "photo/photo2.jpg",
+                LocalDateTime.now(), LocalDateTime.now(), Review.Rating.NOT_GOOD, 2L, "홍길동2")));
 
         given(mapper.restaurantPatchDtoToRestaurant(Mockito.any(RestaurantDto.Patch.class))).willReturn(new Restaurant());
         given(restaurantService.updateRestaurant(Mockito.anyLong(), Mockito.any(Restaurant.class))).willReturn(new Restaurant());
@@ -140,7 +141,7 @@ public class RestaurantControllerTest {
                                         fieldWithPath("location").type(JsonFieldType.STRING).description("맛집 위치").optional(),
                                         fieldWithPath("tel").type(JsonFieldType.STRING).description("전화번호").optional(),
                                         fieldWithPath("open_time").type(JsonFieldType.STRING).description("영업시간").optional(),
-                                        fieldWithPath("photo").type(JsonFieldType.STRING).description("사진 (파일시스템의 사진 경로)").optional()
+                                        fieldWithPath("photo").type(JsonFieldType.STRING).description("사진 (경로)").optional()
                                 )),
                                 responseFields(List.of(
                                         fieldWithPath("restaurantId").type(JsonFieldType.NUMBER).description("맛집 식별자").ignored(),
@@ -150,8 +151,8 @@ public class RestaurantControllerTest {
                                         fieldWithPath("tel").type(JsonFieldType.STRING).description("전화번호"),
                                         fieldWithPath("open_time").type(JsonFieldType.STRING).description("영업시간"),
                                         fieldWithPath("photo").type(JsonFieldType.STRING).description("사진 (파일시스템의 사진 경로)"),
-                                        fieldWithPath("created_at").type(JsonFieldType.STRING).description("맛집 등록일"),
-                                        fieldWithPath("modified_at").type(JsonFieldType.STRING).description("맛집 정보 수정일"),
+                                        fieldWithPath("createdAt").type(JsonFieldType.STRING).description("맛집 등록일"),
+                                        fieldWithPath("modifiedAt").type(JsonFieldType.STRING).description("맛집 정보 수정일"),
                                         fieldWithPath("total_views").type(JsonFieldType.NUMBER).description("조회수"),
                                         fieldWithPath("total_reviews").type(JsonFieldType.NUMBER).description("리뷰 수"),
                                         fieldWithPath("total_favorite").type(JsonFieldType.NUMBER).description("즐겨찾기 수"),
@@ -165,8 +166,8 @@ public class RestaurantControllerTest {
                                         fieldWithPath("reviews[].title").type(JsonFieldType.STRING).description("리뷰 제목"),
                                         fieldWithPath("reviews[].content").type(JsonFieldType.STRING).description("리뷰 내용"),
                                         fieldWithPath("reviews[].photo").type(JsonFieldType.STRING).description("리뷰 사진"),
-                                        fieldWithPath("reviews[].created_at").type(JsonFieldType.STRING).description("리뷰 작성일"),
-                                        fieldWithPath("reviews[].modified_at").type(JsonFieldType.STRING).description("리뷰 수정일"),
+                                        fieldWithPath("reviews[].createdAt").type(JsonFieldType.STRING).description("리뷰 작성일"),
+                                        fieldWithPath("reviews[].modifiedAt").type(JsonFieldType.STRING).description("리뷰 수정일"),
                                         fieldWithPath("reviews[].rating").type(JsonFieldType.STRING).description("맛집 평가"),
                                         fieldWithPath("reviews[].memberId").type(JsonFieldType.NUMBER).description("멤버 식별자"),
                                         fieldWithPath("reviews[].memberNickName").type(JsonFieldType.STRING).description("멤버 닉네임")
@@ -180,8 +181,9 @@ public class RestaurantControllerTest {
         Long restaurantId = 1L;
         RestaurantDto.Response response = new RestaurantDto.Response(restaurantId, "맛집", "맛집 설명", "지역", "1234-1234",
                 "10:00 ~", "photo/photo.png", LocalDateTime.now(), LocalDateTime.now(), 1, 1, 1, 4.5,
-                List.of(new MenuDto.Response(1,"김밥",2000)), List.of(new ReviewDto.Response(1, "리뷰 제목", "리뷰 내용", "photo/photo.jpg",
-                LocalDateTime.now(), LocalDateTime.now(), Review.Rating.GOOD, 1L, "홍길동")));
+                List.of(new MenuDto.Response(1,"김밥",2000), new MenuDto.Response(2,"라면",2500)), List.of(new ReviewDto.Response(1, "리뷰 제목1", "리뷰 내용1", "photo/photo1.jpg",
+                LocalDateTime.now(), LocalDateTime.now(), Review.Rating.GOOD, 1L, "홍길동1"), new ReviewDto.Response(2, "리뷰 제목2", "리뷰 내용2", "photo/photo2.jpg",
+                LocalDateTime.now(), LocalDateTime.now(), Review.Rating.NOT_GOOD, 2L, "홍길동2")));
 
         given(restaurantService.findRestaurant(Mockito.anyLong())).willReturn(new Restaurant());
         given(mapper.restaurantToRestaurantResponseDto(Mockito.any(Restaurant.class))).willReturn(response);
@@ -201,9 +203,9 @@ public class RestaurantControllerTest {
                                         fieldWithPath("location").type(JsonFieldType.STRING).description("맛집 위치"),
                                         fieldWithPath("tel").type(JsonFieldType.STRING).description("전화번호"),
                                         fieldWithPath("open_time").type(JsonFieldType.STRING).description("영업시간"),
-                                        fieldWithPath("photo").type(JsonFieldType.STRING).description("사진 (파일시스템의 사진 경로)"),
-                                        fieldWithPath("created_at").type(JsonFieldType.STRING).description("맛집 등록일"),
-                                        fieldWithPath("modified_at").type(JsonFieldType.STRING).description("맛집 정보 수정일"),
+                                        fieldWithPath("photo").type(JsonFieldType.STRING).description("사진 (경로)"),
+                                        fieldWithPath("createdAt").type(JsonFieldType.STRING).description("맛집 등록일"),
+                                        fieldWithPath("modifiedAt").type(JsonFieldType.STRING).description("맛집 정보 수정일"),
                                         fieldWithPath("total_views").type(JsonFieldType.NUMBER).description("조회수"),
                                         fieldWithPath("total_reviews").type(JsonFieldType.NUMBER).description("리뷰 수"),
                                         fieldWithPath("total_favorite").type(JsonFieldType.NUMBER).description("즐겨찾기 수"),
@@ -217,8 +219,8 @@ public class RestaurantControllerTest {
                                         fieldWithPath("reviews[].title").type(JsonFieldType.STRING).description("리뷰 제목"),
                                         fieldWithPath("reviews[].content").type(JsonFieldType.STRING).description("리뷰 내용"),
                                         fieldWithPath("reviews[].photo").type(JsonFieldType.STRING).description("리뷰 사진"),
-                                        fieldWithPath("reviews[].created_at").type(JsonFieldType.STRING).description("리뷰 작성일"),
-                                        fieldWithPath("reviews[].modified_at").type(JsonFieldType.STRING).description("리뷰 수정일"),
+                                        fieldWithPath("reviews[].createdAt").type(JsonFieldType.STRING).description("리뷰 작성일"),
+                                        fieldWithPath("reviews[].modifiedAt").type(JsonFieldType.STRING).description("리뷰 수정일"),
                                         fieldWithPath("reviews[].rating").type(JsonFieldType.STRING).description("맛집 평가"),
                                         fieldWithPath("reviews[].memberId").type(JsonFieldType.NUMBER).description("멤버 식별자"),
                                         fieldWithPath("reviews[].memberNickName").type(JsonFieldType.STRING).description("멤버 닉네임")
@@ -234,12 +236,14 @@ public class RestaurantControllerTest {
 
         RestaurantDto.Response response1 = new RestaurantDto.Response(1L, "맛집1", "맛집 설명1", "지역1", "1111-1111",
                 "11:00 ~", "photo/photo1.png", LocalDateTime.now(), LocalDateTime.now(), 1, 1, 1, 4.1,
-                List.of(new MenuDto.Response(1,"김밥",2000)), List.of(new ReviewDto.Response(1, "리뷰 제목1", "리뷰 내용1", "photo/photo1.jpg",
-                LocalDateTime.now(), LocalDateTime.now(), Review.Rating.GOOD, 1L, "홍길동1")));
+                List.of(new MenuDto.Response(1,"김밥",2000), new MenuDto.Response(2,"라면",2500)), List.of(new ReviewDto.Response(1, "리뷰 제목1", "리뷰 내용1", "photo/photo1.jpg",
+                LocalDateTime.now(), LocalDateTime.now(), Review.Rating.GOOD, 1L, "홍길동1"), new ReviewDto.Response(2, "리뷰 제목2", "리뷰 내용2", "photo/photo2.jpg",
+                LocalDateTime.now(), LocalDateTime.now(), Review.Rating.NOT_GOOD, 2L, "홍길동2")));
         RestaurantDto.Response response2 = new RestaurantDto.Response(2L, "맛집2", "맛집 설명2", "지역2", "2222-2222",
                 "12:00 ~", "photo/photo2.png", LocalDateTime.now(), LocalDateTime.now(), 2, 2, 2, 4.2,
-                List.of(new MenuDto.Response(1,"김밥",2000)), List.of(new ReviewDto.Response(1, "리뷰 제목2", "리뷰 내용2", "photo/photo2.jpg",
-                LocalDateTime.now(), LocalDateTime.now(), Review.Rating.GOOD, 2L, "홍길동2")));
+                List.of(new MenuDto.Response(1,"김밥",2000), new MenuDto.Response(2,"라면",2500)), List.of(new ReviewDto.Response(1, "리뷰 제목1", "리뷰 내용1", "photo/photo1.jpg",
+                LocalDateTime.now(), LocalDateTime.now(), Review.Rating.GOOD, 1L, "홍길동1"), new ReviewDto.Response(2, "리뷰 제목2", "리뷰 내용2", "photo/photo2.jpg",
+                LocalDateTime.now(), LocalDateTime.now(), Review.Rating.NOT_GOOD, 2L, "홍길동2")));
 
         Page<Restaurant> restaurants = new PageImpl<>(List.of(restaurant1, restaurant2), PageRequest.of(1, 10, Sort.by("restaurantId").descending()), 2);
         List<RestaurantDto.Response> responses = Arrays.asList(response1, response2);
@@ -274,8 +278,8 @@ public class RestaurantControllerTest {
                                         fieldWithPath("data[].tel").type(JsonFieldType.STRING).description("전화번호"),
                                         fieldWithPath("data[].open_time").type(JsonFieldType.STRING).description("영업시간"),
                                         fieldWithPath("data[].photo").type(JsonFieldType.STRING).description("사진 (파일시스템의 사진 경로)"),
-                                        fieldWithPath("data[].created_at").type(JsonFieldType.STRING).description("맛집 등록일"),
-                                        fieldWithPath("data[].modified_at").type(JsonFieldType.STRING).description("맛집 정보 수정일"),
+                                        fieldWithPath("data[].createdAt").type(JsonFieldType.STRING).description("맛집 등록일"),
+                                        fieldWithPath("data[].modifiedAt").type(JsonFieldType.STRING).description("맛집 정보 수정일"),
                                         fieldWithPath("data[].total_views").type(JsonFieldType.NUMBER).description("조회수"),
                                         fieldWithPath("data[].total_reviews").type(JsonFieldType.NUMBER).description("리뷰 수"),
                                         fieldWithPath("data[].total_favorite").type(JsonFieldType.NUMBER).description("즐겨찾기 수"),
@@ -289,8 +293,8 @@ public class RestaurantControllerTest {
                                         fieldWithPath("data[].reviews[].title").type(JsonFieldType.STRING).description("리뷰 제목"),
                                         fieldWithPath("data[].reviews[].content").type(JsonFieldType.STRING).description("리뷰 내용"),
                                         fieldWithPath("data[].reviews[].photo").type(JsonFieldType.STRING).description("리뷰 사진"),
-                                        fieldWithPath("data[].reviews[].created_at").type(JsonFieldType.STRING).description("리뷰 작성일"),
-                                        fieldWithPath("data[].reviews[].modified_at").type(JsonFieldType.STRING).description("리뷰 수정일"),
+                                        fieldWithPath("data[].reviews[].createdAt").type(JsonFieldType.STRING).description("리뷰 작성일"),
+                                        fieldWithPath("data[].reviews[].modifiedAt").type(JsonFieldType.STRING).description("리뷰 수정일"),
                                         fieldWithPath("data[].reviews[].rating").type(JsonFieldType.STRING).description("맛집 평가"),
                                         fieldWithPath("data[].reviews[].memberId").type(JsonFieldType.NUMBER).description("멤버 식별자"),
                                         fieldWithPath("data[].reviews[].memberNickName").type(JsonFieldType.STRING).description("멤버 닉네임"),

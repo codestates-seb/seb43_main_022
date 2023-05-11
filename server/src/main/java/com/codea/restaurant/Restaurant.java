@@ -2,6 +2,7 @@ package com.codea.restaurant;
 
 import com.codea.BaseEntity.BaseEntity;
 import com.codea.Menu.Menu;
+import com.codea.address.Address;
 import com.codea.member.Member;
 import com.codea.review.Review;
 import lombok.*;
@@ -26,7 +27,7 @@ public class Restaurant extends BaseEntity {
     private String name;
     @Column(length = 255, nullable = false)
     private String content;
-    @Column(length = 50, nullable = false)
+    @NotBlank
     private String location;
     @Column(nullable = false)
     private String tel;

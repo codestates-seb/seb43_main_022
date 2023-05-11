@@ -1,0 +1,95 @@
+= Eaaaaaaats
+:sectnums:
+:toc: left
+:toclevels: 4
+:toc-title: Table of Contents
+:source-highlighter: prettify
+
+API 문서 개요
+
+  해당 문서는 43기 프론트엔드, 백엔드 수강생들의 메인프로젝트-Eaaaaaaats 의 API 문서입니다.
+
+CAUTION: 추후 데이터베이스의 변경 사항에 따라 수정될 수 있으므로 참고바랍니다.
+
+***
+
+== 맛집
+=== 맛집 등록
+.curl-request
+include::{snippets}/post-restaurant/curl-request.adoc[]
+
+.http-request
+include::{snippets}/post-restaurant/http-request.adoc[]
+
+.request-fields
+include::{snippets}/post-restaurant/request-fields.adoc[]
+
+.http-response
+include::{snippets}/post-restaurant/http-response.adoc[]
+
+.response-headers
+include::{snippets}/post-restaurant/response-headers.adoc[]
+
+=== 맛집 정보 수정
+.curl-request
+include::{snippets}/patch-restaurant/curl-request.adoc[]
+
+.http-request
+include::{snippets}/patch-restaurant/http-request.adoc[]
+
+.path-parameters
+include::{snippets}/patch-restaurant/path-parameters.adoc[]
+
+.request-fields
+include::{snippets}/patch-restaurant/request-fields.adoc[]
+
+.http-response
+include::{snippets}/patch-restaurant/http-response.adoc[]
+
+.response-fields
+include::{snippets}/patch-restaurant/response-fields.adoc[]
+
+=== 맛집 조회
+.curl-request
+include::{snippets}/get-restaurant/curl-request.adoc[]
+
+.http-request
+include::{snippets}/get-restaurant/http-request.adoc[]
+
+.path-parameters
+include::{snippets}/get-restaurant/path-parameters.adoc[]
+
+.http-response
+include::{snippets}/get-restaurant/http-response.adoc[]
+
+.response-fields
+include::{snippets}/get-restaurant/response-fields.adoc[]
+
+=== 전체 맛집 조회
+.curl-request
+include::{snippets}/get-restaurants/curl-request.adoc[]
+
+.http-request
+include::{snippets}/get-restaurants/http-request.adoc[]
+
+.http-response
+include::{snippets}/get-restaurants/http-response.adoc[]
+
+.response-fields
+include::{snippets}/get-restaurants/response-fields.adoc[]
+
+=== 맛집 정보 삭제
+.curl-request
+include::{snippets}/delete-restaurant/curl-request.adoc[]
+
+.http-request
+include::{snippets}/delete-restaurant/http-request.adoc[]
+
+.path-parameters
+include::{snippets}/delete-restaurant/path-parameters.adoc[]
+
+.http-response
+include::{snippets}/delete-restaurant/http-response.adoc[]
+
+
+

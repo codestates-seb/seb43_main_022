@@ -33,8 +33,8 @@ public class ReviewDto {
         private String title;
         private String content;
         private String photo;
-        private LocalDateTime created_at;
-        private LocalDateTime modified_at;
+        private LocalDateTime createdAt;
+        private LocalDateTime modifiedAt;
         private Review.Rating rating;
         private Long memberId;
         private String memberNickName;

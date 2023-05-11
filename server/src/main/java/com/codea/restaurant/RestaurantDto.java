@@ -52,8 +52,8 @@ public class RestaurantDto {
         private String tel;
         private String open_time;
         private String photo;
-        private LocalDateTime created_at;
-        private LocalDateTime modified_at;
+        private LocalDateTime createdAt;
+        private LocalDateTime modifiedAt;
         private int total_views;
         private int total_reviews;
         private int total_favorite;

@@ -38,7 +38,7 @@ public class ReviewService {
         Optional.ofNullable(review.getContent()).ifPresent(content -> findReview.setContent(content));
         Optional.ofNullable(review.getPhoto()).ifPresent(photo -> findReview.setPhoto(photo));
         Optional.ofNullable(review.getRating()).ifPresent(rating -> findReview.setRating(rating));
-        findReview.setModified_at(LocalDateTime.now());
+        findReview.setModifiedAt(LocalDateTime.now());
 
         return reviewRepository.save(findReview);
     }

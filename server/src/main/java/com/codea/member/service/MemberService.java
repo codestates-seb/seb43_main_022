@@ -41,8 +41,8 @@ public class MemberService {
         List<String> roles = authorityUtils.createRoles(member.getEmail()); // 권한 설정
         member.setRoles(roles);
 
-        if (member.getProfileImage() == null || member.getProfileImage().isEmpty()) { // 기본 이미지 등록
-            member.setProfileImage("https://velog.velcdn.com/images/persestitan/post/5ef6f63a-c279-465d-b65d-97ff39848f6c/image.jpeg");
+        if (member.getPhoto() == null || member.getPhoto().isEmpty()) { // 기본 이미지 등록
+            member.setPhoto("https://velog.velcdn.com/images/persestitan/post/5ef6f63a-c279-465d-b65d-97ff39848f6c/image.jpeg");
         }
 
         Member savedMember = memberRepository.save(member);
@@ -60,8 +60,8 @@ public class MemberService {
                 .ifPresent(password -> findMember.setPassword(password));
         Optional.ofNullable(member.getLocation())
                 .ifPresent(location -> findMember.setLocation(location));
-//        Optional.ofNullable(member.getProfileImage())
-//                .ifPresent(image -> findMember.setProfileImage(image));
+//        Optional.ofNullable(member.getPhoto())
+//                .ifPresent(image -> findMember.setPhoto(image));
 
         return memberRepository.save(findMember);
     }

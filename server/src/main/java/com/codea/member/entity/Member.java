@@ -23,29 +23,23 @@ public class Member extends BaseEntity {
     private String email;
     private String password;
     private String location;
-    private String profileImage;
+    private String photo;
     @Enumerated(value = EnumType.STRING)
     @Column(length = 20, nullable = false)
     private MemberStatus memberStatus = MemberStatus.MEMBER_ACTIVE;
 
-    public Member(Long memberId, String memberNickName, String email, String location, String profileImage) {
+
+    public Member(Long memberId, String memberNickName, String email, String location, String photo, MemberStatus memberStatus) {
         this.memberId = memberId;
         this.memberNickName = memberNickName;
         this.email = email;
         this.location = location;
-        this.profileImage = profileImage;
+        this.photo = photo;
+        this.memberStatus = memberStatus;
     }
 
     @ElementCollection(fetch = FetchType.EAGER)
     private List<String> roles = new ArrayList<>();
-
-
-
-
-
-
-
-
 
 
 //    @OneToMany(mappedBy = "member")

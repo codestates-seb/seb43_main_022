@@ -2,9 +2,7 @@ package com.codea.member.controller;
 
 
 import com.codea.dto.MultiResponseDto;
-import com.codea.member.dto.MemberPatchDto;
-import com.codea.member.dto.MemberPostDto;
-import com.codea.member.dto.MemberResponseDto;
+import com.codea.member.dto.MemberDto;
 import com.codea.member.entity.Member;
 import com.codea.member.mapper.MemberMapper;
 import com.codea.member.service.MemberService;
@@ -23,7 +21,6 @@ import javax.validation.constraints.Positive;
 import java.net.URI;
 import java.util.List;
 
-@AllArgsConstructor
 @RestController
 @RequestMapping("/members")
 @Validated
@@ -32,11 +29,16 @@ public class MemberController {
     private final MemberService memberService;
     private final MemberMapper memberMapper;
 
+    public MemberController(MemberService memberService, MemberMapper memberMapper) {
+        this.memberService = memberService;
+        this.memberMapper = memberMapper;
+    }
+
     @PostMapping("/signup")
-    public ResponseEntity postMember(@Valid @RequestBody MemberPostDto requestBody) {
+    public ResponseEntity postMember(@Valid @RequestBody MemberDto.Post requestBody) {
         Member member = memberMapper.memberPostDtoToMember(requestBody);
         Member createMember = memberService.createMember(member);
-        MemberResponseDto responseDto = memberMapper.memberToMemberResponseDto(createMember);
+        MemberDto.Response responseDto = memberMapper.memberToMemberResponseDto(createMember);
 
         URI location = UriCreator.createUri("/members", createMember.getMemberId());
         HttpHeaders headers = new HttpHeaders();
@@ -48,13 +50,13 @@ public class MemberController {
 
     @PatchMapping("/{member-id}")
     public ResponseEntity patchMember(@PathVariable("member-id") @Positive long memberId,
-                                      @Valid @RequestBody MemberPatchDto requestBody,
+                                      @Valid @RequestBody MemberDto.Patch requestBody,
                                       @RequestHeader("Authorization") String token) {
         System.out.println("@@@@@@@@@@@@@@@@@@@@@@@"+ token);
         memberService.sameMemberTest(memberId, token);
         requestBody.setMemberId(memberId);
         Member updateMember = memberService.updateMember(memberMapper.memberPatchDtoToMember(requestBody));
-        MemberResponseDto responseDto = memberMapper.memberToMemberResponseDto(updateMember);
+        MemberDto.Response responseDto = memberMapper.memberToMemberResponseDto(updateMember);
 
         return new ResponseEntity(responseDto, HttpStatus.OK);
     }
@@ -64,7 +66,7 @@ public class MemberController {
     public ResponseEntity getMember(
             @PathVariable("member-id") @Positive long memberId) {
         Member member = memberService.findMember(memberId);
-        MemberResponseDto responseDto = memberMapper.memberToMemberResponseDto(member);
+        MemberDto.Response responseDto = memberMapper.memberToMemberResponseDto(member);
         return new ResponseEntity(responseDto, HttpStatus.OK);
     }
 
@@ -74,7 +76,7 @@ public class MemberController {
         Page<Member> pageMembers = memberService.findMembers(page - 1, size);
         List<Member> members = pageMembers.getContent();
         return new ResponseEntity<>(
-                new MultiResponseDto<>(memberMapper.memberToMemberResponseDto(members),
+                new MultiResponseDto<>(memberMapper.membersToMemberResponseDto(members),
                         pageMembers),
                 HttpStatus.OK);
     }
@@ -90,14 +92,14 @@ public class MemberController {
     }
 
 //    @PatchMapping("/{member-id}/profile-image") // image 설정 이후
-//    public ResponseEntity updateProfileImage(
+//    public ResponseEntity updatephoto(
 //            @PathVariable("member-id") @Positive long memberId,
-//            @RequestBody MemberDto.ProfileImage requestBody,
+//            @RequestBody MemberDto.photo requestBody,
 //            @RequestHeader("Authorization") String token) {
 //        memberService.sameMemberTest(memberId, token); // 변경하려는 회원이 맞는지 확인
 //
 //        Member member = memberService.findMember(memberId);
-//        member.setProfileImage(requestBody.getProfileImage());
+//        member.setphoto(requestBody.getphoto());
 //        Member updatedMember = memberService.updateMember(member);
 //        MemberJoinResponseDto responseDto = memberMapper.memberToMemberResponse(updatedMember);
 //        return new ResponseEntity(responseDto, HttpStatus.OK);

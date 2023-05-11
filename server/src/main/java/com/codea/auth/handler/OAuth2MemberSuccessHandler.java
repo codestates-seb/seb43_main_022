@@ -40,14 +40,14 @@
 //        var oAuth2User = (OAuth2User)authentication.getPrincipal();
 //        String email = String.valueOf(oAuth2User.getAttributes().get("email")); // OAuth2User 객체로부터 Resource Owner의 이메일 주소를 얻기
 //        String nickName = String.valueOf(oAuth2User.getAttributes().get("name")); // 이름을 얻기
-//        String profileImage = String.valueOf(oAuth2User.getAttributes().get("picture")); // 프로필 이미지 URL을 얻기
+//        String photo = String.valueOf(oAuth2User.getAttributes().get("picture")); // 프로필 이미지 URL을 얻기
 //
 //        Optional<Member> optionalMember = memberRepository.findByEmail(email);
 //        List<String> authorities = authorityUtils.createRoles(email);           // 권한 정보 생성
 //
 //        Member member;
 //        if (optionalMember.isEmpty()) { // 이메일이 저장되어 있지 않은 경우
-//            member = saveMember(email, nickName, profileImage); // Resource Owner의 정보를 DB에 저장
+//            member = saveMember(email, nickName, photo); // Resource Owner의 정보를 DB에 저장
 //        } else {
 //            member = optionalMember.get();
 //        }
@@ -55,14 +55,14 @@
 //        redirect(request, response, member, authorities);  // Access Token과 Refresh Token을 생성해서 Frontend 애플리케이션에 전달하기 위해 Redirect
 //    }
 //
-//    private Member saveMember(String email, String nickname, String profileImage) {
+//    private Member saveMember(String email, String nickname, String photo) {
 //        memberRepository.findByEmail(email).ifPresent(it ->
 //        {throw new BusinessLogicException(ExceptionCode.MEMBER_EXISTS, String.format("%s is duplicated 버그발생! OAuth2 핸들러 검사하시오.", email));
 //        });
 //        Member member = new Member();
 //        member.setEmail(email);
 //        member.setMemberNickName(nickname);
-//        member.setProfileImage(profileImage);
+//        member.photo(photo);
 //        Member savedMember = memberRepository.save(member);
 //        List<String> roles = authorityUtils.createRoles(email);
 //        savedMember.setRoles(roles);

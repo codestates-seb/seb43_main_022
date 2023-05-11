@@ -11,12 +11,12 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class CustomMemberDto {
 
-    private Long memberId;
+    private long memberId;
     private String memberNickName;
     private String email;
     private String password;
     private String location;
-    private String profileImage;
+    private String photo;
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
 
@@ -27,7 +27,7 @@ public class CustomMemberDto {
                 entity.getEmail(),
                 entity.getPassword(),
                 entity.getLocation(),
-                entity.getProfileImage(),
+                entity.getPhoto(),
                 entity.getCreatedAt(),
                 entity.getModifiedAt()
         );

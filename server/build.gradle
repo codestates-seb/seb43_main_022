@@ -2,17 +2,13 @@ plugins {
 	id 'java'
 	id 'org.springframework.boot' version '2.7.11'
 	id 'io.spring.dependency-management' version '1.0.15.RELEASE'
+	id "org.asciidoctor.jvm.convert" version "3.3.2"
+
 }
 
 group = 'com.codea'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '11'
-
-configurations {
-	compileOnly {
-		extendsFrom annotationProcessor
-	}
-}
 
 repositories {
 	mavenCentral()
@@ -22,8 +18,17 @@ ext {
 	set('snippetsDir', file("build/generated-snippets"))
 }
 
+
 configurations {
 	asciidoctorExtensions
+}
+
+
+
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
 }
 
 
@@ -58,26 +63,26 @@ tasks.named('test') {
 	useJUnitPlatform()
 }
 
-//tasks.named('asciidoctor') {
-//	configurations "asciidoctorExtensions"
-//	inputs.dir snippetsDir
-//	dependsOn test
-//}
+tasks.named('asciidoctor') {
+	configurations "asciidoctorExtensions"
+	inputs.dir snippetsDir
+	dependsOn test
+}
 
-//task copyDocument(type: Copy) {
-//	dependsOn asciidoctor
-//	println "asciidoctor output: ${asciidoctor.outputDir}"
-//	from file("${asciidoctor.outputDir}")
-//	into file("src/main/resources/static/docs")
-//}
-//
-//build {
-//	dependsOn copyDocument
-//}
+task copyDocument(type: Copy) {
+	dependsOn asciidoctor
+	println "asciidoctor output: ${asciidoctor.outputDir}"
+	from file("${asciidoctor.outputDir}")
+	into file("src/main/resources/static/docs")
+}
 
-//bootJar {
-//	dependsOn copyDocument
-//	from ("${asciidoctor.outputDir}") {
-//		into 'static/docs'
-//	}
-//}
+build {
+	dependsOn copyDocument
+}
+
+bootJar {
+	dependsOn copyDocument
+	from ("${asciidoctor.outputDir}") {
+		into 'static/docs'
+	}
+}

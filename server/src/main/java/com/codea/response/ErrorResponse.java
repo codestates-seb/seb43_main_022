@@ -17,7 +17,7 @@ public class ErrorResponse {
     private List<FieldError> fieldErrors;
     private List<ConstraintViolationError> violationErrors;
 
-    private ErrorResponse(int status, String message) {
+    public ErrorResponse(int status, String message) {
         this.status = status;
         this.message = message;
     }
@@ -62,12 +62,12 @@ public class ErrorResponse {
 
         public static List<FieldError> of(BindingResult bindingResult) {
             final List<org.springframework.validation.FieldError> fieldErrors =
-                                                        bindingResult.getFieldErrors();
+                    bindingResult.getFieldErrors();
             return fieldErrors.stream()
                     .map(error -> new FieldError(
                             error.getField(),
                             error.getRejectedValue() == null ?
-                                            "" : error.getRejectedValue().toString(),
+                                    "" : error.getRejectedValue().toString(),
                             error.getDefaultMessage()))
                     .collect(Collectors.toList());
         }
@@ -80,7 +80,7 @@ public class ErrorResponse {
         private String reason;
 
         private ConstraintViolationError(String propertyPath, Object rejectedValue,
-                                   String reason) {
+                                         String reason) {
             this.propertyPath = propertyPath;
             this.rejectedValue = rejectedValue;
             this.reason = reason;

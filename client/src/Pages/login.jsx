@@ -5,7 +5,7 @@ import Logo from "../Component/style/img/Eaaaaaaats.svg";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import Auth from "../Component/Auth";
-import Modal from "../Component/Modal";
+
 const Main = styled.div`
   flex-direction: column;
 `;
@@ -67,7 +67,6 @@ export default function Login() {
     email: "",
     password: "",
   });
-  const [modal, setModal] = useState(false);
 
   const handleInputValue = (key) => (e) => {
     setMember({ ...member, [key]: e.target.value });
@@ -79,53 +78,9 @@ export default function Login() {
     setErrPw("패스워드가 맞지 않습니다.");
   }
 
-  const showModal = () => {
-    setModal(!modal);
-  };
-
-  const menu = [
-    { menu: "샌드위치", price: 4000 },
-    { menu: "B", price: 2000 },
-    { menu: "햄버거", price: 7000 },
-    { menu: "샌드위치", price: 4000 },
-    { menu: "콜라", price: 2000 },
-    { menu: "햄버거", price: 7000 },
-    { menu: "샌드위치", price: 4000 },
-    { menu: "사이다", price: 2000 },
-    { menu: "A", price: 7000 },
-    { menu: "1", price: 4000 },
-    { menu: "2", price: 2000 },
-    { menu: "3", price: 7000 },
-    { menu: "4", price: 4000 },
-    { menu: "5", price: 2000 },
-    { menu: "햄버거", price: 7000 },
-    { menu: "샌드위치", price: 4000 },
-    { menu: "콜라", price: 2000 },
-    { menu: "햄버거", price: 7000 },
-    { menu: "2", price: 2000 },
-    { menu: "3", price: 7000 },
-    { menu: "4", price: 4000 },
-    { menu: "5", price: 2000 },
-    { menu: "햄버거", price: 7000 },
-    { menu: "샌드위치", price: 4000 },
-    { menu: "콜라", price: 2000 },
-    { menu: "햄버거", price: 7000 },
-    { menu: "2", price: 2000 },
-    { menu: "3", price: 7000 },
-    { menu: "4", price: 4000 },
-    { menu: "5", price: 2000 },
-    { menu: "햄버거", price: 7000 },
-    { menu: "샌드위치", price: 4000 },
-    { menu: "콜라", price: 2000 },
-    { menu: "햄버거", price: 7000 },
-  ];
-
   return (
     <>
-      <div>{modal ? <Modal menu={menu} showModal={showModal} /> : null}</div>
       <Main>
-        <button onClick={showModal}> 모달 테스트 </button>
-
         <Container>
           <Img src={Logo} alt="" />
 

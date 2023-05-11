@@ -2,6 +2,8 @@ import React from "react";
 import styled from "styled-components";
 import MenuItem from "./MenuItem";
 import Button from "./../style/button";
+import Modal from "../Modal";
+import { useState } from "react";
 
 const Container = styled.div`
   display: flex;
@@ -65,6 +67,48 @@ const Modify = styled.div`
 `;
 
 const StoreInfo = () => {
+  const [modal, setModal] = useState(false);
+  const showModal = () => {
+    setModal(!modal);
+  };
+
+  const menu = [
+    { menu: "샌드위치", price: 4000 },
+    { menu: "B", price: 2000 },
+    { menu: "햄버거", price: 7000 },
+    { menu: "샌드위치", price: 4000 },
+    { menu: "콜라", price: 2000 },
+    { menu: "햄버거", price: 7000 },
+    { menu: "샌드위치", price: 4000 },
+    { menu: "사이다", price: 2000 },
+    { menu: "A", price: 7000 },
+    { menu: "1", price: 4000 },
+    { menu: "2", price: 2000 },
+    { menu: "3", price: 7000 },
+    { menu: "4", price: 4000 },
+    { menu: "5", price: 2000 },
+    { menu: "햄버거", price: 7000 },
+    { menu: "샌드위치", price: 4000 },
+    { menu: "콜라", price: 2000 },
+    { menu: "햄버거", price: 7000 },
+    { menu: "2", price: 2000 },
+    { menu: "3", price: 7000 },
+    { menu: "4", price: 4000 },
+    { menu: "5", price: 2000 },
+    { menu: "햄버거", price: 7000 },
+    { menu: "샌드위치", price: 4000 },
+    { menu: "콜라", price: 2000 },
+    { menu: "햄버거", price: 7000 },
+    { menu: "2", price: 2000 },
+    { menu: "3", price: 7000 },
+    { menu: "4", price: 4000 },
+    { menu: "5", price: 2000 },
+    { menu: "햄버거", price: 7000 },
+    { menu: "샌드위치", price: 4000 },
+    { menu: "콜라", price: 2000 },
+    { menu: "햄버거", price: 7000 },
+  ];
+
   return (
     <>
       <Container>
@@ -91,7 +135,10 @@ const StoreInfo = () => {
             <InfoName>메뉴</InfoName>
             <MenuItem />
           </div>
-          <More>메뉴 전체보기</More>
+          <div>
+            {modal ? <Modal menu={menu} showModal={showModal} /> : null}
+          </div>
+          <More onClick={showModal}>메뉴 전체보기</More>
         </MenuList>
       </Container>
       <Modify>

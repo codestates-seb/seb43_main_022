@@ -7,7 +7,7 @@ import AddImg from "../Component/AddStoreComp/AddImg";
 import AddEplanation from "../Component/AddStoreComp/AddExplanation";
 import AddInfo from "../Component/AddStoreComp/AddInfo";
 import axios from "axios";
-import Button from "../Component/style/button";
+import Button from "../Component/style/StyleButton";
 import AddMenu from "../Component/AddStoreComp/AddMenu";
 
 const AddContainer = styled.div`

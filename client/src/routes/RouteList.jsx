@@ -2,7 +2,7 @@ import Main from "../Pages/Main";
 import Review from "../Pages/Review";
 import StoreList from "../Pages/StoreList";
 import AddStore from "../Pages/AddStore";
-import Login from "../Pages/login";
+import Login from "../Pages/Login";
 import Signup from "../Pages/Signup";
 import DetailPage from "../Pages/DetailPage";
 import MyPage from "../Pages/MyPage";

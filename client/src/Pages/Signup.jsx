@@ -1,8 +1,8 @@
 import styled from "styled-components";
-import Button from "../Component/style/button";
-import Input from "../Component/style/Input";
+import Button from "../Component/style/StyleButton";
+import Input from "../Component/style/StyleInput";
 import Plus from "../Component/style/img/signup.svg";
-import Auth from "../Component/Auth";
+import Auth from "../Component/StyleAuth";
 import { useState, useRef } from "react";
 import Select from "react-select";
 //import { Link } from "react-router-dom";

@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import Button from "./style/button";
+import Button from "./style/StyleButton";
 import Logo from "./style/img/Eaaaaaaats.svg";
 import Search from "./style/img/search.png";
 import Frame from "./style/img/Frame.svg";

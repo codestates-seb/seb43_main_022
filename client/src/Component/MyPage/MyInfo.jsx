@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
-import Input from "./../style/Input";
-import Button from "./../style/button";
+import Input from "../style/StyleInput";
+import Button from "../style/StyleButton";
 import profile from "./../style/img/profile.png";
 
 const Container = styled.div`

@@ -1,10 +1,10 @@
 import styled from "styled-components";
-import Button from "../Component/style/button";
-import Input from "../Component/style/Input";
+import Button from "../Component/style/StyleButton";
+import Input from "../Component/style/StyleInput";
 import Logo from "../Component/style/img/Eaaaaaaats.svg";
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import Auth from "../Component/Auth";
+import Auth from "../Component/StyleAuth";
 import Modal from "../Component/Modal";
 const Main = styled.div`
   flex-direction: column;

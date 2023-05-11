@@ -1,6 +1,17 @@
 import React from "react";
 import styled from "styled-components";
 import ImgBtn from "../style/ImgBtn";
+import { useState } from "react";
+// import { useRecoilState } from "recoil";
+// import {
+//   shareIconState,
+//   heartIconState,
+//   //useRecoilValue
+// // storeNameState,
+// //   storeTagsState,
+// //   viewCountState,
+// //   heartCountState,
+// } from "../../state/atoms/detailInfoAtom";
 
 const Container = styled.div`
   margin: auto;
@@ -41,22 +52,51 @@ const SubInfo = styled.div`
 `;
 
 const StoreHead = () => {
+  // const storeName = useRecoilValue(storeNameState);
+  // const storeTags = useRecoilValue(storeTagsState);
+  // const viewCount = useRecoilValue(viewCountState);
+  // const heartCount = useRecoilValue(heartCountState);
+
+  const [heartIcon, setHeartIcon] = useState(false);
+  const [shareIcon, setShareIcon] = useState(false);
+
+  // const [storeData, setStoreData] = useState({
+  //   storeName: "",
+  //   storeTags: [],
+  //   viewCount: "",
+  //   heartCount: "",
+  // });
+
+  const dumyData = {
+    storeName: "오프마인드",
+    storeTags: ["#브런치", "#샌드위치", "#분위기좋은곳"],
+    viewCount: "1.2k",
+    heartCount: "302",
+  };
+
+  const handleHeartIcon = () => {
+    setHeartIcon(!heartIcon);
+  };
+  const handleShareIcon = () => {
+    setShareIcon(!shareIcon);
+  };
+
   return (
     <div>
       <Container>
-        <StoreName>오픈마인드</StoreName>
+        <StoreName>{dumyData.storeName}</StoreName>
         <StoreInfo>
           <Tags>
-            <TagItem>#브런치</TagItem>
-            <TagItem>#샌드위치</TagItem>
-            <TagItem>#분위기좋은곳</TagItem>
+            {dumyData.storeTags.map((tag, index) => (
+              <TagItem key={index}>{tag}</TagItem>
+            ))}
           </Tags>
           <SubInfo>
             <ImgBtn imgstyle={"View"} />
-            <span>1.2k</span>
-            <ImgBtn imgstyle={"Heart"} />
-            <span>302</span>
-            <ImgBtn imgstyle={"Share"} />
+            <span>{dumyData.viewCount}</span>
+            <ImgBtn imgstyle={"Heart"} onClick={handleHeartIcon} />
+            <span>{dumyData.heartCount}</span>
+            <ImgBtn imgstyle={"Share"} onClick={handleShareIcon} />
           </SubInfo>
         </StoreInfo>
       </Container>

@@ -33,7 +33,7 @@ export default function List({ menu, i }) {
       {Slice.map((item, idx) => {
         return (
           <Li key={idx}>
-            <El>{item.menu}</El> <Center src={Line} />
+            <El>{item.name}</El> <Center src={Line} />
             <El>{item.price}원</El>
           </Li>
         );

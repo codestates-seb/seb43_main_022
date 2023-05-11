@@ -1,6 +1,6 @@
-package com.codea.member.repository;
+package com.codea.member;
 
-import com.codea.member.entity.Member;
+import com.codea.member.Member;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

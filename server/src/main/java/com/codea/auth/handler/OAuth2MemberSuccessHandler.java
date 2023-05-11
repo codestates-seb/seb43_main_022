@@ -4,9 +4,9 @@
 //import com.codea.auth.utils.CustomAuthorityUtils;
 //import com.codea.exception.BusinessLogicException;
 //import com.codea.exception.ExceptionCode;
-//import com.codea.member.dto.CustomMemberDto;
-//import com.codea.member.entity.Member;
-//import com.codea.member.repository.MemberRepository;
+
+//import com.codea.member.Member;
+//import com.codea.member.MemberRepository;
 //import lombok.extern.slf4j.Slf4j;
 //import org.springframework.security.core.Authentication;
 //import org.springframework.security.oauth2.core.user.OAuth2User;

@@ -1,11 +1,11 @@
 package com.codea.restdocs.member;
 
-import com.codea.member.controller.MemberController;
-import com.codea.member.dto.MemberDto;
+import com.codea.member.MemberController;
+import com.codea.member.MemberDto;
 
-import com.codea.member.entity.Member;
-import com.codea.member.mapper.MemberMapper;
-import com.codea.member.service.MemberService;
+import com.codea.member.Member;
+import com.codea.member.MemberMapper;
+import com.codea.member.MemberService;
 import com.google.gson.Gson;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -26,8 +26,6 @@ import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 import static com.codea.util.ApiDocumentUtils.getRequestPreProcessor;

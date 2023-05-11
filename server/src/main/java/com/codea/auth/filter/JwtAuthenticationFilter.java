@@ -3,7 +3,7 @@ package com.codea.auth.filter;
 
 import com.codea.auth.dto.LoginDto;
 import com.codea.auth.jwt.JwtTokenizer;
-import com.codea.member.entity.Member;
+import com.codea.member.Member;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.SneakyThrows;
 import org.springframework.security.authentication.AuthenticationManager;

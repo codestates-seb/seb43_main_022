@@ -1,13 +1,8 @@
-package com.codea.member.controller;
+package com.codea.member;
 
 
 import com.codea.dto.MultiResponseDto;
-import com.codea.member.dto.MemberDto;
-import com.codea.member.entity.Member;
-import com.codea.member.mapper.MemberMapper;
-import com.codea.member.service.MemberService;
-import com.codea.util.UriCreator;
-import lombok.AllArgsConstructor;
+import com.codea.utils.UriCreator;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpHeaders;

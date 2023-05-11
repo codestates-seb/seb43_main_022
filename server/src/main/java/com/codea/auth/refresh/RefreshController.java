@@ -1,8 +1,8 @@
 //package com.codea.auth.refresh;
 //
 //import com.codea.auth.jwt.JwtTokenizer;
-//import com.codea.member.entity.Member;
-//import com.codea.member.repository.MemberRepository;
+//import com.codea.member.Member;
+//import com.codea.member.MemberRepository;
 //import io.jsonwebtoken.Claims;
 //import io.jsonwebtoken.Jws;
 //import io.jsonwebtoken.JwtException;

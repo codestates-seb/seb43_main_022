@@ -1,4 +1,4 @@
-package com.codea.member.dto;
+package com.codea.member;
 
 
 import lombok.AllArgsConstructor;

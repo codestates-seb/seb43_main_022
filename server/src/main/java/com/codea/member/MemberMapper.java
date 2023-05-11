@@ -1,7 +1,7 @@
-package com.codea.member.mapper;
+package com.codea.member;
 
-import com.codea.member.dto.MemberDto;
-import com.codea.member.entity.Member;
+import com.codea.member.MemberDto;
+import com.codea.member.Member;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 

@@ -1,6 +1,5 @@
-package com.codea.member.dto;
+package com.codea.member;
 
-import com.codea.member.entity.Member;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 

@@ -1,12 +1,10 @@
-package com.codea.member.service;
+package com.codea.member;
 
 
 import com.codea.auth.utils.CustomAuthorityUtils;
 import com.codea.exception.BusinessLogicException;
 import com.codea.exception.ExceptionCode;
-import com.codea.member.entity.Member;
-import com.codea.member.repository.MemberRepository;
-import com.codea.util.JwtUtil;
+import com.codea.utils.JwtUtil;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;

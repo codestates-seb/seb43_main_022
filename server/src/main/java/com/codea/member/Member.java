@@ -1,4 +1,4 @@
-package com.codea.member.entity;
+package com.codea.member;
 
 
 import com.codea.BaseEntity.BaseEntity;

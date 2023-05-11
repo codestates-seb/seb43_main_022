@@ -1,9 +1,8 @@
-package com.codea.member.dto;
+package com.codea.member;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Getter

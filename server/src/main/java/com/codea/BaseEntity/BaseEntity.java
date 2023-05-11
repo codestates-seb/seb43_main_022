@@ -17,19 +17,14 @@ import java.time.LocalDateTime;
 public class BaseEntity {
     @CreatedDate
     @Column(updatable = false)
-<<<<<<< HEAD
-    private LocalDateTime created_at;
-=======
     private LocalDateTime createdAt;
->>>>>>> be-feat/member
 
     @LastModifiedDate
     @Setter
     @Column(updatable = false)
-<<<<<<< HEAD
-    private LocalDateTime modified_at;
-}
-=======
     private LocalDateTime modifiedAt;
+
 }
->>>>>>> be-feat/member
+
+
+

@@ -18,7 +18,6 @@ import java.util.List;
 @Validated
 public class MenuController {
     private final MenuService menuService;
-
     private final MenuMapper mapper;
 
     public MenuController(MenuService menuService, MenuMapper mapper) {

@@ -18,7 +18,6 @@ import java.util.List;
 @RequestMapping("/restaurants")
 @Validated
 public class RestaurantController {
-    private final static String RESTAURANT_DEFAULT_URL = "/restaurants";
     private final RestaurantService restaurantService;
     private final RestaurantMapper mapper;
 
@@ -31,7 +30,7 @@ public class RestaurantController {
     public ResponseEntity postRestaurant(@Valid @RequestBody RestaurantDto.Post requestBody) {
         Restaurant restaurant = restaurantService.createRestaurant(mapper.restaurantPostDtoToRestaurant(requestBody));
 
-        URI location = UriCreator.createUri(RESTAURANT_DEFAULT_URL, restaurant.getRestaurantId());
+        URI location = UriCreator.createUri("/restaurants", restaurant.getRestaurantId());
         return ResponseEntity.created(location).build();
     }
 

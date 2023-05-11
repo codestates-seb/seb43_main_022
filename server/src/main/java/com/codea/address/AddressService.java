@@ -1,0 +1,48 @@
+package com.codea.address;
+
+import com.codea.exception.BusinessLogicException;
+import com.codea.exception.ExceptionCode;
+import com.codea.restaurant.RestaurantRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+import org.springframework.stereotype.Service;
+
+import java.util.Optional;
+
+@Service
+public class AddressService {
+    private final AddressRepository addressRepository;
+    private final RestaurantRepository restaurantRepository;
+
+    public AddressService(AddressRepository addressRepository, RestaurantRepository restaurantRepository) {
+        this.addressRepository = addressRepository;
+        this.restaurantRepository = restaurantRepository;
+    }
+
+    public Address createAddress(Address address) {
+        return addressRepository.save(address);
+    }
+
+    public Address updateAddress(long addressId, Address address) {
+        Address findAddress = findAddress(addressId);
+
+        Optional.ofNullable(address.getStreetAddress()).ifPresent(streetAddress -> findAddress.setStreetAddress(streetAddress));
+
+        return addressRepository.save(findAddress);
+    }
+
+    public Address findAddress(long addressId) {
+        return addressRepository.findById(addressId).orElseThrow(() -> new BusinessLogicException(ExceptionCode.MENU_NOT_FOUND));
+    }
+
+    public Page<Address> findAddresss(int page, int size) {
+        return addressRepository.findAll(PageRequest.of(page, size, Sort.by("addressId").descending()));
+    }
+
+    public void deleteAddress(long addressId) {
+        Address findAddress = findAddress(addressId);
+
+        addressRepository.delete(findAddress);
+    }
+}

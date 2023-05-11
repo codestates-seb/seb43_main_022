@@ -15,7 +15,8 @@ import java.util.List;
 
 @Getter
 @Setter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 public class Restaurant extends BaseEntity {
     @Id
@@ -48,5 +49,4 @@ public class Restaurant extends BaseEntity {
     private List<Menu> menu = new ArrayList<>();
     @OneToMany(mappedBy = "restaurant", cascade = CascadeType.REMOVE)
     private List<Review> reviews = new ArrayList<>();
-
 }

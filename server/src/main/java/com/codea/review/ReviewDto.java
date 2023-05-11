@@ -13,7 +13,7 @@ public class ReviewDto {
         private String title;
         @NotBlank(message = "내용을 입력하세요.")
         private String content;
-        private byte[] photo;
+        private String photo;
         private Review.Rating rating;
     }
 
@@ -22,7 +22,7 @@ public class ReviewDto {
         private long reviewId;
         private String title;
         private String content;
-        private byte[] photo;
+        private String photo;
         private Review.Rating rating;
     }
 
@@ -32,7 +32,7 @@ public class ReviewDto {
         private long reviewId;
         private String title;
         private String content;
-        private byte[] photo;
+        private String photo;
         private LocalDateTime created_at;
         private LocalDateTime modified_at;
         private Review.Rating rating;

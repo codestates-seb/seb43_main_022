@@ -9,7 +9,7 @@ import javax.persistence.*;
 
 @Getter
 @Setter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor
 @Entity
 public class Review extends BaseEntity {
     @Id
@@ -20,7 +20,7 @@ public class Review extends BaseEntity {
     @Column(nullable = false)
     private String content;
     @Column
-    private byte[] photo;
+    private String photo;
     @Enumerated(EnumType.STRING)
     private Rating rating;
     @Enumerated(EnumType.STRING)

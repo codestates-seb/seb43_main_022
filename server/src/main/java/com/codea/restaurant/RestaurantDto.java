@@ -4,6 +4,7 @@ import com.codea.Menu.MenuDto;
 import com.codea.review.ReviewDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.validation.constraints.NotBlank;
@@ -14,6 +15,7 @@ import java.util.List;
 
 public class RestaurantDto {
     @Getter
+    @AllArgsConstructor
     public static class Post {
         @NotBlank
         private String name;
@@ -29,6 +31,7 @@ public class RestaurantDto {
     }
 
     @Getter
+    @AllArgsConstructor
     public static class Patch {
         private long restaurantId;
         private String name;

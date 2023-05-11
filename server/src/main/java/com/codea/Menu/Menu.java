@@ -10,7 +10,7 @@ import javax.persistence.*;
 
 @Getter
 @Setter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor
 @Entity
 public class Menu {
     @Id

@@ -12,7 +12,9 @@ public enum ExceptionCode {
     RESTAURANT_NOT_FOUND(404, "Restaurant not found"),
     RESTAURANT_EXISTS (409, "Restaurant exists"),
     CATEGORY_EXISTS(409,"Category exists"),
-    CATEGORY_NOT_FOUND(404, "Category not found" );
+    CATEGORY_NOT_FOUND(404, "Category not found" ),
+    TAG_EXISTS(409,"Tag exists"),
+    TAG_NOT_FOUND(404,"Tag not found");
 
 
     @Getter

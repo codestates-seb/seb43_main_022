@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import styled from "styled-components";
 import defaultImg from "../style/img/defaultImg.png";
 
@@ -23,7 +23,7 @@ const Intro = styled.div`
 `;
 
 const StoreIntro = () => {
-  const [data, setData] = useState({
+  const [data] = useState({
     Img: defaultImg,
     content: `안녕하세요 'OPM(오픈마인드)' 입니다. 이름부터가 고민이 많았지만 우리가
     느낀 그대로를 표현하고 싶었습니다. '온전하고 자유로운 삶 그대로를'

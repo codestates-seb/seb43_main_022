@@ -38,7 +38,7 @@ const HotKeyword = styled.div`
 `;
 
 const StoreKeywordSearch = () => {
-  const [keywords, setKeywords] = useRecoilState(keywordsAtom);
+  const [keywords] = useRecoilState(keywordsAtom);
   return (
     <>
       <StoreKeywordBox>

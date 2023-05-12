@@ -1,5 +1,5 @@
 import ReviewItem from "./ReviewItem";
-import Button from "../style/button";
+import Button from "../style/StyleButton";
 import styled from "styled-components";
 import profile from "../style/img/profile.png";
 import { useState } from "react";

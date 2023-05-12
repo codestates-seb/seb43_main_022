@@ -1,4 +1,3 @@
-import React from "react";
 import MyReviewList from "./MyReviewList";
 import styled from "styled-components";
 

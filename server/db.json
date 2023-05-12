@@ -1,0 +1,24 @@
+{
+  "restaurants": [
+    {
+      "storeName": "가게이름이이이이츠츠츠츠",
+      "tags": ["테스트태그1", "태그2", "태그3"],
+      "storePhoto": null,
+      "storeIntroduction": "가게소개글을 입력합니다. 가게가게",
+      "tel": "12324241",
+      "category": "햄버거",
+      "openTime": "12시",
+      "menuList": [
+        { "menu": "간장게장", "price": "1" },
+        { "menu": "간장게장2", "price": "122" },
+        { "menu": "간장게장3", "price": "1224" },
+        { "menu": "간장게장322424", "price": "1224" },
+        { "menu": "124124141", "price": "22424" }
+      ],
+      "": "C:\\fakepath\\Rectangle 53.jpg",
+      "location": "경기 성남시 분당구 백현동 578-9",
+      "zonecode": "13536",
+      "detailAddress": "222호"
+    }
+  ]
+}

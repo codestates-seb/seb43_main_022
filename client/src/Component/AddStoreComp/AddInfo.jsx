@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import styled from "styled-components";
 
 const AddInfoWrap = styled.div`
@@ -7,7 +8,11 @@ const AddInfoWrap = styled.div`
   align-items: flex-start;
   margin-top: 20px;
 `;
-
+const LocationWrap = styled.div`
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+`;
 const InfoInput = styled.input`
   width: 100%;
   box-sizing: border-box;
@@ -18,45 +23,100 @@ const InfoInput = styled.input`
   margin-bottom: 10px;
 `;
 
+const AddrSearchBtn = styled.button`
+  width: 20%;
+  height: 60px;
+  background-color: #eee;
+  border: none;
+  border-radius: 4px;
+  padding: 10px;
+  margin: 5px 0 10px 10px;
+  font-size: var(--small-font);
+  cursor: pointer;
+
+  &:hover {
+    background-color: #ddd;
+  }
+`;
+
 const AddInfo = ({ formData, setFormData }) => {
+  useEffect(() => {
+    const script = document.createElement("script");
+    script.src =
+      "//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js?";
+    script.async = true;
+    document.body.appendChild(script);
+  }, []);
+
   const onInputChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
+  const onSearchAddr = () => {
+    new window.daum.Postcode({
+      oncomplete: function (data) {
+        setFormData({
+          ...formData,
+          location: data.jibunAddress,
+          zonecode: data.zonecode,
+        });
+      },
+    }).open();
+  };
+
   return (
     <AddInfoWrap>
       <label htmlFor="location">주소</label>
+      <LocationWrap>
+        <InfoInput
+          name="location"
+          value={formData.location || ""}
+          onChange={onInputChange}
+          type="text"
+          placeholder="가게 주소를 입력하세요"
+          maxLength="200"
+        />
+        <AddrSearchBtn onClick={onSearchAddr}>우편번호 검색</AddrSearchBtn>
+      </LocationWrap>
       <InfoInput
-        name="location"
-        value={formData.location || ""}
+        name="zonecode"
+        value={formData.zonecode || ""}
+        onChange={onInputChange}
+        type="hidden"
+        maxLength="100"
+      />
+      <label htmlFor="detailAddress">상세주소</label>
+      <InfoInput
+        name="detailAddress"
+        value={formData.detailAddress || ""}
         onChange={onInputChange}
         type="text"
-        placeholder="가게 주소를 입력하세요"
-        maxLength="200"
+        placeholder="상세주소를 입력하세요"
+        maxLength="100"
       />
-      <label htmlFor="storeNumber">전화번호</label>
+      <label htmlFor="tel">전화번호</label>
       <InfoInput
-        name="storeNumber"
-        value={formData.storeNumber || ""}
+        name="tel"
+        value={formData.tel || ""}
         onChange={onInputChange}
         type="text"
         placeholder="가게 전화번호를 입력하세요"
         maxLength="100"
       />
-      <label htmlFor="foodType">음식종류</label>
+      <label htmlFor="category">음식종류</label>
       <InfoInput
-        name="foodType"
-        value={formData.foodType || ""}
+        name="category"
+        value={formData.category || ""}
         onChange={onInputChange}
         type="text"
         placeholder="음식 종류를 입력하세요"
         maxLength="100"
       />
-      <label htmlFor="businessHours">영업시간</label>
+      <label htmlFor="openTime">영업시간</label>
       <InfoInput
-        name="businessHours"
-        value={formData.businessHours || ""}
+        name="openTime"
+        value={formData.openTime || ""}
         onChange={onInputChange}
         type="text"
         placeholder="가게 영업 시간을 입력하세요"

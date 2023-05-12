@@ -20,6 +20,7 @@ const InputType = {
 
 const TextInput = styled.input`
   ${(p) => p.inputType}
+
   width: var(--width, 293px);
   height: var(--height, 41px);
   font-size: var(--medium-font);

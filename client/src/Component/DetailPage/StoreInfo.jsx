@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import MenuItem from "./MenuItem";
-import Button from "./../style/button";
+import Button from "./../style/StyleButton";
 import Modal from "../Modal";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";

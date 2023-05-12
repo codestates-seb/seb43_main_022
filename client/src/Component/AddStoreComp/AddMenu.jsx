@@ -78,10 +78,14 @@ const AddMenu = ({ formData, setFormData }) => {
   };
 
   const onAddMenu = () => {
-    const { menu, price } = formData;
+    const { menu, price, ...rest } = formData;
     if (!menu || !price) return;
-    setMenuList([...menuList, { menu, price }]);
-    setFormData({ ...formData, menu: "", price: "" });
+    const updatedMenuList = [...menuList, { menu, price }];
+    setMenuList(updatedMenuList);
+    setFormData({
+      ...rest,
+      menuList: updatedMenuList,
+    });
   };
 
   const onDeleteMenu = (index) => {
@@ -90,9 +94,8 @@ const AddMenu = ({ formData, setFormData }) => {
 
   return (
     <AddMenuWrap>
-      {/* <label>메뉴 및 가격</label> */}
-
-      <AddMenuInput>
+      <label htmlFor="menuPirce">메뉴 및 가격</label>
+      <AddMenuInput id="menuPirce">
         <MenuInput
           name="menu"
           value={formData.menu || ""}

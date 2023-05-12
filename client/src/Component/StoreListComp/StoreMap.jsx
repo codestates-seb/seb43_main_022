@@ -1,7 +1,7 @@
-import React from "react";
 import { Title } from "../../Pages/StoreList";
-import styled from "styled-components";
 import { GrMap } from "react-icons/gr";
+import styled from "styled-components";
+import KakaoMap from "./KakaoMap";
 const MapWrap = styled.div`
   width: calc(100% - 830px);
 `;
@@ -38,7 +38,9 @@ const StoreMap = () => {
         현재 위치는 {123}입니다
       </MyPosition>
       <MapArea>
-        <MapFrame></MapFrame>
+        <MapFrame>
+          <KakaoMap />
+        </MapFrame>
       </MapArea>
     </MapWrap>
   );

@@ -1,6 +1,5 @@
-import React from "react";
 import styled from "styled-components";
-import Button from "../style/button";
+import Button from "../style/StyleButton";
 import ReviewList from "./ReviewList";
 
 const Container = styled.div`

@@ -1,5 +1,5 @@
 // AddStore.jsx
-import React, { useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import AddHeader from "../Component/AddStoreComp/AddHeader";
@@ -7,7 +7,7 @@ import AddImg from "../Component/AddStoreComp/AddImg";
 import AddEplanation from "../Component/AddStoreComp/AddExplanation";
 import AddInfo from "../Component/AddStoreComp/AddInfo";
 import axios from "axios";
-import Button from "../Component/style/button";
+import Button from "../Component/style/StyleButton";
 import AddMenu from "../Component/AddStoreComp/AddMenu";
 
 const AddContainer = styled.div`

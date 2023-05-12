@@ -1,8 +1,11 @@
 import styled from "styled-components";
-import { useInput } from "../hooks/useInput";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Input from "../Component/style/StyleInput";
 import Button from "../Component/style/StyleButton";
 import ImgBtn from "../Component/style/ImgBtn";
+import { useInput } from "../hooks/useInput";
+import { api } from "../Util/api";
 
 /* 컨테이너 구성 트리 구조 
   전체 컨테이너
@@ -31,29 +34,84 @@ import ImgBtn from "../Component/style/ImgBtn";
       # 리뷰 남기기
       # 취소
 */
-
-const Review = () => {
-  const [{ title, detail }, onInputChange] = useInput({
+const info = {
+  title: "하이마트",
+  tags: ["태그1", "태그2", "태그3", "태그4", "태그5"],
+  view: "1.5k",
+  heart: "500",
+  tag: [
+    {
+      tagId: 1,
+      name: "#햄버거",
+    },
+    {
+      tagId: 2,
+      name: "#버거",
+    },
+  ],
+};
+const Review = (restaurant_id) => {
+  const [{ title, content, img }, onInputChange] = useInput({
     title: "",
-    detail: "",
+    content: "",
+    img: "",
   });
+  const [, setResinfo] = useState({});
+  const [rating, setRating] = useState("");
+  const history = useNavigate();
+
+  api
+    .get(`/restaurants/${restaurant_id}`)
+    .then((res) => {
+      setResinfo(res.data);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+  const handleSubmit = () => {
+    api
+      .post(`/restaurants/${restaurant_id}/review`, {
+        title,
+        Comment,
+        img,
+        rating,
+      })
+      .then(() => {
+        console.log("잘보냄");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  const handleCancel = () => {
+    history(-1);
+  };
+  const handleRating = (choice) => {
+    setRating(choice);
+  };
+
   return (
     <BasicContainer className="Basic-Container">
       <RestaurantContainer className="restaurant-Container">
         <div className="res-info">
-          <div className="res-title">title</div>
-          <Button btnstyle="Btn2" className="res-font">
-            양식
-          </Button>
+          <span className="res-title">{info.title}</span>
+          <ul className="tag-ul">
+            {/* 나중에 변경해야함 */}
+            {info.tag.map((tag, tagId) => (
+              <li key={tagId}>
+                <span>{tag.name}</span>
+              </li>
+            ))}
+          </ul>
         </div>
         <div className="res-sosial">
           <div className="imgBtn">
             <ImgBtn imgstyle="View" />
-            <div className="res-font">1.2k</div>
+            <span>{info.view}</span>
           </div>
           <div className="imgBtn">
             <ImgBtn imgstyle="Heart" />
-            <div>1234</div>
+            <span>{info.heart}</span>
           </div>
           <div className="imgBtn">
             <ImgBtn imgstyle="Share" />
@@ -71,18 +129,19 @@ const Review = () => {
             name="title"
             value={title}
             onChange={onInputChange}
+            inputType="default"
             width="100%"
           />
         </div>
-        <div className="review-detail">
-          <label htmlFor="detail" className="review-font bold margin">
+        <div className="review-content">
+          <label htmlFor="content" className="review-font bold margin">
             리뷰 내용
           </label>
           <textarea
             placeholder="내용을 입력해주세요."
-            id="detail"
-            name="detail"
-            value={detail}
+            id="content"
+            name="content"
+            value={content}
             onChange={onInputChange}
           />
         </div>
@@ -104,26 +163,37 @@ const Review = () => {
             <input id="file" type="file" accept="image/*" />
           </label> */}
         </div>
-
         <div className="review-font bold margin">가게 만족도</div>
-        <div className="review-recommend">
+        <div className="review-rating">
           <div className="review-good">
             <label htmlFor="like" className="review-font">
               맛있어요
             </label>
-            <ImgBtn name="like" imgstyle="Like" />
+            <ImgBtn
+              name="like"
+              imgstyle="Like"
+              onClick={() => handleRating("like")}
+            />
           </div>
           <div className="review-bad">
             <label htmlFor="hate" className="review-font">
               별로에요
             </label>
-            <ImgBtn name="hate" imgstyle="Hate" />
+            <ImgBtn
+              name="hate"
+              imgstyle="Hate"
+              onClick={() => handleRating("hate")}
+            />
           </div>
         </div>
       </ReviewContainer>
       <ButtonContainer className="Button-Container">
-        <Button btnstyle="Btn">리뷰 남기기</Button>
-        <Button btnstyle="Btn">취 소</Button>
+        <Button btnstyle="Btn" onClick={handleSubmit}>
+          리뷰 남기기
+        </Button>
+        <Button btnstyle="Btn" onClick={handleCancel}>
+          취 소
+        </Button>
       </ButtonContainer>
     </BasicContainer>
   );
@@ -152,15 +222,27 @@ const RestaurantContainer = styled.div`
       font-size: var(--xx-large-font);
       font-weight: 600;
     }
+    .tag-ul {
+      display: flex;
+      flex-wrap: wrap;
+      li {
+        list-style: none;
+        margin: 4px 8px 0px 0px;
+        span {
+          font-size: var(--large-font);
+          color: var(--black-600);
+        }
+      }
+    }
   }
   .res-sosial {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-bottom: -40px;
+    margin-bottom: -20px;
     .imgBtn {
       display: flex;
-      div {
+      span {
         margin: 0px 15px 0px 0px;
         font-size: var(--x-large-font);
       }
@@ -173,7 +255,7 @@ const ReviewContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   .review-title,
-  .review-detail {
+  .review-content {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -200,7 +282,7 @@ const ReviewContainer = styled.div`
   .bold {
     font-weight: 600;
   }
-  .review-recommend {
+  .review-rating {
     display: flex;
     div {
       display: flex;

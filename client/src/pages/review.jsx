@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { useInput } from "../hooks/useInput";
-import Input from "../Component/style/Input";
-import Button from "../Component/style/Button";
+import Input from "../Component/style/StyleInput";
+import Button from "../Component/style/StyleButton";
 import ImgBtn from "../Component/style/ImgBtn";
 
 /* 컨테이너 구성 트리 구조 

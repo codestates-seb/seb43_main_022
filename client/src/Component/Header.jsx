@@ -1,19 +1,22 @@
 import styled from "styled-components";
-import Button from "./style/Button";
+import { Link } from "react-router-dom";
+import { useRecoilValue } from "recoil";
+import isLoginState from "../state/atoms/IsLoginAtom";
+import Button from "./style/StyleButton";
 import Logo from "./style/img/Eaaaaaaats.svg";
 import Search from "./style/img/search.png";
 import Frame from "./style/img/Frame.svg";
-import { useState } from "react";
-import { Link } from "react-router-dom";
+
 const Container = styled.header`
   width: 100vw;
   height: 69px;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   box-shadow: 0px 6px 30px rgba(0, 0, 0, 0.05);
-  padding-left: 100px;
-  padding-right: 100px;
+  @media screen and (max-width: 1300px) {
+    width: 100%;
+  }
 `;
 
 const LogoBtn = styled.button`
@@ -27,8 +30,12 @@ const LogoBtn = styled.button`
 
 const LoginDiv = styled.div`
   display: flex;
-  justify-content: space-around;
+  justify-content: center;
   width: 300px;
+  @media screen and (max-width: 850px) {
+    justify-content: center;
+    width: 210px;
+  }
 `;
 
 const Hinput = styled.input`
@@ -39,7 +46,7 @@ const Hinput = styled.input`
   border-radius: 10px;
   padding: 0px 20px;
   flex-grow: 0.2;
-  margin: 0px 20px;
+  margin-left: 40px;
 
   background-image: url(${Search});
   background-repeat: no-repeat;
@@ -48,6 +55,19 @@ const Hinput = styled.input`
   &:active,
   &:focus {
     outline: none;
+  }
+
+  @media screen and (max-width: 1330px) {
+    min-width: 600px;
+  }
+  @media screen and (max-width: 1100px) {
+    min-width: 400px;
+    flex-grow: 0;
+  }
+  @media screen and (max-width: 850px) {
+    min-width: 300px;
+    flex-grow: 0;
+    background-image: none;
   }
 `;
 
@@ -62,7 +82,7 @@ const Frameicon = styled.img`
 `;
 
 const Header = () => {
-  const [isLogin, setIsLogin] = useState(true);
+  const isLogin = useRecoilValue(isLoginState);
 
   return (
     <>

@@ -1,7 +1,6 @@
-import React from "react";
 import styled from "styled-components";
 import MenuItem from "./MenuItem";
-import Button from "../style/Button";
+import Button from "../style/StyleButton";
 
 const Container = styled.div`
   display: flex;

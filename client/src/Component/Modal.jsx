@@ -9,8 +9,8 @@ const Container = styled.div`
   height: fill;
   z-index: 99;
   position: absolute;
-  top: 40%;
-  left: 40%;
+  top: 15%;
+  left: 50%;
   transform: translate(-50%, -50%);
   background: #fefefe;
   border-radius: 10px;

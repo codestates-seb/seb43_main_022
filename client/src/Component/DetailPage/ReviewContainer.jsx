@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import Button from "../style/StyleButton";
 import ReviewList from "./ReviewList";
+import { useNavigate } from "react-router-dom";
 
 const Container = styled.div`
   margin: auto;
@@ -28,6 +29,11 @@ const Buttons = styled.div`
 `;
 
 const ReviewContainer = () => {
+  const navigate = useNavigate();
+  const onClickReview = () => {
+    navigate("/review");
+  };
+
   return (
     <Container>
       <Head>
@@ -39,7 +45,9 @@ const ReviewContainer = () => {
             <Button btnstyle="SBtn">부정순</Button>
           </Buttons>
         </Order>
-        <Button btnstyle="Btn">리뷰 남기기</Button>
+        <Button btnstyle="Btn" onClick={onClickReview}>
+          리뷰 남기기
+        </Button>
       </Head>
       <ReviewList />
     </Container>

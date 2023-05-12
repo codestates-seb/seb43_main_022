@@ -283,7 +283,6 @@ const StoreKeywordResult = () => {
   };
   useEffect(() => {
     handleFilterClick(activeFilter);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [stores, activeFilter]);
 
   return (

@@ -89,7 +89,6 @@ const Errspan = styled.div`
 `;
 
 const { kakao } = window;
-
 function Signup() {
   const imgRef = useRef();
   const [member, setMember] = useRecoilState(memberState);
@@ -117,12 +116,13 @@ function Signup() {
   //프로필 이미지 저장
   const saveImgFile = (e) => {
     const leng = e.target.files;
-    setMember({ ...member, img: e.target.files[0] });
-    const file = imgRef.current.files[0];
-    const reader = new FileReader();
     if (leng.length === 0) {
       return;
     }
+    setMember({ ...member, img: e.target.files[0] });
+    const file = imgRef.current.files[0];
+    const reader = new FileReader();
+
     reader.readAsDataURL(file);
     reader.onloadend = () => {
       setImgFile(reader.result);

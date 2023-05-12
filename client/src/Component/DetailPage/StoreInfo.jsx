@@ -4,7 +4,7 @@ import MenuItem from "./MenuItem";
 import Button from "./../style/button";
 import Modal from "../Modal";
 import { useState } from "react";
-import { useNavigate } from "react-router";
+import { useNavigate } from "react-router-dom";
 
 const Container = styled.div`
   display: flex;

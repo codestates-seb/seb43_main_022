@@ -1,8 +1,7 @@
-import React from "react";
 import styled from "styled-components";
 import Button from "../style/button";
 import ImgBtn from "../style/ImgBtn";
-import profile from "../style/img/profile.png";
+// import profile from "../style/img/profile.png";
 
 const Container = styled.div`
   width: 1200px;
@@ -67,8 +66,8 @@ const ReviewContent = styled.div`
 `;
 const Text = styled.section`
   font-size: var(--medium-font);
-  white-space: pre-wrap; // 줄바꿈을 유지하면서 공백도 유지
-  overflow-wrap: break-all;
+  /* white-space: pre-wrap; // 줄바꿈을 유지하면서 공백도 유지
+  overflow-wrap: break-all; */
 `;
 const Poto = styled.div`
   display: flex;
@@ -84,45 +83,40 @@ const PotoItem = styled.img`
   margin-top: 50px;
 `;
 
-const ReviewItem = () => {
+const ReviewItem = ({ data, onDelete }) => {
+  const handleDelete = () => {
+    onDelete(data);
+  };
+
   return (
     <>
       <Container>
         <ReviewHead>
           <Left>
-            <Profile src={profile} alt="" />
+            <Profile src={data.profileImg} alt="profile" />
             <TitleInfo>
-              <div className="title">햄버거에 왜 패티가 없는거죠?</div>
+              <div className="title">{data.title}</div>
               <div className="day-button">
-                <span>2023.05.23</span>
+                <span>{data.date}</span>
                 <Button btnstyle="SBtn">수정</Button>
-                <Button btnstyle="SBtn">삭제</Button>
+                {/* 수정은 어떻게? */}
+                <Button btnstyle="SBtn" onClick={handleDelete}>
+                  삭제
+                </Button>
               </div>
             </TitleInfo>
           </Left>
           <ImgBtn imgstyle={"Like"} />
+          {/* 수정하기 */}
         </ReviewHead>
         <ReviewContent>
-          <div className="username">유저네임</div>
+          <div className="username">{data.username}</div>
           <div className="contents">
-            <Text>
-              Lorem Ipsum is simply dummy text of the printing and typesetting
-              industry. Lorem Ipsum has been the industry's standard dummy text
-              ever since the 1500s, when an unknown printer took a galley of
-              type and scrambled it to make a type specimen book. It has
-              survived not only five centuries, but also the leap into
-              electronic typesetting, remaining essentially unchanged. It was
-              popularised in the 1960s with the release of Letraset sheets
-              containing Lorem Ipsum passages, and more recently with desktop
-              publishing software like Aldus PageMaker including versions of
-              Lorem Ipsum.
-            </Text>
+            <Text>{data.text}</Text>
             <Poto>
-              <PotoItem />
-              <PotoItem />
-              <PotoItem />
-              <PotoItem />
-              <PotoItem />
+              {data.potoImg.map((img, imgIndex) => (
+                <PotoItem key={imgIndex} src={img} />
+              ))}
             </Poto>
           </div>
         </ReviewContent>

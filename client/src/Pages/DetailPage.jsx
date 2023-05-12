@@ -1,4 +1,3 @@
-import React from "react";
 import StoreIntro from "../Component/DetailPage/StoreIntro";
 import StoreInfo from "../Component/DetailPage/StoreInfo";
 import StoreHead from "../Component/DetailPage/StoreHead";

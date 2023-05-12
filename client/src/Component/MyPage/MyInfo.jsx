@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import Input from "../style/StyleInput";
+import Input from "./../style/StyleInput";
 import Button from "../style/StyleButton";
 import profile from "./../style/img/profile.png";
 

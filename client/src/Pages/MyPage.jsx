@@ -1,4 +1,3 @@
-import React from "react";
 import MyInfo from "../Component/MyPage/MyInfo";
 import MyReviewContainer from "../Component/MyPage/MyReviewContainer";
 import styled from "styled-components";

@@ -1,4 +1,3 @@
-import React from "react";
 import GlobalStyles from "./Globalstyle";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Header from "./Component/Header";

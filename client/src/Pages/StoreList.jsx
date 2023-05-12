@@ -1,4 +1,3 @@
-import React from "react";
 import styled from "styled-components";
 import StoreKeywordSearch from "../Component/StoreListComp/StoreKeywordSearch";
 import StoreKeywordResult from "../Component/StoreListComp/StoreKeywordResult";

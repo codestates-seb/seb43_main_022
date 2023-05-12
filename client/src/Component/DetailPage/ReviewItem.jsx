@@ -1,4 +1,3 @@
-import React from "react";
 import styled from "styled-components";
 import Button from "../style/StyleButton";
 import ImgBtn from "../style/ImgBtn";

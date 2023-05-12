@@ -1,11 +1,13 @@
+import { useState, useRef, useEffect } from "react";
+import Select from "react-select";
+//import { Link } from "react-router-dom";
 import styled from "styled-components";
 import Button from "../Component/style/StyleButton";
 import Input from "../Component/style/StyleInput";
 import Plus from "../Component/style/img/signup.svg";
 import Auth from "../Component/StyleAuth";
-import { useState, useRef } from "react";
-import Select from "react-select";
-//import { Link } from "react-router-dom";
+import { useRecoilState } from "recoil";
+import memberState from "../state/atoms/SignAtom";
 
 const Main = styled.main`
   margin: 20px 0;
@@ -60,20 +62,6 @@ const P = styled.div`
   margin-bottom: 10px;
 `;
 
-// Select = styled.select`
-//   width: 293px;
-//   height: 41px;
-//   border: 1px solid var(--black-200);
-//   border-radius: 10px;
-//   padding: 10px;
-//   -webkit-appearance: none;
-//   -moz-appearance: none;
-//   appearance: none;
-//   background-image: url(${SelectImg});
-//   background-repeat: no-repeat;
-//   background-position: 98% center;
-// `;
-
 const Ceodiv = styled.div`
   display: flex;
   justify-content: space-between;
@@ -92,29 +80,44 @@ const Authdiv = styled.div`
   margin-top: 20px;
 `;
 
+const Errdiv = styled.div`
+  padding: 7px 6px;
+`;
+const Errspan = styled.div`
+  color: var(--red-500);
+  font-size: 14px;
+`;
+
 const { kakao } = window;
 
 function Signup() {
-  const [member, setMember] = useState({
-    email: "",
-    username: "",
-    password: "",
-    location: "",
-    la: "",
-    ma: "",
-    CEO: false,
-  });
-
-  const [imgFile, setImgFile] = useState("");
   const imgRef = useRef();
-  const selectOption = [{ value: "강남구", label: "강남구" }];
+  const [member, setMember] = useRecoilState(memberState);
+  const [imgFile, setImgFile] = useState(""); // 프로필 이미지 상태
+  const selectOption = [{ value: "강남구", label: "강남구" }]; // 주소 셀렉트 옵션
+  const [pwCheck, setPwCheck] = useState(""); // 비밀번호 확인
+  const [Check, setCheck] = useState({
+    // 회원가입 양식 확인
+    email: true,
+    username: true,
+    password: true,
+    location: true,
+  });
+  const errMsg = [
+    "* 이메일 형식으로 입력해주세요.",
+    "* 닉네임을 입력해주세요.",
+    "* 비밀번호가 다릅니다.",
+    "* 지역을 선택해주세요.",
+  ];
 
   const handleInputValue = (key) => (e) => {
     setMember({ ...member, [key]: e.target.value });
   };
 
+  //프로필 이미지 저장
   const saveImgFile = (e) => {
     const leng = e.target.files;
+    setMember({ ...member, img: e.target.files[0] });
     const file = imgRef.current.files[0];
     const reader = new FileReader();
     if (leng.length === 0) {
@@ -143,9 +146,29 @@ function Signup() {
             location: coord,
           });
         }
-      }
+      },
     );
   };
+
+  const checkingFunc = () => {
+    if (!member.username) {
+      setCheck({ ...Check, username: false });
+      return;
+    } else if (!member.email || !member.email.includes("@")) {
+      setCheck({ ...Check, email: false, username: true });
+      return;
+    } else if (pwCheck !== member.password || !member.password) {
+      setCheck({ ...Check, password: false, email: true });
+      return;
+    } else if (!member.location) {
+      setCheck({ ...Check, location: false, password: true });
+      return;
+    }
+  };
+
+  useEffect(() => {
+    console.log(member);
+  }, [member]);
 
   return (
     <Main>
@@ -180,6 +203,11 @@ function Signup() {
             placeholder="username"
             onChange={handleInputValue("username")}
           />
+          {!Check.username ? (
+            <Errdiv>
+              <Errspan>{errMsg[1]}</Errspan>
+            </Errdiv>
+          ) : null}
         </Textdiv>
         <Textdiv>
           <P>이메일</P>
@@ -188,6 +216,11 @@ function Signup() {
             placeholder="email"
             onChange={handleInputValue("email")}
           />
+          {!Check.email ? (
+            <Errdiv>
+              <Errspan>{errMsg[0]}</Errspan>
+            </Errdiv>
+          ) : null}
         </Textdiv>
         <Textdiv>
           <P>비밀번호</P>
@@ -204,7 +237,13 @@ function Signup() {
             type="password"
             inputType="default"
             placeholder="비밀번호 확인"
+            onChange={(e) => setPwCheck(e.target.value)}
           />
+          {!Check.password ? (
+            <Errdiv>
+              <Errspan>{errMsg[2]}</Errspan>
+            </Errdiv>
+          ) : null}
         </Textdiv>
         <Textdiv>
           <P>지역</P>
@@ -213,7 +252,11 @@ function Signup() {
             placeholder="주소"
             options={selectOption}
           ></Select>
-          {}
+          {!Check.location ? (
+            <Errdiv>
+              <Errspan>{errMsg[3]}</Errspan>
+            </Errdiv>
+          ) : null}
         </Textdiv>
         <Textdiv>
           <P>사장님 계정</P>
@@ -230,7 +273,7 @@ function Signup() {
           </Ceodiv>
         </Textdiv>
 
-        <Button btnstyle="Btn" width="280px">
+        <Button btnstyle="Btn" width="280px" onClick={checkingFunc}>
           회원가입
         </Button>
       </Container>

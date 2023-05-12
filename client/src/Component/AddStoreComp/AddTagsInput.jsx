@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import styled from "styled-components";
 const AddInfoTagWrap = styled.div`
   display: flex;
@@ -86,9 +86,9 @@ const AddTagsInput = ({ onAddTag }) => {
         {tags.map((tag, index) => (
           <TagLi key={index}>
             <span className="tag-title">{tag}</span>
-            <span className="tag-close-icon" onClick={() => removeTag(index)}>
+            <button className="tag-close-icon" onClick={() => removeTag(index)}>
               x
-            </span>
+            </button>
           </TagLi>
         ))}
       </TagUl>

@@ -169,9 +169,7 @@ const StoreCardComponent = ({ store }) => {
   return (
     <StoreCard>
       <img src={store.photo} alt={store.name} />
-      <span>
-        {store.isFavorite === true ? <ImgBtn imgstyle={"Heart"} /> : null}
-      </span>
+      <span>{store.isFavorite ? <ImgBtn imgstyle={"Heart"} /> : null}</span>
       <h3>{store.name}</h3>
       <div className="filterIntro">{store.introduction}</div>
       <div className="filterCount">
@@ -180,9 +178,7 @@ const StoreCardComponent = ({ store }) => {
       </div>
       <div className="cardTag">
         {store.tags.map((tag, index) => (
-          <button key={index} btnstyle="boxTags">
-            {tag}
-          </button>
+          <button key={index}>{tag}</button>
         ))}
       </div>
     </StoreCard>
@@ -228,16 +224,16 @@ const StoreKeywordResult = () => {
         "first",
         1,
         <MdKeyboardDoubleArrowLeft />,
-        currentPage === 1
-      )
+        currentPage === 1,
+      ),
     );
     pages.push(
       createPageBtn(
         "prev",
         Math.max(1, currentPage - 1),
         <MdKeyboardArrowLeft />,
-        currentPage === 1
-      )
+        currentPage === 1,
+      ),
     );
 
     for (let i = startPage; i <= endPage; i++) {
@@ -249,16 +245,16 @@ const StoreKeywordResult = () => {
         "next",
         Math.min(totalPages, currentPage + 1),
         <MdKeyboardArrowRight />,
-        currentPage === totalPages
-      )
+        currentPage === totalPages,
+      ),
     );
     pages.push(
       createPageBtn(
         "last",
         totalPages,
         <MdKeyboardDoubleArrowRight />,
-        currentPage === totalPages
-      )
+        currentPage === totalPages,
+      ),
     );
 
     return pages;
@@ -275,7 +271,7 @@ const StoreKeywordResult = () => {
 
     if (filter === "newest") {
       return copiedStores.sort(
-        (a, b) => new Date(b.createdDate) - new Date(a.createdDate)
+        (a, b) => new Date(b.createdDate) - new Date(a.createdDate),
       );
     } else if (filter === "reviews") {
       return copiedStores.sort((a, b) => b.reviews - a.reviews);

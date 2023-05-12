@@ -16,7 +16,7 @@ const Menu = styled.div`
     content: "";
     position: absolute;
     top: 50%;
-    left: 28%;
+    left: 25%;
     width: 319px;
 
     height: 1px;
@@ -25,17 +25,17 @@ const Menu = styled.div`
   }
 `;
 
-const MenuItem = () => {
+const MenuItem = ({ menu }) => {
+  const slicedMenu = menu.slice(0, 5);
+
   return (
     <Container>
-      <Menu>
-        <span className="name">맛있는 샌드위치</span>
-        <span className="price">9,200 원</span>
-      </Menu>
-      <Menu>
-        <span className="name">맛있는 샌드위치</span>
-        <span className="price">9,200 원</span>
-      </Menu>
+      {slicedMenu.map((item, index) => (
+        <Menu key={index}>
+          <span className="name">{item.name}</span>
+          <span className="price">{item.price}원</span>
+        </Menu>
+      ))}
     </Container>
   );
 };

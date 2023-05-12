@@ -1,6 +1,9 @@
 import styled from "styled-components";
 import MenuItem from "./MenuItem";
-import Button from "../style/StyleButton";
+import Button from "./../style/button";
+import Modal from "../Modal";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Container = styled.div`
   display: flex;
@@ -55,7 +58,7 @@ const Modify = styled.div`
     position: absolute;
     top: 50%;
     left: 0%;
-    width: 900px;
+    width: 850px;
 
     height: 1px;
     background-color: var(--black-200);
@@ -64,38 +67,101 @@ const Modify = styled.div`
 `;
 
 const StoreInfo = () => {
+  const navigate = useNavigate();
+  const onClickModify = () => {
+    navigate("/addstore");
+  };
+
+  const [modal, setModal] = useState(false);
+  const showModal = () => {
+    setModal(!modal);
+  };
+
+  const menu = [
+    { name: "샌드위치", price: 4000 },
+    { name: "B", price: 2000 },
+    { name: "햄버거", price: 7000 },
+    { name: "샌드위치", price: 4000 },
+    { name: "콜라", price: 2000 },
+    { name: "햄버거", price: 7000 },
+    { name: "샌드위치", price: 4000 },
+    { name: "사이다", price: 2000 },
+    { name: "샌드위치", price: 4000 },
+    { name: "B", price: 2000 },
+    { name: "햄버거", price: 7000 },
+    { name: "샌드위치", price: 4000 },
+    { name: "콜라", price: 2000 },
+    { name: "햄버거", price: 7000 },
+    { name: "샌드위치", price: 4000 },
+    { name: "사이다", price: 2000 },
+    { name: "샌드위치", price: 4000 },
+    { name: "B", price: 2000 },
+    { name: "햄버거", price: 7000 },
+    { name: "샌드위치", price: 4000 },
+    { name: "콜라", price: 2000 },
+    { name: "햄버거", price: 7000 },
+    { name: "샌드위치", price: 4000 },
+    { name: "사이다", price: 2000 },
+  ];
+
+  const dumyData = {
+    address: "경기 용인시 수지구 용구대로 2725-2",
+    phoneNumber: "031-123-4567",
+    foodType: "브런치 / 샌드위치",
+    businessHours: "06:00~06:01",
+  };
+
+  // const [storeData, setStoreData] = useState({
+  //   address:"",
+  //   phoneNumber:"",
+  //   foodType:"",
+  //   businessHours:""
+  // })
+
+  const updateDate = new Date();
+  const updatedDate = updateDate.toLocaleDateString("ko-KR", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  }); // 수정하기
+
   return (
     <>
       <Container>
         <InfoList>
           <InfoItem>
             <InfoName>주소</InfoName>
-            <InfoContent>경기 용인시 수지구 용구대로 2725-2</InfoContent>
+            <InfoContent>{dumyData.address}</InfoContent>
           </InfoItem>
           <InfoItem>
             <InfoName>전화번호</InfoName>
-            <InfoContent>031-123-4567</InfoContent>
+            <InfoContent>{dumyData.phoneNumber}</InfoContent>
           </InfoItem>
           <InfoItem>
             <InfoName>음식 종류</InfoName>
-            <InfoContent>브런치 / 샌드위치</InfoContent>
+            <InfoContent>{dumyData.foodType}</InfoContent>
           </InfoItem>
           <InfoItem>
             <InfoName>영업시간</InfoName>
-            <InfoContent>06:00~06:01</InfoContent>
+            <InfoContent>{dumyData.businessHours}</InfoContent>
           </InfoItem>
         </InfoList>
         <MenuList>
           <div>
             <InfoName>메뉴</InfoName>
-            <MenuItem />
+            <MenuItem menu={menu} />
           </div>
-          <More>메뉴 전체보기</More>
+          <div>
+            {modal ? <Modal menu={menu} showModal={showModal} /> : null}
+          </div>
+          <More onClick={showModal}>메뉴 전체보기</More>
         </MenuList>
       </Container>
       <Modify>
-        <span>최종 업데이트 2023.05.23</span>
-        <Button btnstyle="SBtn2">수정</Button>
+        <span>최종 업데이트 {updatedDate}</span>
+        <Button btnstyle="SBtn2" onClick={onClickModify}>
+          수정
+        </Button>
       </Modify>
     </>
   );

@@ -1,5 +1,4 @@
 import styled from "styled-components";
-
 /*컨테이너 구성 트리 구조
 전체 컨테이너 (basic)
   > 배너 컨테이너 banner
@@ -30,8 +29,8 @@ const Main = () => {
               <br />
               수제 햄버거 다운타우너
             </div>
-            <label>#햄버거</label>
-            <label>#광주 맛집</label>
+            {/* <label>#햄버거</label>
+            <label>#광주 맛집</label> */}
           </li>
         </ul>
 
@@ -217,7 +216,6 @@ const BasicContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin-top: 200px;
   * {
     background: none;
     font-size: var(--large-font);
@@ -231,7 +229,7 @@ const BannerContainer = styled.div`
   max-width: 1200px;
   display: flex;
   flex-direction: column;
-  margin: 200px 0px 20px 0px;
+  margin: 70px 0px 20px 0px;
   padding: 40px 80px;
   border-radius: 20px;
   opacity: 0.7;

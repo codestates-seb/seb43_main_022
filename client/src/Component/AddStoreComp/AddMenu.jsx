@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import styled from "styled-components";
 import { MdAddCircleOutline, MdRemoveCircleOutline } from "react-icons/md";
 
@@ -90,7 +90,7 @@ const AddMenu = ({ formData, setFormData }) => {
 
   return (
     <AddMenuWrap>
-      <label>메뉴 및 가격</label>
+      {/* <label>메뉴 및 가격</label> */}
 
       <AddMenuInput>
         <MenuInput

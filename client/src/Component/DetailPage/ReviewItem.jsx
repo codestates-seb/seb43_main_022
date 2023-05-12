@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import Button from "../style/button";
+import Button from "../style/StyleButton";
 import ImgBtn from "../style/ImgBtn";
 // import profile from "../style/img/profile.png";
 

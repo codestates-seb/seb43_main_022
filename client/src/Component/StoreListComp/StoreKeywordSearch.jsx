@@ -1,6 +1,6 @@
 import styled from "styled-components";
-import Input from "../style/Input";
-import Button from "../style/button";
+import Input from "../style/StyleInput";
+import Button from "../style/StyleButton";
 import { useRecoilState } from "recoil";
 import { keywordsAtom } from "../../state/atoms/keywordsAtom";
 import Slider from "./Slider";

@@ -1,4 +1,3 @@
-// import React, { useState } from "react";
 import ReviewItem from "./ReviewItem";
 import Button from "../style/button";
 import styled from "styled-components";

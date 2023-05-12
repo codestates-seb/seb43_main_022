@@ -1,10 +1,13 @@
 import styled from "styled-components";
-import Button from "../Component/style/button";
-import Input from "../Component/style/Input";
-import Logo from "../Component/style/img/Eaaaaaaats.svg";
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import Auth from "../Component/Auth";
+import { useRecoilState } from "recoil";
+import isLoginState from "../state/atoms/IsLoginAtom";
+import Button from "../Component/style/StyleButton";
+import Input from "../Component/style/StyleInput";
+import Logo from "../Component/style/img/Eaaaaaaats.svg";
+
+import Auth from "../Component/StyleAuth";
 
 const Main = styled.div`
   flex-direction: column;
@@ -60,6 +63,7 @@ const Authdiv = styled.div`
 `;
 
 export default function Login() {
+  const [isLogin, setIsLogin] = useRecoilState(isLoginState);
   const [err, setErr] = useState(true);
   const [errMessage, setErrMessage] = useState("");
   const [errPw, setErrPw] = useState("");
@@ -73,6 +77,7 @@ export default function Login() {
   };
 
   function onClick() {
+    setIsLogin(!isLogin);
     setErr(!err);
     setErrMessage("등록되지 않는 이메일입니다.");
     setErrPw("패스워드가 맞지 않습니다.");
@@ -83,7 +88,6 @@ export default function Login() {
       <Main>
         <Container>
           <Img src={Logo} alt="" />
-
           <Textdiv>
             <P>이메일</P>
             {err ? (

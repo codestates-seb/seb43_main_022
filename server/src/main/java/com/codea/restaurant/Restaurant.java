@@ -3,6 +3,7 @@ package com.codea.restaurant;
 import com.codea.BaseEntity.BaseEntity;
 import com.codea.Menu.Menu;
 import com.codea.address.Address;
+import com.codea.favorite.Favorite;
 import com.codea.member.Member;
 import com.codea.review.Review;
 import lombok.*;
@@ -11,6 +12,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Positive;
 import java.time.LocalDateTime;
+import java.util.AbstractSequentialList;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,6 +50,11 @@ public class Restaurant extends BaseEntity {
     private Member member;
     @OneToMany(mappedBy = "restaurant", cascade = CascadeType.REMOVE)
     private List<Menu> menu = new ArrayList<>();
+
     @OneToMany(mappedBy = "restaurant", cascade = CascadeType.REMOVE)
     private List<Review> reviews = new ArrayList<>();
+
+    @OneToMany(mappedBy = "restaurant", cascade = CascadeType.REMOVE)
+    private List<Favorite> favorites = new ArrayList<>();
+
 }

@@ -20,7 +20,7 @@ spring:
     log-request-details: true
   jpa:
     defer-datasource-initialization: true
-    hibernate.ddl-auto: create
+    hibernate.ddl-auto: create-drop
     open-in-view: false
     show-sql: true
     properties:

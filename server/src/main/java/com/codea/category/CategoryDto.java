@@ -12,6 +12,9 @@ import javax.validation.constraints.Size;
 
 public class CategoryDto {
     @Getter
+    @AllArgsConstructor
+    @NoArgsConstructor
+    @Setter
     public static  class Post {
         @NotBlank
         @Size(max = 20)
@@ -19,6 +22,8 @@ public class CategoryDto {
     }
     @Getter
     @Setter
+    @AllArgsConstructor
+    @NoArgsConstructor
     public  static  class  Patch{
 
         private long categoryId;

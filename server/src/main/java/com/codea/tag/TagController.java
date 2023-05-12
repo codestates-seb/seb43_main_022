@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 @RequestMapping("/tags")
 @Validated
 public class TagController {
-    //private final static  String TAG_DEFAULT_URL = "/tags";
+    private final static  String TAG_DEFAULT_URL = "/tags";
     private final TagService tagService;
     private final TagMapper tagMapper;
     public TagController(TagService tagService, TagMapper tagMapper){
@@ -28,16 +28,16 @@ public class TagController {
     public ResponseEntity postTag(@Valid@RequestBody TagDto.Post tagPostDto){
         Tag tag = tagMapper.tagPostDtoToTag(tagPostDto);
         Tag response = tagService.createTag(tag);
-        //URI location = UriCreator.createUri(TAG_DEFAULT_URL, tag.getTagId());
-        return new ResponseEntity<>(tagMapper.tagToTagResponseDto(response), HttpStatus.CREATED);
-       // return ResponseEntity.created(location).build();
+        URI location = UriCreator.createUri(TAG_DEFAULT_URL, tag.getTagId());
+        //return new ResponseEntity<>(tagMapper.tagToTagResponseDto(response), HttpStatus.CREATED);
+        return ResponseEntity.created(location).build();
     }
     @PatchMapping("/{tag-id}")
     public ResponseEntity patchTag(@PathVariable("tag-id")@Positive long tagId,
-                                   @Valid@RequestBody TagDto.Patch tagPatchDto){
+                                   @Valid @RequestBody TagDto.Patch tagPatchDto){
         tagPatchDto.setTagId(tagId);
         Tag response =
-                tagService.updateTag(tagMapper.tagPatchDtoToTag(tagPatchDto));
+                tagService.updateTag( tagMapper.tagPatchDtoToTag(tagPatchDto));
 
         return new ResponseEntity<>(tagMapper.tagToTagResponseDto(response), HttpStatus.OK);
     }

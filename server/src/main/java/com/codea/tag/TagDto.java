@@ -10,18 +10,21 @@ import javax.validation.constraints.Size;
 
 public class TagDto {
     @Getter
+    @AllArgsConstructor
+    @NoArgsConstructor
     public static  class Post{
         @NotBlank
-        @Size(max = 30)
         private String name;
     }
     @Getter
     @Setter
+    @AllArgsConstructor
+    @NoArgsConstructor
     public static class Patch{
 
         private long tagId;
-        @NotBlank
-        @Size(max = 30)
+        //@NotBlank
+        //@Size(max = 30)
         private String name;
 
     }

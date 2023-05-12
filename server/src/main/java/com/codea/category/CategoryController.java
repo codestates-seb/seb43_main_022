@@ -1,5 +1,7 @@
 package com.codea.category;
 
+import com.codea.response.MultiResponseDto;
+import com.codea.util.UriCreator;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -8,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;
+import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
 import com.codea.category.CategoryMapper;
@@ -16,6 +19,7 @@ import com.codea.category.CategoryMapper;
 @RequestMapping("/categories")
 @Validated
 public class CategoryController {
+    private final static  String CATEGORY_DEFAULT_URL = "/categories";
     private final CategoryService categoryService;
     private final CategoryMapper categoryMapper;
 
@@ -29,10 +33,11 @@ public class CategoryController {
     public ResponseEntity postCategory(@Valid@RequestBody CategoryDto.Post categoryDto) {
         Category category = categoryMapper.categoryPostDtoToCategory(categoryDto);
         Category response = categoryService.createCategory(category);
+        URI location = UriCreator.createUri(CATEGORY_DEFAULT_URL, category.getCategoryId());
 
 
-
-        return new ResponseEntity<>(categoryMapper.categoryToCategoryResponseDto(response), HttpStatus.CREATED);
+       // return new ResponseEntity<>(categoryMapper.categoryToCategoryResponseDto(response), HttpStatus.CREATED);
+        return ResponseEntity.created(location).build();
     }
 
     // 카테고리 수정
@@ -54,11 +59,10 @@ public class CategoryController {
     public ResponseEntity getCategories(@Positive @RequestParam int page,
                                         @Positive @RequestParam int size){
         Page<Category> categories = categoryService.findCategories(page -1, size);
-        List<CategoryDto.Response> response = categories.stream().map(
-                category-> categoryMapper.categoryToCategoryResponseDto(category)
-        ).collect(Collectors.toList());
+        List<Category> response = categories.getContent();
 
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        return new ResponseEntity<>(
+                new MultiResponseDto<>(categoryMapper.categoriesToCategoryResponseDto(response), categories), HttpStatus.OK);
     }
     // 카테고리 삭제
     @DeleteMapping("/{category-id}")

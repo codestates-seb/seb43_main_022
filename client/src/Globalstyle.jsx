@@ -26,6 +26,7 @@ const GlobalStyles = createGlobalStyle`
   body {
     background: #FEFEFE;
     width: 100%;
+  
     position: ${(prop) => prop.posi || "none"};
     display: flex;
     justify-content: center;

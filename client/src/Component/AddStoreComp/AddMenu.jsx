@@ -94,8 +94,13 @@ const AddMenu = ({ formData, setFormData }) => {
 
   return (
     <AddMenuWrap>
+
       <label htmlFor="menuPirce">메뉴 및 가격</label>
       <AddMenuInput id="menuPirce">
+
+
+      <AddMenuInput>
+
         <MenuInput
           name="menu"
           value={formData.menu || ""}

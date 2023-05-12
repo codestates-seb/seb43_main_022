@@ -1,8 +1,8 @@
 import styled from "styled-components";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Input from "../Component/style/Input";
-import Button from "../Component/style/button";
+import Input from "../Component/style/StyleInput";
+import Button from "../Component/style/StyleButton";
 import ImgBtn from "../Component/style/ImgBtn";
 import { useInput } from "../hooks/useInput";
 import { api } from "../Util/api";

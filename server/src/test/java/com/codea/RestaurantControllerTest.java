@@ -113,7 +113,7 @@ public class RestaurantControllerTest {
                 LocalDateTime.now(), LocalDateTime.now(), Review.Rating.NOT_GOOD, 2L, "홍길동2")));
 
         given(mapper.restaurantPatchDtoToRestaurant(Mockito.any(RestaurantDto.Patch.class))).willReturn(new Restaurant());
-        given(restaurantService.updateRestaurant(Mockito.anyLong(), Mockito.any(Restaurant.class))).willReturn(new Restaurant());
+        given(restaurantService.updateRestaurant(Mockito.anyLong(), Mockito.anyString(), Mockito.any(Restaurant.class))).willReturn(new Restaurant());
         given(mapper.restaurantToRestaurantResponseDto(Mockito.any(Restaurant.class))).willReturn(response);
 
         ResultActions actions =

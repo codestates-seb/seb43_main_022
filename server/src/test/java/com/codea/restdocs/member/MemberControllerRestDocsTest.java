@@ -7,6 +7,7 @@ import com.codea.member.Member;
 import com.codea.member.MemberMapper;
 import com.codea.member.MemberService;
 import com.codea.review.Review;
+import com.codea.review.ReviewDto;
 import com.google.gson.Gson;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -27,6 +28,7 @@ import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static com.codea.util.ApiDocumentUtils.getRequestPreProcessor;
@@ -69,7 +71,8 @@ public class MemberControllerRestDocsTest {
 
 
         MemberDto.Response responseDto = new MemberDto.Response(1L, "김아무개", "test1@test.com",
-                "seoul", "사진 위치", new Review("리뷰 제목", "리뷰 내용", "리뷰", "리부", "리부", true));
+                "seoul", "사진 위치",
+                List.of(new ReviewDto.Response(1L, "리뷰 제목", "리뷰 내용", "photo/photo1.png",LocalDateTime.now(), LocalDateTime.now(),  Review.Rating.GOOD, 1L, "홍길동")));
 
 
         // willReturn()이 최소한 null은 아니어야 한다.
@@ -101,7 +104,7 @@ public class MemberControllerRestDocsTest {
                                 List.of(
                                         fieldWithPath("email").type(JsonFieldType.STRING).description("이메일"),
                                         fieldWithPath("password").type(JsonFieldType.STRING).description("이름"),
-                                        fieldWithPath("memberNickName").type(JsonFieldType.STRING).description("멤버 닉네임"),
+                                        fieldWithPath("nickName").type(JsonFieldType.STRING).description("멤버 닉네임"),
                                         fieldWithPath("photo").type(JsonFieldType.STRING).description("프로필 사진"),
                                         fieldWithPath("location").type(JsonFieldType.STRING).description("위치")
                                 )
@@ -123,7 +126,8 @@ public class MemberControllerRestDocsTest {
 
         MemberDto.Response responseDto =
                 new MemberDto.Response(1L, "changed MemberNickName1",
-                        "test1@test.com", "changed Location1", "changed Image1");
+                        "test1@test.com", "changed Location1", "changed Image1",
+                        List.of(new ReviewDto.Response(1L, "리뷰 제목", "리뷰 내용", "photo/photo1.png",LocalDateTime.now(), LocalDateTime.now(),  Review.Rating.GOOD, 1L, "홍길동")));
 
         // willReturn()이 최소한 null은 아니어야 한다.
         given(mapper.memberPatchDtoToMember(Mockito.any(MemberDto.Patch.class))).willReturn(new Member());
@@ -148,7 +152,7 @@ public class MemberControllerRestDocsTest {
         actions
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.memberId").value(patch.getMemberId()))
-                .andExpect(jsonPath("$.memberNickName").value(patch.getMemberNickName()))
+                .andExpect(jsonPath("$.nickName").value(patch.getNickName()))
                 .andExpect(jsonPath("$.location").value(patch.getLocation()))
                 .andExpect(jsonPath("$.photo").value(patch.getPhoto()))
                 .andDo(document("patch-member",
@@ -163,7 +167,7 @@ public class MemberControllerRestDocsTest {
                         requestFields(
                                 List.of(
                                         fieldWithPath("memberId").type(JsonFieldType.NUMBER).description("회원 식별자").ignored(),
-                                        fieldWithPath("memberNickName").type(JsonFieldType.STRING).description("닉네임").optional(),
+                                        fieldWithPath("nickName").type(JsonFieldType.STRING).description("닉네임").optional(),
                                         fieldWithPath("password").type(JsonFieldType.STRING).description("비밀번호").optional(),
                                         fieldWithPath("location").type(JsonFieldType.STRING).description("위치").optional(),
                                         fieldWithPath("photo").type(JsonFieldType.STRING).description("프로필 이미지").optional()
@@ -172,7 +176,7 @@ public class MemberControllerRestDocsTest {
                         responseFields(
                                 List.of(
                                         fieldWithPath("memberId").type(JsonFieldType.NUMBER).description("회원 식별자"),
-                                        fieldWithPath("memberNickName").type(JsonFieldType.STRING).description("닉네임"),
+                                        fieldWithPath("nickName").type(JsonFieldType.STRING).description("닉네임"),
                                         fieldWithPath("email").type(JsonFieldType.STRING).description("이메일"),
                                         fieldWithPath("location").type(JsonFieldType.STRING).description("위치"),
                                         fieldWithPath("photo").type(JsonFieldType.STRING).description("프로필 이미지")
@@ -185,7 +189,8 @@ public class MemberControllerRestDocsTest {
     void getMemberTest() throws Exception {
         MemberDto.Response responseDto =
                 new MemberDto.Response(1L, "changed MemberNickName1",
-                        "test1@test.com", "changed Location1", "changed Image1", new Review("리뷰 제목", "리뷰 내용",));
+                        "test1@test.com", "changed Location1", "changed Image1",
+                        List.of(new ReviewDto.Response(1L, "리뷰 제목", "리뷰 내용", "photo/photo1.png",LocalDateTime.now(), LocalDateTime.now(),  Review.Rating.GOOD, 1L, "홍길동")));
 
         given(mapper.memberToMemberResponseDto(Mockito.any(Member.class))).willReturn(responseDto);
         given(memberService.findMember(Mockito.anyLong())).willReturn(new Member());
@@ -196,7 +201,7 @@ public class MemberControllerRestDocsTest {
         ).andExpectAll(
                 status().isOk(),
                 jsonPath("$.memberId").value(responseDto.getMemberId()),
-                jsonPath("$.memberNickName").value(responseDto.getMemberNickName()),
+                jsonPath("$.nickName").value(responseDto.getNickName()),
                 jsonPath("$.email").value(responseDto.getEmail()),
                 jsonPath("$.location").value(responseDto.getLocation()),
                 jsonPath("$.photo").value(responseDto.getPhoto())
@@ -209,7 +214,7 @@ public class MemberControllerRestDocsTest {
                 responseFields(
                         List.of(
                                 fieldWithPath("memberId").type(JsonFieldType.NUMBER).description("회원 식별자"),
-                                fieldWithPath("memberNickName").type(JsonFieldType.STRING).description("닉네임"),
+                                fieldWithPath("nickName").type(JsonFieldType.STRING).description("닉네임"),
                                 fieldWithPath("email").type(JsonFieldType.STRING).description("이메일"),
                                 fieldWithPath("location").type(JsonFieldType.STRING).description("장소"),
                                 fieldWithPath("photo").type(JsonFieldType.STRING).description("프로필 이미지")
@@ -236,10 +241,12 @@ public class MemberControllerRestDocsTest {
                 PageRequest.of(page , size, Sort.by("memberId").descending()), 2);
         List<MemberDto.Response> response = List.of(
                 new MemberDto.Response(1L, "changed MemberNickName1",
-                        "test1@test.com", "changed Location1", "changed Image1"),
+                        "test1@test.com", "changed Location1", "changed Image1",
+                        List.of(new ReviewDto.Response(1L, "리뷰 제목", "리뷰 내용", "photo/photo1.png",LocalDateTime.now(), LocalDateTime.now(),  Review.Rating.GOOD, 1L, "홍길동"))),
 
                 new MemberDto.Response(2L, "changed MemberNickName2",
-                        "test2@test.com", "changed Location2", "changed Image2")
+                        "test2@test.com", "changed Location2", "changed Image2",
+                        List.of(new ReviewDto.Response(1L, "리뷰 제목", "리뷰 내용", "photo/photo1.png",LocalDateTime.now(), LocalDateTime.now(),  Review.Rating.GOOD, 1L, "홍길동")))
         );
 
         given(memberService.findMembers(Mockito.anyInt(), Mockito.anyInt())).willReturn(pageMembers);
@@ -265,7 +272,7 @@ public class MemberControllerRestDocsTest {
 //                                fieldWithPath("uri").type(JsonFieldType.STRING).description("요청한 리소스의 URI 정보"),
                                 fieldWithPath("data").type(JsonFieldType.ARRAY).description("결과 데이터"),
                                 fieldWithPath("data[].memberId").type(JsonFieldType.NUMBER).description("회원 식별자"),
-                                fieldWithPath("data[].memberNickName").type(JsonFieldType.STRING).description("닉네임"),
+                                fieldWithPath("data[].nickName").type(JsonFieldType.STRING).description("닉네임"),
                                 fieldWithPath("data[].email").type(JsonFieldType.STRING).description("이메일"),
                                 fieldWithPath("data[].location").type(JsonFieldType.STRING).description("위치"),
                                 fieldWithPath("data[].photo").type(JsonFieldType.STRING).description("프로필 이미지"),

@@ -12,7 +12,12 @@ public enum ExceptionCode {
     MENU_NOT_FOUND(409, "메뉴를 찾을 수 없습니다."),
     ADDRESS_NOT_FOUND(409, "주소를 찾을 수 없습니다."),
     LOCATION_NOT_FOUND(409, "좌표를 찾을 수 없습니다."),
-    UNAUTHORIZED_EDIT(401,"권한이 없습니다."),;
+    UNAUTHORIZED_EDIT(401,"권한이 없습니다."),
+    CATEGORY_EXISTS(409,"Category exists"),
+    CATEGORY_NOT_FOUND(404, "Category not found" ),
+    TAG_EXISTS(409,"Tag exists"),
+    TAG_NOT_FOUND(404,"Tag not found");
+
 
     @Getter
     private int status;

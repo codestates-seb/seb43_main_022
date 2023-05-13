@@ -66,9 +66,9 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     // 엑세스 토큰 생성 메소드
     private String delegateAccessToken(Member member) {
         Map<String, Object> claims = new HashMap<>();
-        claims.put("username", member.getEmail());
+        claims.put("email", member.getEmail());
         claims.put("roles", member.getRoles());
-        claims.put("memberNickName", member.getMemberNickName());
+        claims.put("nickName", member.getNickName());
 
 
         String subject = member.getEmail(); // 이메일을 jwt 토큰의 주체로 설정

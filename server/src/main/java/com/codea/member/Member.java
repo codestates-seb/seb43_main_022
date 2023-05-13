@@ -18,20 +18,22 @@ public class Member extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long memberId;
-    private String memberNickName;
+    private String nickName;
     @Column(nullable = false, updatable = false, unique = true)
     private String email;
     private String password;
     private String location;
     private String photo;
+    @Column
+    private Boolean businessAccount = false;
     @Enumerated(value = EnumType.STRING)
     @Column(length = 20, nullable = false)
     private MemberStatus memberStatus = MemberStatus.MEMBER_ACTIVE;
 
 
-    public Member(Long memberId, String memberNickName, String email, String location, String photo, MemberStatus memberStatus) {
+    public Member(Long memberId, String nickName, String email, String location, String photo, MemberStatus memberStatus) {
         this.memberId = memberId;
-        this.memberNickName = memberNickName;
+        this.nickName = nickName;
         this.email = email;
         this.location = location;
         this.photo = photo;

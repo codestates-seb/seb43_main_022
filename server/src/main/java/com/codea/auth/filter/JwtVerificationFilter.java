@@ -84,8 +84,8 @@ public class JwtVerificationFilter extends OncePerRequestFilter {
 
     // jwt 토큰으로부터 추출된 claims를 사용하여 인증 객체를 생성하고 시큐리티 컨텍스트에 설정하는 역할을 하는 메소드
     private void setAuthenticationToContext(Map<String, Object> claims) {
-        String username = (String) claims.get("memberEmail");
-        // claims에서 username을 가져옴
+        String username = (String) claims.get("email");
+        // claims에서 email을 가져옴
 
         List<GrantedAuthority> authorities = authorityUtils.createAuthorities((List)claims.get("roles"));
         // claims에서 roles를 가져옴

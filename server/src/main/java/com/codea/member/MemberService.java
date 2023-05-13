@@ -18,7 +18,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Optional;
 
-
 @AllArgsConstructor
 @Transactional
 @Service
@@ -28,13 +27,11 @@ public class MemberService {
     private final CustomAuthorityUtils authorityUtils;
     private final JwtUtil jwtUtil;
 
-
     public Member createMember(Member member) {
         verifyExistsEmail(member.getEmail());
 
         String encryptedPassword = passwordEncoder.encode(member.getPassword()); // Password 단방향 암호화
         member.setPassword(encryptedPassword);
-
 
         List<String> roles = authorityUtils.createRoles(member.getEmail()); // 권한 설정
         member.setRoles(roles);
@@ -52,8 +49,8 @@ public class MemberService {
     public Member updateMember(Member member) {
         Member findMember = findVerifiedMember(member.getMemberId());
 
-        Optional.ofNullable(member.getMemberNickName())
-                .ifPresent(name -> findMember.setMemberNickName(name));
+        Optional.ofNullable(member.getNickName())
+                .ifPresent(name -> findMember.setNickName(name));
         Optional.ofNullable(member.getPassword())
                 .ifPresent(password -> findMember.setPassword(password));
         Optional.ofNullable(member.getLocation())
@@ -106,6 +103,5 @@ public class MemberService {
             throw new BusinessLogicException(ExceptionCode.INVALID_PERMISSION, String.format("유저(%s)가 권한을 가지고 있지 않습니다. 사용자(%s) 정보를 수정할 수 없습니다.", email, findMember.getEmail()));
         }
     }
-
 
 }

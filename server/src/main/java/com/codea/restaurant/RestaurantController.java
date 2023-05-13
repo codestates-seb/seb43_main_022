@@ -6,6 +6,7 @@ import com.codea.utils.UriCreator;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,8 +28,10 @@ public class RestaurantController {
     }
 
     @PostMapping
-    public ResponseEntity postRestaurant(@Valid @RequestBody RestaurantDto.Post requestBody) {
-        Restaurant restaurant = restaurantService.createRestaurant(mapper.restaurantPostDtoToRestaurant(requestBody));
+    public ResponseEntity postRestaurant(@Valid @RequestBody RestaurantDto.Post requestBody,
+                                         @AuthenticationPrincipal String email) {
+        System.out.println(email+ "1@@@@@@@@@@@@@@@@@@@");
+        Restaurant restaurant = restaurantService.createRestaurant(email, mapper.restaurantPostDtoToRestaurant(requestBody));
 
         URI location = UriCreator.createUri("/restaurants", restaurant.getRestaurantId());
         return ResponseEntity.created(location).build();
@@ -36,8 +39,9 @@ public class RestaurantController {
 
     @PatchMapping("/{restaurant-id}")
     public ResponseEntity patchRestaurant(@PathVariable("restaurant-id") long restaurantId,
-                                          @Valid @RequestBody RestaurantDto.Patch requestBody){
-        Restaurant restaurant = restaurantService.updateRestaurant(restaurantId, mapper.restaurantPatchDtoToRestaurant(requestBody));
+                                          @Valid @RequestBody RestaurantDto.Patch requestBody,
+                                          @AuthenticationPrincipal String email){
+        Restaurant restaurant = restaurantService.updateRestaurant(restaurantId, email, mapper.restaurantPatchDtoToRestaurant(requestBody));
 
         return new ResponseEntity<>(mapper.restaurantToRestaurantResponseDto(restaurant),HttpStatus.OK);
     }

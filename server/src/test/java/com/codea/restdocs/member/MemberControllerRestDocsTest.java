@@ -6,6 +6,7 @@ import com.codea.member.MemberDto;
 import com.codea.member.Member;
 import com.codea.member.MemberMapper;
 import com.codea.member.MemberService;
+import com.codea.review.Review;
 import com.google.gson.Gson;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -63,12 +64,12 @@ public class MemberControllerRestDocsTest {
     public void postMemberTest() throws Exception {
         // given
         MemberDto.Post post = new MemberDto.Post("test1@test.com", "test",
-                "김아무개", "photo Url", "위치");
+                "김아무개", "photo Url", "위치", true);
         String content = gson.toJson(post);
 
 
         MemberDto.Response responseDto = new MemberDto.Response(1L, "김아무개", "test1@test.com",
-                "seoul", "사진 위치");
+                "seoul", "사진 위치", new Review("리뷰 제목", "리뷰 내용", "리뷰", "리부", "리부", true));
 
 
         // willReturn()이 최소한 null은 아니어야 한다.
@@ -184,7 +185,7 @@ public class MemberControllerRestDocsTest {
     void getMemberTest() throws Exception {
         MemberDto.Response responseDto =
                 new MemberDto.Response(1L, "changed MemberNickName1",
-                        "test1@test.com", "changed Location1", "changed Image1");
+                        "test1@test.com", "changed Location1", "changed Image1", new Review("리뷰 제목", "리뷰 내용",));
 
         given(mapper.memberToMemberResponseDto(Mockito.any(Member.class))).willReturn(responseDto);
         given(memberService.findMember(Mockito.anyLong())).willReturn(new Member());

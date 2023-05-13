@@ -12,7 +12,7 @@ public class CustomMemberResponse {
     private long memberId;
     private String email;
     private String photo;
-    private String memberNickName;
+    private String nickName;
     private String password;
     private String location;
     private LocalDateTime createAt;
@@ -24,7 +24,7 @@ public class CustomMemberResponse {
                 dto.getMemberId(),
                 dto.getEmail(),
                 dto.getPhoto(),
-                dto.getMemberNickName(),
+                dto.getNickName(),
                 dto.getPassword(),
                 dto.getLocation(),
                 dto.getCreatedAt(),

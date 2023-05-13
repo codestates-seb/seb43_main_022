@@ -3,6 +3,8 @@ package com.codea.restaurant;
 import com.codea.Menu.MenuRepository;
 import com.codea.exception.BusinessLogicException;
 import com.codea.exception.ExceptionCode;
+import com.codea.member.Member;
+import com.codea.member.MemberRepository;
 import com.codea.review.Review;
 import com.codea.review.ReviewRepository;
 import org.springframework.data.domain.Page;
@@ -18,21 +20,25 @@ import static com.codea.review.Review.ReviewStatus.REVIEW_VALID;
 @Service
 public class RestaurantService {
     private final RestaurantRepository restaurantRepository;
-    private final MenuRepository menuRepository;
-    private final ReviewRepository reviewRepository;
+    private final MemberRepository memberRepository;
 
-    public RestaurantService(RestaurantRepository restaurantRepository, MenuRepository menuRepository, ReviewRepository reviewRepository) {
+    public RestaurantService(RestaurantRepository restaurantRepository, MemberRepository memberRepository) {
         this.restaurantRepository = restaurantRepository;
-        this.menuRepository = menuRepository;
-        this.reviewRepository = reviewRepository;
+        this.memberRepository = memberRepository;
     }
 
-    public Restaurant createRestaurant(Restaurant restaurant){
+    public Restaurant createRestaurant(String email, Restaurant restaurant) {
+        System.out.println(email+ "2@@@@@@@@@@@@@@@@@@@");
+        Member member = memberRepository.findByEmail(email).orElseThrow(() -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
+        restaurant.setMember(member);
+
         return restaurantRepository.save(restaurant);
     }
 
-    public Restaurant updateRestaurant(long restaurantId, Restaurant restaurant){
+    public Restaurant updateRestaurant(long restaurantId, String email, Restaurant restaurant){
         Restaurant findRestaurant = findRestaurant(restaurantId);
+
+        if (!findRestaurant.getMember().getEmail().equals(email)) throw new BusinessLogicException(ExceptionCode.UNAUTHORIZED_EDIT);
 
         Optional.ofNullable(restaurant.getName()).ifPresent(name->findRestaurant.setName(name));
         Optional.ofNullable(restaurant.getContent()).ifPresent(content-> findRestaurant.setContent(content));

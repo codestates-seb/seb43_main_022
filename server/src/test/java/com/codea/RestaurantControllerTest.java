@@ -11,6 +11,7 @@ import com.jayway.jsonpath.JsonPath;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -44,7 +45,8 @@ import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.restdocs.request.RequestDocumentation.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*;
-@WebMvcTest(RestaurantController.class)
+
+@WebMvcTest(controllers = RestaurantController.class, excludeAutoConfiguration = SecurityAutoConfiguration.class)
 @MockBean(JpaMetamodelMappingContext.class)
 @AutoConfigureRestDocs
 public class RestaurantControllerTest {
@@ -66,7 +68,7 @@ public class RestaurantControllerTest {
         mockResultRestaurant.setRestaurantId(1L);
 
         given(mapper.restaurantPostDtoToRestaurant(Mockito.any(RestaurantDto.Post.class))).willReturn(new Restaurant());
-        given(restaurantService.createRestaurant(Mockito.any(Restaurant.class))).willReturn(mockResultRestaurant);
+        given(restaurantService.createRestaurant(Mockito.anyString(), Mockito.any(Restaurant.class))).willReturn(mockResultRestaurant);
 
         ResultActions actions =
                 mockMvc.perform(
@@ -188,7 +190,8 @@ public class RestaurantControllerTest {
         given(restaurantService.findRestaurant(Mockito.anyLong())).willReturn(new Restaurant());
         given(mapper.restaurantToRestaurantResponseDto(Mockito.any(Restaurant.class))).willReturn(response);
 
-        ResultActions actions = mockMvc.perform(get("/restaurants/{restaurantId}", restaurantId).accept(MediaType.APPLICATION_JSON));
+        ResultActions actions = mockMvc.perform(get("/restaurants/{restaurantId}", response).accept(MediaType.APPLICATION_JSON));
+
 
         actions.andExpect(status().isOk())
                 .andDo(

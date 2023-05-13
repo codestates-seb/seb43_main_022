@@ -69,7 +69,6 @@ public class MemberControllerRestDocsTest {
                 "김아무개", "photo Url", "위치", true);
         String content = gson.toJson(post);
 
-
         MemberDto.Response responseDto = new MemberDto.Response(1L, "김아무개", "test1@test.com",
                 "seoul", "사진 위치",
                 List.of(new ReviewDto.Response(1L, "리뷰 제목", "리뷰 내용", "photo/photo1.png",LocalDateTime.now(), LocalDateTime.now(),  Review.Rating.GOOD, 1L, "홍길동")));
@@ -179,7 +178,17 @@ public class MemberControllerRestDocsTest {
                                         fieldWithPath("nickName").type(JsonFieldType.STRING).description("닉네임"),
                                         fieldWithPath("email").type(JsonFieldType.STRING).description("이메일"),
                                         fieldWithPath("location").type(JsonFieldType.STRING).description("위치"),
-                                        fieldWithPath("photo").type(JsonFieldType.STRING).description("프로필 이미지")
+                                        fieldWithPath("photo").type(JsonFieldType.STRING).description("프로필 이미지"),
+                                        fieldWithPath("reviews").type(JsonFieldType.ARRAY).description("리뷰"),
+                                        fieldWithPath("reviews[].reviewId").type(JsonFieldType.NUMBER).description("리뷰 식별자"),
+                                        fieldWithPath("reviews[].title").type(JsonFieldType.STRING).description("리뷰 제목"),
+                                        fieldWithPath("reviews[].content").type(JsonFieldType.STRING).description("리뷰 내용"),
+                                        fieldWithPath("reviews[].photo").type(JsonFieldType.STRING).description("리뷰 사진"),
+                                        fieldWithPath("reviews[].createdAt").type(JsonFieldType.STRING).description("리뷰 작성일"),
+                                        fieldWithPath("reviews[].modifiedAt").type(JsonFieldType.STRING).description("리뷰 수정일"),
+                                        fieldWithPath("reviews[].rating").type(JsonFieldType.STRING).description("맛집 평가"),
+                                        fieldWithPath("reviews[].memberId").type(JsonFieldType.NUMBER).description("멤버 식별자"),
+                                        fieldWithPath("reviews[].memberNickName").type(JsonFieldType.STRING).description("멤버 닉네임")
                                 )
                         )
                 ));
@@ -217,7 +226,17 @@ public class MemberControllerRestDocsTest {
                                 fieldWithPath("nickName").type(JsonFieldType.STRING).description("닉네임"),
                                 fieldWithPath("email").type(JsonFieldType.STRING).description("이메일"),
                                 fieldWithPath("location").type(JsonFieldType.STRING).description("장소"),
-                                fieldWithPath("photo").type(JsonFieldType.STRING).description("프로필 이미지")
+                                fieldWithPath("photo").type(JsonFieldType.STRING).description("프로필 이미지"),
+                                fieldWithPath("reviews").type(JsonFieldType.ARRAY).description("리뷰"),
+                                fieldWithPath("reviews[].reviewId").type(JsonFieldType.NUMBER).description("리뷰 식별자"),
+                                fieldWithPath("reviews[].title").type(JsonFieldType.STRING).description("리뷰 제목"),
+                                fieldWithPath("reviews[].content").type(JsonFieldType.STRING).description("리뷰 내용"),
+                                fieldWithPath("reviews[].photo").type(JsonFieldType.STRING).description("리뷰 사진"),
+                                fieldWithPath("reviews[].createdAt").type(JsonFieldType.STRING).description("리뷰 작성일"),
+                                fieldWithPath("reviews[].modifiedAt").type(JsonFieldType.STRING).description("리뷰 수정일"),
+                                fieldWithPath("reviews[].rating").type(JsonFieldType.STRING).description("맛집 평가"),
+                                fieldWithPath("reviews[].memberId").type(JsonFieldType.NUMBER).description("멤버 식별자"),
+                                fieldWithPath("reviews[].memberNickName").type(JsonFieldType.STRING).description("멤버 닉네임")
                         )
                 )
         ));
@@ -276,6 +295,16 @@ public class MemberControllerRestDocsTest {
                                 fieldWithPath("data[].email").type(JsonFieldType.STRING).description("이메일"),
                                 fieldWithPath("data[].location").type(JsonFieldType.STRING).description("위치"),
                                 fieldWithPath("data[].photo").type(JsonFieldType.STRING).description("프로필 이미지"),
+                                fieldWithPath("reviews").type(JsonFieldType.ARRAY).description("리뷰"),
+                                fieldWithPath("reviews[].reviewId").type(JsonFieldType.NUMBER).description("리뷰 식별자"),
+                                fieldWithPath("reviews[].title").type(JsonFieldType.STRING).description("리뷰 제목"),
+                                fieldWithPath("reviews[].content").type(JsonFieldType.STRING).description("리뷰 내용"),
+                                fieldWithPath("reviews[].photo").type(JsonFieldType.STRING).description("리뷰 사진"),
+                                fieldWithPath("reviews[].createdAt").type(JsonFieldType.STRING).description("리뷰 작성일"),
+                                fieldWithPath("reviews[].modifiedAt").type(JsonFieldType.STRING).description("리뷰 수정일"),
+                                fieldWithPath("reviews[].rating").type(JsonFieldType.STRING).description("맛집 평가"),
+                                fieldWithPath("reviews[].memberId").type(JsonFieldType.NUMBER).description("멤버 식별자"),
+                                fieldWithPath("reviews[].memberNickName").type(JsonFieldType.STRING).description("멤버 닉네임"),
                                 fieldWithPath("pageInfo").type(JsonFieldType.OBJECT).description("페이지 정보"),
                                 fieldWithPath("pageInfo.page").type(JsonFieldType.NUMBER).description("페이지 수"),
                                 fieldWithPath("pageInfo.size").type(JsonFieldType.NUMBER).description("한 페이지의 갯수"),

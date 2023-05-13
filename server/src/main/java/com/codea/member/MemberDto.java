@@ -4,6 +4,7 @@ package com.codea.member;
 import com.codea.review.ReviewDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.Setter;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;

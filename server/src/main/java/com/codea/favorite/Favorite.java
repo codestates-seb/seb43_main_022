@@ -23,19 +23,20 @@ public class Favorite extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "restaurant_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    private Restaurant restaurantId;
+    private Restaurant restaurant;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    private Member memberId;
+    private Member member;
 
     @Column(nullable = false)
     private boolean status; // true = 즐겨찾기, false = 즐겨찾기 취소
 
-    public Favorite(Restaurant restaurantId, Member memberId, boolean status) {
-        this.restaurantId = restaurantId;
-        this.memberId = memberId;
+
+    public Favorite(Restaurant restaurant, Member member, boolean status) {
+        this.restaurant = restaurant;
+        this.member = member;
         this.status = status;
     }
 }

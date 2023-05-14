@@ -26,12 +26,22 @@ public class Review extends BaseEntity {
     private Rating rating;
     @Enumerated(EnumType.STRING)
     private ReviewStatus status = ReviewStatus.REVIEW_VALID;
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne
     @JoinColumn(name = "MEMBER_ID")
     private Member member;
     @ManyToOne
     @JoinColumn(name = "RESTAURANT_ID")
     private Restaurant restaurant;
+
+//
+//    @ManyToOne(fetch = FetchType.EAGER)
+//    @JoinColumn(name = "MEMBER_ID")
+//    private Member member;
+//
+//    @ManyToOne(fetch = FetchType.EAGER)
+//    @JoinColumn(name = "RESTAURANT_ID")
+//    private Restaurant restaurant;
+
 
     public enum Rating {
         GOOD("맛있어요"),

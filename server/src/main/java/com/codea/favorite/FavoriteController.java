@@ -26,24 +26,24 @@ public class FavoriteController {
         this.memberRepository = memberRepository;
     }
 
-    @PostMapping("/add")
+    @PostMapping
     public void addToFavorites(@RequestBody FavoriteDto.AddFavoriteRequest request) {
         // 요청에서 식당 ID와 회원 ID를 받아와서 해당 식당을 즐겨찾기에 추가하는 기능
         Restaurant restaurant = restaurantRepository.findById(request.getRestaurantId())
                 .orElseThrow(() -> new BusinessLogicException(ExceptionCode.RESTAURANT_NOT_FOUND));
         Member member = memberRepository.findById(request.getMemberId())
                 .orElseThrow(() -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
-        favoriteService.addToFavorites(restaurant, member);
+        favoriteService.createToFavorites(restaurant, member);
     }
 
-    @PostMapping("/remove")
+    @DeleteMapping
     public void removeFromFavorites(@RequestBody FavoriteDto.RemoveFavoriteRequest request) {
         // 요청에서 식당 ID와 회원 ID를 받아와서 해당 식당을 즐겨찾기에서 제거하는 기능
         Restaurant restaurant = restaurantRepository.findById(request.getRestaurantId())
                 .orElseThrow(() -> new BusinessLogicException(ExceptionCode.RESTAURANT_NOT_FOUND));
         Member member = memberRepository.findById(request.getMemberId())
                 .orElseThrow(() -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
-        favoriteService.removeFromFavorites(restaurant, member);
+        favoriteService.deleteToFavorite(restaurant, member);
     }
 
     @GetMapping("/member/{memberId}")

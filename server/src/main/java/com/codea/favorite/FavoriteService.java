@@ -6,7 +6,8 @@ import com.codea.restaurant.RestaurantRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.util.List;
 
 @Service
@@ -28,7 +29,7 @@ public class FavoriteService {
 //    }
 
     @Transactional
-    public void addToFavorites(Restaurant restaurant, Member member) {
+    public void createToFavorites(Restaurant restaurant, Member member) {
         Favorite favorite = favoriteRepository.findByRestaurantAndMember(restaurant, member)
                 .orElse(FavoriteFactory.createFavoriteWithNotFavorite(restaurant, member));
         favorite.setStatus(true);
@@ -37,26 +38,24 @@ public class FavoriteService {
         restaurantRepository.save(restaurant); // 카운트가 업데이트된 restaurant를 저장합니다.
     }
 
-
+//    @Transactional
+//    public void removeFromFavorites(Restaurant restaurant, Member member) {
+//        favoriteRepository.deleteByRestaurantAndMember(restaurant, member);
+//    }
 
     @Transactional
-    public void removeFromFavorites(Restaurant restaurant, Member member) {
-        favoriteRepository.deleteByRestaurantAndMember(restaurant, member);
+    public void deleteToFavorite(Restaurant restaurant, Member member) {
+        // ...
+        favoriteRepository.findByMember_MemberIdAndRestaurant_RestaurantId(restaurant, member)
+                .ifPresent(favorite -> {
+                    if (favorite.isStatus()) {
+                        favorite.setStatus(false);
+                        favoriteRepository.save(favorite);
+                        restaurant.decrementFavoriteCount(); // 즐겨찾기 횟수 감소
+                        restaurantRepository.save(restaurant);
+                    }
+                });
     }
-
-//    @Transactional
-//    public void removeFavorite(Long memberId, Long restaurantId) {
-//        // ...
-//        favoriteRepository.findByMemberIdAndRestaurantId(memberId, restaurantId)
-//                .ifPresent(favorite -> {
-//                    if (favorite.isStatus()) {
-//                        favorite.setStatus(false);
-//                        favoriteRepository.save(favorite);
-//                        restaurant.decrementFavoriteCount(); // 즐겨찾기 횟수 감소
-//                        restaurantRepository.save(restaurant);
-//                    }
-//                });
-//    }
 
     public List<Favorite> getFavoritesByMember(Member member) {
         return favoriteRepository.findByMember(member);

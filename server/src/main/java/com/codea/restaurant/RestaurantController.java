@@ -7,6 +7,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -47,6 +48,7 @@ public class RestaurantController {
         return new ResponseEntity<>(mapper.restaurantToRestaurantResponseDto(restaurant),HttpStatus.OK);
     }
 
+    @Transactional
     @GetMapping("/{restaurant-id}")
     public ResponseEntity getRestaurant(@PathVariable("restaurant-id") long restaurantId){
         Restaurant restaurant = restaurantService.findRestaurant(restaurantId);
@@ -54,6 +56,7 @@ public class RestaurantController {
         return new ResponseEntity<>(mapper.restaurantToRestaurantResponseDto(restaurant), HttpStatus.OK);
     }
 
+    @Transactional
     @GetMapping
     public ResponseEntity getRestaurants(@Positive @RequestParam(value = "page", required = false) Integer page,
                                          @Positive @RequestParam(value = "size", required = false) Integer size) {
@@ -73,17 +76,27 @@ public class RestaurantController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
+//    @GetMapping("/top10")
+//    public ResponseEntity getTop10Restaurants() {
+//        List<Restaurant> top10Restaurants = restaurantService.getTop10Restaurants();
+//        List<RestaurantDto.Response> top10Responses = new ArrayList<>();
+//
+//        for (Restaurant restaurant : top10Restaurants) {
+//            RestaurantDto.Response response = mapper.restaurantToRestaurantResponseDto(restaurant);
+//            top10Responses.add(response);
+//        }
+//        return new ResponseEntity(top10Responses, HttpStatus.OK);
+//    }
+
     @GetMapping("/top10")
-    public ResponseEntity getTop10Restaurants() {
-        List<Restaurant> top10Restaurants = restaurantService.getTop10Restaurants();
-        List<RestaurantDto.Response> top10Responses = new ArrayList<>();
+    public ResponseEntity getTop10Restaurants(@Positive @RequestParam(value = "page", required = false) Integer page,
+                                         @Positive @RequestParam(value = "size", required = false) Integer size) {
+        if(page == null) page = 1;
+        if(size == null) size = 10;
+        Page<Restaurant> restaurantPage = restaurantService.getTop10Restaurants(page - 1, size);
+        List<Restaurant> restaurants = restaurantPage.getContent();
 
-        for (Restaurant restaurant : top10Restaurants) {
-            RestaurantDto.Response response = mapper.restaurantToRestaurantResponseDto(restaurant);
-            top10Responses.add(response);
-        }
-
-        return new ResponseEntity(top10Responses, HttpStatus.OK);
+        return new ResponseEntity<>(
+                new MultiResponseDto<>(mapper.restaurantToRestaurantResponseDtos(restaurants), restaurantPage), HttpStatus.OK);
     }
-
 }

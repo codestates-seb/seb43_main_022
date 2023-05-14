@@ -12,6 +12,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -67,8 +68,10 @@ public class RestaurantService {
         restaurantRepository.delete(findRestaurant);
     }
 
-    public List<Restaurant> getTop10Restaurants() {
-        return restaurantRepository.findTop10ByOrderByTotalFavoriteDesc();
+    public Page<Restaurant> getTop10Restaurants(int page, int size) {
+//        return restaurantRepository.findAllOrderByTotalFavorite(1,PageRequest.of(page, size, Sort.by("restaurantId").descending()));
+        return restaurantRepository.findAllByOrderByTotalFavoriteDesc(PageRequest.of(page, size, Sort.by("restaurantId").descending()));
+
     }
 
 }

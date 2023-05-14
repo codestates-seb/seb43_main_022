@@ -48,9 +48,9 @@ public class Member extends BaseEntity {
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.REMOVE)
     private List<Restaurant> restaurants = new ArrayList<>();
-//
-//    @OneToMany(mappedBy = "member", cascade = CascadeType.REMOVE)
-//    private List<Review> reviews = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member",  cascade = CascadeType.REMOVE)
+    private List<Review> reviews = new ArrayList<>();
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.REMOVE)
     private List<Favorite> favorites = new ArrayList<>();

@@ -33,7 +33,6 @@ public class Member extends BaseEntity {
     @Column(length = 20, nullable = false)
     private MemberStatus memberStatus = MemberStatus.MEMBER_ACTIVE;
 
-
     public Member(Long memberId, String nickName, String email, String location, String photo, MemberStatus memberStatus) {
         this.memberId = memberId;
         this.nickName = nickName;

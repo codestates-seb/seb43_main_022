@@ -59,7 +59,6 @@ public class RestaurantService {
 
     public Page<Restaurant> findRestaurants(int page, int size){
         return restaurantRepository.findAll(PageRequest.of(page, size, Sort.by("restaurantId").descending()));
-
     }
 
     public void deleteRestaurant(long restaurantId){

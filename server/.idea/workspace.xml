@@ -5,9 +5,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="33dee409-4159-4046-bac4-db427252d03f" name="Changes" comment="test: 멤버 test 코드 수정">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/codea/exception/FavoriteNotFoundException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/codea/favorite/Favorite.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/codea/favorite/FavoriteController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/codea/favorite/FavoriteDto.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/codea/favorite/FavoriteFactory.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/codea/favorite/FavoriteRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/codea/favorite/FavoriteService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/codea/category/CategoryController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/codea/category/CategoryController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/codea/tag/TagController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/codea/tag/TagController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/codea/member/Member.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/codea/member/Member.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/codea/restaurant/Restaurant.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/codea/restaurant/Restaurant.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -33,12 +41,7 @@
             <expand>
               <path>
                 <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
-                <item name="server" type="f1a62948:ProjectNode" />
-              </path>
-              <path>
-                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
-                <item name="server" type="f1a62948:ProjectNode" />
-                <item name="Run Configurations" type="7b0102dc:RunConfigurationsNode" />
+                <item name="seb43_main_022" type="f1a62948:ProjectNode" />
               </path>
             </expand>
             <select />

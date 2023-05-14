@@ -2,6 +2,9 @@ package com.codea.member;
 
 
 import com.codea.BaseEntity.BaseEntity;
+import com.codea.favorite.Favorite;
+import com.codea.restaurant.Restaurant;
+import com.codea.review.Review;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -43,12 +46,14 @@ public class Member extends BaseEntity {
     @ElementCollection(fetch = FetchType.EAGER)
     private List<String> roles = new ArrayList<>();
 
+    @OneToMany(mappedBy = "member", cascade = CascadeType.REMOVE)
+    private List<Restaurant> restaurants = new ArrayList<>();
 
-//    @OneToMany(mappedBy = "member")
-//    private List<Restaurant> restaurants = new ArrayList<>();
-//    @OneToMany(mappedBy = "member")
+//    @OneToMany(mappedBy = "member", cascade = CascadeType.REMOVE)
 //    private List<Review> reviews = new ArrayList<>();
-//
+
+    @OneToMany(mappedBy = "member", cascade = CascadeType.REMOVE)
+    private List<Favorite> favorites = new ArrayList<>();
 
 
     public enum MemberStatus {

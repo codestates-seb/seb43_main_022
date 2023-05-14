@@ -3,6 +3,7 @@ package com.codea.restaurant;
 import com.codea.BaseEntity.BaseEntity;
 import com.codea.Menu.Menu;
 import com.codea.address.Address;
+import com.codea.favorite.Favorite;
 import com.codea.member.Member;
 import com.codea.review.Review;
 import lombok.*;
@@ -46,8 +47,14 @@ public class Restaurant extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "MEMBER_ID")
     private Member member;
+
+//    @OneToMany(mappedBy = "restaurant", cascade = CascadeType.REMOVE)
+//    private List<Menu> menu = new ArrayList<>();
+
+//    @OneToMany(mappedBy = "restaurant", cascade = CascadeType.REMOVE)
+//    private List<Review> reviews = new ArrayList<>();
+
     @OneToMany(mappedBy = "restaurant", cascade = CascadeType.REMOVE)
-    private List<Menu> menu = new ArrayList<>();
-    @OneToMany(mappedBy = "restaurant", cascade = CascadeType.REMOVE)
-    private List<Review> reviews = new ArrayList<>();
+    private List<Favorite> favorites = new ArrayList<>();
+
 }

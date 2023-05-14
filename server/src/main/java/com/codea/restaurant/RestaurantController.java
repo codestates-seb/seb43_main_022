@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -70,6 +71,19 @@ public class RestaurantController {
         restaurantService.deleteRestaurant(restaurantId);
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @GetMapping("/top10")
+    public ResponseEntity getTop10Restaurants() {
+        List<Restaurant> top10Restaurants = restaurantService.getTop10Restaurants();
+        List<RestaurantDto.Response> top10Responses = new ArrayList<>();
+
+        for (Restaurant restaurant : top10Restaurants) {
+            RestaurantDto.Response response = mapper.restaurantToRestaurantResponseDto(restaurant);
+            top10Responses.add(response);
+        }
+
+        return new ResponseEntity(top10Responses, HttpStatus.OK);
     }
 
 }

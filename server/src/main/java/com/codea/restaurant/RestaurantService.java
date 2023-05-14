@@ -13,6 +13,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 import static com.codea.review.Review.ReviewStatus.REVIEW_VALID;
@@ -64,6 +65,10 @@ public class RestaurantService {
         Restaurant findRestaurant = findRestaurant(restaurantId);
 
         restaurantRepository.delete(findRestaurant);
+    }
+
+    public List<Restaurant> getTop10Restaurants() {
+        return restaurantRepository.findTop10ByOrderByTotalFavoriteDesc();
     }
 
 }

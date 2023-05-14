@@ -2,6 +2,9 @@ package com.codea.member;
 
 
 import com.codea.dto.MultiResponseDto;
+import com.codea.review.Review;
+import com.codea.review.ReviewDto;
+import com.codea.review.ReviewMapper;
 import com.codea.utils.UriCreator;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -14,7 +17,9 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/members")
@@ -62,8 +67,35 @@ public class MemberController {
             @PathVariable("member-id") @Positive long memberId) {
         Member member = memberService.findMember(memberId);
         MemberDto.Response responseDto = memberMapper.memberToMemberResponseDto(member);
+        List<Review> reviews = memberService.getReviewsByMember(member);
         return new ResponseEntity(responseDto, HttpStatus.OK);
     }
+
+//    @GetMapping("/{member-id}")
+//    public ResponseEntity getMember(@PathVariable("member-id") @Positive long memberId) {
+//        Member member = memberService.findMember(memberId);
+//        List<Review> reviews = memberService.getReviewsByMember(member);
+//        MemberDto.Response responseDto = memberMapper.memberToMemberResponseDto(member, reviews);
+//        return new ResponseEntity(responseDto, HttpStatus.OK);
+//    }
+
+//    @GetMapping("/{member-id}")
+//    public ResponseEntity getMember(@PathVariable("member-id") @Positive long memberId) {
+//        Member member = memberService.findMember(memberId);
+//        List<Review> reviews = memberService.getReviewsByMember(member);
+//
+//        // Review 리스트를 ReviewDto.Response 리스트로 변환합니다.
+//        List<ReviewDto.Response> reviewResponses = new ArrayList<>();
+//        for (Review review : reviews) {
+//            reviewResponses.add(reviewMapper.reviewToReviewResponseDto(review));
+//        }
+//
+//        MemberDto.Response responseDto = new MemberDto.Response(member.getMemberId(),
+//                member.getNickName(), member.getEmail(), member.getLocation(),
+//                member.getPhoto(), reviewResponses, member.getFavoriteCount());
+//
+//        return new ResponseEntity(responseDto, HttpStatus.OK);
+//    }
 
     @GetMapping
     public ResponseEntity getMembers(@Positive @RequestParam int page,
@@ -75,6 +107,13 @@ public class MemberController {
                         pageMembers),
                 HttpStatus.OK);
     }
+
+//    @GetMapping("/{memberId}")
+//    public MemberDto.Response getMember(@PathVariable Long memberId) {
+//        Member member = memberService.getMember(memberId);
+//        List<Review> reviews = memberService.getReviewsByMember(member); // 명시적으로 reviews를 로드합니다.
+//        return new MemberDto.Response(member, reviews); // reviews를 DTO 생성자에 전달합니다.
+//    }
 
     @DeleteMapping("/{member-id}")
     public ResponseEntity deleteMember(

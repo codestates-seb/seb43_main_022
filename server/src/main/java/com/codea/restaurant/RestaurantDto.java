@@ -56,7 +56,7 @@ public class RestaurantDto {
         private LocalDateTime modifiedAt;
         private int total_views;
         private int total_reviews;
-        private int total_favorite;
+        private int totalFavorite;
         private double rating;
         private List<MenuDto.Response> menu;
         private List<ReviewDto.Response> reviews;

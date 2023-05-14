@@ -41,16 +41,24 @@ public class Restaurant extends BaseEntity {
     @Column
     private int total_reviews;
     @Column
-    private int total_favorite;
+    private int totalFavorite;
     @Column
     private double rating;
     @ManyToOne
     @JoinColumn(name = "MEMBER_ID")
     private Member member;
 
+    public void incrementFavoriteCount() {
+        this.totalFavorite += 1;
+    }
+
+    public void decrementFavoriteCount() {
+        this.totalFavorite -= 1;
+    }
+
 //    @OneToMany(mappedBy = "restaurant", cascade = CascadeType.REMOVE)
 //    private List<Menu> menu = new ArrayList<>();
-
+//
 //    @OneToMany(mappedBy = "restaurant", cascade = CascadeType.REMOVE)
 //    private List<Review> reviews = new ArrayList<>();
 

@@ -51,10 +51,13 @@ public class FavoriteController {
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
         List<Favorite> favorites = favoriteService.getFavoritesByMember(member);
+
+        int favoriteCount = favorites.size();
+
         List<FavoriteDto.FavoriteResponse> favoriteResponses = new ArrayList<>();
 
         for (Favorite favorite : favorites) {
-            favoriteResponses.add(new FavoriteDto.FavoriteResponse(favorite));
+            favoriteResponses.add(new FavoriteDto.FavoriteResponse(favorite, favoriteCount));
         }
 
         return favoriteResponses;

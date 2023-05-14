@@ -4,6 +4,9 @@ package com.codea.member;
 import com.codea.auth.utils.CustomAuthorityUtils;
 import com.codea.exception.BusinessLogicException;
 import com.codea.exception.ExceptionCode;
+import com.codea.favorite.FavoriteRepository;
+import com.codea.review.Review;
+import com.codea.review.ReviewRepository;
 import com.codea.utils.JwtUtil;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -18,7 +21,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Optional;
 
-
 @AllArgsConstructor
 @Transactional
 @Service
@@ -27,14 +29,13 @@ public class MemberService {
     private final PasswordEncoder passwordEncoder;
     private final CustomAuthorityUtils authorityUtils;
     private final JwtUtil jwtUtil;
-
+    private final ReviewRepository reviewRepository;
 
     public Member createMember(Member member) {
         verifyExistsEmail(member.getEmail());
 
         String encryptedPassword = passwordEncoder.encode(member.getPassword()); // Password 단방향 암호화
         member.setPassword(encryptedPassword);
-
 
         List<String> roles = authorityUtils.createRoles(member.getEmail()); // 권한 설정
         member.setRoles(roles);
@@ -82,6 +83,8 @@ public class MemberService {
         //탈퇴회원으로 상태변경
     }
 
+
+
     @Transactional(readOnly = true)
     public Member findVerifiedMember(long memberId) {
         Optional<Member> optionalMember =
@@ -107,5 +110,8 @@ public class MemberService {
         }
     }
 
+    public List<Review> getReviewsByMember(Member member) {
+        return reviewRepository.findByMember(member);
+    }
 
 }

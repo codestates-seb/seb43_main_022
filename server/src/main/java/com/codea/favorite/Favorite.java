@@ -18,6 +18,7 @@ import javax.persistence.*;
 public class Favorite extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Setter
     private Long favoriteId;
 
     @ManyToOne(fetch = FetchType.EAGER)

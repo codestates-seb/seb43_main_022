@@ -1,6 +1,6 @@
 package com.codea.tag;
 
-import com.codea.util.UriCreator;
+import com.codea.utils.UriCreator;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

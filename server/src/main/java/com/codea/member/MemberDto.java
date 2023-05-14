@@ -56,5 +56,13 @@ public class MemberDto {
         private List<ReviewDto.Response> reviews;
     }
 
+    @Getter
+    @AllArgsConstructor
+    public static class ReviewResponse {
+        private long memberId;
+        private String nickName;
+        private String photo;
+    }
+
 
 }

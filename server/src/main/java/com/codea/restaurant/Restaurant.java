@@ -48,13 +48,12 @@ public class Restaurant extends BaseEntity {
     @JoinColumn(name = "MEMBER_ID")
     private Member member;
 
-//    @OneToMany(mappedBy = "restaurant", cascade = CascadeType.REMOVE)
-//    private List<Menu> menu = new ArrayList<>();
+    @OneToMany(mappedBy = "restaurant", cascade = CascadeType.REMOVE)
+    private List<Menu> menu = new ArrayList<>();
 
-//    @OneToMany(mappedBy = "restaurant", cascade = CascadeType.REMOVE)
-//    private List<Review> reviews = new ArrayList<>();
+    @OneToMany(mappedBy = "restaurant", cascade = CascadeType.REMOVE)
+    private List<Review> reviews = new ArrayList<>();
 
     @OneToMany(mappedBy = "restaurant", cascade = CascadeType.REMOVE)
     private List<Favorite> favorites = new ArrayList<>();
-
 }

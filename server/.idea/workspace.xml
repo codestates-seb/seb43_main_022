@@ -5,24 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="33dee409-4159-4046-bac4-db427252d03f" name="Changes" comment="test: 멤버 test 코드 수정">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/codea/category/Category.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/codea/category/CategoryController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/codea/category/CategoryDto.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/codea/category/CategoryMapper.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/codea/category/CategoryRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/codea/category/CategoryService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/codea/tag/Tag.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/codea/tag/TagController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/codea/tag/TagDto.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/codea/tag/TagMapper.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/codea/tag/TagRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/codea/tag/TagService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/com/codea/restdocs/ApiDocumentUtils.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/com/codea/restdocs/CategoryControllerRestDocsTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/com/codea/restdocs/TagControllerRestDocsTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/codea/exception/ExceptionCode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/codea/exception/ExceptionCode.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/codea/WebApplicationTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/codea/WebApplicationTests.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/codea/category/CategoryController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/codea/category/CategoryController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/codea/tag/TagController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/codea/tag/TagController.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -93,7 +78,20 @@
     &quot;settings.editor.selected.configurable&quot;: &quot;screenshoter&quot;
   }
 }</component>
-  <component name="RunManager" selected="Gradle.MemberControllerRestDocsTest.postMemberTest">
+  <component name="RunManager" selected="Application.WebApplication">
+    <configuration name="WebApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.codea.WebApplication" />
+      <module name="seb43_main_022.main" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.codea.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="MemberControllerRestDocsTest" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -186,27 +184,6 @@
       <DebugAllEnabled>false</DebugAllEnabled>
       <method v="2" />
     </configuration>
-    <configuration name="server [bootJar]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
-      <ExternalSystemSettings>
-        <option name="executionName" />
-        <option name="externalProjectPath" value="$PROJECT_DIR$" />
-        <option name="externalSystemIdString" value="GRADLE" />
-        <option name="scriptParameters" />
-        <option name="taskDescriptions">
-          <list />
-        </option>
-        <option name="taskNames">
-          <list>
-            <option value="bootJar" />
-          </list>
-        </option>
-        <option name="vmOptions" />
-      </ExternalSystemSettings>
-      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
-      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
-      <DebugAllEnabled>false</DebugAllEnabled>
-      <method v="2" />
-    </configuration>
     <configuration default="true" type="JetRunConfigurationType">
       <method v="2">
         <option name="Make" enabled="true" />
@@ -220,11 +197,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.WebApplication" />
         <item itemvalue="Gradle.MemberControllerRestDocsTest.postMemberTest" />
         <item itemvalue="Gradle.MemberControllerRestDocsTest" />
         <item itemvalue="Gradle.RestaurantControllerTest.getRestaurantTest" />
         <item itemvalue="Gradle.RestaurantControllerTest" />
-        <item itemvalue="Gradle.server [bootJar]" />
       </list>
     </recent_temporary>
   </component>

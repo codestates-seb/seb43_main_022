@@ -21,21 +21,18 @@ public class FavoriteDto {
     }
 
     @Getter
-    public static class FavoriteResponse {
+    public static class ResponseFavorite {
         private Long favoriteId;
         private String restaurantName;
         private Long memberId;
         private int favoriteCount;
 
-        public FavoriteResponse(Favorite favorite, int favoriteCount) {
+        public ResponseFavorite(Favorite favorite, int favoriteCount) {
             this.favoriteId = favorite.getFavoriteId();
             this.restaurantName = favorite.getRestaurant().getName();
             this.memberId = favorite.getMember().getMemberId();
             this.favoriteCount = favoriteCount;
         }
-//
-//        public int getFavoriteCount() {
-//            return favoriteCount;
-//        }
+
     }
 }

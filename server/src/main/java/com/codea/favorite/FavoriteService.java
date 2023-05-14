@@ -21,40 +21,36 @@ public class FavoriteService {
         this.restaurantRepository = restaurantRepository;
     }
 
+    public Favorite createFavorite(long restaurantId, String email) {
+        Restaurant restaurant = restaurantRepository.findById(restaurantId).orElseThrow(() -> new BusinessLogicException(ExceptionCode.RESTAURANT_NOT_FOUND));
+        Member member = memberRepository.findByEmail(email).orElseThrow(() -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
 
-    //    @Transactional
-//    public void addToFavorites(Restaurant restaurant, Member member) {
-//        Favorite favorite = new Favorite(restaurant, member, true);
-//        favoriteRepository.save(favorite);
-//    }
+        System.out.println(email);
+        System.out.println(restaurantId);
+        System.out.println(restaurant);
+        System.out.println(member);
+        System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
 
-    @Transactional
-    public void createToFavorites(Restaurant restaurant, Member member) {
-        Favorite favorite = favoriteRepository.findByRestaurantAndMember(restaurant, member)
-                .orElse(FavoriteFactory.createFavoriteWithNotFavorite(restaurant, member));
+        Favorite favorite = new Favorite();
+        favorite.setRestaurant(restaurant);
+        favorite.setMember(member);
         favorite.setStatus(true);
-        favoriteRepository.save(favorite);
+
         restaurant.incrementFavoriteCount(); // 즐겨찾기가 추가될 때 카운트를 증가시킵니다.
         restaurantRepository.save(restaurant); // 카운트가 업데이트된 restaurant를 저장합니다.
+
+        return favoriteRepository.save(favorite);
     }
 
-//    @Transactional
-//    public void removeFromFavorites(Restaurant restaurant, Member member) {
-//        favoriteRepository.deleteByRestaurantAndMember(restaurant, member);
-//    }
+    public Favorite findFavorite(long favoriteId) {
+        return favoriteRepository.findById(favoriteId).orElseThrow(() -> new BusinessLogicException(ExceptionCode.FAVORITE_NOT_FOUND));
+    }
 
-    @Transactional
-    public void deleteToFavorite(Restaurant restaurant, Member member) {
-        // ...
-        favoriteRepository.findByMember_MemberIdAndRestaurant_RestaurantId(restaurant, member)
-                .ifPresent(favorite -> {
-                    if (favorite.isStatus()) {
-                        favorite.setStatus(false);
-                        favoriteRepository.save(favorite);
-                        restaurant.decrementFavoriteCount(); // 즐겨찾기 횟수 감소
-                        restaurantRepository.save(restaurant);
-                    }
-                });
+    public Page<Favorite> findFavorites(String email, int page, int size) {
+        Member member = memberRepository.findByEmail(email).orElseThrow(() -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
+        long memberId = member.getMemberId();
+
+        return favoriteRepository.findByMember_MemberIdAndStatus(memberId, true, PageRequest.of(page, size, Sort.by("favoriteId").descending()));
     }
 
     public List<Favorite> getFavoritesByMember(Member member) {

@@ -4,10 +4,24 @@ import com.codea.exception.BusinessLogicException;
 import com.codea.exception.ExceptionCode;
 import com.codea.member.Member;
 import com.codea.member.MemberRepository;
+import com.codea.response.MultiResponseDto;
 import com.codea.restaurant.Restaurant;
+import com.codea.restaurant.RestaurantMapper;
 import com.codea.restaurant.RestaurantRepository;
+import com.codea.review.Review;
+import com.codea.review.ReviewDto;
+import com.codea.review.ReviewMapper;
+import com.codea.review.ReviewService;
+import com.codea.utils.UriCreator;
+import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+import javax.validation.constraints.Positive;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,54 +29,53 @@ import java.util.List;
 @RequestMapping("/favorites")
 public class FavoriteController {
 
-    private FavoriteService favoriteService;
-    private RestaurantRepository restaurantRepository;
-    private MemberRepository memberRepository;
 
-    public FavoriteController(FavoriteService favoriteService, RestaurantRepository restaurantRepository,
-                              MemberRepository memberRepository) {
+    private final FavoriteService favoriteService;
+    private final FavoriteMapper mapper;
+
+    public FavoriteController(FavoriteService favoriteService, FavoriteMapper mapper) {
         this.favoriteService = favoriteService;
-        this.restaurantRepository = restaurantRepository;
-        this.memberRepository = memberRepository;
+        this.mapper = mapper;
     }
 
-    @PostMapping
-    public void addToFavorites(@RequestBody FavoriteDto.AddFavoriteRequest request) {
-        // 요청에서 식당 ID와 회원 ID를 받아와서 해당 식당을 즐겨찾기에 추가하는 기능
-        Restaurant restaurant = restaurantRepository.findById(request.getRestaurantId())
-                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.RESTAURANT_NOT_FOUND));
-        Member member = memberRepository.findById(request.getMemberId())
-                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
-        favoriteService.createToFavorites(restaurant, member);
+    @PostMapping("/{restaurant-id}")
+    public ResponseEntity postFavorite(@PathVariable("restaurant-id") @Positive long restaurantId,
+                                       @AuthenticationPrincipal String email) {
+        Favorite favorite = favoriteService.createFavorite(restaurantId, email);
+
+        URI location = UriCreator.createUri("/favorites", favorite.getFavoriteId());
+
+        System.out.println(email);
+        System.out.println(restaurantId);
+        System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+
+        return ResponseEntity.created(location).build();
     }
 
-    @DeleteMapping
-    public void removeFromFavorites(@RequestBody FavoriteDto.RemoveFavoriteRequest request) {
-        // 요청에서 식당 ID와 회원 ID를 받아와서 해당 식당을 즐겨찾기에서 제거하는 기능
-        Restaurant restaurant = restaurantRepository.findById(request.getRestaurantId())
-                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.RESTAURANT_NOT_FOUND));
-        Member member = memberRepository.findById(request.getMemberId())
-                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
-        favoriteService.deleteToFavorite(restaurant, member);
+    @GetMapping("/{restaurant-id}")
+    public ResponseEntity getFavorite(@PathVariable("restaurant-id") @Positive long restaurantId) {
+        Favorite favorite = favoriteService.findFavorite(restaurantId);
+
+        return new ResponseEntity<>(mapper.favoriteToFavoriteResponseDto(favorite),HttpStatus.OK);
     }
 
-    @GetMapping("/member/{memberId}")
-    public List<FavoriteDto.FavoriteResponse> getFavorites(@PathVariable Long memberId) {
-        Member member = memberRepository.findById(memberId)
-                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
-        List<Favorite> favorites = favoriteService.getFavoritesByMember(member);
+    @GetMapping
+    public ResponseEntity getFavorites(@AuthenticationPrincipal String email,
+                                      @Positive @RequestParam(value = "page", required = false) Integer page,
+                                      @Positive @RequestParam(value = "size", required = false) Integer size) {
+        if(page == null) page = 1;
+        if(size == null) size = 10;
+        Page<Favorite> favoritePage = favoriteService.findFavorites(email,page - 1, size);
+        List<Favorite> favorites = favoritePage.getContent();
 
-        int favoriteCount = favorites.size();
-
-        List<FavoriteDto.FavoriteResponse> favoriteResponses = new ArrayList<>();
-
-        for (Favorite favorite : favorites) {
-            favoriteResponses.add(new FavoriteDto.FavoriteResponse(favorite, favoriteCount));
-        }
-
-        return favoriteResponses;
+        return new ResponseEntity<>(
+                new MultiResponseDto<>(mapper.favoritesToFavoriteResponseDto(favorites), favoritePage), HttpStatus.OK);
     }
 
+    @DeleteMapping("/{favorite-id}")
+    public ResponseEntity deleteFavorites(@PathVariable("favorite-id") @Positive long favoriteId) {
+        favoriteService.deleteFavorite(favoriteId);
 
-    // 추가적인 즐겨찾기 관련 API 엔드포인트
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
 }

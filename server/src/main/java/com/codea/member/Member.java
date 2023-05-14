@@ -8,7 +8,6 @@ import com.codea.review.Review;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.sql.ordering.antlr.Factory;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -22,20 +21,22 @@ public class Member extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long memberId;
-    private String memberNickName;
+    private String nickName;
     @Column(nullable = false, updatable = false, unique = true)
     private String email;
     private String password;
     private String location;
     private String photo;
+    @Column
+    private Boolean businessAccount = false;
     @Enumerated(value = EnumType.STRING)
     @Column(length = 20, nullable = false)
     private MemberStatus memberStatus = MemberStatus.MEMBER_ACTIVE;
 
 
-    public Member(Long memberId, String memberNickName, String email, String location, String photo, MemberStatus memberStatus) {
+    public Member(Long memberId, String nickName, String email, String location, String photo, MemberStatus memberStatus) {
         this.memberId = memberId;
-        this.memberNickName = memberNickName;
+        this.nickName = nickName;
         this.email = email;
         this.location = location;
         this.photo = photo;
@@ -48,8 +49,8 @@ public class Member extends BaseEntity {
     @OneToMany(mappedBy = "member", cascade = CascadeType.REMOVE)
     private List<Restaurant> restaurants = new ArrayList<>();
 
-    @OneToMany(mappedBy = "member", cascade = CascadeType.REMOVE)
-    private List<Review> reviews = new ArrayList<>();
+//    @OneToMany(mappedBy = "member", cascade = CascadeType.REMOVE)
+//    private List<Review> reviews = new ArrayList<>();
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.REMOVE)
     private List<Favorite> favorites = new ArrayList<>();

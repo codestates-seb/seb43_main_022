@@ -12,7 +12,6 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Positive;
 import java.time.LocalDateTime;
-import java.util.AbstractSequentialList;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,11 +47,12 @@ public class Restaurant extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "MEMBER_ID")
     private Member member;
-    @OneToMany(mappedBy = "restaurant", cascade = CascadeType.REMOVE)
-    private List<Menu> menu = new ArrayList<>();
 
-    @OneToMany(mappedBy = "restaurant", cascade = CascadeType.REMOVE)
-    private List<Review> reviews = new ArrayList<>();
+//    @OneToMany(mappedBy = "restaurant", cascade = CascadeType.REMOVE)
+//    private List<Menu> menu = new ArrayList<>();
+
+//    @OneToMany(mappedBy = "restaurant", cascade = CascadeType.REMOVE)
+//    private List<Review> reviews = new ArrayList<>();
 
     @OneToMany(mappedBy = "restaurant", cascade = CascadeType.REMOVE)
     private List<Favorite> favorites = new ArrayList<>();

@@ -2,6 +2,8 @@ package com.codea.review;
 
 import com.codea.exception.ExceptionCode;
 import com.codea.exception.BusinessLogicException;
+import com.codea.member.Member;
+import com.codea.member.MemberRepository;
 import com.codea.restaurant.Restaurant;
 import com.codea.restaurant.RestaurantRepository;
 import org.springframework.data.domain.Page;
@@ -18,21 +20,27 @@ import static com.codea.review.Review.ReviewStatus.REVIEW_VALID;
 public class ReviewService {
     private final ReviewRepository reviewRepository;
     private final RestaurantRepository restaurantRepository;
+    private final MemberRepository memberRepository;
 
-    public ReviewService(ReviewRepository reviewRepository, RestaurantRepository restaurantRepository) {
+    public ReviewService(ReviewRepository reviewRepository, RestaurantRepository restaurantRepository, MemberRepository memberRepository) {
         this.reviewRepository = reviewRepository;
         this.restaurantRepository = restaurantRepository;
+        this.memberRepository = memberRepository;
     }
 
-    public Review createReview(long restaurantId, Review review) {
+    public Review createReview(long restaurantId, String email, Review review) {
         Restaurant restaurant = restaurantRepository.findById(restaurantId).orElseThrow(() -> new BusinessLogicException(ExceptionCode.RESTAURANT_NOT_FOUND));
+        Member member = memberRepository.findByEmail(email).orElseThrow(() -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
         review.setRestaurant(restaurant);
+        review.setMember(member);
 
         return reviewRepository.save(review);
     }
 
-    public Review updateReview(long reviewId, Review review) {
+    public Review updateReview(long reviewId, String email, Review review) {
         Review findReview = findReview(reviewId);
+
+        if (!findReview.getMember().getEmail().equals(email)) throw new BusinessLogicException(ExceptionCode.UNAUTHORIZED_EDIT);
 
         Optional.ofNullable(review.getTitle()).ifPresent(title -> findReview.setTitle(title));
         Optional.ofNullable(review.getContent()).ifPresent(content -> findReview.setContent(content));

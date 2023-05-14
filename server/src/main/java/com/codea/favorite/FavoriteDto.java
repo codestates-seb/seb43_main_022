@@ -19,4 +19,17 @@ public class FavoriteDto {
         private Long restaurantId;
         private Long memberId;
     }
+
+    @Getter
+    public static class FavoriteResponse {
+        private Long favoriteId;
+        private String restaurantName;
+        private Long memberId;
+
+        public FavoriteResponse(Favorite favorite) {
+            this.favoriteId = favorite.getFavoriteId();
+            this.restaurantName = favorite.getRestaurant().getName();
+            this.memberId = favorite.getMember().getMemberId();
+        }
+    }
 }

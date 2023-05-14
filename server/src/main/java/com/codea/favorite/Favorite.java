@@ -20,7 +20,7 @@ public class Favorite extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long favoriteId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "restaurant_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Restaurant restaurant;

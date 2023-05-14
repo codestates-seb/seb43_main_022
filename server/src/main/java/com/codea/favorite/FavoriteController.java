@@ -6,10 +6,10 @@ import com.codea.member.Member;
 import com.codea.member.MemberRepository;
 import com.codea.restaurant.Restaurant;
 import com.codea.restaurant.RestaurantRepository;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 @RequestMapping("/favorites")
@@ -45,6 +45,21 @@ public class FavoriteController {
                 .orElseThrow(() -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
         favoriteService.removeFromFavorites(restaurant, member);
     }
+
+    @GetMapping("/member/{memberId}")
+    public List<FavoriteDto.FavoriteResponse> getFavorites(@PathVariable Long memberId) {
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
+        List<Favorite> favorites = favoriteService.getFavoritesByMember(member);
+        List<FavoriteDto.FavoriteResponse> favoriteResponses = new ArrayList<>();
+
+        for (Favorite favorite : favorites) {
+            favoriteResponses.add(new FavoriteDto.FavoriteResponse(favorite));
+        }
+
+        return favoriteResponses;
+    }
+
 
     // 추가적인 즐겨찾기 관련 API 엔드포인트
 }

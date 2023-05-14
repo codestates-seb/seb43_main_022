@@ -5,6 +5,7 @@ import com.codea.utils.UriCreator;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,8 +28,9 @@ public class ReviewController {
 
     @PostMapping("/restaurants/{restaurant-id}/reviews")
     public ResponseEntity postReview(@PathVariable("restaurant-id") @Positive long restaurantId,
-                                     @Valid @RequestBody ReviewDto.Post requestBody) {
-        Review review = reviewService.createReview(restaurantId, mapper.reviewPostDtoToReview(requestBody));
+                                     @Valid @RequestBody ReviewDto.Post requestBody,
+                                     @AuthenticationPrincipal String email) {
+        Review review = reviewService.createReview(restaurantId, email, mapper.reviewPostDtoToReview(requestBody));
 
         String ReviewUrl = "/restaurants/" + restaurantId + "/reviews";
         URI location = UriCreator.createUri(ReviewUrl, review.getReviewId());
@@ -38,8 +40,9 @@ public class ReviewController {
 
     @PatchMapping("/reviews/{review-id}")
     public ResponseEntity patchReview(@PathVariable("review-id") @Positive long reviewId,
-                                      @Valid @RequestBody ReviewDto.Patch requestBody) {
-        Review review = reviewService.updateReview(reviewId, mapper.reviewPatchDtoToReview(requestBody));
+                                      @Valid @RequestBody ReviewDto.Patch requestBody,
+                                      @AuthenticationPrincipal String email) {
+        Review review = reviewService.updateReview(reviewId, email, mapper.reviewPatchDtoToReview(requestBody));
 
         return new ResponseEntity<>(mapper.reviewToReviewResponseDto(review),HttpStatus.OK);
     }

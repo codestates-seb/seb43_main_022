@@ -1,13 +1,14 @@
 import styled from "styled-components";
 import { useState } from "react";
-import { Link } from "react-router-dom";
-import { useRecoilState } from "recoil";
+import { Link, useNavigate } from "react-router-dom";
+import { useSetRecoilState, useRecoilState } from "recoil";
+import axios from "axios";
 import isLoginState from "../state/atoms/IsLoginAtom";
 import Button from "../Component/style/StyleButton";
 import Input from "../Component/style/StyleInput";
 import Logo from "../Component/style/img/Eaaaaaaats.svg";
-
 import Auth from "../Component/StyleAuth";
+import memberState from "../state/atoms/SignAtom";
 
 const Main = styled.div`
   flex-direction: column;
@@ -64,23 +65,46 @@ const Authdiv = styled.div`
 
 export default function Login() {
   const [isLogin, setIsLogin] = useRecoilState(isLoginState);
+  const setMember = useSetRecoilState(memberState);
   const [err, setErr] = useState(true);
   const [errMessage, setErrMessage] = useState("");
   const [errPw, setErrPw] = useState("");
-  const [member, setMember] = useState({
+  const [Loginmember, setLoginMember] = useState({
     email: "",
     password: "",
   });
+  const navi = useNavigate();
 
   const handleInputValue = (key) => (e) => {
-    setMember({ ...member, [key]: e.target.value });
+    setLoginMember({ ...Loginmember, [key]: e.target.value });
   };
 
   function onClick() {
-    setIsLogin(!isLogin);
-    setErr(!err);
-    setErrMessage("등록되지 않는 이메일입니다.");
-    setErrPw("패스워드가 맞지 않습니다.");
+    if (!Loginmember.email || !Loginmember.email.includes("@")) {
+      setErrMessage("등록되지 않는 이메일입니다.");
+      return;
+    } else if (!Loginmember.password || Loginmember.password.length < 8) {
+      setErrPw("패스워드가 맞지 않습니다.");
+      return;
+    }
+    return axios
+      .post(`http://localhost:4000/members`, {
+        email: Loginmember.email,
+        password: Loginmember.password,
+      })
+      .then(() => {
+        setIsLogin(!isLogin);
+        navi("/");
+        axios.get(`http://localhost:4000/members`).then((res) => {
+          setMember(res.data);
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+        setErr(!err);
+        setErrMessage("등록되지 않는 이메일입니다.");
+        setErrPw("패스워드가 맞지 않습니다.");
+      });
   }
 
   return (

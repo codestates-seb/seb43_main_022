@@ -1,13 +1,15 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef } from "react";
 import Select from "react-select";
 //import { Link } from "react-router-dom";
+import axios from "axios";
 import styled from "styled-components";
 import Button from "../Component/style/StyleButton";
 import Input from "../Component/style/StyleInput";
 import Plus from "../Component/style/img/signup.svg";
 import Auth from "../Component/StyleAuth";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useSetRecoilState } from "recoil";
 import memberState from "../state/atoms/SignAtom";
+import isLoginState from "../state/atoms/IsLoginAtom";
 
 const Main = styled.main`
   margin: 20px 0;
@@ -92,8 +94,8 @@ const { kakao } = window;
 function Signup() {
   const imgRef = useRef();
   const [member, setMember] = useRecoilState(memberState);
+  const isLoginHandler = useSetRecoilState(isLoginState);
   const [imgFile, setImgFile] = useState(""); // 프로필 이미지 상태
-  const selectOption = [{ value: "강남구", label: "강남구" }]; // 주소 셀렉트 옵션
   const [pwCheck, setPwCheck] = useState(""); // 비밀번호 확인
   const [Check, setCheck] = useState({
     // 회원가입 양식 확인
@@ -102,6 +104,8 @@ function Signup() {
     password: true,
     location: true,
   });
+
+  const selectOption = [{ value: "강남구", label: "강남구" }]; // 주소 셀렉트 옵션
   const errMsg = [
     "* 이메일 형식으로 입력해주세요.",
     "* 닉네임을 입력해주세요.",
@@ -119,7 +123,6 @@ function Signup() {
     if (leng.length === 0) {
       return;
     }
-    setMember({ ...member, img: e.target.files[0] });
     const file = imgRef.current.files[0];
     const reader = new FileReader();
 
@@ -157,18 +160,35 @@ function Signup() {
     } else if (!member.email || !member.email.includes("@")) {
       setCheck({ ...Check, email: false, username: true });
       return;
-    } else if (pwCheck !== member.password || !member.password) {
+    } else if (
+      pwCheck !== member.password ||
+      !member.password ||
+      member.password.length < 8
+    ) {
       setCheck({ ...Check, password: false, email: true });
       return;
     } else if (!member.location) {
       setCheck({ ...Check, location: false, password: true });
       return;
     }
+    return axios
+      .post(`http://localhost:4000/members`, {
+        email: member.email,
+        nickName: member.username,
+        password: member.password,
+        location: member.location,
+        la: member.la,
+        ma: member.ma,
+        CEO: member.CEO,
+        img: imgFile,
+      })
+      .then(() => {
+        isLoginHandler(true);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
-
-  useEffect(() => {
-    console.log(member);
-  }, [member]);
 
   return (
     <Main>

@@ -126,7 +126,7 @@ public class MemberControllerRestDocsTest {
         MemberDto.Response responseDto =
                 new MemberDto.Response(1L, "changed MemberNickName1",
                         "test1@test.com", "changed Location1", "changed Image1",
-                        List.of(new ReviewDto.Response(1L, "리뷰 제목", "리뷰 내용", "photo/photo1.png",LocalDateTime.now(), LocalDateTime.now(),  Review.Rating.GOOD, 1L, "홍길동")));
+                        List.of(new ReviewDto.Response(1L, "리뷰 제목", "리뷰 내용", "photo/photo1.png",LocalDateTime.now(), LocalDateTime.now(),  Review.Rating.GOOD, new MemberDto.ReviewResponse(1L, "닉네임1", "photo/photo1.png"))));
 
         // willReturn()이 최소한 null은 아니어야 한다.
         given(mapper.memberPatchDtoToMember(Mockito.any(MemberDto.Patch.class))).willReturn(new Member());

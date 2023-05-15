@@ -10,6 +10,7 @@ import com.codea.review.ReviewRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -53,6 +54,7 @@ public class RestaurantService {
         return restaurantRepository.save(findRestaurant);
     }
 
+    @EntityGraph(attributePaths = "menu")
     public Restaurant findRestaurant(long restaurantId){
         return restaurantRepository.findById(restaurantId).orElseThrow(() -> new BusinessLogicException(ExceptionCode.RESTAURANT_NOT_FOUND));
     }

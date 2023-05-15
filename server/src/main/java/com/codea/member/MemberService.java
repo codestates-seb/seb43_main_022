@@ -21,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Optional;
 
+
 @AllArgsConstructor
 @Transactional
 @Service
@@ -82,8 +83,6 @@ public class MemberService {
         memberRepository.delete(findMember);
         //탈퇴회원으로 상태변경
     }
-
-
 
     @Transactional(readOnly = true)
     public Member findVerifiedMember(long memberId) {

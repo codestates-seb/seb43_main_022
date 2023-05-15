@@ -14,7 +14,7 @@ import java.net.URI;
 import java.util.List;
 
 @RestController
-@RequestMapping
+@RequestMapping("/menu")
 @Validated
 public class MenuController {
     private final MenuService menuService;
@@ -25,7 +25,7 @@ public class MenuController {
         this.mapper = mapper;
     }
 
-    @PostMapping("/restaurants/{restaurant-id}/menu")
+    @PostMapping("/restaurants/{restaurant-id}")
     public ResponseEntity postMenu(@PathVariable("restaurant-id") @Positive long restaurantId,
                                    @Valid @RequestBody MenuDto.Post requestBody) {
         Menu menu = menuService.createMenu(restaurantId, mapper.menuPostDtoToMenu(requestBody));
@@ -36,7 +36,7 @@ public class MenuController {
         return ResponseEntity.created(location).build();
     }
 
-    @PatchMapping("menu/{menu-id}")
+    @PatchMapping("/{menu-id}")
     public ResponseEntity patchMenu(@PathVariable("menu-id") @Positive long menuId,
                                       @Valid @RequestBody MenuDto.Patch requestBody) {
         Menu menu = menuService.updateMenu(menuId, mapper.menuPatchDtoToMenu(requestBody));
@@ -44,14 +44,14 @@ public class MenuController {
         return new ResponseEntity<>(mapper.menuToMenuResponseDto(menu),HttpStatus.OK);
     }
 
-    @GetMapping("menu/{menu-id}")
+    @GetMapping("/{menu-id}")
     public ResponseEntity getMenu(@PathVariable("menu-id") @Positive long menuId) {
         Menu menu = menuService.findMenu(menuId);
 
         return new ResponseEntity<>(mapper.menuToMenuResponseDto(menu),HttpStatus.OK);
     }
 
-    @GetMapping("/restaurants/{restaurant-id}/menu")
+    @GetMapping("/restaurants/{restaurant-id}")
     public ResponseEntity getMenus(@PathVariable("restaurant-id") @Positive long restaurantId,
                                    @Positive @RequestParam(value = "page", required = false) Integer page,
                                    @Positive @RequestParam(value = "size", required = false) Integer size) {
@@ -64,7 +64,7 @@ public class MenuController {
                 new MultiResponseDto<>(mapper.menuToMenuResponseDto(menu), menuPage), HttpStatus.OK);
     }
 
-    @DeleteMapping("menu/{menu-id}")
+    @DeleteMapping("/{menu-id}")
     public ResponseEntity deleteMenu(@PathVariable("menu-id") @Positive long menuId) {
         menuService.deleteMenu(menuId);
 

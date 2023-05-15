@@ -36,7 +36,7 @@ public class FavoriteController {
         this.restaurantRepository = restaurantRepository;
     }
 
-    @PostMapping("/{restaurant-id}")
+    @PostMapping("restaurant/{restaurant-id}")
     public ResponseEntity postFavorite(@PathVariable("restaurant-id") @Positive long restaurantId,
                                        @AuthenticationPrincipal String email) {
         Favorite favorite = favoriteService.createFavorite(restaurantId, email);
@@ -50,7 +50,7 @@ public class FavoriteController {
         return ResponseEntity.created(location).build();
     }
 
-    @GetMapping("/{restaurant-id}")
+    @GetMapping("restaurant/{restaurant-id}")
     public ResponseEntity getFavorite(@PathVariable("restaurant-id") @Positive long restaurantId) {
         Favorite favorite = favoriteService.findFavorite(restaurantId);
 

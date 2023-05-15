@@ -38,22 +38,23 @@ const AddStore = () => {
   const initFormData = {
     storeName: "",
     tags: [],
-    storePhoto: null,
+    storeImg: null,
     storeIntroduction: "",
     tel: "",
     category: "",
     openTime: "",
-    menuList: [{ menu: "", price: "" }],
+    menuList: [],
   };
   const [formData, setFormData] = useState(initFormData);
 
   const postFormData = async () => {
     try {
-      await axios.post("http://localhost:4000", formData);
+      await axios.post("http://localhost:4000/restaurants", formData);
       // 서버로 전송이 완료되면 사용자에게 알림을 줄 수 있는 로직을 추가.
       console.log(formData);
       alert("업체 정보가 등록되었습니다.");
       setFormData(initFormData); // 폼 데이터 초기화
+      history(-1);
     } catch (error) {
       console.error(error);
       // 에러 처리 로직을 추가.

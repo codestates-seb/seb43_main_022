@@ -2,7 +2,9 @@ package com.codea;
 
 import com.codea.Menu.Menu;
 import com.codea.Menu.MenuDto;
+import com.codea.favorite.Favorite;
 import com.codea.member.Member;
+import com.codea.member.MemberDto;
 import com.codea.restaurant.*;
 import com.codea.review.Review;
 import com.codea.review.ReviewDto;
@@ -109,8 +111,8 @@ public class RestaurantControllerTest {
         RestaurantDto.Response response = new RestaurantDto.Response(restaurantId, "맛집", "맛집 설명", "지역", "1234-1234",
                 "10:00 ~", "photo/photo.png", LocalDateTime.now(), LocalDateTime.now(), 1, 1, 1, 4.5,
                 List.of(new MenuDto.Response(1,"김밥",2000), new MenuDto.Response(2,"라면",2500)), List.of(new ReviewDto.Response(1, "리뷰 제목1", "리뷰 내용1", "photo/photo1.jpg",
-                LocalDateTime.now(), LocalDateTime.now(), Review.Rating.GOOD, 1L, "홍길동1"), new ReviewDto.Response(2, "리뷰 제목2", "리뷰 내용2", "photo/photo2.jpg",
-                LocalDateTime.now(), LocalDateTime.now(), Review.Rating.NOT_GOOD, 2L, "홍길동2")));
+                LocalDateTime.now(), LocalDateTime.now(), Review.Rating.GOOD, new MemberDto.ReviewResponse(1L, "닉네임1", "photo/photo1.png")), new ReviewDto.Response(2, "리뷰 제목2", "리뷰 내용2", "photo/photo2.jpg",
+                LocalDateTime.now(), LocalDateTime.now(), Review.Rating.NOT_GOOD, new MemberDto.ReviewResponse(2L, "닉네임2", "photo/photo2.png"))));
 
         given(mapper.restaurantPatchDtoToRestaurant(Mockito.any(RestaurantDto.Patch.class))).willReturn(new Restaurant());
         given(restaurantService.updateRestaurant(Mockito.anyLong(), Mockito.anyString(), Mockito.any(Restaurant.class))).willReturn(new Restaurant());
@@ -184,8 +186,8 @@ public class RestaurantControllerTest {
         RestaurantDto.Response response = new RestaurantDto.Response(restaurantId, "맛집", "맛집 설명", "지역", "1234-1234",
                 "10:00 ~", "photo/photo.png", LocalDateTime.now(), LocalDateTime.now(), 1, 1, 1, 4.5,
                 List.of(new MenuDto.Response(1,"김밥",2000), new MenuDto.Response(2,"라면",2500)), List.of(new ReviewDto.Response(1, "리뷰 제목1", "리뷰 내용1", "photo/photo1.jpg",
-                LocalDateTime.now(), LocalDateTime.now(), Review.Rating.GOOD, 1L, "홍길동1"), new ReviewDto.Response(2, "리뷰 제목2", "리뷰 내용2", "photo/photo2.jpg",
-                LocalDateTime.now(), LocalDateTime.now(), Review.Rating.NOT_GOOD, 2L, "홍길동2")));
+                LocalDateTime.now(), LocalDateTime.now(), Review.Rating.GOOD, new MemberDto.ReviewResponse(1L, "닉네임", "photo/photo1.png")), new ReviewDto.Response(2, "리뷰 제목2", "리뷰 내용2", "photo/photo2.jpg",
+                LocalDateTime.now(), LocalDateTime.now(), Review.Rating.NOT_GOOD, new MemberDto.ReviewResponse(2L, "닉네임2", "photo/photo2.png"))));
 
         given(restaurantService.findRestaurant(Mockito.anyLong())).willReturn(new Restaurant());
         given(mapper.restaurantToRestaurantResponseDto(Mockito.any(Restaurant.class))).willReturn(response);
@@ -234,19 +236,19 @@ public class RestaurantControllerTest {
 
     @Test
     public void getRestaurantsTest() throws Exception {
-        Restaurant restaurant1 = new Restaurant(1L, "맛집1", "맛집 설명1", "지역1", "1111-1111", "11:00 ~", "photo/photo1.png", 1, 1, 1, 4.1, new Member(), List.of(new Menu()), List.of(new Review()));
-        Restaurant restaurant2 = new Restaurant(2L, "맛집2", "맛집 설명2", "지역2", "2222-2222", "12:00 ~", "photo/photo1.png", 2, 2, 2, 4.2, new Member(), List.of(new Menu()), List.of(new Review()));
+        Restaurant restaurant1 = new Restaurant(1L, "맛집1", "맛집 설명1", "지역1", "1111-1111", "11:00 ~", "photo/photo1.png", 1, 1, 1, 4.1, new Member(), List.of(new Menu()), List.of(new Review()), List.of(new Favorite()));
+        Restaurant restaurant2 = new Restaurant(2L, "맛집2", "맛집 설명2", "지역2", "2222-2222", "12:00 ~", "photo/photo2.png", 2, 2, 2, 4.2, new Member(), List.of(new Menu()), List.of(new Review()), List.of(new Favorite()));
 
         RestaurantDto.Response response1 = new RestaurantDto.Response(1L, "맛집1", "맛집 설명1", "지역1", "1111-1111",
                 "11:00 ~", "photo/photo1.png", LocalDateTime.now(), LocalDateTime.now(), 1, 1, 1, 4.1,
                 List.of(new MenuDto.Response(1,"김밥",2000), new MenuDto.Response(2,"라면",2500)), List.of(new ReviewDto.Response(1, "리뷰 제목1", "리뷰 내용1", "photo/photo1.jpg",
-                LocalDateTime.now(), LocalDateTime.now(), Review.Rating.GOOD, 1L, "홍길동1"), new ReviewDto.Response(2, "리뷰 제목2", "리뷰 내용2", "photo/photo2.jpg",
-                LocalDateTime.now(), LocalDateTime.now(), Review.Rating.NOT_GOOD, 2L, "홍길동2")));
+                LocalDateTime.now(), LocalDateTime.now(), Review.Rating.GOOD, new MemberDto.ReviewResponse(1L, "닉네임1", "photo/photo1.png")), new ReviewDto.Response(2, "리뷰 제목2", "리뷰 내용2", "photo/photo2.jpg",
+                LocalDateTime.now(), LocalDateTime.now(), Review.Rating.NOT_GOOD, new MemberDto.ReviewResponse(2L, "닉네임2", "photo/photo2.png"))));
         RestaurantDto.Response response2 = new RestaurantDto.Response(2L, "맛집2", "맛집 설명2", "지역2", "2222-2222",
                 "12:00 ~", "photo/photo2.png", LocalDateTime.now(), LocalDateTime.now(), 2, 2, 2, 4.2,
                 List.of(new MenuDto.Response(1,"김밥",2000), new MenuDto.Response(2,"라면",2500)), List.of(new ReviewDto.Response(1, "리뷰 제목1", "리뷰 내용1", "photo/photo1.jpg",
-                LocalDateTime.now(), LocalDateTime.now(), Review.Rating.GOOD, 1L, "홍길동1"), new ReviewDto.Response(2, "리뷰 제목2", "리뷰 내용2", "photo/photo2.jpg",
-                LocalDateTime.now(), LocalDateTime.now(), Review.Rating.NOT_GOOD, 2L, "홍길동2")));
+                LocalDateTime.now(), LocalDateTime.now(), Review.Rating.GOOD, new MemberDto.ReviewResponse(1L, "닉네임1", "photo/photo1.png")), new ReviewDto.Response(2, "리뷰 제목2", "리뷰 내용2", "photo/photo2.jpg",
+                LocalDateTime.now(), LocalDateTime.now(), Review.Rating.NOT_GOOD, new MemberDto.ReviewResponse(2L, "닉네임2", "photo/photo2.png"))));
 
         Page<Restaurant> restaurants = new PageImpl<>(List.of(restaurant1, restaurant2), PageRequest.of(1, 10, Sort.by("restaurantId").descending()), 2);
         List<RestaurantDto.Response> responses = Arrays.asList(response1, response2);

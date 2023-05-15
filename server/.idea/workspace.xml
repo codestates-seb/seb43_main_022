@@ -4,10 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="33dee409-4159-4046-bac4-db427252d03f" name="Changes" comment="fix: 리뉴, 메뉴 API 수정">
+    <list default="true" id="33dee409-4159-4046-bac4-db427252d03f" name="Changes" comment="fix: 즐겨찾기 삭제 해결">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/codea/favorite/FavoriteController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/codea/favorite/FavoriteController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/codea/favorite/FavoriteService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/codea/favorite/FavoriteService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/codea/favorite/Favorite.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/codea/favorite/Favorite.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/codea/favorite/FavoriteDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/codea/favorite/FavoriteDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/codea/member/MemberDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/codea/member/MemberDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/codea/review/Review.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/codea/review/Review.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/codea/RestaurantControllerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/codea/RestaurantControllerTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/codea/restdocs/member/MemberControllerRestDocsTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/codea/restdocs/member/MemberControllerRestDocsTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -128,29 +132,6 @@
       <DebugAllEnabled>false</DebugAllEnabled>
       <method v="2" />
     </configuration>
-    <configuration name="RestaurantControllerTest" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
-      <ExternalSystemSettings>
-        <option name="executionName" />
-        <option name="externalProjectPath" value="$PROJECT_DIR$" />
-        <option name="externalSystemIdString" value="GRADLE" />
-        <option name="scriptParameters" value="" />
-        <option name="taskDescriptions">
-          <list />
-        </option>
-        <option name="taskNames">
-          <list>
-            <option value=":test" />
-            <option value="--tests" />
-            <option value="&quot;com.codea.RestaurantControllerTest&quot;" />
-          </list>
-        </option>
-        <option name="vmOptions" />
-      </ExternalSystemSettings>
-      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
-      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
-      <DebugAllEnabled>false</DebugAllEnabled>
-      <method v="2" />
-    </configuration>
     <configuration name="RestaurantControllerTest.getRestaurantTest" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -174,6 +155,29 @@
       <DebugAllEnabled>false</DebugAllEnabled>
       <method v="2" />
     </configuration>
+    <configuration name="RestaurantControllerTest.postRestaurantTest" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value=":test" />
+            <option value="--tests" />
+            <option value="&quot;com.codea.RestaurantControllerTest.postRestaurantTest&quot;" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <method v="2" />
+    </configuration>
     <configuration default="true" type="JetRunConfigurationType">
       <method v="2">
         <option name="Make" enabled="true" />
@@ -187,11 +191,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Gradle.RestaurantControllerTest.postRestaurantTest" />
         <item itemvalue="Application.WebApplication" />
         <item itemvalue="Gradle.MemberControllerRestDocsTest.postMemberTest" />
         <item itemvalue="Gradle.MemberControllerRestDocsTest" />
         <item itemvalue="Gradle.RestaurantControllerTest.getRestaurantTest" />
-        <item itemvalue="Gradle.RestaurantControllerTest" />
       </list>
     </recent_temporary>
   </component>
@@ -309,7 +313,14 @@
       <option name="project" value="LOCAL" />
       <updated>1684119177353</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="fix: 즐겨찾기 삭제 해결">
+      <created>1684120224151</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1684120224151</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -338,6 +349,7 @@
     <MESSAGE value="test: 멤버 test 코드 수정" />
     <MESSAGE value="fix: 리뉴, 메뉴 리스트 수정중" />
     <MESSAGE value="fix: 리뉴, 메뉴 API 수정" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix: 리뉴, 메뉴 API 수정" />
+    <MESSAGE value="fix: 즐겨찾기 삭제 해결" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix: 즐겨찾기 삭제 해결" />
   </component>
 </project>

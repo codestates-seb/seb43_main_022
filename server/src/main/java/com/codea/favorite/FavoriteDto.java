@@ -35,4 +35,14 @@ public class FavoriteDto {
         }
 
     }
+
+    @Getter
+    @AllArgsConstructor
+    public static class Response {
+        private Long favoriteId;
+        private Long RestaurantId;
+
+        private String restaurantName;
+
+    }
 }

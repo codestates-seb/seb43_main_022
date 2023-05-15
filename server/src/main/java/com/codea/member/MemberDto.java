@@ -1,6 +1,7 @@
 package com.codea.member;
 
 
+import com.codea.favorite.FavoriteDto;
 import com.codea.review.ReviewDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -52,9 +53,11 @@ public class MemberDto {
         private String nickName;
         private String email;
         private String location;
+        private boolean businessAccount;
         private String photo;
         private List<ReviewDto.Response> reviews;
         private int favoriteCount;
+        private List<FavoriteDto.Response> favorites;
 
     }
 

@@ -32,8 +32,8 @@ public class RestaurantController {
     @PostMapping
     public ResponseEntity postRestaurant(@Valid @RequestBody RestaurantDto.Post requestBody,
                                          @AuthenticationPrincipal String email) {
-        System.out.println(email+ "1@@@@@@@@@@@@@@@@@@@");
-        Restaurant restaurant = restaurantService.createRestaurant(email, mapper.restaurantPostDtoToRestaurant(requestBody));
+        String streetAddress = requestBody.getStreetAddress();
+        Restaurant restaurant = restaurantService.createRestaurant(email, streetAddress, mapper.restaurantPostDtoToRestaurant(requestBody));
 
         URI location = UriCreator.createUri("/restaurants", restaurant.getRestaurantId());
         return ResponseEntity.created(location).build();

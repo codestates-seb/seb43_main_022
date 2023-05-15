@@ -1,6 +1,7 @@
 package com.codea.restaurant;
 
 import com.codea.Menu.MenuDto;
+import com.codea.address.Address;
 import com.codea.review.ReviewDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -22,12 +23,16 @@ public class RestaurantDto {
         @NotBlank
         private String content;
         @NotBlank
-        private String location;
+        private String streetAddress;
+        @NotBlank
+        private String detailAddress;
+        private double latitude;
+        private double longitude;
         @NotBlank
         private String tel;
         @NotBlank
         private String open_time;
-        private String photo;
+        private String photoUrl;
     }
 
     @Getter
@@ -36,10 +41,13 @@ public class RestaurantDto {
         private long restaurantId;
         private String name;
         private String content;
-        private String location;
+        private String streetAddress;
+        private String detailAddress;
+        private double latitude;
+        private double longitude;
         private String tel;
         private String open_time;
-        private String photo;
+        private String photoUrl ;
     }
 
     @Getter
@@ -48,10 +56,13 @@ public class RestaurantDto {
         private long restaurantId;
         private String name;
         private String content;
-        private String location;
+        private String streetAddress;
+        private String detailAddress;
+        private double latitude;
+        private double longitude;
         private String tel;
         private String open_time;
-        private String photo;
+        private String photoUrl ;
         private LocalDateTime createdAt;
         private LocalDateTime modifiedAt;
         private int total_views;

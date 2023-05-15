@@ -1,6 +1,8 @@
 package com.codea.restaurant;
 
 import com.codea.Menu.MenuRepository;
+import com.codea.address.Address;
+import com.codea.address.AddressRepository;
 import com.codea.exception.BusinessLogicException;
 import com.codea.exception.ExceptionCode;
 import com.codea.member.Member;
@@ -24,16 +26,20 @@ import static com.codea.review.Review.ReviewStatus.REVIEW_VALID;
 public class RestaurantService {
     private final RestaurantRepository restaurantRepository;
     private final MemberRepository memberRepository;
+    private final AddressRepository addressRepository;
 
-    public RestaurantService(RestaurantRepository restaurantRepository, MemberRepository memberRepository) {
+    public RestaurantService(RestaurantRepository restaurantRepository, MemberRepository memberRepository, AddressRepository addressRepository) {
         this.restaurantRepository = restaurantRepository;
         this.memberRepository = memberRepository;
+        this.addressRepository = addressRepository;
     }
 
-    public Restaurant createRestaurant(String email, Restaurant restaurant) {
-        System.out.println(email+ "2@@@@@@@@@@@@@@@@@@@");
+    public Restaurant createRestaurant(String email, String streetAddress, Restaurant restaurant) {
         Member member = memberRepository.findByEmail(email).orElseThrow(() -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
+        Address address = addressRepository.findByStreetAddress(streetAddress).orElseThrow(() -> new BusinessLogicException(ExceptionCode.ADDRESS_NOT_FOUND));
+
         restaurant.setMember(member);
+        restaurant.setAddress(address);
 
         return restaurantRepository.save(restaurant);
     }
@@ -45,9 +51,12 @@ public class RestaurantService {
 
         Optional.ofNullable(restaurant.getName()).ifPresent(name->findRestaurant.setName(name));
         Optional.ofNullable(restaurant.getContent()).ifPresent(content-> findRestaurant.setContent(content));
-        Optional.ofNullable(restaurant.getLocation()).ifPresent(location-> findRestaurant.setLocation(location));
+        Optional.ofNullable(restaurant.getAddress()).ifPresent(address-> findRestaurant.setAddress(address));
+        Optional.ofNullable(restaurant.getDetailAddress()).ifPresent(detailAddress-> findRestaurant.setDetailAddress(detailAddress));
+        Optional.ofNullable(restaurant.getLatitude()).ifPresent(latitude-> findRestaurant.setLatitude(latitude));
+        Optional.ofNullable(restaurant.getLongitude()).ifPresent(longitude-> findRestaurant.setLongitude(longitude));
         Optional.ofNullable(restaurant.getTel()).ifPresent(tel-> findRestaurant.setTel(tel));
-        Optional.ofNullable(restaurant.getPhoto()).ifPresent(photo-> findRestaurant.setPhoto(photo));
+        Optional.ofNullable(restaurant.getPhotoUrl()).ifPresent(photoUrl-> findRestaurant.setPhotoUrl(photoUrl));
         Optional.ofNullable(restaurant.getOpen_time()).ifPresent(open_time-> findRestaurant.setOpen_time(open_time));
         findRestaurant.setModifiedAt(LocalDateTime.now());
 

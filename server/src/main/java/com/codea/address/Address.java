@@ -8,6 +8,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -19,6 +20,9 @@ public class Address {
     private long addressId;
 //    @Column(length = 50, nullable = false, unique = true)
     private String streetAddress;
-    @OneToOne(mappedBy = "address", cascade = CascadeType.ALL)
-    private Location location;
+//    @Column(unique = true)
+    private double latitude;
+//    @Column(unique = true)
+    private double longitude;
+
 }

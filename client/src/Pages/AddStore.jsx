@@ -46,6 +46,8 @@ const AddStore = () => {
     menuList: [],
     streetAddress: "",
     detailAddress: "",
+    latitude: "",
+    longitude: "",
   };
   const [formData, setFormData] = useState(initFormData);
 

@@ -37,14 +37,16 @@ const EditStore = () => {
   const history = useNavigate();
   const { id } = useParams(); // URL 파라미터에서 업체 ID를 가져옴
   const initFormData = {
-    storeName: "",
+    name: "",
     tags: [],
-    storeImg: null,
-    storeIntroduction: "",
+    photoUrl: null,
+    content: "",
     tel: "",
     category: "",
     openTime: "",
     menuList: [{ menu: "", price: "" }],
+    streetAddress: "",
+    detailAddress: "",
   };
   const [formData, setFormData] = useState(initFormData);
 
@@ -52,7 +54,7 @@ const EditStore = () => {
   useEffect(() => {
     const fetchRestaurant = async () => {
       try {
-        const response = await axios.get(`http://localhost:4000/restaurants/1`);
+        const response = await axios.get(`http://localhost:4000/restaurants/8`);
         setFormData(response.data);
         console.log("페이지렌더링시 저장된 데이터 : ", response.data);
       } catch (error) {

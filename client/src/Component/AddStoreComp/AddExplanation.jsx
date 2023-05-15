@@ -31,10 +31,10 @@ const AddExplanation = ({ formData, setFormData }) => {
 
   return (
     <AddInfoWrap>
-      <label htmlFor="storeIntroduction">Store Introduction:</label>
+      <label htmlFor="content">Store Introduction:</label>
       <AddInfoTextarea
-        name="storeIntroduction"
-        value={formData.storeIntroduction || ""}
+        name="content"
+        value={formData.content || ""}
         onChange={onInputChange}
         type="text"
         placeholder="가게 소개글을 입력해주세요"

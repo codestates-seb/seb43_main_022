@@ -36,14 +36,16 @@ const AddBtnWrap = styled.div`
 const AddStore = () => {
   const history = useNavigate();
   const initFormData = {
-    storeName: "",
+    name: "",
     tags: [],
-    storeImg: null,
-    storeIntroduction: "",
+    photoUrl: null,
+    content: "",
     tel: "",
     category: "",
     openTime: "",
     menuList: [],
+    streetAddress: "",
+    detailAddress: "",
   };
   const [formData, setFormData] = useState(initFormData);
 

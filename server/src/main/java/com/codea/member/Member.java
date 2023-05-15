@@ -2,6 +2,7 @@ package com.codea.member;
 
 
 import com.codea.BaseEntity.BaseEntity;
+import com.codea.address.Address;
 import com.codea.favorite.Favorite;
 import com.codea.restaurant.Restaurant;
 import com.codea.review.Review;
@@ -33,16 +34,6 @@ public class Member extends BaseEntity {
     @Column(length = 20, nullable = false)
     private MemberStatus memberStatus = MemberStatus.MEMBER_ACTIVE;
 
-
-    public Member(Long memberId, String nickName, String email, String location, String photo, MemberStatus memberStatus) {
-        this.memberId = memberId;
-        this.nickName = nickName;
-        this.email = email;
-        this.location = location;
-        this.photo = photo;
-        this.memberStatus = memberStatus;
-    }
-
     @ElementCollection(fetch = FetchType.EAGER)
     private List<String> roles = new ArrayList<>();
 
@@ -55,6 +46,18 @@ public class Member extends BaseEntity {
     @OneToMany(mappedBy = "member", cascade = CascadeType.REMOVE)
     private List<Favorite> favorites = new ArrayList<>();
 
+    @ManyToOne
+    @JoinColumn(name = "address_id")
+    private Address address;
+
+
+    public Member(Long memberId, String nickName, String email, String photo, MemberStatus memberStatus) {
+        this.memberId = memberId;
+        this.nickName = nickName;
+        this.email = email;
+        this.photo = photo;
+        this.memberStatus = memberStatus;
+    }
 
     public enum MemberStatus {
         MEMBER_ACTIVE("활동중"),

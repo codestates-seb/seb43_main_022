@@ -1,28 +1,23 @@
-#logging:
-#  level:
-#    root: DEBUG
-#    org:
-#      springframework:
-#        web: debug
-#    org.springframework.web.servlet: debug
-#    org.hibernate.type.descriptor.sql.BasicBinder: trace
+logging:
+  level:
+    root: DEBUG
+    org:
+      springframework:
+        web: debug
+    org.springframework.web.servlet: debug
+    org.hibernate.type.descriptor.sql.BasicBinder: trace
 
 
 spring:
-  h2:
-    console:
-      enabled: true
-      path: /h2
-
   datasource:
-    # driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:h2:mem:test # jdbc:mysql://localhost:3306/main022?serverTimezone=Asia/Seoul
-#    username: root
-#    password: root
-#  mvc:
-#    pathmatch:
-#      matching-strategy: ant_path_matcher
-#    log-request-details: true
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/main022?serverTimezone=Asia/Seoul
+    username: root
+    password: root
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+    log-request-details: true
   jpa:
     defer-datasource-initialization: true
     hibernate.ddl-auto: create

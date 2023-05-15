@@ -1,6 +1,8 @@
 package com.codea.member;
 
 
+import com.codea.address.Address;
+import com.codea.address.AddressRepository;
 import com.codea.auth.utils.CustomAuthorityUtils;
 import com.codea.exception.BusinessLogicException;
 import com.codea.exception.ExceptionCode;
@@ -28,9 +30,10 @@ import java.util.Optional;
 public class MemberService {
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
-    private final CustomAuthorityUtils authorityUtils;
+//    private final CustomAuthorityUtils authorityUtils;
     private final JwtUtil jwtUtil;
     private final ReviewRepository reviewRepository;
+    private final AddressRepository addressRepository;
 
     public Member createMember(Member member) {
         verifyExistsEmail(member.getEmail());
@@ -38,12 +41,21 @@ public class MemberService {
         String encryptedPassword = passwordEncoder.encode(member.getPassword()); // Password 단방향 암호화
         member.setPassword(encryptedPassword);
 
-        List<String> roles = authorityUtils.createRoles(member.getEmail()); // 권한 설정
-        member.setRoles(roles);
-
-        if (member.getPhoto() == null || member.getPhoto().isEmpty()) { // 기본 이미지 등록
-            member.setPhoto("https://velog.velcdn.com/images/persestitan/post/5ef6f63a-c279-465d-b65d-97ff39848f6c/image.jpeg");
+        if (member.getBusinessAccount()) {
+            member.getRoles().add("ROLE_BUSINESS");
+        } else {
+            member.getRoles().add("ROLE_MEMBER");
         }
+
+//        List<String> roles = authorityUtils.createRoles(member.getEmail()); // admin 권한 설정
+//        member.setRoles(roles);
+
+//        if (member.getPhoto() == null || member.getPhoto().isEmpty()) { // 기본 이미지 등록
+//            member.setPhoto("https://velog.velcdn.com/images/persestitan/post/5ef6f63a-c279-465d-b65d-97ff39848f6c/image.jpeg");
+//        }
+
+        Address savedAddress = addressRepository.save(address);
+        member.setAddress(savedAddress);
 
         Member savedMember = memberRepository.save(member);
 
@@ -104,7 +116,7 @@ public class MemberService {
         String email = jwtUtil.extractEmailFromToken(token);
         Member findMember = findVerifiedMember(memberId);
 
-        if(!email.equals(findMember.getEmail())){
+        if (!email.equals(findMember.getEmail())) {
             throw new BusinessLogicException(ExceptionCode.INVALID_PERMISSION, String.format("유저(%s)가 권한을 가지고 있지 않습니다. 사용자(%s) 정보를 수정할 수 없습니다.", email, findMember.getEmail()));
         }
     }
@@ -112,5 +124,6 @@ public class MemberService {
     public List<Review> getReviewsByMember(Member member) {
         return reviewRepository.findByMember(member);
     }
+
 
 }

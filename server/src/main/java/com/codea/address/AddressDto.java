@@ -1,18 +1,21 @@
 package com.codea.address;
 
-import com.codea.location.LocationDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.Column;
 import javax.validation.constraints.NotBlank;
 import java.util.List;
 
+@NoArgsConstructor
 public class AddressDto {
     @Getter
     public static class Post {
         @NotBlank
         private String streetAddress;
+        private double latitude;
+        private double longitude;
 
     }
 
@@ -27,6 +30,8 @@ public class AddressDto {
     public static class Response {
         private long addressId;
         private String streetAddress;
-        private LocationDto.Response location;
+        private double latitude;
+        private double longitude;
     }
+
 }

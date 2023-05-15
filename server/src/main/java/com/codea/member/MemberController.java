@@ -69,6 +69,7 @@ public class MemberController {
             @PathVariable("member-id") @Positive long memberId) {
         Member member = memberService.findMember(memberId);
         MemberDto.Response responseDto = memberMapper.memberToMemberResponseDto(member);
+
         List<Review> reviews = memberService.getReviewsByMember(member);
         return new ResponseEntity(responseDto, HttpStatus.OK);
     }

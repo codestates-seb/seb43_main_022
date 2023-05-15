@@ -11,9 +11,6 @@ import java.util.List;
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface MemberMapper {
 
-//    @Mapping(target = "address.streetAddress", source = "streetAddress")
-//    @Mapping(target = "address.latitude", source = "latitude")
-//    @Mapping(target = "address.longitude", source = "longitude")
     Member memberPostDtoToMember(MemberDto.Post memberPostDto);
     Member memberPatchDtoToMember(MemberDto.Patch memberPatchDto);
     MemberDto.Response memberToMemberResponseDto(Member member);

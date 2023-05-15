@@ -7,6 +7,7 @@ import com.codea.auth.utils.CustomAuthorityUtils;
 import com.codea.exception.BusinessLogicException;
 import com.codea.exception.ExceptionCode;
 import com.codea.favorite.FavoriteRepository;
+import com.codea.restaurant.Restaurant;
 import com.codea.review.Review;
 import com.codea.review.ReviewRepository;
 import com.codea.utils.JwtUtil;
@@ -20,6 +21,7 @@ import org.springframework.transaction.annotation.Propagation;
 
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -30,7 +32,7 @@ import java.util.Optional;
 public class MemberService {
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
-//    private final CustomAuthorityUtils authorityUtils;
+    //    private final CustomAuthorityUtils authorityUtils;
     private final JwtUtil jwtUtil;
     private final ReviewRepository reviewRepository;
     private final AddressRepository addressRepository;
@@ -63,20 +65,27 @@ public class MemberService {
     }
 
     @Transactional(propagation = Propagation.REQUIRED)
-    public Member updateMember(Member member) {
-        Member findMember = findVerifiedMember(member.getMemberId());
+    public Member updateMember(long memberId, String email, Address address, Member member) {
 
-        Optional.ofNullable(member.getNickName())
-                .ifPresent(name -> findMember.setNickName(name));
-        Optional.ofNullable(member.getPassword())
-                .ifPresent(password -> findMember.setPassword(password));
-//        Optional.ofNullable(member.getLocation())
-//                .ifPresent(location -> findMember.setLocation(location));
-//        Optional.ofNullable(member.getPhoto())
-//                .ifPresent(image -> findMember.setPhoto(image));
+        Member findMember = findVerifiedMember(memberId);
+
+        if (!findMember.getEmail().equals(email)) throw new BusinessLogicException(ExceptionCode.UNAUTHORIZED_EDIT);
+
+        Optional.ofNullable(member.getNickName()).ifPresent(name -> findMember.setNickName(name));
+        Optional.ofNullable(member.getPassword()).ifPresent(password -> findMember.setPassword(password));
+        Optional.ofNullable(member.getPhoto()).ifPresent(image -> findMember.setPhoto(image));
+        findMember.setModifiedAt(LocalDateTime.now());
+
+        if (address != null) {
+            String streetAddress = address.getStreetAddress();
+            Address persistedAddress = addressRepository.findByStreetAddress(streetAddress)
+                    .orElseGet(() -> addressRepository.save(address));
+            member.setAddress(persistedAddress);
+        }
 
         return memberRepository.save(findMember);
     }
+
 
     @Transactional(readOnly = true)
     public Member findMember(long memberId) {

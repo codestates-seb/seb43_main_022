@@ -69,6 +69,9 @@ public class Restaurant extends BaseEntity {
     @OneToMany(mappedBy = "restaurant")
     private List<TagRestaurant> tagRestaurants = new ArrayList<>();
 
+    @ManyToOne
+    @JoinColumn(name = "address_id")
+    private Address address;
 
     public void  setTagRestaurant(TagRestaurant tagRestaurant){
         this.tagRestaurants.add(tagRestaurant);
@@ -76,6 +79,4 @@ public class Restaurant extends BaseEntity {
             tagRestaurant.setRestaurant(this);
         }
     }
-
-
 }

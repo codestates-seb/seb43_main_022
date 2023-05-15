@@ -13,7 +13,9 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 import static com.codea.review.Review.ReviewStatus.REVIEW_VALID;
@@ -59,13 +61,18 @@ public class RestaurantService {
 
     public Page<Restaurant> findRestaurants(int page, int size){
         return restaurantRepository.findAll(PageRequest.of(page, size, Sort.by("restaurantId").descending()));
-
     }
 
     public void deleteRestaurant(long restaurantId){
         Restaurant findRestaurant = findRestaurant(restaurantId);
 
         restaurantRepository.delete(findRestaurant);
+    }
+
+    public Page<Restaurant> getTop10Restaurants(int page, int size) {
+//        return restaurantRepository.findAllOrderByTotalFavorite(1,PageRequest.of(page, size, Sort.by("restaurantId").descending()));
+        return restaurantRepository.findAllByOrderByTotalFavoriteDesc(PageRequest.of(page, size, Sort.by("restaurantId").descending()));
+
     }
 
 }

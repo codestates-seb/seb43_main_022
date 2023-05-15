@@ -4,6 +4,9 @@ package com.codea.member;
 import com.codea.auth.utils.CustomAuthorityUtils;
 import com.codea.exception.BusinessLogicException;
 import com.codea.exception.ExceptionCode;
+import com.codea.favorite.FavoriteRepository;
+import com.codea.review.Review;
+import com.codea.review.ReviewRepository;
 import com.codea.utils.JwtUtil;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -18,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Optional;
 
+
 @AllArgsConstructor
 @Transactional
 @Service
@@ -26,6 +30,7 @@ public class MemberService {
     private final PasswordEncoder passwordEncoder;
     private final CustomAuthorityUtils authorityUtils;
     private final JwtUtil jwtUtil;
+    private final ReviewRepository reviewRepository;
 
     public Member createMember(Member member) {
         verifyExistsEmail(member.getEmail());
@@ -102,6 +107,10 @@ public class MemberService {
         if(!email.equals(findMember.getEmail())){
             throw new BusinessLogicException(ExceptionCode.INVALID_PERMISSION, String.format("유저(%s)가 권한을 가지고 있지 않습니다. 사용자(%s) 정보를 수정할 수 없습니다.", email, findMember.getEmail()));
         }
+    }
+
+    public List<Review> getReviewsByMember(Member member) {
+        return reviewRepository.findByMember(member);
     }
 
 }

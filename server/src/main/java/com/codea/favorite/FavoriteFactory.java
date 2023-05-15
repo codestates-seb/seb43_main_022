@@ -5,10 +5,12 @@ import com.codea.restaurant.Restaurant;
 
 public class FavoriteFactory {
     public static Favorite createFavoriteWithNotFavorite(Restaurant restaurant, Member member) {
-        return new Favorite(1L, restaurant, member, false);
+        return new Favorite(restaurant, member, false);
     }
 
-    public static Favorite createFavoriteWithFavorite(Restaurant restaurant, Member member) {
-        return new Favorite(1L, restaurant, member, true);
+    public static Favorite createFavoriteWithFavorite(Long favoriteId, Restaurant restaurant, Member member) {
+        Favorite favorite = new Favorite(restaurant, member, true);
+        favorite.setFavoriteId(favoriteId);
+        return favorite;
     }
 }

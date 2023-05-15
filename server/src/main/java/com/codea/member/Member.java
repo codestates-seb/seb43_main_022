@@ -33,6 +33,7 @@ public class Member extends BaseEntity {
     @Column(length = 20, nullable = false)
     private MemberStatus memberStatus = MemberStatus.MEMBER_ACTIVE;
 
+
     public Member(Long memberId, String nickName, String email, String location, String photo, MemberStatus memberStatus) {
         this.memberId = memberId;
         this.nickName = nickName;
@@ -48,7 +49,7 @@ public class Member extends BaseEntity {
     @OneToMany(mappedBy = "member", cascade = CascadeType.REMOVE)
     private List<Restaurant> restaurants = new ArrayList<>();
 
-    @OneToMany(mappedBy = "member", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "member",  cascade = CascadeType.REMOVE)
     private List<Review> reviews = new ArrayList<>();
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.REMOVE)

@@ -1,10 +1,7 @@
 package com.codea.Menu;
 
 import com.codea.restaurant.Restaurant;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -21,8 +18,8 @@ public class Menu {
     @Column(nullable = false)
     private int price;
 
-    @ManyToOne
-    @JoinColumn(name = "RESTAURANT_ID")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "restaurant_id")
     private Restaurant restaurant;
 
 }

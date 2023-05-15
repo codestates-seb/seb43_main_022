@@ -33,6 +33,16 @@ public class Review extends BaseEntity {
     @JoinColumn(name = "RESTAURANT_ID")
     private Restaurant restaurant;
 
+//
+//    @ManyToOne(fetch = FetchType.EAGER)
+//    @JoinColumn(name = "MEMBER_ID")
+//    private Member member;
+//
+//    @ManyToOne(fetch = FetchType.EAGER)
+//    @JoinColumn(name = "RESTAURANT_ID")
+//    private Restaurant restaurant;
+
+
     public enum Rating {
         GOOD("맛있어요"),
         NOT_GOOD("별로에요");

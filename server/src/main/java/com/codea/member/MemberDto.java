@@ -54,6 +54,8 @@ public class MemberDto {
         private String location;
         private String photo;
         private List<ReviewDto.Response> reviews;
+        private int favoriteCount;
+
     }
 
     @Getter

@@ -1,17 +1,10 @@
 package com.codea.favorite;
 
-import com.codea.exception.BusinessLogicException;
-import com.codea.exception.ExceptionCode;
-import com.codea.member.Member;
-import com.codea.member.MemberRepository;
+
 import com.codea.response.MultiResponseDto;
 import com.codea.restaurant.Restaurant;
-import com.codea.restaurant.RestaurantMapper;
+
 import com.codea.restaurant.RestaurantRepository;
-import com.codea.review.Review;
-import com.codea.review.ReviewDto;
-import com.codea.review.ReviewMapper;
-import com.codea.review.ReviewService;
 import com.codea.utils.UriCreator;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -19,10 +12,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
+
 import javax.validation.constraints.Positive;
 import java.net.URI;
-import java.util.ArrayList;
+
 import java.util.List;
 
 @RestController
@@ -32,10 +25,15 @@ public class FavoriteController {
 
     private final FavoriteService favoriteService;
     private final FavoriteMapper mapper;
+    private final FavoriteRepository favoriteRepository;
+    private final RestaurantRepository restaurantRepository;
 
-    public FavoriteController(FavoriteService favoriteService, FavoriteMapper mapper) {
+    public FavoriteController(FavoriteService favoriteService, FavoriteMapper mapper, FavoriteRepository favoriteRepository,
+                              RestaurantRepository restaurantRepository) {
         this.favoriteService = favoriteService;
         this.mapper = mapper;
+        this.favoriteRepository = favoriteRepository;
+        this.restaurantRepository = restaurantRepository;
     }
 
     @PostMapping("/{restaurant-id}")
@@ -73,9 +71,15 @@ public class FavoriteController {
     }
 
     @DeleteMapping("/{favorite-id}")
-    public ResponseEntity deleteFavorites(@PathVariable("favorite-id") @Positive long favoriteId) {
-        favoriteService.deleteFavorite(favoriteId);
+    public void deleteFavorite(long favoriteId) {
+        Favorite favorite = favoriteService.findFavorite(favoriteId);
+        Restaurant restaurant = favorite.getRestaurant();
 
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        favoriteRepository.delete(favorite);
+
+        int count = favoriteRepository.countByRestaurant_RestaurantId(restaurant.getRestaurantId());
+        restaurant.setTotalFavorite(count);
+
+        restaurantRepository.save(restaurant);
     }
 }

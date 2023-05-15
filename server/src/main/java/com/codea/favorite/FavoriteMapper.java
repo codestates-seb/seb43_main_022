@@ -9,7 +9,7 @@ import java.util.List;
 
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
 public interface FavoriteMapper {
-    Favorite favoritePostFavoriteDtoToFavorite(FavoriteDto.PostFavorite requestBody);
+//    Favorite favoritePostFavoriteDtoToFavorite(FavoriteDto.PostFavorite requestBody);
 //    Favorite favoritePatchDtoToFavorite(FavoriteDto.ResponseFavorite requestBody);
     FavoriteDto.ResponseFavorite favoriteToFavoriteResponseDto(Favorite favorite);
     List<FavoriteDto.ResponseFavorite> favoritesToFavoriteResponseDto(List<Favorite> favorites);

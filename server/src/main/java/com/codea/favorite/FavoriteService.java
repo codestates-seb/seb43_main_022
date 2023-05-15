@@ -1,9 +1,15 @@
 package com.codea.favorite;
 
+import com.codea.exception.BusinessLogicException;
+import com.codea.exception.ExceptionCode;
 import com.codea.member.Member;
+import com.codea.member.MemberRepository;
 import com.codea.restaurant.Restaurant;
 import com.codea.restaurant.RestaurantRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import org.springframework.transaction.annotation.Transactional;
@@ -15,10 +21,12 @@ public class FavoriteService {
 
     private FavoriteRepository favoriteRepository;
     private RestaurantRepository restaurantRepository;
+    private MemberRepository memberRepository;
 
-    public FavoriteService(FavoriteRepository favoriteRepository, RestaurantRepository restaurantRepository) {
+    public FavoriteService(FavoriteRepository favoriteRepository, RestaurantRepository restaurantRepository, MemberRepository memberRepository) {
         this.favoriteRepository = favoriteRepository;
         this.restaurantRepository = restaurantRepository;
+        this.memberRepository = memberRepository;
     }
 
     public Favorite createFavorite(long restaurantId, String email) {

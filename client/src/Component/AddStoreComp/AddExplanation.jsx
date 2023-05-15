@@ -14,13 +14,14 @@ const AddInfoWrap = styled.div`
 const AddInfoTextarea = styled.textarea`
   width: 100%;
   min-height: 140px;
-  resize: none; /* Add this line to prevent resizing */
+  resize: none;
   box-sizing: border-box;
   padding: 20px;
   border: 1px solid #ddd;
   font-size: var(--medium-font);
-  display: inline-block; /* Add this line */
-  vertical-align: top; /* Add this line */
+  display: inline-block;
+  vertical-align: top;
+  border-radius: 10px;
 `;
 
 const AddExplanation = ({ formData, setFormData }) => {

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import styled from "styled-components";
 import { MdAddCircleOutline, MdRemoveCircleOutline } from "react-icons/md";
 
@@ -8,6 +8,9 @@ const AddMenuWrap = styled.div`
   flex-direction: column;
   align-items: flex-start;
   margin-top: 20px;
+  > label > span {
+    font-size: 1.2rem;
+  }
   button {
     background-color: transparent;
     svg {
@@ -70,8 +73,10 @@ const PriceInput = styled(MenuInput)`
 `;
 
 const AddMenu = ({ formData, setFormData }) => {
-  const [menuList, setMenuList] = useState([]);
-
+  const [menuList, setMenuList] = useState(formData.menuList || []);
+  useEffect(() => {
+    setMenuList(formData.menuList);
+  }, [formData.menuList]);
   const onInputChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
@@ -94,7 +99,9 @@ const AddMenu = ({ formData, setFormData }) => {
 
   return (
     <AddMenuWrap>
-      <label htmlFor="menuPirce">메뉴 및 가격</label>
+      <label htmlFor="menuPirce">
+        메뉴 및 가격<span> (가격은 숫자만 입력가능합니다.)</span>
+      </label>
       <AddMenuInput id="menuPirce">
         <MenuInput
           name="menu"
@@ -109,7 +116,7 @@ const AddMenu = ({ formData, setFormData }) => {
           value={formData.price || ""}
           onChange={onInputChange}
           type="number"
-          placeholder="숫자만 입력 가능"
+          placeholder="가격을 입력하세요"
           maxLength="10"
           min="0"
         />

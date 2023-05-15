@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
 import { MdAddCircleOutline, MdRemoveCircleOutline } from "react-icons/md";
 
@@ -78,9 +78,11 @@ const PriceInput = styled(MenuInput)`
 
 const AddMenu = ({ formData, setFormData }) => {
   const [menuList, setMenuList] = useState(formData.menuList || []);
+
   useEffect(() => {
     setMenuList(formData.menuList);
   }, [formData.menuList]);
+
   const onInputChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
@@ -96,6 +98,20 @@ const AddMenu = ({ formData, setFormData }) => {
       menuList: updatedMenuList,
     });
   };
+  const menuInputRef = useRef();
+  const priceInputRef = useRef();
+  const onMenuKeyPress = (e) => {
+    if (e.key === "Enter") {
+      priceInputRef.current.focus();
+    }
+  };
+
+  const onPriceKeyPress = (e) => {
+    if (e.key === "Enter") {
+      onAddMenu();
+      menuInputRef.current.focus();
+    }
+  };
 
   const onDeleteMenu = (index) => {
     setMenuList(menuList.filter((item, idx) => idx !== index));
@@ -108,17 +124,21 @@ const AddMenu = ({ formData, setFormData }) => {
       </label>
       <AddMenuInput id="menuPirce">
         <MenuInput
+          ref={menuInputRef}
           name="menu"
           value={formData.menu || ""}
           onChange={onInputChange}
+          onKeyPress={onMenuKeyPress}
           type="text"
           placeholder="메뉴를 입력하세요"
           maxLength="100"
         />
         <PriceInput
+          ref={priceInputRef}
           name="price"
           value={formData.price || ""}
           onChange={onInputChange}
+          onKeyPress={onPriceKeyPress}
           type="number"
           placeholder="가격을 입력하세요"
           maxLength="10"

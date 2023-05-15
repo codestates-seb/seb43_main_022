@@ -44,6 +44,7 @@ function Input({
   width,
   height,
   radius,
+  readOnly,
   inputType,
 }) {
   const inputStyle = InputType[inputType];
@@ -59,6 +60,7 @@ function Input({
       width={width}
       height={height}
       radius={radius}
+      readOnly={readOnly}
       inputType={inputStyle}
     ></TextInput>
   );

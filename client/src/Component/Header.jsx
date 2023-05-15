@@ -1,7 +1,8 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
-import { useRecoilValue } from "recoil";
+import { useRecoilValue, useResetRecoilState } from "recoil";
 import isLoginState from "../state/atoms/IsLoginAtom";
+import memberState from "../state/atoms/SignAtom";
 import Button from "./style/StyleButton";
 import Logo from "./style/img/Eaaaaaaats.svg";
 import Search from "./style/img/search.png";
@@ -83,6 +84,7 @@ const Frameicon = styled.img`
 
 const Header = () => {
   const isLogin = useRecoilValue(isLoginState);
+  const resetMember = useResetRecoilState(memberState);
 
   return (
     <>
@@ -97,7 +99,9 @@ const Header = () => {
               <Button btnstyle="HBtn">로그인</Button>
             </Link>
             <Link to="/signup">
-              <Button btnstyle="HBtn">회원가입</Button>
+              <Button btnstyle="HBtn" onClick={resetMember}>
+                회원가입
+              </Button>
             </Link>
           </LoginDiv>
         </Container>

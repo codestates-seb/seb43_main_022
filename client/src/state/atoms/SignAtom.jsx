@@ -6,11 +6,11 @@ let memberState = atom({
     email: "",
     username: "",
     password: "",
-    location: "",
-    la: "",
-    ma: "",
-    CEO: false,
-    img: "",
+    streetAddress: "",
+    latitude: "",
+    longitude: "",
+    businessAccount: false,
+    photo: "",
   },
 });
 

@@ -44,6 +44,26 @@ const AddrSearchBtn = styled.button`
 const AddInfo = ({ formData, setFormData }) => {
   const [, setLatitude] = useState(null);
   const [, setLongitude] = useState(null);
+  const [tel, setTel] = useState(formData.tel || "");
+  const formatTelNumber = (value) => {
+    value = value.replace(/-/g, ""); // Remove hyphen
+    if (value.length <= 3) {
+      return value;
+    } else if (value.length <= 6) {
+      return value.replace(/(\d{3})(\d{1,3})/, "$1-$2");
+    } else if (value.length <= 10) {
+      return value.replace(/(\d{3})(\d{3})(\d{1,4})/, "$1-$2-$3");
+    } else if (value.length <= 13) {
+      return value.replace(/(\d{3})(\d{4})(\d{1,4})/, "$1-$2-$3");
+    }
+  };
+  const handleTelChange = (e) => {
+    let { value } = e.target;
+    value = formatTelNumber(value);
+    setTel(value);
+    setFormData({ ...formData, tel: value });
+  };
+
   useEffect(() => {
     const script = document.createElement("script");
     script.src =
@@ -122,11 +142,11 @@ const AddInfo = ({ formData, setFormData }) => {
       <label htmlFor="tel">전화번호</label>
       <InfoInput
         name="tel"
-        value={formData.tel || ""}
-        onChange={onInputChange}
+        value={tel}
+        onChange={handleTelChange}
         type="text"
         placeholder="가게 전화번호를 입력하세요"
-        maxLength="100"
+        maxLength="13"
       />
       <label htmlFor="category">카테고리</label>
       <InfoInput

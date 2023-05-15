@@ -37,7 +37,7 @@ const AddStore = () => {
   const history = useNavigate();
   const initFormData = {
     name: "",
-    tags: [],
+    tag: [],
     photoUrl: null,
     content: "",
     tel: "",

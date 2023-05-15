@@ -38,7 +38,7 @@ const EditStore = () => {
   const { id } = useParams(); // URL 파라미터에서 업체 ID를 가져옴
   const initFormData = {
     name: "",
-    tags: [],
+    tag: [],
     photoUrl: null,
     content: "",
     tel: "",

@@ -61,11 +61,12 @@ const TagLi = styled.li`
   }
 `;
 const AddTagsInput = ({ onAddTag, formData }) => {
-  const [tags, setTags] = useState(formData.tags || []);
-  useEffect(() => {
-    setTags(formData.tags || []);
-  }, [formData.tags]);
+  const [tag, setTag] = useState(formData.tag || []);
   const [tagInputValue, setTagInputValue] = useState("");
+
+  useEffect(() => {
+    setTag(formData.tag || []);
+  }, [formData.tags]);
 
   const handleTagInputChange = (event) => {
     setTagInputValue(event.target.value);
@@ -75,21 +76,25 @@ const AddTagsInput = ({ onAddTag, formData }) => {
     event.preventDefault();
     const trimmedValue = tagInputValue.trim();
     if (trimmedValue !== "") {
-      setTags([...tags, trimmedValue]);
-      onAddTag(trimmedValue);
+      setTag([...tag, { name: trimmedValue }]);
+      onAddTag({ name: trimmedValue });
       setTagInputValue("");
     }
   };
-  const removeTag = (indexToRemove) => {
-    setTags(tags.filter((tag, index) => index !== indexToRemove));
+  const removeTag = (nameToRemove) => {
+    // setTags(tags.filter((tag, index) => index !== indexToRemove));
+    setTag(tag.filter((tag) => tag.name !== nameToRemove));
   };
   return (
     <AddInfoTagWrap>
       <TagUl>
-        {tags.map((tag, index) => (
+        {tag.map((tag, index) => (
           <TagLi key={index}>
-            <span className="tag-title">{tag}</span>
-            <button className="tag-close-icon" onClick={() => removeTag(index)}>
+            <span className="tag-title">{tag.name}</span>
+            <button
+              className="tag-close-icon"
+              onClick={() => removeTag(tag.name)}
+            >
               x
             </button>
           </TagLi>

@@ -58,10 +58,14 @@ public class RestaurantController {
     @PatchMapping("/{restaurant-id}")
     public ResponseEntity patchRestaurant(@PathVariable("restaurant-id") long restaurantId,
                                           @Valid @RequestBody RestaurantDto.Patch requestBody,
-                                          @AuthenticationPrincipal String email){
-        Restaurant restaurant = restaurantService.updateRestaurant(restaurantId, email, mapper.restaurantPatchDtoToRestaurant(requestBody));
+                                          @AuthenticationPrincipal String email) {
 
-        return new ResponseEntity<>(mapper.restaurantToRestaurantResponseDto(restaurant),HttpStatus.OK);
+        AddressDto.Post addressDto = new AddressDto.Post(requestBody.getStreetAddress(), requestBody.getLatitude(), requestBody.getLongitude());
+        Address address = addressMapper.addressPostDtoToAddress(addressDto);
+
+        Restaurant restaurant = restaurantService.updateRestaurant(restaurantId, email, address, mapper.restaurantPatchDtoToRestaurant(requestBody));
+
+        return new ResponseEntity<>(mapper.restaurantToRestaurantResponseDto(restaurant), HttpStatus.OK);
     }
 
     @Transactional

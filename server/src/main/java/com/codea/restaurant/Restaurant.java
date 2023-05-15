@@ -29,8 +29,6 @@ public class Restaurant extends BaseEntity {
     private String name;
     @Column(length = 255, nullable = false)
     private String content;
-    @NotBlank
-    private String location;
     @Column(nullable = false)
     private String tel;
     @Column(length = 50, nullable = false)
@@ -45,6 +43,14 @@ public class Restaurant extends BaseEntity {
     private int totalFavorite;
     @Column
     private double rating;
+    @Column
+    private String streetAddress;
+    @Column
+    private String detailAddress;
+    @Column
+    private double latitude;
+    @Column
+    private double longitude;
     @ManyToOne
     @JoinColumn(name = "MEMBER_ID")
     private Member member;

@@ -25,8 +25,6 @@ public class RestaurantDto {
         @NotBlank
         private String content;
         @NotBlank
-        private String location;
-        @NotBlank
         private String tel;
         @NotBlank
         private String open_time;
@@ -37,6 +35,7 @@ public class RestaurantDto {
         private double latitude;
         private double longitude;
         private String photo;
+
     }
 
     @Getter
@@ -45,10 +44,13 @@ public class RestaurantDto {
         private long restaurantId;
         private String name;
         private String content;
-        private String location;
         private String tel;
         private String open_time;
         private String photo;
+        private String streetAddress;
+        private String detailAddress;
+        private double latitude;
+        private double longitude;
     }
 
     @Getter
@@ -57,7 +59,6 @@ public class RestaurantDto {
         private long restaurantId;
         private String name;
         private String content;
-        private String location;
         private String tel;
         private String open_time;
         private String photo;

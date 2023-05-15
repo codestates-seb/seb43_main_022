@@ -56,12 +56,14 @@ public class MemberService {
 //            member.setPhoto("https://velog.velcdn.com/images/persestitan/post/5ef6f63a-c279-465d-b65d-97ff39848f6c/image.jpeg");
 //        }
 
-        Address savedAddress = addressRepository.save(address);
-        member.setAddress(savedAddress);
+        if (address != null) {
+            String streetAddress = address.getStreetAddress();
+            Address persistedAddress = addressRepository.findByStreetAddress(streetAddress)
+                    .orElseGet(() -> addressRepository.save(address));
+            member.setAddress(persistedAddress);
+        }
 
-        Member savedMember = memberRepository.save(member);
-
-        return savedMember;
+        return memberRepository.save(member);
     }
 
     @Transactional(propagation = Propagation.REQUIRED)

@@ -1,6 +1,10 @@
 package com.codea.restaurant;
 
+import com.codea.Menu.MenuMapper;
+import com.codea.address.AddressMapper;
+import com.codea.review.ReviewMapper;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 
 import java.util.List;
 

@@ -4,18 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="33dee409-4159-4046-bac4-db427252d03f" name="Changes" comment="test: 멤버 test 코드 수정">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/codea/exception/FavoriteNotFoundException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/codea/favorite/Favorite.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/codea/favorite/FavoriteController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/codea/favorite/FavoriteDto.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/codea/favorite/FavoriteFactory.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/codea/favorite/FavoriteRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/codea/favorite/FavoriteService.java" afterDir="false" />
+    <list default="true" id="33dee409-4159-4046-bac4-db427252d03f" name="Changes" comment="fix: 리뉴, 메뉴 리스트 수정중">
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/codea/member/Member.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/codea/member/Member.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/codea/restaurant/Restaurant.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/codea/restaurant/Restaurant.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/codea/WebApplicationTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/codea/WebApplicationTests.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -78,7 +71,7 @@
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;last_opened_file_path&quot;: &quot;E:/intelij plugin/screenshoter-1.8.1&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;screenshoter&quot;
+    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settingsdialog.project.gradle&quot;
   }
 }</component>
   <component name="RunManager" selected="Application.WebApplication">
@@ -308,7 +301,14 @@
       <option name="project" value="LOCAL" />
       <updated>1683986705932</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="fix: 리뉴, 메뉴 리스트 수정중">
+      <created>1684078335327</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1684078335327</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -335,6 +335,7 @@
     <MESSAGE value="feat: jwt를 통한 다른 엔티티에서의 멤버 인증" />
     <MESSAGE value="test: 멤버, 맛집 test 코드 수정" />
     <MESSAGE value="test: 멤버 test 코드 수정" />
-    <option name="LAST_COMMIT_MESSAGE" value="test: 멤버 test 코드 수정" />
+    <MESSAGE value="fix: 리뉴, 메뉴 리스트 수정중" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix: 리뉴, 메뉴 리스트 수정중" />
   </component>
 </project>

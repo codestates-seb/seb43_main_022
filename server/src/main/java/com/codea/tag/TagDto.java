@@ -16,7 +16,7 @@ public class TagDto {
         @NotBlank
         private String name;
     }
-    @Getter
+    /*@Getter
     @Setter
     @AllArgsConstructor
     @NoArgsConstructor
@@ -27,7 +27,7 @@ public class TagDto {
         //@Size(max = 30)
         private String name;
 
-    }
+    }*/
     @Getter
     @Setter
     @AllArgsConstructor

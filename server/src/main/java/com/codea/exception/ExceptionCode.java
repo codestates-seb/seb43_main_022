@@ -16,7 +16,9 @@ public enum ExceptionCode {
     CATEGORY_EXISTS(409,"Category exists"),
     CATEGORY_NOT_FOUND(404, "Category not found" ),
     TAG_EXISTS(409,"Tag exists"),
-    TAG_NOT_FOUND(404,"Tag not found");
+    TAG_NOT_FOUND(404,"Tag not found"),
+    PHOTO_NOT_FOUND(404, "Photo not found"),
+    PHOTO_EXISTS(409, "Photo exists");
 
 
     @Getter

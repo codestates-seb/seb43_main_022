@@ -32,7 +32,7 @@ public class TagController {
         //return new ResponseEntity<>(tagMapper.tagToTagResponseDto(response), HttpStatus.CREATED);
         return ResponseEntity.created(location).build();
     }
-    @PatchMapping("/{tag-id}")
+    /*@PatchMapping("/{tag-id}")
     public ResponseEntity patchTag(@PathVariable("tag-id")@Positive long tagId,
                                    @Valid @RequestBody TagDto.Patch tagPatchDto){
         tagPatchDto.setTagId(tagId);
@@ -40,7 +40,7 @@ public class TagController {
                 tagService.updateTag( tagMapper.tagPatchDtoToTag(tagPatchDto));
 
         return new ResponseEntity<>(tagMapper.tagToTagResponseDto(response), HttpStatus.OK);
-    }
+    }*/
     @GetMapping("/{tag-id}")
     public ResponseEntity getTag(@PathVariable("tag-id")@Positive long tagId){
 

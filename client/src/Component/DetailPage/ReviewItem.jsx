@@ -75,7 +75,7 @@ const Poto = styled.div`
   margin-top: 20px;
   overflow: hidden; //<PotoItem>이 컨테이너에 가득 차게 되면 가로 스크롤이 생기지 않고 숨겨진 상태로 보여짐
 `;
-const PotoItem = styled.img`
+const PhotoItem = styled.img`
   width: 281px;
   height: 135px;
   flex-shrink: 0; //아이템의 크기를 고정시키기 위해 flex-shrink 속성 추가
@@ -97,9 +97,8 @@ const ReviewItem = ({ data, onDelete }) => {
             <TitleInfo>
               <div className="title">{data.title}</div>
               <div className="day-button">
-                <span>{data.date}</span>
+                <span>{data.created_at}</span>
                 <Button btnstyle="SBtn">수정</Button>
-                {/* 수정은 어떻게? */}
                 <Button btnstyle="SBtn" onClick={handleDelete}>
                   삭제
                 </Button>
@@ -110,12 +109,12 @@ const ReviewItem = ({ data, onDelete }) => {
           {/* 수정하기 */}
         </ReviewHead>
         <ReviewContent>
-          <div className="username">{data.username}</div>
+          <div className="username">{data.memberName}</div>
           <div className="contents">
-            <Text>{data.text}</Text>
+            <Text>{data.content}</Text>
             <Poto>
-              {data.potoImg.map((img, imgIndex) => (
-                <PotoItem key={imgIndex} src={img} />
+              {data.photoImg.map((img, imgIndex) => (
+                <PhotoItem key={imgIndex} src={img} />
               ))}
             </Poto>
           </div>

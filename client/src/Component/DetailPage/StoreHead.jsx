@@ -1,16 +1,7 @@
 import styled from "styled-components";
 import ImgBtn from "../style/ImgBtn";
-import { useState } from "react";
-// import { useRecoilState } from "recoil";
-// import {
-//   shareIconState,
-//   heartIconState,
-//   //useRecoilValue
-// // storeNameState,
-// //   storeTagsState,
-// //   viewCountState,
-// //   heartCountState,
-// } from "../../state/atoms/detailInfoAtom";
+import { useState, useEffect } from "react";
+import axios from "axios";
 
 const Container = styled.div`
   margin: auto;
@@ -51,27 +42,35 @@ const SubInfo = styled.div`
 `;
 
 const StoreHead = () => {
-  // const storeName = useRecoilValue(storeNameState);
-  // const storeTags = useRecoilValue(storeTagsState);
-  // const viewCount = useRecoilValue(viewCountState);
-  // const heartCount = useRecoilValue(heartCountState);
-
   const [heartIcon, setHeartIcon] = useState(false);
   const [shareIcon, setShareIcon] = useState(false);
 
-  // const [storeData, setStoreData] = useState({
-  //   storeName: "",
-  //   storeTags: [],
-  //   viewCount: "",
-  //   heartCount: "",
-  // });
+  const [data, setData] = useState({
+    name: "오프마인드",
+    tag: ["#브런치", "#샌드위치", "#분위기좋은곳"],
+    total_views: "1.2k",
+    total_favorite: "302",
+  });
 
-  const dumyData = {
-    storeName: "오프마인드",
-    storeTags: ["#브런치", "#샌드위치", "#분위기좋은곳"],
-    viewCount: "1.2k",
-    heartCount: "302",
-  };
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get("url");
+        const { name, tag, total_views, total_favorite } = response.data;
+
+        setData({
+          name,
+          tag,
+          total_views,
+          total_favorite,
+        });
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   const handleHeartIcon = () => {
     setHeartIcon(!heartIcon);
@@ -83,18 +82,18 @@ const StoreHead = () => {
   return (
     <div>
       <Container>
-        <StoreName>{dumyData.storeName}</StoreName>
+        <StoreName>{data.name}</StoreName>
         <StoreInfo>
           <Tags>
-            {dumyData.storeTags.map((tag, index) => (
+            {data.tag.map((tag, index) => (
               <TagItem key={index}>{tag}</TagItem>
             ))}
           </Tags>
           <SubInfo>
             <ImgBtn imgstyle={"View"} />
-            <span>{dumyData.viewCount}</span>
+            <span>{data.total_views}</span>
             <ImgBtn imgstyle={"Heart"} onClick={handleHeartIcon} />
-            <span>{dumyData.heartCount}</span>
+            <span>{data.total_favorite}</span>
             <ImgBtn imgstyle={"Share"} onClick={handleShareIcon} />
           </SubInfo>
         </StoreInfo>

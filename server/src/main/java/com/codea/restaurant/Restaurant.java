@@ -6,6 +6,7 @@ import com.codea.address.Address;
 import com.codea.favorite.Favorite;
 import com.codea.member.Member;
 import com.codea.review.Review;
+import com.codea.tag.TagRestaurant;
 import lombok.*;
 
 import javax.persistence.*;
@@ -64,5 +65,17 @@ public class Restaurant extends BaseEntity {
 
     @OneToMany(mappedBy = "restaurant", cascade = CascadeType.REMOVE)
     private List<Favorite> favorites = new ArrayList<>();
+
+    @OneToMany(mappedBy = "restaurant")
+    private List<TagRestaurant> tagRestaurants = new ArrayList<>();
+
+
+    public void  setTagRestaurant(TagRestaurant tagRestaurant){
+        this.tagRestaurants.add(tagRestaurant);
+        if(tagRestaurant.getRestaurant() != this){
+            tagRestaurant.setRestaurant(this);
+        }
+    }
+
 
 }

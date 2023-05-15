@@ -45,18 +45,30 @@ const AddInfo = ({ formData, setFormData }) => {
   const [, setLatitude] = useState(null);
   const [, setLongitude] = useState(null);
   const [tel, setTel] = useState(formData.tel || "");
+
   const formatTelNumber = (value) => {
-    value = value.replace(/-/g, ""); // Remove hyphen
-    if (value.length <= 3) {
+    value = value.replace(/-/g, "");
+    if (value.startsWith("02")) {
+      if (value.length <= 2) {
+        return value;
+      } else if (value.length <= 6) {
+        return value.replace(/(02)(\d{1,4})/, "$1-$2");
+      } else {
+        return value.replace(/(02)(\d{4})(\d{1,4})/, "$1-$2-$3");
+      }
+    } else if (value.length <= 3) {
       return value;
     } else if (value.length <= 6) {
       return value.replace(/(\d{3})(\d{1,3})/, "$1-$2");
+    } else if (value.length === 8) {
+      return value.replace(/(\d{4})(\d{4})/, "$1-$2");
     } else if (value.length <= 10) {
       return value.replace(/(\d{3})(\d{3})(\d{1,4})/, "$1-$2-$3");
     } else if (value.length <= 13) {
       return value.replace(/(\d{3})(\d{4})(\d{1,4})/, "$1-$2-$3");
     }
   };
+
   const handleTelChange = (e) => {
     let { value } = e.target;
     value = formatTelNumber(value);

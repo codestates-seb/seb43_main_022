@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import styled from "styled-components";
 const AddInfoTagWrap = styled.div`
   display: flex;
@@ -60,8 +60,11 @@ const TagLi = styled.li`
     cursor: pointer;
   }
 `;
-const AddTagsInput = ({ onAddTag }) => {
-  const [tags, setTags] = useState([]);
+const AddTagsInput = ({ onAddTag, formData }) => {
+  const [tags, setTags] = useState(formData.tags || []);
+  useEffect(() => {
+    setTags(formData.tags || []);
+  }, [formData.tags]);
   const [tagInputValue, setTagInputValue] = useState("");
 
   const handleTagInputChange = (event) => {

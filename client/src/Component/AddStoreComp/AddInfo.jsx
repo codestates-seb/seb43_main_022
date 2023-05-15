@@ -27,25 +27,23 @@ const InfoInput = styled.input`
 const AddrSearchBtn = styled.button`
   width: 20%;
   height: 60px;
-  background-color: #eee;
+  background-color: var(--black-100);
   border: none;
   border-radius: 4px;
   padding: 10px;
   margin: 5px 0 10px 10px;
-  font-size: var(--small-font);
+  font-size: var(--medium-font);
   cursor: pointer;
 
   &:hover {
-    background-color: #ddd;
+    background-color: var(--eatsgreen);
+    color: var(--white);
   }
 `;
 
 const AddInfo = ({ formData, setFormData }) => {
-  const [, setLocationCoordinates] = useState({
-    latitude: null,
-    longitude: null,
-  });
-
+  const [, setLatitude] = useState(null);
+  const [, setLongitude] = useState(null);
   useEffect(() => {
     const script = document.createElement("script");
     script.src =
@@ -62,25 +60,6 @@ const AddInfo = ({ formData, setFormData }) => {
     document.body.appendChild(script);
   }, []);
 
-  useEffect(() => {
-    if (window.kakao && window.kakao.maps && formData.streetAddress) {
-      const geocoder = new window.kakao.maps.services.Geocoder();
-      geocoder.addressSearch(formData.streetAddress, function (result, status) {
-        if (status === window.kakao.maps.services.Status.OK) {
-          const newCoordinates = {
-            latitude: result[0].y,
-            longitude: result[0].x,
-          };
-          setLocationCoordinates(newCoordinates);
-          setFormData({ ...formData, coordinates: newCoordinates });
-        } else {
-          console.error("Error occurred while searching address: ", status);
-          alert("주소 검색 중 오류가 발생했습니다. 다시 시도해주세요.");
-        }
-      });
-    }
-  }, [formData.streetAddress]);
-
   const onInputChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
@@ -89,15 +68,27 @@ const AddInfo = ({ formData, setFormData }) => {
   const onSearchAddr = () => {
     new window.daum.Postcode({
       oncomplete: function (data) {
-        setFormData({
-          ...formData,
-          streetAddress: data.jibunAddress,
-          zonecode: data.zonecode,
-        });
+        if (window.kakao && window.kakao.maps) {
+          const geocoder = new window.kakao.maps.services.Geocoder();
+          geocoder.addressSearch(data.jibunAddress, function (result, status) {
+            if (status === window.kakao.maps.services.Status.OK) {
+              setLatitude(result[0].y);
+              setLongitude(result[0].x);
+              setFormData({
+                ...formData,
+                streetAddress: data.jibunAddress,
+                latitude: result[0].y,
+                longitude: result[0].x,
+              });
+            } else {
+              console.error("Error occurred while searching address: ", status);
+              alert("주소 검색 중 오류가 발생했습니다. 다시 시도해주세요.");
+            }
+          });
+        }
       },
     }).open();
   };
-
   return (
     <AddInfoWrap>
       <label htmlFor="streetAddress">주소</label>
@@ -107,10 +98,10 @@ const AddInfo = ({ formData, setFormData }) => {
           value={formData.streetAddress || ""}
           onChange={onInputChange}
           type="text"
-          placeholder="가게 주소를 입력하세요"
+          placeholder="주소 검색을 통해 주소를 입력해주세요"
           maxLength="200"
         />
-        <AddrSearchBtn onClick={onSearchAddr}>우편번호 검색</AddrSearchBtn>
+        <AddrSearchBtn onClick={onSearchAddr}>주소 검색</AddrSearchBtn>
       </LocationWrap>
       <InfoInput
         name="zonecode"
@@ -137,7 +128,7 @@ const AddInfo = ({ formData, setFormData }) => {
         placeholder="가게 전화번호를 입력하세요"
         maxLength="100"
       />
-      <label htmlFor="category">음식종류</label>
+      <label htmlFor="category">카테고리</label>
       <InfoInput
         name="category"
         value={formData.category || ""}

@@ -41,6 +41,7 @@ const Menu = styled.div`
     padding: 20px;
     border: 1px solid #ddd;
     font-size: var(--medium-font);
+    border-radius: 10px;
   }
   .addMenuPrice {
     width: 30%;
@@ -50,6 +51,7 @@ const Menu = styled.div`
     margin-right: 10px;
     text-align: right;
     border-left: none;
+    border-radius: 10px;
   }
 `;
 const MenuInput = styled.input`
@@ -60,11 +62,13 @@ const MenuInput = styled.input`
   font-size: var(--medium-font);
   margin-top: 5px;
   margin-bottom: 10px;
+  border-radius: 10px;
 `;
 
 const PriceInput = styled(MenuInput)`
   width: 30%;
   margin-right: 10px;
+  border-left: none;
   ::-webkit-inner-spin-button,
   ::-webkit-outer-spin-button {
     -webkit-appearance: none;

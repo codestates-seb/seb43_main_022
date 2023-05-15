@@ -38,7 +38,7 @@ const AddHeader = ({ formData, setFormData }) => {
         onChange={onInputChange}
         placeholder="이곳에 가게 이름을 입력해주세요!"
       />
-      <AddTagsInput onAddTag={onAddTag} />
+      <AddTagsInput onAddTag={onAddTag} formData={formData} />
     </AddHeaderArea>
   );
 };

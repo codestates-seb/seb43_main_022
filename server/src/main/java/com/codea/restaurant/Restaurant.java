@@ -3,6 +3,7 @@ package com.codea.restaurant;
 import com.codea.BaseEntity.BaseEntity;
 import com.codea.Menu.Menu;
 import com.codea.address.Address;
+import com.codea.category.Category;
 import com.codea.favorite.Favorite;
 import com.codea.member.Member;
 import com.codea.review.Review;
@@ -60,6 +61,10 @@ public class Restaurant extends BaseEntity {
 
     @OneToMany(mappedBy = "restaurant")
     private List<TagRestaurant> tagRestaurants = new ArrayList<>();
+
+    @ManyToOne
+    @JoinColumn(name = "CATEGORY_ID")
+    private Category category;
 
 
     public void  setTagRestaurant(TagRestaurant tagRestaurant){

@@ -14,7 +14,6 @@ public class CustomMemberDto {
     private String nickName;
     private String email;
     private String password;
-    private String location;
     private String photo;
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
@@ -25,7 +24,6 @@ public class CustomMemberDto {
                 entity.getNickName(),
                 entity.getEmail(),
                 entity.getPassword(),
-                entity.getLocation(),
                 entity.getPhoto(),
                 entity.getCreatedAt(),
                 entity.getModifiedAt()

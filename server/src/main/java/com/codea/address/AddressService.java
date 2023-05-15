@@ -25,6 +25,8 @@ public class AddressService {
         Address findAddress = findAddress(addressId);
 
         Optional.ofNullable(address.getStreetAddress()).ifPresent(streetAddress -> findAddress.setStreetAddress(streetAddress));
+        Optional.ofNullable(address.getLatitude()).ifPresent(latitude -> findAddress.setLatitude(latitude));
+        Optional.ofNullable(address.getLongitude()).ifPresent(longitude -> findAddress.setLongitude(longitude));
 
         return addressRepository.save(findAddress);
     }

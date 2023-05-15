@@ -26,7 +26,6 @@ public class Member extends BaseEntity {
     @Column(nullable = false, updatable = false, unique = true)
     private String email;
     private String password;
-    private String location;
     private String photo;
     @Column
     private Boolean businessAccount = false;

@@ -11,6 +11,7 @@ import java.util.List;
 @NoArgsConstructor
 public class AddressDto {
     @Getter
+    @AllArgsConstructor
     public static class Post {
         @NotBlank
         private String streetAddress;

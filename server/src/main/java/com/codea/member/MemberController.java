@@ -1,6 +1,9 @@
 package com.codea.member;
 
 
+import com.codea.address.Address;
+import com.codea.address.AddressDto;
+import com.codea.address.AddressMapper;
 import com.codea.dto.MultiResponseDto;
 import com.codea.review.Review;
 import com.codea.review.ReviewDto;
@@ -29,19 +32,29 @@ import java.util.stream.Collectors;
 public class MemberController {
     private final MemberService memberService;
     private final MemberMapper memberMapper;
+    private final AddressMapper addressMapper;
 
-    public MemberController(MemberService memberService, MemberMapper memberMapper) {
+    public MemberController(MemberService memberService, MemberMapper memberMapper, AddressMapper addressMapper) {
         this.memberService = memberService;
         this.memberMapper = memberMapper;
+        this.addressMapper = addressMapper;
     }
 
     @PostMapping("/signup")
     public ResponseEntity postMember(@Valid @RequestBody MemberDto.Post requestBody) {
-        Member member = memberMapper.memberPostDtoToMember(requestBody);
-        Member createMember = memberService.createMember(member);
-        MemberDto.Response responseDto = memberMapper.memberToMemberResponseDto(createMember);
+        // member 정보와 도로명주소를 받는다.
+        // 도로명 주소를 통해 Address 객체를 얻는다.
+        // Address 객체를 member 엔티티에 저장한다.
 
-        URI location = UriCreator.createUri("/members", createMember.getMemberId());
+        // requestBody 안에 member 정보와 도로명주소, 위도, 경도가 함께 저장되어 있음
+
+        AddressDto.Post addressDto = new AddressDto.Post(requestBody.getStreetAddress(), requestBody.getLatitude(), requestBody.getLongitude());
+        Address address = addressMapper.addressPostDtoToAddress(addressDto);
+
+        Member member = memberService.createMember(address, memberMapper.memberPostDtoToMember(requestBody));
+        MemberDto.Response responseDto = memberMapper.memberToMemberResponseDto(member);
+
+        URI location = UriCreator.createUri("/members", member.getMemberId());
         HttpHeaders headers = new HttpHeaders();
         headers.setLocation(location);
 

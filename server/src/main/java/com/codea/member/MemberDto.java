@@ -1,6 +1,7 @@
 package com.codea.member;
 
 
+import com.codea.address.Address;
 import com.codea.favorite.FavoriteDto;
 import com.codea.review.ReviewDto;
 import lombok.AllArgsConstructor;
@@ -27,7 +28,6 @@ public class MemberDto {
         private String password;
         private String nickName;
         private String photo;
-        private String location;
         private Boolean businessAccount;
         private String streetAddress;
         private double latitude;

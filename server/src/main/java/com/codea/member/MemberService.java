@@ -35,7 +35,7 @@ public class MemberService {
     private final ReviewRepository reviewRepository;
     private final AddressRepository addressRepository;
 
-    public Member createMember(Member member) {
+    public Member createMember(Address address, Member member) {
         verifyExistsEmail(member.getEmail());
 
         String encryptedPassword = passwordEncoder.encode(member.getPassword()); // Password 단방향 암호화
@@ -70,8 +70,8 @@ public class MemberService {
                 .ifPresent(name -> findMember.setNickName(name));
         Optional.ofNullable(member.getPassword())
                 .ifPresent(password -> findMember.setPassword(password));
-        Optional.ofNullable(member.getLocation())
-                .ifPresent(location -> findMember.setLocation(location));
+//        Optional.ofNullable(member.getLocation())
+//                .ifPresent(location -> findMember.setLocation(location));
 //        Optional.ofNullable(member.getPhoto())
 //                .ifPresent(image -> findMember.setPhoto(image));
 

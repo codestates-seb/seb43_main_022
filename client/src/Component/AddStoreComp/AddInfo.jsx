@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import styled from "styled-components";
 
 const AddInfoWrap = styled.div`
@@ -40,6 +40,11 @@ const AddrSearchBtn = styled.button`
 `;
 
 const AddInfo = ({ formData, setFormData }) => {
+  const [, setLocationCoordinates] = useState({
+    latitude: null,
+    longitude: null,
+  });
+
   useEffect(() => {
     const script = document.createElement("script");
     script.src =
@@ -47,6 +52,33 @@ const AddInfo = ({ formData, setFormData }) => {
     script.async = true;
     document.body.appendChild(script);
   }, []);
+
+  useEffect(() => {
+    const script = document.createElement("script");
+    script.src =
+      "//dapi.kakao.com/v2/maps/sdk.js?appkey=e7cd6dd18a2a66eecf9793219827c987&libraries=services";
+    script.async = true;
+    document.body.appendChild(script);
+  }, []);
+
+  useEffect(() => {
+    if (window.kakao && window.kakao.maps && formData.location) {
+      const geocoder = new window.kakao.maps.services.Geocoder();
+      geocoder.addressSearch(formData.location, function (result, status) {
+        if (status === window.kakao.maps.services.Status.OK) {
+          const newCoordinates = {
+            latitude: result[0].y,
+            longitude: result[0].x,
+          };
+          setLocationCoordinates(newCoordinates);
+          setFormData({ ...formData, coordinates: newCoordinates });
+        } else {
+          console.error("Error occurred while searching address: ", status);
+          alert("주소 검색 중 오류가 발생했습니다. 다시 시도해주세요.");
+        }
+      });
+    }
+  }, [formData.location]);
 
   const onInputChange = (e) => {
     const { name, value } = e.target;

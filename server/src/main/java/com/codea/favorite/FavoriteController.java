@@ -25,15 +25,10 @@ public class FavoriteController {
 
     private final FavoriteService favoriteService;
     private final FavoriteMapper mapper;
-    private final FavoriteRepository favoriteRepository;
-    private final RestaurantRepository restaurantRepository;
 
-    public FavoriteController(FavoriteService favoriteService, FavoriteMapper mapper, FavoriteRepository favoriteRepository,
-                              RestaurantRepository restaurantRepository) {
+    public FavoriteController(FavoriteService favoriteService, FavoriteMapper mapper) {
         this.favoriteService = favoriteService;
         this.mapper = mapper;
-        this.favoriteRepository = favoriteRepository;
-        this.restaurantRepository = restaurantRepository;
     }
 
     @PostMapping("restaurant/{restaurant-id}")
@@ -71,15 +66,10 @@ public class FavoriteController {
     }
 
     @DeleteMapping("/{favorite-id}")
-    public void deleteFavorite(long favoriteId) {
-        Favorite favorite = favoriteService.findFavorite(favoriteId);
-        Restaurant restaurant = favorite.getRestaurant();
+    public ResponseEntity deleteFavorite(@PathVariable("favorite-id") @Positive long favoriteId) {
+        favoriteService.deleteFavorite(favoriteId);
 
-        favoriteRepository.delete(favorite);
-
-        int count = favoriteRepository.countByRestaurant_RestaurantId(restaurant.getRestaurantId());
-        restaurant.setTotalFavorite(count);
-
-        restaurantRepository.save(restaurant);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+
 }

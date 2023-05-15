@@ -21,6 +21,7 @@ const InfoInput = styled.input`
   font-size: var(--medium-font);
   margin-top: 5px;
   margin-bottom: 10px;
+  border-radius: 10px;
 `;
 
 const AddrSearchBtn = styled.button`
@@ -62,9 +63,9 @@ const AddInfo = ({ formData, setFormData }) => {
   }, []);
 
   useEffect(() => {
-    if (window.kakao && window.kakao.maps && formData.location) {
+    if (window.kakao && window.kakao.maps && formData.streetAddress) {
       const geocoder = new window.kakao.maps.services.Geocoder();
-      geocoder.addressSearch(formData.location, function (result, status) {
+      geocoder.addressSearch(formData.streetAddress, function (result, status) {
         if (status === window.kakao.maps.services.Status.OK) {
           const newCoordinates = {
             latitude: result[0].y,
@@ -78,7 +79,7 @@ const AddInfo = ({ formData, setFormData }) => {
         }
       });
     }
-  }, [formData.location]);
+  }, [formData.streetAddress]);
 
   const onInputChange = (e) => {
     const { name, value } = e.target;
@@ -90,7 +91,7 @@ const AddInfo = ({ formData, setFormData }) => {
       oncomplete: function (data) {
         setFormData({
           ...formData,
-          location: data.jibunAddress,
+          streetAddress: data.jibunAddress,
           zonecode: data.zonecode,
         });
       },
@@ -99,11 +100,11 @@ const AddInfo = ({ formData, setFormData }) => {
 
   return (
     <AddInfoWrap>
-      <label htmlFor="location">주소</label>
+      <label htmlFor="streetAddress">주소</label>
       <LocationWrap>
         <InfoInput
-          name="location"
-          value={formData.location || ""}
+          name="streetAddress"
+          value={formData.streetAddress || ""}
           onChange={onInputChange}
           type="text"
           placeholder="가게 주소를 입력하세요"

@@ -27,10 +27,15 @@ const StoreInfoWrap = styled.div`
   justify-content: space-between;
 `;
 const AddBtnWrap = styled.div`
+  margin-top: 40px;
   width: 100%;
   display: flex;
   justify-content: flex-end;
   gap: 10px;
+
+  & button:first-of-type {
+    margin-right: auto;
+  }
 `;
 // const { id } = useParams(); // URL 파라미터에서 업체 ID를 가져옴
 // 서버에서 업체 정보를 가져옴 http://localhost:4000/restaurants/${id}
@@ -53,7 +58,7 @@ const EditStore = () => {
   useEffect(() => {
     const fetchRestaurant = async () => {
       try {
-        const response = await axios.get(`http://localhost:4000/restaurants/2`);
+        const response = await axios.get(`http://localhost:4000/restaurants/1`);
         setFormData(response.data);
         console.log("페이지렌더링시 저장된 데이터 : ", response.data);
       } catch (error) {
@@ -66,7 +71,7 @@ const EditStore = () => {
 
   const patchFormData = async () => {
     try {
-      await axios.patch(`http://localhost:4000/restaurants/2`, formData);
+      await axios.patch(`http://localhost:4000/restaurants/1`, formData);
       console.log(formData);
       alert("업체 정보가 수정되었습니다.");
     } catch (error) {
@@ -75,13 +80,15 @@ const EditStore = () => {
     }
   };
   const deleteFormData = async () => {
-    try {
-      await axios.delete(`http://localhost:4000/restaurants/2`);
-      alert("업체 정보가 삭제되었습니다.");
-      history(-1);
-    } catch (error) {
-      console.error(error);
-      alert("업체 정보 삭제에 실패하였습니다.");
+    if (window.confirm("업체 정보를 삭제하시겠습니까?")) {
+      try {
+        await axios.delete(`http://localhost:4000/restaurants/1`);
+        alert("업체 정보가 삭제되었습니다.");
+        history(-1);
+      } catch (error) {
+        console.error(error);
+        alert("업체 정보 삭제에 실패하였습니다.");
+      }
     }
   };
 

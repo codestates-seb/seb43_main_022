@@ -59,13 +59,12 @@ public class MemberDto {
         private long memberId;
         private String nickName;
         private String email;
-        private String location;
         private boolean businessAccount;
+        private List<ReviewDto.Response> reviews;
+        private List<FavoriteDto.Response> favorites;
         private String photo;
         private int favoriteCount;
         private Address address;
-//        private List<ReviewDto.Response> reviews;
-//        private List<FavoriteDto.Response> favorites;
     }
 
     @Getter

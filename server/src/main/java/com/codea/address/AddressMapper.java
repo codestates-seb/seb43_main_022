@@ -11,5 +11,5 @@ public interface AddressMapper {
     Address addressPostDtoToAddress(AddressDto.Post requestBody);
     Address addressPatchDtoToAddress(AddressDto.Patch requestBody);
     AddressDto.Response addressToAddressResponseDto(Address address);
-    List<AddressDto.Response> addressToAddressResponseDto(List<Address> addresss);
+    List<AddressDto.Response> addressToAddressResponseDto(List<Address> address);
 }

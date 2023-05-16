@@ -96,32 +96,6 @@ public class MemberController {
         return new ResponseEntity(responseDto, HttpStatus.OK);
     }
 
-//    @GetMapping("/{member-id}")
-//    public ResponseEntity getMember(@PathVariable("member-id") @Positive long memberId) {
-//        Member member = memberService.findMember(memberId);
-//        List<Review> reviews = memberService.getReviewsByMember(member);
-//        MemberDto.Response responseDto = memberMapper.memberToMemberResponseDto(member, reviews);
-//        return new ResponseEntity(responseDto, HttpStatus.OK);
-//    }
-
-//    @GetMapping("/{member-id}")
-//    public ResponseEntity getMember(@PathVariable("member-id") @Positive long memberId) {
-//        Member member = memberService.findMember(memberId);
-//        List<Review> reviews = memberService.getReviewsByMember(member);
-//
-//        // Review 리스트를 ReviewDto.Response 리스트로 변환합니다.
-//        List<ReviewDto.Response> reviewResponses = new ArrayList<>();
-//        for (Review review : reviews) {
-//            reviewResponses.add(reviewMapper.reviewToReviewResponseDto(review));
-//        }
-//
-//        MemberDto.Response responseDto = new MemberDto.Response(member.getMemberId(),
-//                member.getNickName(), member.getEmail(), member.getLocation(),
-//                member.getPhoto(), reviewResponses, member.getFavoriteCount());
-//
-//        return new ResponseEntity(responseDto, HttpStatus.OK);
-//    }
-
     @Transactional
     @GetMapping
     public ResponseEntity getMembers(@Positive @RequestParam int page,
@@ -134,19 +108,11 @@ public class MemberController {
                 HttpStatus.OK);
     }
 
-//    @GetMapping("/{memberId}")
-//    public MemberDto.Response getMember(@PathVariable Long memberId) {
-//        Member member = memberService.getMember(memberId);
-//        List<Review> reviews = memberService.getReviewsByMember(member); // 명시적으로 reviews를 로드합니다.
-//        return new MemberDto.Response(member, reviews); // reviews를 DTO 생성자에 전달합니다.
-//    }
+    @DeleteMapping("/delete-account")
+    public ResponseEntity deleteMember(@AuthenticationPrincipal String email) {
+//        memberService.sameMemberTest(email);
 
-    @DeleteMapping("/{member-id}")
-    public ResponseEntity deleteMember(
-            @PathVariable("member-id") @Positive long memberId, @RequestHeader("Authorization") String token) {
-        memberService.sameMemberTest(memberId, token);
-
-        memberService.deleteMember(memberId);
+        memberService.deleteMember(email);
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }

@@ -9,7 +9,7 @@ logging:
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url : jdbc:mysql://main022db.ccoalveyz7wm.ap-northeast-2.rds.amazonaws.com:13306/main_022?useSSL=false&characterEncoding=UTF-8&serverTimezone=UTC
+    url : jdbc:mysql://main022db.ccoalveyz7wm.ap-northeast-2.rds.amazonaws.com:13306/main022db?useSSL=false&characterEncoding=UTF-8&serverTimezone=UTC
     username: admin
     password: admin123
   mvc:
@@ -18,7 +18,8 @@ spring:
     log-request-details: true
   jpa:
     defer-datasource-initialization: true
-    hibernate.ddl-auto: update
+    hibernate:
+      ddl-auto: update
     open-in-view: false
     show-sql: true
     properties:

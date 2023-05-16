@@ -75,8 +75,8 @@ public class RestaurantService {
         Optional.ofNullable(restaurant.getName()).ifPresent(name -> findRestaurant.setName(name));
         Optional.ofNullable(restaurant.getContent()).ifPresent(content -> findRestaurant.setContent(content));
         Optional.ofNullable(restaurant.getTel()).ifPresent(tel -> findRestaurant.setTel(tel));
-        Optional.ofNullable(restaurant.getPhoto()).ifPresent(photo -> findRestaurant.setPhoto(photo));
-        Optional.ofNullable(restaurant.getOpen_time()).ifPresent(open_time -> findRestaurant.setOpen_time(open_time));
+        Optional.ofNullable(restaurant.getPhotoUrl()).ifPresent(photoUrl -> findRestaurant.setPhotoUrl(photoUrl));
+        Optional.ofNullable(restaurant.getOpenTime()).ifPresent(openTime -> findRestaurant.setOpenTime(openTime));
         Optional.ofNullable(restaurant.getDetailAddress()).ifPresent(detailAddress -> findRestaurant.setDetailAddress(detailAddress));
         findRestaurant.setModifiedAt(LocalDateTime.now());
 

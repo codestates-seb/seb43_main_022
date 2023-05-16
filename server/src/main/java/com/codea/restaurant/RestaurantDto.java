@@ -27,14 +27,14 @@ public class RestaurantDto {
         @NotBlank
         private String tel;
         @NotBlank
-        private String open_time;
+        private String openTime;
         @NotBlank
         private String streetAddress;
         @NotBlank
         private String detailAddress;
         private double latitude;
         private double longitude;
-        private String photo;
+        private String photoUrl;
 
     }
 
@@ -45,8 +45,8 @@ public class RestaurantDto {
         private String name;
         private String content;
         private String tel;
-        private String open_time;
-        private String photo;
+        private String openTime;
+        private String photoUrl;
         private String streetAddress;
         private String detailAddress;
         private double latitude;
@@ -60,8 +60,8 @@ public class RestaurantDto {
         private String name;
         private String content;
         private String tel;
-        private String open_time;
-        private String photo;
+        private String openTime;
+        private String photoUrl;
         private LocalDateTime createdAt;
         private LocalDateTime modifiedAt;
         private int total_views;

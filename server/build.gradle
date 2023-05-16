@@ -51,11 +51,11 @@ tasks.named('test') {
 	useJUnitPlatform()
 }
 
-tasks.named('asciidoctor') {
-	configurations "asciidoctorExtensions"
-	inputs.dir snippetsDir
-	dependsOn test
-}
+//tasks.named('asciidoctor') {
+//	configurations "asciidoctorExtensions"
+//	inputs.dir snippetsDir
+//	dependsOn test
+//}
 
 task copyDocument(type: Copy) {
 	dependsOn asciidoctor
@@ -69,6 +69,7 @@ build {
 }
 
 bootJar {
+	archiveFileName = 'app.jar' // 애플리케이션 이름 짧게 만들기
 	dependsOn copyDocument
 	from ("${asciidoctor.outputDir}") {
 		into 'static/docs'

@@ -27,7 +27,7 @@ import static org.springframework.security.config.Customizer.withDefaults;
 
 @Configuration
 //@EnableWebSecurity // Spring Security를 사용하기 위한 필수 설정들을 자동으로 등록
-@EnableGlobalMethodSecurity(prePostEnabled = true) // 메소드 보안 기능 활성화
+//@EnableGlobalMethodSecurity(prePostEnabled = true) // 메소드 보안 기능 활성화
 public class SecurityConfiguration {
     private final JwtTokenizer jwtTokenizer;
     private final CustomAuthorityUtils authorityUtils;

@@ -6,6 +6,7 @@ import com.codea.auth.jwt.JwtTokenizer;
 import com.codea.member.Member;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.SneakyThrows;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -15,17 +16,23 @@ import javax.servlet.FilterChain;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.time.Duration;
 import java.util.*;
 
 // JWT(JSON Web Token)을 사용해 인증 처리
 public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
     private final AuthenticationManager authenticationManager; // 인증관리자, 인증 요청을 처리 하고 인증 성공 여부 결정
     private final JwtTokenizer jwtTokenizer; // jwt 토큰을 생성하고 관리
+    private final RedisTemplate redisTemplate;
 
-    public JwtAuthenticationFilter(AuthenticationManager authenticationManager, JwtTokenizer jwtTokenizer) {
+
+    public JwtAuthenticationFilter(AuthenticationManager authenticationManager, JwtTokenizer jwtTokenizer,
+                                   RedisTemplate redisTemplate) {
         this.authenticationManager = authenticationManager;
         this.jwtTokenizer = jwtTokenizer;
+        this.redisTemplate = redisTemplate;
     }
+
 
     @SneakyThrows // 체크된 예외를 무시하고 런타임 예외로 변환
     @Override

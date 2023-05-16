@@ -4,6 +4,7 @@ package com.codea.member;
 import com.codea.address.Address;
 import com.codea.address.AddressDto;
 import com.codea.address.AddressMapper;
+import com.codea.auth.userdetails.MemberDetailsService;
 import com.codea.dto.MultiResponseDto;
 import com.codea.restaurant.Restaurant;
 import com.codea.review.Review;
@@ -20,6 +21,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;
 import java.net.URI;
@@ -36,11 +39,14 @@ public class MemberController {
     private final MemberService memberService;
     private final MemberMapper memberMapper;
     private final AddressMapper addressMapper;
+    private final MemberDetailsService memberDetailsService;
 
-    public MemberController(MemberService memberService, MemberMapper memberMapper, AddressMapper addressMapper) {
+    public MemberController(MemberService memberService, MemberMapper memberMapper,
+                            AddressMapper addressMapper, MemberDetailsService memberDetailsService) {
         this.memberService = memberService;
         this.memberMapper = memberMapper;
         this.addressMapper = addressMapper;
+        this.memberDetailsService = memberDetailsService;
     }
 
     @PostMapping("/signup")
@@ -135,4 +141,9 @@ public class MemberController {
         return ResponseEntity.ok().build();
     }
 
+
+    @GetMapping("/logout")
+    public void logout(HttpServletRequest request, HttpServletResponse response) {
+        memberDetailsService.logout(request, response);
+    }
 }

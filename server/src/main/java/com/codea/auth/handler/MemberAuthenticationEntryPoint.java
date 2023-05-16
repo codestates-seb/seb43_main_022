@@ -1,7 +1,14 @@
 package com.codea.auth.handler;
 
+import com.codea.auth.jwt.JwtTokenizer;
 import com.codea.auth.utils.ErrorResponder;
+import com.codea.exception.BusinessLogicException;
+import com.codea.exception.ExceptionCode;
+import com.codea.member.Member;
+import com.codea.member.MemberRepository;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
@@ -11,6 +18,9 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 @Slf4j
 @Component
@@ -37,4 +47,20 @@ public class MemberAuthenticationEntryPoint implements AuthenticationEntryPoint 
         log.warn("Unauthorized error happened: {}", message);
         // 로그 기록
     }
+
+    private String regenerateAccessToken(Member member) {
+        Map<String, Object> claims = new HashMap<>();
+        claims.put("email", member.getEmail());
+        claims.put("roles", member.getRoles());
+
+        String subject = member.getEmail();
+        Date expiration = jwtTokenizer.getTokenExpiration(jwtTokenizer.getAccessTokenExpirationMinutes());
+
+        String base64EncodedSecretKey = jwtTokenizer.encodeBase64SecretKey(jwtTokenizer.getSecretKey());
+        String accessToken = jwtTokenizer.generateAccessToken(claims, subject, expiration, base64EncodedSecretKey);
+
+        return accessToken;
+    }
+
+
 }

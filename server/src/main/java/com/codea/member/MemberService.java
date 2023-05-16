@@ -15,12 +15,15 @@ import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -36,6 +39,7 @@ public class MemberService {
     private final JwtUtil jwtUtil;
     private final ReviewRepository reviewRepository;
     private final AddressRepository addressRepository;
+    private final RedisTemplate redisTemplate;
 
     public Member createMember(Address address, Member member) {
         verifyExistsEmail(member.getEmail());
@@ -137,5 +141,13 @@ public class MemberService {
         return reviewRepository.findByMember(member);
     }
 
+
+    public void logout(HttpServletRequest request, HttpServletResponse response) {
+        String refreshJws = request.getHeader("Refresh");
+
+        redisTemplate.delete(refreshJws);
+        response.setHeader("Authorization", "");
+        response.setHeader("Refresh", "");
+    }
 
 }

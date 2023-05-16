@@ -5,6 +5,7 @@ import com.codea.address.Address;
 import com.codea.address.AddressDto;
 import com.codea.address.AddressMapper;
 import com.codea.dto.MultiResponseDto;
+import com.codea.restaurant.Restaurant;
 import com.codea.review.Review;
 import com.codea.review.ReviewDto;
 import com.codea.review.ReviewMapper;
@@ -14,6 +15,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -29,6 +31,7 @@ import java.util.stream.Collectors;
 @RequestMapping("/members")
 @Validated
 @Slf4j
+@Transactional
 public class MemberController {
     private final MemberService memberService;
     private final MemberMapper memberMapper;
@@ -65,14 +68,20 @@ public class MemberController {
     @PatchMapping("/{member-id}")
     public ResponseEntity patchMember(@PathVariable("member-id") @Positive long memberId,
                                       @Valid @RequestBody MemberDto.Patch requestBody,
-                                      @RequestHeader("Authorization") String token) {
-        System.out.println("@@@@@@@@@@@@@@@@@@@@@@@"+ token);
-        memberService.sameMemberTest(memberId, token);
-        requestBody.setMemberId(memberId);
-        Member updateMember = memberService.updateMember(memberMapper.memberPatchDtoToMember(requestBody));
-        MemberDto.Response responseDto = memberMapper.memberToMemberResponseDto(updateMember);
+                                      @AuthenticationPrincipal String email) {
+//        memberService.sameMemberTest(memberId, token);
+//        requestBody.setMemberId(memberId);
 
-        return new ResponseEntity(responseDto, HttpStatus.OK);
+        AddressDto.Post addressDto = new AddressDto.Post(requestBody.getStreetAddress(), requestBody.getLatitude(), requestBody.getLongitude());
+        Address address = addressMapper.addressPostDtoToAddress(addressDto);
+
+        Member member = memberService.updateMember(memberId, email, address, memberMapper.memberPatchDtoToMember(requestBody));
+
+
+//        Member updateMember = memberService.updateMember(address, memberMapper.memberPatchDtoToMember(requestBody));
+//        MemberDto.Response responseDto = memberMapper.memberToMemberResponseDto(updateMember);
+
+        return new ResponseEntity<>(memberMapper.memberToMemberResponseDto(member), HttpStatus.OK);
     }
 
 

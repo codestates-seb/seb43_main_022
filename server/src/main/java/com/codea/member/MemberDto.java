@@ -39,9 +39,11 @@ public class MemberDto {
     public static class Patch {
         private long memberId;
         private String nickName;
-        private String email;
+//        private String email;
         private String password; // 비번 변경 요청시 비밀번호 입력하도록 나중에 기능 추가
-        private String location;
+        private String streetAddress;
+        private double latitude;
+        private double longitude;
         private String photo;
 
         public void setMemberId(long memberId) {
@@ -60,13 +62,10 @@ public class MemberDto {
         private String location;
         private boolean businessAccount;
         private String photo;
-        private List<ReviewDto.Response> reviews;
         private int favoriteCount;
-        private List<FavoriteDto.Response> favorites;
         private Address address;
-
-
-
+//        private List<ReviewDto.Response> reviews;
+//        private List<FavoriteDto.Response> favorites;
     }
 
     @Getter
@@ -76,21 +75,5 @@ public class MemberDto {
         private String nickName;
         private String photo;
     }
-
-//
-//    private long restaurantId;
-//    @Column(length = 30, nullable = false)
-//    private String name;
-//    @Column(length = 255, nullable = false)
-//    private String content;
-//    @NotBlank
-//    private String location;
-//    @Column(nullable = false)
-//    private String tel;
-//    @Column(length = 50, nullable = false)
-//    private String open_time;
-//    @Column
-//    private String photo;
-//    @Column
 
 }

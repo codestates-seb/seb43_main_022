@@ -1,9 +1,15 @@
 package com.codea.restaurant;
 
+import com.codea.address.Address;
+import com.codea.address.AddressDto;
+import com.codea.address.AddressMapper;
+import com.codea.member.Member;
+import com.codea.member.MemberDto;
 import com.codea.response.MultiResponseDto;
 import com.codea.review.Review;
 import com.codea.utils.UriCreator;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -23,29 +29,43 @@ import java.util.List;
 public class RestaurantController {
     private final RestaurantService restaurantService;
     private final RestaurantMapper mapper;
+    private final AddressMapper addressMapper;
 
-    public RestaurantController(RestaurantService restaurantService,RestaurantMapper mapper){
+    public RestaurantController(RestaurantService restaurantService, RestaurantMapper mapper, AddressMapper addressMapper) {
         this.restaurantService = restaurantService;
         this.mapper = mapper;
+        this.addressMapper = addressMapper;
     }
 
     @PostMapping
-    public ResponseEntity postRestaurant(@Valid @RequestBody RestaurantDto.Post requestBody,
-                                         @AuthenticationPrincipal String email) {
-        System.out.println(email+ "1@@@@@@@@@@@@@@@@@@@");
-        Restaurant restaurant = restaurantService.createRestaurant(email, mapper.restaurantPostDtoToRestaurant(requestBody));
+    public ResponseEntity postRestaurant(@Valid @RequestBody RestaurantDto.Post requestBody, @AuthenticationPrincipal String email) {
+
+//        System.out.println(email+ "1@@@@@@@@@@@@@@@@@@@");
+
+        AddressDto.Post addressDto = new AddressDto.Post(requestBody.getStreetAddress(), requestBody.getLatitude(), requestBody.getLongitude());
+        Address address = addressMapper.addressPostDtoToAddress(addressDto);
+
+//        Restaurant restaurant = restaurantService.createRestaurant(email, mapper.restaurantPostDtoToRestaurant(requestBody));
+
+        Restaurant restaurant = restaurantService.createRestaurant(email, address, mapper.restaurantPostDtoToRestaurant(requestBody));
 
         URI location = UriCreator.createUri("/restaurants", restaurant.getRestaurantId());
         return ResponseEntity.created(location).build();
     }
 
+
+    @Transactional
     @PatchMapping("/{restaurant-id}")
     public ResponseEntity patchRestaurant(@PathVariable("restaurant-id") long restaurantId,
                                           @Valid @RequestBody RestaurantDto.Patch requestBody,
-                                          @AuthenticationPrincipal String email){
-        Restaurant restaurant = restaurantService.updateRestaurant(restaurantId, email, mapper.restaurantPatchDtoToRestaurant(requestBody));
+                                          @AuthenticationPrincipal String email) {
 
-        return new ResponseEntity<>(mapper.restaurantToRestaurantResponseDto(restaurant),HttpStatus.OK);
+        AddressDto.Post addressDto = new AddressDto.Post(requestBody.getStreetAddress(), requestBody.getLatitude(), requestBody.getLongitude());
+        Address address = addressMapper.addressPostDtoToAddress(addressDto);
+
+        Restaurant restaurant = restaurantService.updateRestaurant(restaurantId, email, address, mapper.restaurantPatchDtoToRestaurant(requestBody));
+
+        return new ResponseEntity<>(mapper.restaurantToRestaurantResponseDto(restaurant), HttpStatus.OK);
     }
 
     @Transactional

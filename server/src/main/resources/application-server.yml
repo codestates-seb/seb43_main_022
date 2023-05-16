@@ -17,6 +17,8 @@ spring:
       matching-strategy: ant_path_matcher
     log-request-details: true
   jpa:
+    database: mysql
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
     defer-datasource-initialization: true
     hibernate:
       ddl-auto: update

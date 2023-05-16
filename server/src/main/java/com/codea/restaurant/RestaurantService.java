@@ -1,14 +1,20 @@
 package com.codea.restaurant;
 
+import com.codea.Menu.Menu;
+import com.codea.Menu.MenuDto;
 import com.codea.Menu.MenuRepository;
 import com.codea.address.Address;
 import com.codea.address.AddressRepository;
+import com.codea.category.Category;
+import com.codea.category.CategoryDto;
 import com.codea.exception.BusinessLogicException;
 import com.codea.exception.ExceptionCode;
 import com.codea.member.Member;
 import com.codea.member.MemberRepository;
 import com.codea.review.Review;
 import com.codea.review.ReviewRepository;
+import com.codea.tag.Tag;
+import com.codea.tag.TagDto;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -17,6 +23,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -36,9 +43,36 @@ public class RestaurantService {
         this.addressRepository = addressRepository;
     }
 
-    public Restaurant createRestaurant(String email, Address address, Restaurant restaurant) {
-
+    public Restaurant createRestaurant(String email, RestaurantDto.Post post) {
         Member member = memberRepository.findByEmail(email).orElseThrow(() -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
+
+        Restaurant restaurant = new Restaurant(post.getName(), post.getContent(), post.getTel(), post.getOpen_time(), post.getStreetAddress(), post.getPhotoUrl());
+        Address address = new Address(post.getDetailAddress(), post.getLatitude(), post.getLongitude());
+        restaurant.setAddress(address);
+
+        List<Menu> menus = new ArrayList<>();
+        for (MenuDto.Post menuDto : restaurantDto.getMenu()) {
+            Menu menu = menuService.createMenu(menuDto);
+            menus.add(menu);
+        }
+        restaurant.setMenus(menus);
+        // 카테고리 저장
+        List<Category> categories = new ArrayList<>();
+        for (CategoryDto.Post categoryDto : restaurantDto.getCategories()) {
+            Category category = categoryService.createCategory(categoryDto);
+            categories.add(category);
+        }
+        restaurant.setCategories(categories);
+        // 태그 저장
+        List<Tag> tags = new ArrayList<>();
+        for (TagDto.Post tagDto : restaurantDto.getTags()) {
+            Tag tag = tagService.createTag(tagDto);
+            tags.add(tag);
+        }
+        restaurant.setTags(tags);
+        // 업체 저장
+        Restaurant savedRestaurant = restaurantRepository.save(restaurant);
+        return convertToResponse(savedRestaurant);
 
         String streetAddress = address.getStreetAddress();
         Address findAddress = addressRepository.findByStreetAddress(streetAddress)
@@ -62,7 +96,7 @@ public class RestaurantService {
 //        return restaurantRepository.save(restaurant);
 
     @Transactional
-    public Restaurant updateRestaurant(long restaurantId, String email, Address address, Restaurant restaurant) {
+    public Restaurant updateRestaurant(long restaurantId, String email, Address address,  Restaurant restaurant) {
         // 주소를 수정하면 데이터베이스를 직접 수정하는 게 아닌, 수정된 주소를 데이터베이스에 추가함
         // 만약, 수정된 주소가 데이터베이스에 존재하면, 수정된 주소를 set 한다
         // 수정된 주소가 데이터베이스에 존재하지 않으면, 수정된 주소를 데이터베이스에 추가한다.
@@ -76,7 +110,7 @@ public class RestaurantService {
         Optional.ofNullable(restaurant.getContent()).ifPresent(content -> findRestaurant.setContent(content));
         Optional.ofNullable(restaurant.getTel()).ifPresent(tel -> findRestaurant.setTel(tel));
         Optional.ofNullable(restaurant.getPhotoUrl()).ifPresent(photoUrl -> findRestaurant.setPhotoUrl(photoUrl));
-        Optional.ofNullable(restaurant.getOpenTime()).ifPresent(openTime -> findRestaurant.setOpenTime(openTime));
+        Optional.ofNullable(restaurant.getOpen_time()).ifPresent(open_time -> findRestaurant.setOpen_time(open_time));
         Optional.ofNullable(restaurant.getDetailAddress()).ifPresent(detailAddress -> findRestaurant.setDetailAddress(detailAddress));
         findRestaurant.setModifiedAt(LocalDateTime.now());
 

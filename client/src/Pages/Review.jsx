@@ -7,49 +7,20 @@ import ImgBtn from "../Component/style/ImgBtn";
 import { useInput } from "../hooks/useInput";
 import { api } from "../Util/api";
 
-/* 컨테이너 구성 트리 구조 
-  전체 컨테이너
-    > 가게 정보 컨테이너
-      # 가게 이름
-      # 태그 
-      # 조회수 + 즐겨찾기 수
-
-    > 리뷰 정보 컨테이너
-      # 리뷰 제목
-        ＊ text
-        ＊ input
-      # 리뷰 내용
-        ＊ text
-        ＊ input
-      # 리뷰 사진
-        ＊ input 창
-      # 가게 만족도
-        ＊ 맛있어요
-          $ text
-          $ img
-        ＊ 별로에요
-          $ text
-          $ img
-    > 버튼 컨테이너
-      # 리뷰 남기기
-      # 취소
-*/
 const info = {
   title: "하이마트",
-  tags: ["태그1", "태그2", "태그3", "태그4", "태그5"],
   view: "1.5k",
   heart: "500",
-  tag: [
+  tags: [
     {
-      tagId: 1,
       name: "#햄버거",
     },
     {
-      tagId: 2,
       name: "#버거",
     },
   ],
 };
+
 const Review = (restaurant_id) => {
   const [{ title, content, img }, onInputChange] = useInput({
     title: "",
@@ -68,11 +39,12 @@ const Review = (restaurant_id) => {
     .catch((err) => {
       console.log(err);
     });
+
   const handleSubmit = () => {
     api
       .post(`/restaurants/${restaurant_id}/review`, {
         title,
-        Comment,
+        content,
         img,
         rating,
       })
@@ -86,8 +58,9 @@ const Review = (restaurant_id) => {
   const handleCancel = () => {
     history(-1);
   };
-  const handleRating = (choice) => {
-    setRating(choice);
+  const handleRating = (rating) => {
+    setRating(rating);
+    console.log(rating);
   };
 
   return (
@@ -97,9 +70,9 @@ const Review = (restaurant_id) => {
           <span className="res-title">{info.title}</span>
           <ul className="tag-ul">
             {/* 나중에 변경해야함 */}
-            {info.tag.map((tag, tagId) => (
+            {info.tags.map((tags, tagId) => (
               <li key={tagId}>
-                <span>{tag.name}</span>
+                <span>{tags.name}</span>
               </li>
             ))}
           </ul>

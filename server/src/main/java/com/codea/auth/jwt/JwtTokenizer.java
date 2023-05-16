@@ -78,6 +78,16 @@ public class JwtTokenizer {
         return claims;
     }
 
+//    String token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c";
+//    String[] parts = token.split("\\.");
+//
+//    String header = new String(Base64.getUrlDecoder().decode(parts[0]), StandardCharsets.UTF_8);
+//    String payload = new String(Base64.getUrlDecoder().decode(parts[1]), StandardCharsets.UTF_8);
+//
+//        System.out.println("Header: " + header);
+//        System.out.println("Payload: " + payload);
+//}
+
     // 단순 검증만 하는 용도
     public void verifySignature(String jws, String base64EncodedSecretKey) {
         Key key = getKeyFromBase64EncodedKey(base64EncodedSecretKey);

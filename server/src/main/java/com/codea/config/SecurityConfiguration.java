@@ -34,13 +34,17 @@ public class SecurityConfiguration {
     private final CustomAuthorityUtils authorityUtils;
     private final MemberRepository memberRepository;
     private final RedisTemplate redisTemplate;
+    private final MemberAuthenticationEntryPoint memberAuthenticationEntryPoint;
+
 
     public SecurityConfiguration(JwtTokenizer jwtTokenizer, CustomAuthorityUtils authorityUtils,
-                                 MemberRepository memberRepository, RedisTemplate redisTemplate) {
+                                 MemberRepository memberRepository, RedisTemplate redisTemplate,
+                                 MemberAuthenticationEntryPoint memberAuthenticationEntryPoint) {
         this.jwtTokenizer = jwtTokenizer;
         this.authorityUtils = authorityUtils;
         this.memberRepository = memberRepository;
         this.redisTemplate = redisTemplate;
+        this.memberAuthenticationEntryPoint = memberAuthenticationEntryPoint;
     }
 
     @Bean
@@ -108,7 +112,7 @@ public class SecurityConfiguration {
             jwtAuthenticationFilter.setAuthenticationFailureHandler(new MemberAuthenticationFailureHandler());
 
 
-            JwtVerificationFilter jwtVerificationFilter = new JwtVerificationFilter(jwtTokenizer, authorityUtils);
+            JwtVerificationFilter jwtVerificationFilter = new JwtVerificationFilter(jwtTokenizer, authorityUtils, memberAuthenticationEntryPoint);
 
             builder.addFilter(jwtAuthenticationFilter)
                     .addFilterAfter(jwtVerificationFilter, JwtAuthenticationFilter.class);

@@ -18,6 +18,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.util.Base64;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -54,11 +56,13 @@ public class MemberAuthenticationEntryPoint implements AuthenticationEntryPoint 
 //
 
         String accessJws = request.getHeader("Authorization").replace("Bearer ", "");
-        String refreshJws = request.getHeader("Refresh");
+        String refreshJws = (String) redisTemplate.opsForValue().get(accessJws); //refreshJws가 null이 아니라면 refresh 토큰이 유효하다는 것 refreshJws = refresh token
+        // 리프레시 토큰이 존재하면 액세스 토큰을 발급해줘야 함
 
         System.out.println("---------------- Access 토큰 : " + accessJws + "----------------");
         System.out.println("---------------- Refresh 토큰 : " + refreshJws + "----------------");
-        if (redisTemplate.keys(refreshJws) == null) {
+
+        if (refreshJws == null) {
             Exception exception = (Exception) request.getAttribute("exception");
             ErrorResponder.sendErrorResponse(response, HttpStatus.UNAUTHORIZED);
 
@@ -73,7 +77,7 @@ public class MemberAuthenticationEntryPoint implements AuthenticationEntryPoint 
 
             response.setHeader("Authorization", "Bearer " + newAccessJws);
 
-            System.out.println("=============== Access 토큰 재발행 ===============" + base64EncodedSecretKey + email);
+            System.out.println("=============== Access 토큰 재발행 ===============" + email);
             System.out.println(member.getEmail() + "의 Access 토큰이 재발행되었습니다.");
             System.out.println("AccessToken : " + "Bearer " + newAccessJws);
         }

@@ -1,5 +1,6 @@
 package com.codea.auth.filter;
 
+import com.codea.auth.handler.MemberAuthenticationEntryPoint;
 import com.codea.auth.jwt.JwtTokenizer;
 import com.codea.auth.utils.CustomAuthorityUtils;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -7,6 +8,7 @@ import io.jsonwebtoken.security.SignatureException; //주의 - org.security에 �
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -24,12 +26,13 @@ import static com.codea.auth.utils.ErrorResponder.sendErrorResponse;
 public class JwtVerificationFilter extends OncePerRequestFilter {
     private final JwtTokenizer jwtTokenizer;
     private final CustomAuthorityUtils authorityUtils;
+    private final MemberAuthenticationEntryPoint memberAuthenticationEntryPoint;
 
-
-    public JwtVerificationFilter(JwtTokenizer jwtTokenizer,
-                                 CustomAuthorityUtils authorityUtils) {
+    public JwtVerificationFilter(JwtTokenizer jwtTokenizer, CustomAuthorityUtils authorityUtils,
+                                 MemberAuthenticationEntryPoint memberAuthenticationEntryPoint) {
         this.jwtTokenizer = jwtTokenizer;
         this.authorityUtils = authorityUtils;
+        this.memberAuthenticationEntryPoint = memberAuthenticationEntryPoint;
     }
 
     @Override
@@ -47,7 +50,8 @@ public class JwtVerificationFilter extends OncePerRequestFilter {
         } catch (SignatureException se) { // jwt 서명 오류시 발생하는 예외 처리
             sendErrorResponse(response, HttpStatus.valueOf(401));
         } catch (ExpiredJwtException ee) { // jwt 토큰 만료시 발생하는 예외 처리
-            sendErrorResponse(response, HttpStatus.valueOf(401));
+            AuthenticationException authException = new AuthenticationException("Access token expired") {};
+            memberAuthenticationEntryPoint.commence(request, response, authException);
         } catch (Exception e) { // 기타 예외 발생시 예외 처리, 필터체인으로 요청 전달
             request.setAttribute("exception", e);
             filterChain.doFilter(request, response);

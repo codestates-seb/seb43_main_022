@@ -32,7 +32,7 @@ public class Restaurant extends BaseEntity {
     @Column(nullable = false)
     private String tel;
     @Column(length = 50, nullable = false)
-    private String openTime;
+    private String open_time;
     @Column
     private String photoUrl;
     @Column

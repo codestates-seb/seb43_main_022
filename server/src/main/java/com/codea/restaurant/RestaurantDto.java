@@ -27,7 +27,7 @@ public class RestaurantDto {
         @NotBlank
         private String tel;
         @NotBlank
-        private String openTime;
+        private String open_time;
         @NotBlank
         private String streetAddress;
         @NotBlank
@@ -45,7 +45,7 @@ public class RestaurantDto {
         private String name;
         private String content;
         private String tel;
-        private String openTime;
+        private String open_time;
         private String photoUrl;
         private String streetAddress;
         private String detailAddress;
@@ -60,7 +60,7 @@ public class RestaurantDto {
         private String name;
         private String content;
         private String tel;
-        private String openTime;
+        private String open_time;
         private String photoUrl;
         private LocalDateTime createdAt;
         private LocalDateTime modifiedAt;

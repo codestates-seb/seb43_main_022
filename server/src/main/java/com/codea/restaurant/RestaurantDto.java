@@ -2,7 +2,9 @@ package com.codea.restaurant;
 
 import com.codea.Menu.MenuDto;
 import com.codea.address.Address;
+import com.codea.category.CategoryDto;
 import com.codea.review.ReviewDto;
+import com.codea.tag.TagDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -35,6 +37,9 @@ public class RestaurantDto {
         private double latitude;
         private double longitude;
         private String photoUrl;
+        private List<MenuDto.Post> menu;
+        private CategoryDto.Post categories;
+        private List<TagDto.Post> tags;
 
     }
 
@@ -51,6 +56,9 @@ public class RestaurantDto {
         private String detailAddress;
         private double latitude;
         private double longitude;
+        private List<MenuDto.Post> menu;
+        private CategoryDto.Post categories;
+        private List<TagDto.Post> tags;
     }
 
     @Getter

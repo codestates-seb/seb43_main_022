@@ -8,6 +8,7 @@ import javax.validation.constraints.NotNull;
 
 public class MenuDto {
     @Getter
+    @AllArgsConstructor
     public static class Post {
         @NotBlank(message = "이름을 입력하세요.")
         private String name;

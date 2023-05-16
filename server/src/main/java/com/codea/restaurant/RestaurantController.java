@@ -1,5 +1,6 @@
 package com.codea.restaurant;
 
+import com.codea.Menu.MenuDto;
 import com.codea.address.Address;
 import com.codea.address.AddressDto;
 import com.codea.address.AddressMapper;
@@ -42,12 +43,12 @@ public class RestaurantController {
 
 //        System.out.println(email+ "1@@@@@@@@@@@@@@@@@@@");
 
-        AddressDto.Post addressDto = new AddressDto.Post(requestBody.getStreetAddress(), requestBody.getLatitude(), requestBody.getLongitude());
-        Address address = addressMapper.addressPostDtoToAddress(addressDto);
+//        AddressDto.Post addressDto = new AddressDto.Post(requestBody.getStreetAddress(), requestBody.getLatitude(), requestBody.getLongitude());
+//        Address address = addressMapper.addressPostDtoToAddress(addressDto);
 
 //        Restaurant restaurant = restaurantService.createRestaurant(email, mapper.restaurantPostDtoToRestaurant(requestBody));
 
-        Restaurant restaurant = restaurantService.createRestaurant(email, address, mapper.restaurantPostDtoToRestaurant(requestBody));
+        Restaurant restaurant = restaurantService.createRestaurant(email, requestBody);
 
         URI location = UriCreator.createUri("/restaurants", restaurant.getRestaurantId());
         return ResponseEntity.created(location).build();
@@ -62,6 +63,7 @@ public class RestaurantController {
 
         AddressDto.Post addressDto = new AddressDto.Post(requestBody.getStreetAddress(), requestBody.getLatitude(), requestBody.getLongitude());
         Address address = addressMapper.addressPostDtoToAddress(addressDto);
+        MenuDto.Post menuDto = new List<MenuDto.Post> (requestBody.getMenu());
 
         Restaurant restaurant = restaurantService.updateRestaurant(restaurantId, email, address, mapper.restaurantPatchDtoToRestaurant(requestBody));
 

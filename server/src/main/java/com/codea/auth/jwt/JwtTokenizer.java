@@ -41,6 +41,12 @@ public class JwtTokenizer {
                                       String base64EncodedSecretKey) {
         Key key = getKeyFromBase64EncodedKey(base64EncodedSecretKey);
 
+        System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+
+        System.out.println(Jwts.builder().setClaims(claims).setSubject(subject)
+                .setIssuedAt(Calendar.getInstance().getTime())
+                .setExpiration(expiration).signWith(key).compact());
+
         return Jwts.builder() // jwt 빌드 인스턴스 생성
                 .setClaims(claims)  // 클레임 데이터 설정  예를들면 ("email", user@example.com" // "role", "admin")
                 .setSubject(subject)  // 토큰의 주제(일반적으로 사용자 식별자)를 설정

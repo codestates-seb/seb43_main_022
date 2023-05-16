@@ -22,12 +22,14 @@ public class MemberDetailsService implements UserDetailsService {
 
     private final MemberRepository memberRepository;
     private final CustomAuthorityUtils authorityUtils;
+    private final RedisTemplate redisTemplate;
 
-    public MemberDetailsService(MemberRepository memberRepository, CustomAuthorityUtils authorityUtils) {
+    public MemberDetailsService(MemberRepository memberRepository, CustomAuthorityUtils authorityUtils,
+                                RedisTemplate redisTemplate) {
         this.memberRepository = memberRepository;
         this.authorityUtils = authorityUtils;
+        this.redisTemplate = redisTemplate;
     }
-
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
@@ -75,4 +77,14 @@ public class MemberDetailsService implements UserDetailsService {
             return true;
         }
     }
+
+
+    public void logout(HttpServletRequest request, HttpServletResponse response) {
+        String refreshJws = request.getHeader("Refresh");
+
+        redisTemplate.delete(refreshJws);
+        response.setHeader("Authorization", "");
+        response.setHeader("Refresh", "");
+    }
+
 }

@@ -1,12 +1,14 @@
 package com.codea.member;
 
 
+import com.codea.address.Address;
 import com.codea.favorite.FavoriteDto;
 import com.codea.review.ReviewDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.persistence.Column;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
@@ -16,6 +18,7 @@ import java.util.List;
 public class MemberDto {
 
     @Getter
+    @Setter
     @AllArgsConstructor
     public static class Post {
         @NotBlank
@@ -25,9 +28,10 @@ public class MemberDto {
         private String password;
         private String nickName;
         private String photo;
-        private String location;
         private Boolean businessAccount;
-
+        private String streetAddress;
+        private double latitude;
+        private double longitude;
     }
 
     @Getter
@@ -35,9 +39,11 @@ public class MemberDto {
     public static class Patch {
         private long memberId;
         private String nickName;
-        private String email;
-        //private String password; // 비번 변경 요청시 비밀번호 입력하도록 나중에 기능 추가
-        private String location;
+//        private String email;
+        private String password; // 비번 변경 요청시 비밀번호 입력하도록 나중에 기능 추가
+        private String streetAddress;
+        private double latitude;
+        private double longitude;
         private String photo;
 
         public void setMemberId(long memberId) {
@@ -47,18 +53,18 @@ public class MemberDto {
 
 
     @Getter
+    @Setter
     @AllArgsConstructor
     public static class Response {
         private long memberId;
         private String nickName;
         private String email;
-        private String location;
         private boolean businessAccount;
-        private String photo;
         private List<ReviewDto.Response> reviews;
-        private int favoriteCount;
         private List<FavoriteDto.Response> favorites;
-
+        private String photo;
+        private int favoriteCount;
+        private Address address;
     }
 
     @Getter
@@ -68,6 +74,5 @@ public class MemberDto {
         private String nickName;
         private String photo;
     }
-
 
 }

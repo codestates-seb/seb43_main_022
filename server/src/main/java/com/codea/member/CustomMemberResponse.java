@@ -14,7 +14,7 @@ public class CustomMemberResponse {
     private String photo;
     private String nickName;
     private String password;
-    private String location;
+//    private String location;
     private LocalDateTime createAt;
     private LocalDateTime modifiedAt;
 
@@ -26,7 +26,7 @@ public class CustomMemberResponse {
                 dto.getPhoto(),
                 dto.getNickName(),
                 dto.getPassword(),
-                dto.getLocation(),
+//                dto.getLocation(),
                 dto.getCreatedAt(),
                 dto.getModifiedAt()
         );

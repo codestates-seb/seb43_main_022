@@ -1,0 +1,51 @@
+logging:
+  level:
+    org:
+      springframework:
+        web: debug
+    org.springframework.web.servlet: debug
+    org.hibernate.type.descriptor.sql.BasicBinder: trace
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url : jdbc:mysql://main022db.ccoalveyz7wm.ap-northeast-2.rds.amazonaws.com:13306/main_022?useSSL=false&characterEncoding=UTF-8&serverTimezone=UTC&createDatabaseIfNotExist=true
+    username: admin
+    password: admin123
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+    log-request-details: true
+  jpa:
+    database: mysql
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+    defer-datasource-initialization: true
+    hibernate:
+      ddl-auto: update
+    open-in-view: false
+    show-sql: true
+    properties:
+      hibernate.format_sql: true
+      hibernate.default_batch_fetch_size: 100
+#  security:
+#    oauth2:
+#      client:
+#        registration:
+#          google:
+#            client-id:
+#            clientSecret: ${GoogleClientSecret}
+#            scope:
+#              - email
+#              - profile
+#  sql.init.mode: always
+mail:
+  address:
+    admin: admin@admin
+jwt:
+  key: abcd123456789123456789123456789abcdabcd
+  access-token-expiration-minutes: 30
+  refresh-token-expiration-minutes: 420
+
+image:
+  upload:
+    dir : classpath:/static/images/

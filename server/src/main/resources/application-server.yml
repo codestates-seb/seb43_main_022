@@ -9,7 +9,7 @@ logging:
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url : jdbc:mysql://main022db.ccoalveyz7wm.ap-northeast-2.rds.amazonaws.com:13306/main022db?useSSL=false&characterEncoding=UTF-8&serverTimezone=UTC
+    url : jdbc:mysql://main022db.ccoalveyz7wm.ap-northeast-2.rds.amazonaws.com:13306/main_022?useSSL=false&characterEncoding=UTF-8&serverTimezone=UTC&createDatabaseIfNotExist=true
     username: admin
     password: admin123
   mvc:
@@ -40,7 +40,7 @@ spring:
 #  sql.init.mode: always
 mail:
   address:
-    admin: ${ADMIN_MAIL}
+    admin: admin@admin
 jwt:
   key: abcd123456789123456789123456789abcdabcd
   access-token-expiration-minutes: 30

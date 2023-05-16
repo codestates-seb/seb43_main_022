@@ -69,7 +69,7 @@ build {
 }
 
 bootJar {
-	//archiveFileName = 'app.jar' // 애플리케이션 이름 짧게 만들기
+	archiveFileName = 'app.jar' // 애플리케이션 이름 짧게 만들기
 	dependsOn copyDocument
 	from ("${asciidoctor.outputDir}") {
 		into 'static/docs'

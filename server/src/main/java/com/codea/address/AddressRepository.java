@@ -1,5 +1,6 @@
 package com.codea.address;
 
+import com.codea.member.Member;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

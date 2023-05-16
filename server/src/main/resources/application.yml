@@ -1,5 +1,5 @@
 server:
-  port: 7080
+  port: 8080
 
 logging:
   level:
@@ -12,11 +12,18 @@ logging:
 
 
 spring:
+  h2:
+    console:
+      enabled: true
+      path: /h2
   datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/main022?serverTimezone=Asia/Seoul
-    username: root
-    password: root
+    url: jdbc:h2:mem:test
+
+#  datasource:
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+#    url: jdbc:mysql://localhost:3306/main022?serverTimezone=Asia/Seoul
+#    username: root
+#    password: root
   jpa:
     defer-datasource-initialization: true
     hibernate.ddl-auto: create

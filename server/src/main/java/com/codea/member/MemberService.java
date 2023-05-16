@@ -90,8 +90,8 @@ public class MemberService {
 
 
     @Transactional(readOnly = true)
-    public Member findMember(long memberId) {
-        return findVerifiedMember(memberId);
+    public Member findMember(String email) {
+        return memberRepository.findByEmail(email).orElseThrow(() -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
     }
 
     public Page<Member> findMembers(int page, int size) {
@@ -100,11 +100,12 @@ public class MemberService {
     }
 
 
-    public void deleteMember(long memberId) {
-        Member findMember = findVerifiedMember(memberId);
+    public void deleteMember(String email) {
+        Member findMember = findMember(email);
 
-        memberRepository.delete(findMember);
         //탈퇴회원으로 상태변경
+        findMember.setMemberStatus(Member.MemberStatus.MEMBER_QUIT);
+        memberRepository.save(findMember);
     }
 
     @Transactional(readOnly = true)

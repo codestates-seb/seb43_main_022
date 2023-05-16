@@ -86,10 +86,9 @@ public class MemberController {
 
 
     @Transactional
-    @GetMapping("/{member-id}")
-    public ResponseEntity getMember(
-            @PathVariable("member-id") @Positive long memberId) {
-        Member member = memberService.findMember(memberId);
+    @GetMapping("/mypage")
+    public ResponseEntity getMember(@AuthenticationPrincipal String email) {
+        Member member = memberService.findMember(email);
         MemberDto.Response responseDto = memberMapper.memberToMemberResponseDto(member);
 
         List<Review> reviews = memberService.getReviewsByMember(member);

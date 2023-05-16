@@ -27,10 +27,10 @@ public class Review extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private ReviewStatus status = ReviewStatus.REVIEW_VALID;
     @ManyToOne
-    @JoinColumn(name = "MEMBER_ID")
+    @JoinColumn(name = "member_id")
     private Member member;
     @ManyToOne
-    @JoinColumn(name = "RESTAURANT_ID")
+    @JoinColumn(name = "restaurant_id")
     private Restaurant restaurant;
 
 //

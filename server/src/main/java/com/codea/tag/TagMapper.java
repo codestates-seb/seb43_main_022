@@ -1,12 +1,30 @@
 package com.codea.tag;
 
+import com.codea.restaurant.Restaurant;
 import org.mapstruct.Mapper;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Mapper(componentModel = "spring")
 public interface TagMapper {
-    Tag tagPostDtoToTag(TagDto.Post tagPostDto);
+    default Tag tagPostDtoToTag(TagDto.Post tagPostDto) {
+        Tag tag = new Tag();
+        List<TagRestaurant> tagRestaurants = tagPostDto.getTagRestaurants().stream()
+                .map(tagRestaurantDto -> {
+                    TagRestaurant tagRestaurant = new TagRestaurant();
+                    Restaurant restaurant = new Restaurant();
+                    restaurant.setRestaurantId(tagRestaurantDto.getRestaurantId());
+                    tagRestaurant.setTag(tag);
+                    tagRestaurant.setRestaurant(restaurant);
+                    tagRestaurant.setName(tagRestaurantDto.getName());
+                    return tagRestaurant;
+                }).collect(Collectors.toList());
+        tag.setTagRestaurants(tagRestaurants);
+
+        return tag;
+    }
+
     Tag tagPatchDtoToTag(TagDto.Patch tagPatchDto);
     TagDto.Response tagToTagResponseDto(Tag tag);
 

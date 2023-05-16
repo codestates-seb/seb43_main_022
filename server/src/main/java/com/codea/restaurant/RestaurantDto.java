@@ -2,6 +2,7 @@ package com.codea.restaurant;
 
 import com.codea.Menu.MenuDto;
 import com.codea.address.Address;
+import com.codea.category.Category;
 import com.codea.category.CategoryDto;
 import com.codea.review.ReviewDto;
 import com.codea.tag.TagDto;
@@ -38,7 +39,7 @@ public class RestaurantDto {
         private double longitude;
         private String photoUrl;
         private List<MenuDto.Post> menu;
-        private CategoryDto.Post categories;
+        private Category category;
         private List<TagDto.Post> tags;
 
     }
@@ -46,7 +47,7 @@ public class RestaurantDto {
     @Getter
     @AllArgsConstructor
     public static class Patch {
-        private long restaurantId;
+        private long restaurant_id;
         private String name;
         private String content;
         private String tel;
@@ -64,7 +65,7 @@ public class RestaurantDto {
     @Getter
     @AllArgsConstructor
     public static class Response {
-        private long restaurantId;
+        private long restaurant_id;
         private String name;
         private String content;
         private String tel;

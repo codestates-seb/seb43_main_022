@@ -11,7 +11,6 @@ public class TagRestaurantDto {
     public static class Post {
         @Positive
         private long restaurantId;
-        @Positive
         private String name;
     }
 

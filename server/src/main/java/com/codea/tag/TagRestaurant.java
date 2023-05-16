@@ -8,6 +8,7 @@ import lombok.Setter;
 import org.springframework.data.domain.Auditable;
 
 import javax.persistence.*;
+import javax.validation.constraints.Positive;
 
 @NoArgsConstructor
 @Getter
@@ -17,6 +18,8 @@ public class TagRestaurant  {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long tagRestaurantId;
+
+    private String name;
 
     @ManyToOne
     @JoinColumn(name = "RESTAURANT_ID")

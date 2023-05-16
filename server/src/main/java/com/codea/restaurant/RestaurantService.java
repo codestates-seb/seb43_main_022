@@ -56,6 +56,9 @@ public class RestaurantService {
 
 
     public Restaurant createRestaurant(String email, RestaurantDto.Post post) {
+        Restaurant restaurant = new Restaurant(post.getName(), post.getContent(), post.getTel(), post.getOpen_time(),
+                post.getPhotoUrl(), post.getDetailAddress(), post.getCategory());
+
         Member member = memberRepository.findByEmail(email).orElseThrow(() -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
         restaurant.setMember(member);
 
@@ -86,17 +89,12 @@ public class RestaurantService {
 //             new Tag(tagPost.getRestaurantId(), restaurant);
             tagRepository.save(tag);
         }
-        restaurant.setTags(tags);
-        // 업체 저장
-        Restaurant savedRestaurant = restaurantRepository.save(restaurant);
-        return convertToResponse(savedRestaurant);
 
-        String streetAddress = address.getStreetAddress();
-        Address findAddress = addressRepository.findByStreetAddress(streetAddress)
-                .orElseGet(() -> addressRepository.save(address));
-
-        restaurant.setAddress(findAddress);
-        restaurant.setMember(member);
+//        String streetAddress = address.getStreetAddress();
+//        Address findAddress = addressRepository.findByStreetAddress(streetAddress).orElseGet(() -> addressRepository.save(address));
+//
+//        restaurant.setAddress(findAddress);
+//        restaurant.setMember(member);
 
         return restaurantRepository.save(restaurant);
     }

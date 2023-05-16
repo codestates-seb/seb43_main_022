@@ -80,11 +80,10 @@ public class MemberDetailsService implements UserDetailsService {
 
 
     public void logout(HttpServletRequest request, HttpServletResponse response) {
-        String refreshJws = request.getHeader("Refresh");
+        String accessJws = request.getHeader("Authorization");
 
-        redisTemplate.delete(refreshJws);
+        redisTemplate.delete(accessJws);
         response.setHeader("Authorization", "");
-        response.setHeader("Refresh", "");
     }
 
 }

@@ -6,6 +6,11 @@ import com.codea.exception.BusinessLogicException;
 import com.codea.exception.ExceptionCode;
 import com.codea.member.Member;
 import com.codea.member.MemberRepository;
+import com.fasterxml.jackson.annotation.JsonValue;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import io.jsonwebtoken.Claims;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -55,6 +60,10 @@ public class MemberAuthenticationEntryPoint implements AuthenticationEntryPoint 
 //
 //
 
+        // 레디스 - 키 : 엑세스 토큰, 값 : 리프레시 토큰으로 저장 (완료)
+        // 액세스 토큰이 만료되면(try catch 구현) 클라이언트가 요청한 헤더 엑세스 토큰 값과 레디스에
+
+
         String accessJws = request.getHeader("Authorization").replace("Bearer ", "");
         String refreshJws = (String) redisTemplate.opsForValue().get(accessJws); //refreshJws가 null이 아니라면 refresh 토큰이 유효하다는 것 refreshJws = refresh token
         // 리프레시 토큰이 존재하면 액세스 토큰을 발급해줘야 함
@@ -69,11 +78,23 @@ public class MemberAuthenticationEntryPoint implements AuthenticationEntryPoint 
             logExceptionMessage(authException, exception);
             System.out.println("Refresh 토큰이 만료되었습니다.");
         } else {
-            String email = (String) redisTemplate.opsForValue().get(refreshJws);
-            String base64EncodedSecretKey = jwtTokenizer.encodeBase64SecretKey(jwtTokenizer.getSecretKey());
+            // 액세스 토큰을 새로 발급해주는 코드
 
-            Member member = memberRepository.findByEmail(email).orElseThrow(() -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
-            String newAccessJws = regenerateAccessToken(member);
+            System.out.println("############################################" + accessJws);
+
+            String[] parts = accessJws.split("\\.");
+
+            String payload = new String(Base64.getUrlDecoder().decode(parts[1]), StandardCharsets.UTF_8);
+
+            Gson gson = new Gson();
+
+            JsonObject jsonObject = gson.fromJson(payload, JsonObject.class);
+
+            String email = jsonObject.get("email").getAsString();
+
+
+            Member member = memberRepository.findByEmail(email).orElseThrow(() -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND)); //error
+            String newAccessJws = regenerateAccessToken(member); //member가 없어서 에러
 
             response.setHeader("Authorization", "Bearer " + newAccessJws);
 

@@ -27,6 +27,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/restaurants")
 @Validated
+@Transactional
 public class RestaurantController {
     private final RestaurantService restaurantService;
     private final RestaurantMapper mapper;
@@ -63,7 +64,7 @@ public class RestaurantController {
 
         AddressDto.Post addressDto = new AddressDto.Post(requestBody.getStreetAddress(), requestBody.getLatitude(), requestBody.getLongitude());
         Address address = addressMapper.addressPostDtoToAddress(addressDto);
-        MenuDto.Post menuDto = new List<MenuDto.Post> (requestBody.getMenu());
+//        MenuDto.Post menuDto = new List<MenuDto.Post> (requestBody.getMenu());
 
         Restaurant restaurant = restaurantService.updateRestaurant(restaurantId, email, address, mapper.restaurantPatchDtoToRestaurant(requestBody));
 

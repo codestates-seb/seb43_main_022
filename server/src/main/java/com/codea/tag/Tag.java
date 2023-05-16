@@ -26,4 +26,8 @@ public class Tag  {
     @OneToMany(mappedBy = "tag",cascade = CascadeType.PERSIST)
     private List<TagRestaurant> tagRestaurants = new ArrayList<>();
 
+    public Tag(String name, List<TagRestaurant> tagRestaurants) {
+        this.name = name;
+        this.tagRestaurants = tagRestaurants;
+    }
 }

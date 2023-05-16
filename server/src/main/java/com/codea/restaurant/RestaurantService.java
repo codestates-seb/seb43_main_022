@@ -7,14 +7,15 @@ import com.codea.address.Address;
 import com.codea.address.AddressRepository;
 import com.codea.category.Category;
 import com.codea.category.CategoryDto;
+import com.codea.category.CategoryRepository;
 import com.codea.exception.BusinessLogicException;
 import com.codea.exception.ExceptionCode;
 import com.codea.member.Member;
+import com.codea.member.MemberDto;
 import com.codea.member.MemberRepository;
 import com.codea.review.Review;
 import com.codea.review.ReviewRepository;
-import com.codea.tag.Tag;
-import com.codea.tag.TagDto;
+import com.codea.tag.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -28,46 +29,62 @@ import java.util.List;
 import java.util.Optional;
 
 import static com.codea.review.Review.ReviewStatus.REVIEW_VALID;
+import static java.awt.SystemColor.menu;
 
 @Service
 public class RestaurantService {
     private final RestaurantRepository restaurantRepository;
     private final MemberRepository memberRepository;
     private final AddressRepository addressRepository;
+    private final MenuRepository menuRepository;
+    private final TagRepository tagRepository;
+    private final CategoryRepository categoryRepository;
+    private final TagMapper tagMapper;
 
 
     public RestaurantService(RestaurantRepository restaurantRepository, MemberRepository memberRepository,
-                             AddressRepository addressRepository) {
+                             AddressRepository addressRepository, MenuRepository menuRepository,
+                             TagRepository tagRepository, CategoryRepository categoryRepository, TagMapper tagMapper) {
         this.restaurantRepository = restaurantRepository;
         this.memberRepository = memberRepository;
         this.addressRepository = addressRepository;
+        this.menuRepository = menuRepository;
+        this.tagRepository = tagRepository;
+        this.categoryRepository = categoryRepository;
+        this.tagMapper = tagMapper;
     }
+
 
     public Restaurant createRestaurant(String email, RestaurantDto.Post post) {
         Member member = memberRepository.findByEmail(email).orElseThrow(() -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
+        restaurant.setMember(member);
 
-        Restaurant restaurant = new Restaurant(post.getName(), post.getContent(), post.getTel(), post.getOpen_time(), post.getStreetAddress(), post.getPhotoUrl());
-        Address address = new Address(post.getDetailAddress(), post.getLatitude(), post.getLongitude());
+        Address address = new Address(post.getStreetAddress(), post.getLatitude(), post.getLongitude());
         restaurant.setAddress(address);
 
-        List<Menu> menus = new ArrayList<>();
-        for (MenuDto.Post menuDto : restaurantDto.getMenu()) {
-            Menu menu = menuService.createMenu(menuDto);
-            menus.add(menu);
+//        List<Menu> menu = new ArrayList<>();
+//        for (RestaurantDto.Post menus : post.getMenu()) {
+//            Menu menu = menuService.createMenu(menuDto);
+//            menu.add(menu);
+//        }
+//        restaurant.setMenus(menu);
+
+//        List<Menu> menu = new ArrayList<>();
+        for (MenuDto.Post menuPost : post.getMenu()) {
+            Menu menu = new Menu(menuPost.getName(), menuPost.getPrice(), restaurant);
+//            menuService.createMenu(menuDto);
+            menuRepository.save(menu);
         }
-        restaurant.setMenus(menus);
-        // 카테고리 저장
-        List<Category> categories = new ArrayList<>();
-        for (CategoryDto.Post categoryDto : restaurantDto.getCategories()) {
-            Category category = categoryService.createCategory(categoryDto);
-            categories.add(category);
-        }
-        restaurant.setCategories(categories);
-        // 태그 저장
-        List<Tag> tags = new ArrayList<>();
-        for (TagDto.Post tagDto : restaurantDto.getTags()) {
-            Tag tag = tagService.createTag(tagDto);
-            tags.add(tag);
+
+        Category category = new Category(post.getName());
+        categoryRepository.save(category);
+
+
+
+        for (TagDto.Post tagPost : post.getTags()) {
+            Tag tag = tagMapper.tagPostDtoToTag(tagPost);
+//             new Tag(tagPost.getRestaurantId(), restaurant);
+            tagRepository.save(tag);
         }
         restaurant.setTags(tags);
         // 업체 저장

@@ -27,4 +27,9 @@ public class Address {
 //    @Column(unique = true)
     private double longitude;
 
+    public Address(String streetAddress, double latitude, double longitude) {
+        this.streetAddress = streetAddress;
+        this.latitude = latitude;
+        this.longitude = longitude;
+    }
 }

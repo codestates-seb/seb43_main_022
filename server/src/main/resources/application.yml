@@ -39,8 +39,8 @@ spring:
 
 jwt:
   key: abcd123456789123456789123456789abcdabcd
-  access-token-expiration-minutes: 30
-  refresh-token-expiration-minutes: 120
+  access-token-expiration-minutes: 30000
+  refresh-token-expiration-minutes: 30000
 
 mail:
   address:

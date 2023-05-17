@@ -28,7 +28,7 @@ public class Restaurant extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long restaurantId;
     @Column(length = 30, nullable = false)
-    private String restaurant_name;
+    private String restaurantName;
     @Column(length = 255, nullable = false)
     private String content;
     @Column(nullable = false)
@@ -86,8 +86,8 @@ public class Restaurant extends BaseEntity {
     private List<Favorite> favorites = new ArrayList<>();
 
 
-    public Restaurant(String restaurant_name, String content, String tel, String open_time, String photoUrl, String detailAddress) {
-        this.restaurant_name = restaurant_name;
+    public Restaurant(String restaurantName, String content, String tel, String open_time, String photoUrl, String detailAddress) {
+        this.restaurantName = restaurantName;
         this.content = content;
         this.tel = tel;
         this.open_time = open_time;

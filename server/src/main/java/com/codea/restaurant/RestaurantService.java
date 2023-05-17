@@ -55,7 +55,7 @@ public class RestaurantService {
     }
 
     public Restaurant createRestaurant(String email, Address address, Category category, RestaurantDto.Post post) {
-        Restaurant restaurant = new Restaurant(post.getRestaurant_name(), post.getContent(), post.getTel(), post.getOpen_time(),
+        Restaurant restaurant = new Restaurant(post.getRestaurantName(), post.getContent(), post.getTel(), post.getOpen_time(),
                 post.getPhotoUrl(), post.getDetailAddress());
 
         Member member = memberRepository.findByEmail(email).orElseThrow(() -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
@@ -112,7 +112,7 @@ public class RestaurantService {
 
         if (!findRestaurant.getMember().getEmail().equals(email)) throw new BusinessLogicException(ExceptionCode.UNAUTHORIZED_EDIT);
 
-        Optional.ofNullable(restaurant.getRestaurant_name()).ifPresent(restaurant_name -> findRestaurant.setRestaurant_name(restaurant_name));
+        Optional.ofNullable(restaurant.getRestaurantName()).ifPresent(restaurantName -> findRestaurant.setRestaurantName(restaurantName));
         Optional.ofNullable(restaurant.getContent()).ifPresent(content -> findRestaurant.setContent(content));
         Optional.ofNullable(restaurant.getTel()).ifPresent(tel -> findRestaurant.setTel(tel));
         Optional.ofNullable(restaurant.getPhotoUrl()).ifPresent(photoUrl -> findRestaurant.setPhotoUrl(photoUrl));

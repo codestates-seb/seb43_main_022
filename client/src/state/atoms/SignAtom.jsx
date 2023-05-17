@@ -1,10 +1,14 @@
 import { atom } from "recoil";
+import { recoilPersist } from "recoil-persist";
+
+const { persistAtom } = recoilPersist();
 
 let memberState = atom({
   key: "member",
   default: {
+    memberId: "",
     email: "",
-    username: "",
+    nickName: "",
     password: "",
     streetAddress: "",
     latitude: "",
@@ -12,6 +16,7 @@ let memberState = atom({
     businessAccount: false,
     photo: "",
   },
+  effects_UNSTABLE: [persistAtom],
 });
 
 export default memberState;

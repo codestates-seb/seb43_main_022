@@ -1,14 +1,14 @@
 import styled from "styled-components";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useSetRecoilState, useRecoilState } from "recoil";
-import axios from "axios";
+import { useRecoilState } from "recoil";
+import memberState from "../state/atoms/SignAtom";
 import isLoginState from "../state/atoms/IsLoginAtom";
 import Button from "../Component/style/StyleButton";
 import Input from "../Component/style/StyleInput";
 import Logo from "../Component/style/img/Eaaaaaaats.svg";
 import Auth from "../Component/StyleAuth";
-import memberState from "../state/atoms/SignAtom";
+import { api } from "../Util/api";
 
 const Main = styled.div`
   flex-direction: column;
@@ -65,8 +65,7 @@ const Authdiv = styled.div`
 
 export default function Login() {
   const [isLogin, setIsLogin] = useRecoilState(isLoginState);
-  const setMember = useSetRecoilState(memberState);
-  const [err, setErr] = useState(true);
+  const [member, setMember] = useRecoilState(memberState);
   const [errMessage, setErrMessage] = useState("");
   const [errPw, setErrPw] = useState("");
   const [Loginmember, setLoginMember] = useState({
@@ -79,31 +78,59 @@ export default function Login() {
     setLoginMember({ ...Loginmember, [key]: e.target.value });
   };
 
+  const handleOnKeyPress = (e) => {
+    if (e.key === "Enter") onClick();
+  };
+
   function onClick() {
     if (!Loginmember.email || !Loginmember.email.includes("@")) {
+      setErrPw("");
       setErrMessage("등록되지 않는 이메일입니다.");
       return;
     } else if (!Loginmember.password || Loginmember.password.length < 8) {
-      setErrPw("패스워드가 맞지 않습니다.");
+      setErrMessage("");
+      setErrPw("패스워드가 양식에 맞지 않습니다.");
       return;
     }
-    return axios
-      .post(`http://localhost:4000/members`, {
+    return api
+      .post(`/members/login`, {
         email: Loginmember.email,
         password: Loginmember.password,
       })
-      .then(() => {
+      .then((res) => {
+        console.log(res);
         setIsLogin(!isLogin);
         navi("/");
-        axios.get(`http://localhost:4000/members`).then((res) => {
-          setMember(res.data);
-        });
+        localStorage.setItem("token", res.headers.get("Authorization"));
+        localStorage.setItem("Refresh", res.headers.get("Refresh"));
+
+        api
+          .get(`/members/mypage`, {
+            headers: {
+              Authorization: localStorage.getItem("token"),
+            },
+          })
+          .then((res) => {
+            setMember({
+              ...member,
+              memberId: res.data.memberId,
+              email: res.data.email,
+              streetAddress: res.data.address.streetAddress,
+              businessAccount: res.data.businessAccount,
+              nickName: res.data.nickName,
+              latitude: res.data.address.latitude,
+              longitude: res.data.address.longitude,
+            });
+          })
+          .catch((err) => {
+            console.log(err);
+          });
       })
       .catch((err) => {
+        if (err.response.status === 401) {
+          setErrPw("이메일 또는 패스워드를 잘못 입력했습니다.");
+        }
         console.log(err);
-        setErr(!err);
-        setErrMessage("등록되지 않는 이메일입니다.");
-        setErrPw("패스워드가 맞지 않습니다.");
       });
   }
 
@@ -114,10 +141,11 @@ export default function Login() {
           <Img src={Logo} alt="" />
           <Textdiv>
             <P>이메일</P>
-            {err ? (
+            {!errMessage ? (
               <Input
                 inputType="default"
                 placeholder="email"
+                value={Loginmember.email}
                 onChange={handleInputValue("email")}
               />
             ) : (
@@ -135,12 +163,14 @@ export default function Login() {
           </Textdiv>
           <Textdiv>
             <P>비밀번호</P>
-            {err ? (
+            {!errPw ? (
               <Input
                 type="password"
                 inputType="default"
                 placeholder="password"
+                value={Loginmember.password}
                 onChange={handleInputValue("password")}
+                onKeyPress={handleOnKeyPress}
               />
             ) : (
               <>
@@ -149,6 +179,7 @@ export default function Login() {
                   inputType="error"
                   placeholder="password"
                   onChange={handleInputValue("password")}
+                  onKeyPress={handleOnKeyPress}
                 />
                 <Errdiv>
                   <Errspan>* {errPw}</Errspan>

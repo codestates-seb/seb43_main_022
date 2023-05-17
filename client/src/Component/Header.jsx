@@ -1,6 +1,6 @@
 import styled from "styled-components";
-import { Link } from "react-router-dom";
-import { useRecoilValue, useResetRecoilState } from "recoil";
+import { Link, useNavigate } from "react-router-dom";
+import { useRecoilState, useResetRecoilState } from "recoil";
 import isLoginState from "../state/atoms/IsLoginAtom";
 import memberState from "../state/atoms/SignAtom";
 import Button from "./style/StyleButton";
@@ -83,8 +83,16 @@ const Frameicon = styled.img`
 `;
 
 const Header = () => {
-  const isLogin = useRecoilValue(isLoginState);
   const resetMember = useResetRecoilState(memberState);
+  const [isLogin, setIsLogin] = useRecoilState(isLoginState);
+  const navi = useNavigate();
+  const logoutFunc = () => {
+    setIsLogin(!isLogin);
+    localStorage.removeItem("token");
+    localStorage.removeItem("Refresh");
+    navi("/");
+    alert("로그아웃 되었습니다.");
+  };
 
   return (
     <>
@@ -114,7 +122,9 @@ const Header = () => {
               <Frameicon src={Frame} alt="" />
               마이페이지
             </Button>
-            <Button btnstyle="HBtn">로그아웃</Button>
+            <Button btnstyle="HBtn" onClick={(resetMember, logoutFunc)}>
+              로그아웃
+            </Button>
           </LoginDiv>
         </Container>
       )}

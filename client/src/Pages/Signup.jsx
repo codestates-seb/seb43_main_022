@@ -1,13 +1,11 @@
 import { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 import styled from "styled-components";
-import { useRecoilState } from "recoil";
-import memberState from "../state/atoms/SignAtom";
 import Button from "../Component/style/StyleButton";
 import Input from "../Component/style/StyleInput";
 import Auth from "../Component/StyleAuth";
 import Plus from "../Component/style/img/signup.svg";
+import { api } from "../Util/api";
 
 const Main = styled.main`
   margin: 20px 0;
@@ -116,7 +114,15 @@ const { kakao } = window;
 function Signup() {
   const imgRef = useRef();
   const navi = useNavigate();
-  const [member, setMember] = useRecoilState(memberState);
+  const [member, setMember] = useState({
+    email: "",
+    username: "",
+    password: "",
+    latitude: "",
+    longitude: "",
+    businessAccount: false,
+    photo: "",
+  });
 
   const [imgFile, setImgFile] = useState(""); // 프로필 이미지 상태
   const [pwCheck, setPwCheck] = useState(""); // 비밀번호 확인
@@ -130,6 +136,7 @@ function Signup() {
     username: true,
     password: true,
     streetAddress: true,
+    duplicationEmail: true,
   });
 
   const errMsg = [
@@ -137,6 +144,7 @@ function Signup() {
     "* 닉네임을 입력해주세요.",
     "* 비밀번호가 다릅니다.",
     "* 지역을 선택해주세요.",
+    "* 중복된 이메일 입니다.",
   ];
 
   const handleInputValue = (key) => (e) => {
@@ -173,46 +181,46 @@ function Signup() {
   };
 
   const checkingFunc = () => {
-    setMember({
-      ...member,
-      streetAddress: Address.address + " " + Address.detailAddress,
-    });
     if (!member.username) {
       setCheck({ ...Check, username: false });
       return;
-    } else if (!member.email || !member.email.includes("@")) {
+    }
+    if (!member.email || !member.email.includes("@")) {
       setCheck({ ...Check, email: false, username: true });
       return;
-    } else if (
+    }
+    if (
       member.password.length < 8 ||
       pwCheck !== member.password ||
       !member.password
     ) {
       setCheck({ ...Check, password: false, email: true });
       return;
-    } else if (!member.streetAddress) {
+    }
+    if (!Address.address) {
       setCheck({ ...Check, streetAddress: false, password: true });
       return;
     }
 
-    return axios
-      .post(`http://localhost:4000/members`, {
+    return api
+      .post(`/members/signup`, {
         email: member.email,
         nickName: member.username,
         password: member.password,
-        streetAddress: member.streetAddress,
+        streetAddress: Address.address + " " + Address.detailAddress,
         latitude: member.latitude,
-        longitude: member.ma,
-        businessAccount: member.CEO,
-        photo: imgFile,
+        longitude: member.longitude,
+        businessAccount: member.businessAccount,
       })
       .then(() => {
         alert("회원가입한 계정으로 로그인 해주세요.");
-        //resetMember;
         navi("/login");
       })
       .catch((err) => {
         console.log(err);
+        if (err.response.status === 409) {
+          setCheck({ ...Check, duplicationEmail: false });
+        }
       });
   };
 
@@ -289,6 +297,11 @@ function Signup() {
               <Errspan>{errMsg[0]}</Errspan>
             </Errdiv>
           ) : null}
+          {!Check.duplicationEmail ? (
+            <Errdiv>
+              <Errspan>{errMsg[4]}</Errspan>
+            </Errdiv>
+          ) : null}
         </Textdiv>
         <Textdiv>
           <P>비밀번호</P>
@@ -352,7 +365,9 @@ function Signup() {
               placeholder="email"
               width="15px"
               height="15px"
-              onChange={(e) => setMember({ ...member, CEO: e.target.checked })}
+              onChange={(e) =>
+                setMember({ ...member, businessAccount: e.target.checked })
+              }
             />
           </Ceodiv>
         </Textdiv>
@@ -361,7 +376,7 @@ function Signup() {
           회원가입
         </Button>
       </Container>
-      {console.log(member)}
+
       <Authdiv>
         <Auth Btnstyle="google"> 구글로 회원가입 </Auth>
         <Auth Btnstyle="kakao"> 카카오로 회원가입 </Auth>

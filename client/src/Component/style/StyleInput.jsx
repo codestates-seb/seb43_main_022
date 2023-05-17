@@ -38,6 +38,7 @@ function Input({
   type,
   placeholder,
   onChange,
+  onKeyPress,
   name,
   value,
   id,
@@ -54,6 +55,7 @@ function Input({
       type={type}
       placeholder={placeholder}
       onChange={onChange}
+      onKeyPress={onKeyPress}
       id={id}
       name={name}
       value={value}

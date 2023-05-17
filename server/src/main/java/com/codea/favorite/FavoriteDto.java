@@ -29,7 +29,7 @@ public class FavoriteDto {
 
         public ResponseFavorite(Favorite favorite, int favoriteCount) {
             this.favoriteId = favorite.getFavoriteId();
-            this.restaurantName = favorite.getRestaurant().getName();
+            this.restaurantName = favorite.getRestaurant().getRestaurant_name();
             this.memberId = favorite.getMember().getMemberId();
             this.favoriteCount = favoriteCount;
         }

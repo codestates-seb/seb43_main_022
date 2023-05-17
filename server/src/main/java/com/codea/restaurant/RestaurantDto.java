@@ -24,7 +24,7 @@ public class RestaurantDto {
     @AllArgsConstructor
     public static class Post {
         @NotBlank
-        private String name;
+        private String restaurant_name;
         @NotBlank
         private String content;
         @NotBlank
@@ -48,7 +48,7 @@ public class RestaurantDto {
     @AllArgsConstructor
     public static class Patch {
         private long restaurant_id;
-        private String name;
+        private String restaurant_name;
         private String content;
         private String tel;
         private String open_time;
@@ -66,7 +66,7 @@ public class RestaurantDto {
     @AllArgsConstructor
     public static class Response {
         private long restaurant_id;
-        private String name;
+        private String restaurant_name;
         private String content;
         private String tel;
         private String open_time;

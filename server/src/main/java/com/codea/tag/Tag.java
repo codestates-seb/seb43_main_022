@@ -20,14 +20,13 @@ public class Tag  {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long tagId;
-    @Column(nullable = false,updatable = false,unique = true,length = 30)
+    @Column(nullable = false,updatable = false,length = 30)
     private String name;
 
     @OneToMany(mappedBy = "tag",cascade = CascadeType.PERSIST)
     private List<TagRestaurant> tagRestaurants = new ArrayList<>();
 
-    public Tag(String name, List<TagRestaurant> tagRestaurants) {
+    public Tag(String name) {
         this.name = name;
-        this.tagRestaurants = tagRestaurants;
     }
 }

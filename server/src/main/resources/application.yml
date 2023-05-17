@@ -1,14 +1,14 @@
 server:
   port: 8080
 
-logging:
-  level:
-    root: DEBUG
-    org:
-      springframework:
-        web: debug
-    org.springframework.web.servlet: debug
-    org.hibernate.type.descriptor.sql.BasicBinder: trace
+#logging:
+#  level:
+#    root: DEBUG
+#    org:
+#      springframework:
+#        web: debug
+#    org.springframework.web.servlet: debug
+#    org.hibernate.type.descriptor.sql.BasicBinder: trace
 
 
 spring:

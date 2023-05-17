@@ -18,6 +18,8 @@ public class TagDto {
     @NoArgsConstructor
     public static  class Post{
         @NotNull
+        private String name;
+        @NotNull
         @Valid
         private List<TagRestaurantDto.Post> tagRestaurants;
     }

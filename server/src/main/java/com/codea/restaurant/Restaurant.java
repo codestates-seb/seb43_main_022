@@ -57,6 +57,13 @@ public class Restaurant extends BaseEntity {
     @JoinColumn(name = "MEMBER_ID")
     private Member member;
 
+    @ManyToOne
+    @JoinColumn(name = "address_id")
+    private Address address;
+
+    @ManyToOne
+    @JoinColumn(name = "category_id")
+    private Category category;
 
     public void incrementFavoriteCount() {
         this.totalFavorite += 1;
@@ -72,30 +79,20 @@ public class Restaurant extends BaseEntity {
     @OneToMany(mappedBy = "restaurant")
     private List<TagRestaurant> tagRestaurants = new ArrayList<>();
 
-    @ManyToOne
-    @JoinColumn(name = "restaurant")
-    private Category category;
-
     @OneToMany(mappedBy = "restaurant", cascade = CascadeType.REMOVE)
     private List<Review> reviews = new ArrayList<>();
 
     @OneToMany(mappedBy = "restaurant", cascade = CascadeType.REMOVE)
     private List<Favorite> favorites = new ArrayList<>();
 
-    @ManyToOne
-    @JoinColumn(name = "address_id")
-    private Address address;
 
-
-    public Restaurant(String name, String content, String tel, String open_time, String photoUrl, String detailAddress,
-                      Category category) {
+    public Restaurant(String name, String content, String tel, String open_time, String photoUrl, String detailAddress) {
         this.name = name;
         this.content = content;
         this.tel = tel;
         this.open_time = open_time;
         this.photoUrl = photoUrl;
         this.detailAddress = detailAddress;
-        this.category = category;
     }
 
     public void setTagRestaurant(TagRestaurant tagRestaurant) {

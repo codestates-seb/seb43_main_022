@@ -39,7 +39,7 @@ public class RestaurantDto {
         private double longitude;
         private String photoUrl;
         private List<MenuDto.Post> menu;
-        private Category category;
+        private CategoryDto.Post category;
         private List<TagDto.Post> tags;
 
     }

@@ -4,6 +4,9 @@ import com.codea.Menu.MenuDto;
 import com.codea.address.Address;
 import com.codea.address.AddressDto;
 import com.codea.address.AddressMapper;
+import com.codea.category.Category;
+import com.codea.category.CategoryDto;
+import com.codea.category.CategoryMapper;
 import com.codea.member.Member;
 import com.codea.member.MemberDto;
 import com.codea.response.MultiResponseDto;
@@ -32,24 +35,29 @@ public class RestaurantController {
     private final RestaurantService restaurantService;
     private final RestaurantMapper mapper;
     private final AddressMapper addressMapper;
+    private final CategoryMapper categoryMapper;
 
-    public RestaurantController(RestaurantService restaurantService, RestaurantMapper mapper, AddressMapper addressMapper) {
+    public RestaurantController(RestaurantService restaurantService, RestaurantMapper mapper, AddressMapper addressMapper, CategoryMapper categoryMapper) {
         this.restaurantService = restaurantService;
         this.mapper = mapper;
         this.addressMapper = addressMapper;
+        this.categoryMapper = categoryMapper;
     }
 
+    @Transactional
     @PostMapping
     public ResponseEntity postRestaurant(@Valid @RequestBody RestaurantDto.Post requestBody, @AuthenticationPrincipal String email) {
 
 //        System.out.println(email+ "1@@@@@@@@@@@@@@@@@@@");
 
-//        AddressDto.Post addressDto = new AddressDto.Post(requestBody.getStreetAddress(), requestBody.getLatitude(), requestBody.getLongitude());
-//        Address address = addressMapper.addressPostDtoToAddress(addressDto);
+        AddressDto.Post addressDto = new AddressDto.Post(requestBody.getStreetAddress(), requestBody.getLatitude(), requestBody.getLongitude());
+        Address address = addressMapper.addressPostDtoToAddress(addressDto);
+
+        CategoryDto.Post categoryDto = new CategoryDto.Post(requestBody.getCategory().getName());
+        Category category = categoryMapper.categoryPostDtoToCategory(categoryDto);
 
 //        Restaurant restaurant = restaurantService.createRestaurant(email, mapper.restaurantPostDtoToRestaurant(requestBody));
-
-        Restaurant restaurant = restaurantService.createRestaurant(email, requestBody);
+        Restaurant restaurant = restaurantService.createRestaurant(email, address, category ,requestBody);
 
         URI location = UriCreator.createUri("/restaurants", restaurant.getRestaurantId());
         return ResponseEntity.created(location).build();

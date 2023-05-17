@@ -17,14 +17,13 @@ public interface TagMapper {
                     restaurant.setRestaurantId(tagRestaurantDto.getRestaurantId());
                     tagRestaurant.setTag(tag);
                     tagRestaurant.setRestaurant(restaurant);
-                    tagRestaurant.setName(tagRestaurantDto.getName());
                     return tagRestaurant;
                 }).collect(Collectors.toList());
         tag.setTagRestaurants(tagRestaurants);
 
         return tag;
     }
-
+//    Tag tagPostDtoToTag(TagDto.Post tagPostDto) ;
     Tag tagPatchDtoToTag(TagDto.Patch tagPatchDto);
     TagDto.Response tagToTagResponseDto(Tag tag);
 

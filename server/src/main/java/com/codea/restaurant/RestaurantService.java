@@ -54,47 +54,38 @@ public class RestaurantService {
         this.tagMapper = tagMapper;
     }
 
-
-    public Restaurant createRestaurant(String email, RestaurantDto.Post post) {
+    public Restaurant createRestaurant(String email, Address address, Category category, RestaurantDto.Post post) {
         Restaurant restaurant = new Restaurant(post.getName(), post.getContent(), post.getTel(), post.getOpen_time(),
-                post.getPhotoUrl(), post.getDetailAddress(), post.getCategory());
+                post.getPhotoUrl(), post.getDetailAddress());
 
         Member member = memberRepository.findByEmail(email).orElseThrow(() -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
         restaurant.setMember(member);
 
-        Address address = new Address(post.getStreetAddress(), post.getLatitude(), post.getLongitude());
-        restaurant.setAddress(address);
+        String streetAddress = address.getStreetAddress();
+        Address findAddress = addressRepository.findByStreetAddress(streetAddress).orElseGet(() -> addressRepository.save(address));
+        restaurant.setAddress(findAddress);
 
-//        List<Menu> menu = new ArrayList<>();
-//        for (RestaurantDto.Post menus : post.getMenu()) {
-//            Menu menu = menuService.createMenu(menuDto);
-//            menu.add(menu);
-//        }
-//        restaurant.setMenus(menu);
+        String categoryName = category.getName();
+        Category findCategory = categoryRepository.findByName(categoryName).orElseGet(() -> categoryRepository.save(category));
+        restaurant.setCategory(findCategory);
 
-//        List<Menu> menu = new ArrayList<>();
         for (MenuDto.Post menuPost : post.getMenu()) {
             Menu menu = new Menu(menuPost.getName(), menuPost.getPrice(), restaurant);
 //            menuService.createMenu(menuDto);
             menuRepository.save(menu);
         }
 
-        Category category = new Category(post.getName());
-        categoryRepository.save(category);
-
-
-
         for (TagDto.Post tagPost : post.getTags()) {
-            Tag tag = tagMapper.tagPostDtoToTag(tagPost);
+            Tag tag = new Tag(tagPost.getName());
+            TagRestaurant tagRestaurant = new TagRestaurant();
+            tagRestaurant.setRestaurant(restaurant);
+            tagRestaurant.setTag(tag);
+//            Tag tag = tagMapper.tagPostDtoToTag(tagPost);
 //             new Tag(tagPost.getRestaurantId(), restaurant);
             tagRepository.save(tag);
+            //tagRepository.findByName(tag.getName()).orElseGet(() ->  tagRepository.save(tag));
         }
 
-//        String streetAddress = address.getStreetAddress();
-//        Address findAddress = addressRepository.findByStreetAddress(streetAddress).orElseGet(() -> addressRepository.save(address));
-//
-//        restaurant.setAddress(findAddress);
-//        restaurant.setMember(member);
 
         return restaurantRepository.save(restaurant);
     }

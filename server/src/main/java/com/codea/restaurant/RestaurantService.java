@@ -75,7 +75,7 @@ public class RestaurantService {
             menuRepository.save(menu);
         }
 
-        for (TagDto.Post tagPost : post.getTags()) {
+        for (TagDto.Post tagPost : post.getTag()) {
             Tag tag = new Tag(tagPost.getName());
             TagRestaurant tagRestaurant = new TagRestaurant();
             tagRestaurant.setRestaurant(restaurant);

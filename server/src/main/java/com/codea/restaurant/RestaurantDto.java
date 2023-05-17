@@ -40,7 +40,7 @@ public class RestaurantDto {
         private String photoUrl;
         private List<MenuDto.Post> menu;
         private CategoryDto.Post category;
-        private List<TagDto.Post> tags;
+        private List<TagDto.Post> tag;
 
     }
 
@@ -59,7 +59,7 @@ public class RestaurantDto {
         private double longitude;
         private List<MenuDto.Post> menu;
         private CategoryDto.Post categories;
-        private List<TagDto.Post> tags;
+        private List<TagDto.Post> tag;
     }
 
     @Getter
@@ -79,6 +79,7 @@ public class RestaurantDto {
         private double rating;
         private List<MenuDto.Response> menu;
         private List<ReviewDto.Response> reviews;
+        private List<TagDto.Post> tag;
         private Address address;
     }
 }

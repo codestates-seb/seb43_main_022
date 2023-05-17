@@ -69,7 +69,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         System.out.println("---------------Refresh token--------------- \n" + refreshToken);
         System.out.println("---------------response--------------- \n" + response);
 
-        redisTemplate.opsForValue().set(accessToken, refreshToken,  Duration.ofSeconds(30000));
+        //redisTemplate.opsForValue().set(accessToken, refreshToken,  Duration.ofSeconds(30000));
     }
 
     // 엑세스 토큰 생성 메소드

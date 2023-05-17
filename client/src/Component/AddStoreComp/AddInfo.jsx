@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 import styled from "styled-components";
+import { useRecoilValue } from "recoil";
+import { categoryState } from "../../state/atoms/categoryAtom";
 
 const AddInfoWrap = styled.div`
   width: calc(50% - 25px);
@@ -14,6 +16,16 @@ const LocationWrap = styled.div`
   width: 100%;
 `;
 const InfoInput = styled.input`
+  width: 100%;
+  box-sizing: border-box;
+  padding: 20px;
+  border: 1px solid #ddd;
+  font-size: var(--medium-font);
+  margin-top: 5px;
+  margin-bottom: 10px;
+  border-radius: 10px;
+`;
+const SelectCategory = styled.select`
   width: 100%;
   box-sizing: border-box;
   padding: 20px;
@@ -46,6 +58,11 @@ const AddInfo = ({ formData, setFormData }) => {
   const [, setLongitude] = useState(null);
   const [tel, setTel] = useState(formData.tel || "");
 
+  /** 가게 전화번호 입력 */
+  useEffect(() => {
+    setTel(formData.tel || "");
+  }, [formData.tel]);
+
   const formatTelNumber = (value) => {
     value = value.replace(/-/g, "");
     if (value.startsWith("02")) {
@@ -76,6 +93,7 @@ const AddInfo = ({ formData, setFormData }) => {
     setFormData({ ...formData, tel: value });
   };
 
+  /** 주소지 입력, 위도 경도 변환*/
   useEffect(() => {
     const script = document.createElement("script");
     script.src =
@@ -121,6 +139,12 @@ const AddInfo = ({ formData, setFormData }) => {
       },
     }).open();
   };
+  const category = useRecoilValue(categoryState);
+
+  const onInputCategoryChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
   return (
     <AddInfoWrap>
       <label htmlFor="streetAddress">주소</label>
@@ -161,14 +185,18 @@ const AddInfo = ({ formData, setFormData }) => {
         maxLength="13"
       />
       <label htmlFor="category">카테고리</label>
-      <InfoInput
+      <SelectCategory
         name="category"
         value={formData.category || ""}
-        onChange={onInputChange}
-        type="text"
-        placeholder="음식 종류를 입력하세요"
-        maxLength="100"
-      />
+        onChange={onInputCategoryChange}
+      >
+        <option value="">가게 카테고리를 선택해주세요</option>
+        {category.map((category, index) => (
+          <option key={index} value={category}>
+            {category}
+          </option>
+        ))}
+      </SelectCategory>
       <label htmlFor="openTime">영업시간</label>
       <InfoInput
         name="openTime"

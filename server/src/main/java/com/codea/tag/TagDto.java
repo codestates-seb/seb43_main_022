@@ -36,13 +36,9 @@ public class TagDto {
 
     }
     @Getter
-    @Setter
     @AllArgsConstructor
-    @NoArgsConstructor
     public static class Response{
         private long tagId;
-        @NotBlank
-        @Size(max = 30)
         private String name;
     }
 }

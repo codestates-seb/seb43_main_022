@@ -6,6 +6,7 @@ import com.codea.category.Category;
 import com.codea.category.CategoryDto;
 import com.codea.review.ReviewDto;
 import com.codea.tag.TagDto;
+import com.codea.tag.TagRestaurantDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -80,6 +81,10 @@ public class RestaurantDto {
         private List<MenuDto.Response> menu;
         private List<ReviewDto.Response> reviews;
         private List<TagDto.Response> tag;
-        private Address address;
+        private String category;
+        private String streetAddress;
+        private String detailAddress;
+        private double latitude;
+        private double longitude;
     }
 }

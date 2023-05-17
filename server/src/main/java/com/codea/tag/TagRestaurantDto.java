@@ -17,7 +17,7 @@ public class TagRestaurantDto {
     @Getter
     @AllArgsConstructor
     public static class Response {
-        private long restaurantId;
+        private long tagId;
         private String name;
     }
 

@@ -39,7 +39,7 @@ const Style = styled.svg`
   }
 `;
 
-function Plusfunc({ imgstyle }) {
+function Plusfunc({ imgstyle, onClick }) {
   let d = "";
   let fill = "";
   let hoverSelect = "";
@@ -96,7 +96,6 @@ function Plusfunc({ imgstyle }) {
     default:
       break;
   }
-  console.log(hoverSelect);
   const Hovertype = HoverType[hoverSelect];
 
   return (
@@ -109,6 +108,7 @@ function Plusfunc({ imgstyle }) {
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
           Hovertype={Hovertype}
+          onClick={onClick}
         >
           <path d={d} fill={fill} />
         </Style>

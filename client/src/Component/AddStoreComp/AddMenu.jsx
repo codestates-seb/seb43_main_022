@@ -77,11 +77,11 @@ const PriceInput = styled(MenuInput)`
 `;
 
 const AddMenu = ({ formData, setFormData }) => {
-  const [menuList, setMenuList] = useState(formData.menuList || []);
+  const [menu, setMenu] = useState(formData.menu || []);
 
   useEffect(() => {
-    setMenuList(formData.menuList);
-  }, [formData.menuList]);
+    setMenu(formData.menu);
+  }, [formData.menu]);
 
   const onInputChange = (e) => {
     const { name, value } = e.target;
@@ -89,16 +89,16 @@ const AddMenu = ({ formData, setFormData }) => {
   };
 
   const onAddMenu = () => {
-    const { menu, price, ...rest } = formData;
-    if (!menu || !price) return;
-    const updatedMenuList = [...menuList, { menu, price }];
-    setMenuList(updatedMenuList);
+    const { name, price, ...rest } = formData;
+    if (!name || !price) return;
+    const updatedMenu = [...menu, { name, price }];
+    setMenu(updatedMenu);
     setFormData({
       ...rest,
-      menuList: updatedMenuList,
+      menu: updatedMenu,
     });
   };
-  const menuInputRef = useRef();
+  const nameInputRef = useRef();
   const priceInputRef = useRef();
   const onMenuKeyPress = (e) => {
     if (e.key === "Enter") {
@@ -109,12 +109,12 @@ const AddMenu = ({ formData, setFormData }) => {
   const onPriceKeyPress = (e) => {
     if (e.key === "Enter") {
       onAddMenu();
-      menuInputRef.current.focus();
+      nameInputRef.current.focus();
     }
   };
 
   const onDeleteMenu = (index) => {
-    setMenuList(menuList.filter((item, idx) => idx !== index));
+    setMenu(menu.filter((item, idx) => idx !== index));
   };
 
   return (
@@ -124,9 +124,9 @@ const AddMenu = ({ formData, setFormData }) => {
       </label>
       <AddMenuInput id="menuPirce">
         <MenuInput
-          ref={menuInputRef}
-          name="menu"
-          value={formData.menu || ""}
+          ref={nameInputRef}
+          name="name"
+          value={formData.name || ""}
           onChange={onInputChange}
           onKeyPress={onMenuKeyPress}
           type="text"
@@ -148,9 +148,9 @@ const AddMenu = ({ formData, setFormData }) => {
           <MdAddCircleOutline />
         </button>
       </AddMenuInput>
-      {menuList.map((item, index) => (
+      {menu.map((item, index) => (
         <Menu key={index}>
-          <span className="addMenuItem">{item.menu}</span>
+          <span className="addMenuItem">{item.name}</span>
           <span className="addMenuPrice">{item.price}원</span>
           <button onClick={() => onDeleteMenu(index)}>
             <MdRemoveCircleOutline />

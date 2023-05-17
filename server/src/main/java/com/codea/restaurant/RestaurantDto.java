@@ -6,6 +6,7 @@ import com.codea.category.Category;
 import com.codea.category.CategoryDto;
 import com.codea.review.ReviewDto;
 import com.codea.tag.TagDto;
+import com.codea.tag.TagRestaurantDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -47,7 +48,7 @@ public class RestaurantDto {
     @Getter
     @AllArgsConstructor
     public static class Patch {
-        private long restaurant_id;
+        private long restaurantId;
         private String restaurantName;
         private String content;
         private String tel;
@@ -65,7 +66,7 @@ public class RestaurantDto {
     @Getter
     @AllArgsConstructor
     public static class Response {
-        private long restaurant_id;
+        private long restaurantId;
         private String restaurantName;
         private String content;
         private String tel;
@@ -79,7 +80,11 @@ public class RestaurantDto {
         private double rating;
         private List<MenuDto.Response> menu;
         private List<ReviewDto.Response> reviews;
-        private List<TagDto.Post> tag;
-        private Address address;
+        private List<TagDto.Response> tag;
+        private String category;
+        private String streetAddress;
+        private String detailAddress;
+        private double latitude;
+        private double longitude;
     }
 }

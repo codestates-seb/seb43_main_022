@@ -13,6 +13,14 @@ import java.util.List;
 public interface RestaurantMapper {
     Restaurant restaurantPostDtoToRestaurant(RestaurantDto.Post restaurantPostDto);
     Restaurant restaurantPatchDtoToRestaurant(RestaurantDto.Patch restaurantPatchDto);
+    @Mapping(target = "streetAddress", expression = "java(restaurant.getAddress().getStreetAddress())")
+    @Mapping(target = "latitude", expression = "java(restaurant.getAddress().getLatitude())")
+    @Mapping(target = "longitude", expression = "java(restaurant.getAddress().getLongitude())")
+    @Mapping(target = "category", expression = "java(restaurant.getCategory().getName())")
     RestaurantDto.Response restaurantToRestaurantResponseDto(Restaurant restaurant);
+    @Mapping(target = "streetAddress", expression = "java(restaurant.getAddress().getstreetAddress())")
+    @Mapping(target = "latitude", expression = "java(restaurant.getAddress().getlatitude())")
+    @Mapping(target = "longitude", expression = "java(restaurant.getAddress().getlongitude())")
+    @Mapping(target = "category", expression = "java(restaurant.getCategory().getName())")
     List<RestaurantDto.Response> restaurantToRestaurantResponseDtos(List<Restaurant> restaurant);
 }

@@ -33,8 +33,8 @@ const AddHeader = ({ formData, setFormData }) => {
     <AddHeaderArea>
       <StoreTitle
         type="text"
-        name="name"
-        value={formData.name || ""}
+        name="restaurantName"
+        value={formData.restaurantName || ""}
         onChange={onInputChange}
         placeholder="이곳에 가게 이름을 입력해주세요!"
       />

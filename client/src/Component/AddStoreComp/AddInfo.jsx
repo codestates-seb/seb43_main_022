@@ -156,16 +156,10 @@ const AddInfo = ({ formData, setFormData }) => {
           type="text"
           placeholder="주소 검색을 통해 주소를 입력해주세요"
           maxLength="200"
+          readOnly
         />
         <AddrSearchBtn onClick={onSearchAddr}>주소 검색</AddrSearchBtn>
       </LocationWrap>
-      <InfoInput
-        name="zonecode"
-        value={formData.zonecode || ""}
-        onChange={onInputChange}
-        type="hidden"
-        maxLength="100"
-      />
       <label htmlFor="detailAddress">상세주소</label>
       <InfoInput
         name="detailAddress"
@@ -197,10 +191,10 @@ const AddInfo = ({ formData, setFormData }) => {
           </option>
         ))}
       </SelectCategory>
-      <label htmlFor="openTime">영업시간</label>
+      <label htmlFor="open_time">영업시간</label>
       <InfoInput
-        name="openTime"
-        value={formData.openTime || ""}
+        name="open_time"
+        value={formData.open_time || ""}
         onChange={onInputChange}
         type="text"
         placeholder="가게 영업 시간을 입력하세요"

@@ -5,6 +5,7 @@ import ResInfo from "../Component/ReviewPageComp/ResInfo";
 import ReviewInfo from "../Component/ReviewPageComp/ReviewInfo";
 import { ReviewState } from "../state/atoms/ReviewAtom";
 import { api } from "../Util/api";
+import { useRecoilState } from "recoil";
 
 const BasicContainer = styled.div`
   width: 100%;
@@ -27,10 +28,11 @@ const ButtonContainer = styled.div`
 
 const Review = ({ restaurant_id }) => {
   const history = useNavigate();
+  const [ReviewData] = useRecoilState(ReviewState);
   // 리뷰 남기기 버튼
   const handleSubmit = () => {
     api
-      .post(`/restaurants/${restaurant_id}/review`, ReviewState)
+      .post(`/restaurants/${restaurant_id}/review`, ReviewData)
       .then(() => {
         console.log("잘보냄");
       })

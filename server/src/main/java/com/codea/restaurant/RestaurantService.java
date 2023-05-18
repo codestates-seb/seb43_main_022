@@ -71,19 +71,18 @@ public class RestaurantService {
 
         for (MenuDto.Post menuPost : post.getMenu()) {
             Menu menu = new Menu(menuPost.getName(), menuPost.getPrice(), restaurant);
-//            menuService.createMenu(menuDto);
             menuRepository.save(menu);
         }
 
         for (TagDto.Post tagPost : post.getTag()) {
-            Tag tag = new Tag(tagPost.getName());
+            Tag findTag = tagRepository.findByName(tagPost.getName()).orElseGet(() -> {
+                Tag tag = new Tag(tagPost.getName());
+                return tagRepository.save(tag);
+            });
             TagRestaurant tagRestaurant = new TagRestaurant();
+            tagRestaurant.setTag(findTag);
             tagRestaurant.setRestaurant(restaurant);
-            tagRestaurant.setTag(tag);
-//            Tag tag = tagMapper.tagPostDtoToTag(tagPost);
-//             new Tag(tagPost.getRestaurantId(), restaurant);
-            tagRepository.save(tag);
-         //   tagRepository.findByName(tag.getName()).orElseGet(() ->  tagRepository.save(tag));
+
         }
 
 
@@ -91,15 +90,6 @@ public class RestaurantService {
     }
 
 
-    // 주소가 비어 있으면 = address 가 null이면
-    // 데이터 저장 -> address (null) -> error
-
-    // ! 주소가 비어있지 않으면
-    // 데이터 저장
-//        restaurant.setAddress(address);
-//        restaurant.setMember(member);
-//
-//        return restaurantRepository.save(restaurant);
 
     @Transactional
     public Restaurant updateRestaurant(long restaurantId, String email, Address address,  Restaurant restaurant) {
@@ -120,11 +110,11 @@ public class RestaurantService {
         Optional.ofNullable(restaurant.getDetailAddress()).ifPresent(detailAddress -> findRestaurant.setDetailAddress(detailAddress));
         findRestaurant.setModifiedAt(LocalDateTime.now());
 
-        if (address != null) {
+        if (address != null) {  // 수정 안됨, 200 ok
             String streetAddress = address.getStreetAddress();
             Address findAddress = addressRepository.findByStreetAddress(streetAddress)
                     .orElseGet(() -> addressRepository.save(address));
-            restaurant.setAddress(findAddress);
+            findRestaurant.setAddress(findAddress);
         }
 
         return restaurantRepository.save(findRestaurant);
@@ -145,11 +135,10 @@ public class RestaurantService {
         restaurantRepository.delete(findRestaurant);
     }
 
-    public Page<Restaurant> getTop10Restaurants(int page, int size) {
-//        return restaurantRepository.findAllOrderByTotalFavorite(1,PageRequest.of(page, size, Sort.by("restaurantId").descending()));
-        return restaurantRepository.findAllByOrderByTotalFavoriteDesc(PageRequest.of(page, size, Sort.by("restaurantId").descending()));
-
-    }
+//    public Page<Restaurant> getTop10Restaurants(int page, int size) {
+//        return restaurantRepository.findAllByOrderByTotalFavoriteDesc(PageRequest.of(page, size, Sort.by("restaurantId").descending()));
+//
+//    }
 
     public Page<Restaurant> searchRestaurants(int page, int size, String keyword) {
 

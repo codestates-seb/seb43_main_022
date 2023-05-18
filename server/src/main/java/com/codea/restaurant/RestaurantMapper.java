@@ -16,6 +16,7 @@ import java.util.stream.Collectors;
 @Mapper(componentModel = "spring")
 //@Mapper(componentModel = "spring", uses = {MenuMapper.class, ReviewMapper.class, AddressMapper.class})
 public interface RestaurantMapper {
+    @Mapping(target = "category", expression = "java(restaurant.getCategory())")
     Restaurant restaurantPostDtoToRestaurant(RestaurantDto.Post restaurantPostDto);
     Restaurant restaurantPatchDtoToRestaurant(RestaurantDto.Patch restaurantPatchDto);
     @Mapping(target = "streetAddress", expression = "java(restaurant.getAddress().getStreetAddress())")

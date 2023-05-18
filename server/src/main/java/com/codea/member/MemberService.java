@@ -71,9 +71,9 @@ public class MemberService {
     }
 
     @Transactional(propagation = Propagation.REQUIRED)
-    public Member updateMember(long memberId, String email, Address address, Member member) {
+    public Member updateMember(String email, Address address, Member member) {
 
-        Member findMember = findVerifiedMember(memberId);
+        Member findMember = findMember(email);
 
         if (!findMember.getEmail().equals(email)) throw new BusinessLogicException(ExceptionCode.UNAUTHORIZED_EDIT);
 

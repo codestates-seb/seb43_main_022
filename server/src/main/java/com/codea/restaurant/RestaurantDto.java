@@ -61,9 +61,9 @@ public class RestaurantDto {
         private String detailAddress;
         private double latitude;
         private double longitude;
-        private List<MenuDto.Post> menu;
-        private CategoryDto.Post categories;
-        private List<TagDto.Post> tag;
+        private List<MenuDto.Patch> menu;
+        private CategoryDto.Post category;
+        private List<TagDto.Patch> tag;
     }
 
     @Getter

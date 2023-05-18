@@ -29,25 +29,25 @@ public class CategoryController {
         this.categoryMapper = categoryMapper;
     }
     // 카테고리 등록
-    @PostMapping
-    public ResponseEntity postCategory(@Valid@RequestBody CategoryDto.Post categoryDto) {
-        Category category = categoryMapper.categoryPostDtoToCategory(categoryDto);
-        Category response = categoryService.createCategory(category);
-        URI location = UriCreator.createUri(CATEGORY_DEFAULT_URL, category.getCategoryId());
-
-
-       // return new ResponseEntity<>(categoryMapper.categoryToCategoryResponseDto(response), HttpStatus.CREATED);
-        return ResponseEntity.created(location).build();
-    }
-
-    // 카테고리 수정
-    @PatchMapping("/{category-id}")
-    public ResponseEntity patchCategory(@PathVariable("category-id")@Positive long categoryId,
-                                        @Valid@RequestBody CategoryDto.Patch categoryPatchDto) {
-        categoryPatchDto.setCategoryId(categoryId);
-        Category response = categoryService.updateCategory(categoryMapper.categoryPatchDtoToCategory(categoryPatchDto));
-        return new ResponseEntity<>(categoryMapper.categoryToCategoryResponseDto(response), HttpStatus.OK);
-    }
+//    @PostMapping
+//    public ResponseEntity postCategory(@Valid@RequestBody CategoryDto.Post categoryDto) {
+//        Category category = categoryMapper.categoryPostDtoToCategory(categoryDto);
+//        Category response = categoryService.createCategory(category);
+//        URI location = UriCreator.createUri(CATEGORY_DEFAULT_URL, category.getCategoryId());
+//
+//
+//       // return new ResponseEntity<>(categoryMapper.categoryToCategoryResponseDto(response), HttpStatus.CREATED);
+//        return ResponseEntity.created(location).build();
+//    }
+//
+//    // 카테고리 수정
+//    @PatchMapping("/{category-id}")
+//    public ResponseEntity patchCategory(@PathVariable("category-id")@Positive long categoryId,
+//                                        @Valid@RequestBody CategoryDto.Patch categoryPatchDto) {
+//        categoryPatchDto.setCategoryId(categoryId);
+//        Category response = categoryService.updateCategory(categoryMapper.categoryPatchDtoToCategory(categoryPatchDto));
+//        return new ResponseEntity<>(categoryMapper.categoryToCategoryResponseDto(response), HttpStatus.OK);
+//    }
     // 하나의 카테고리 조회
     @GetMapping("/{category-id}")
     public ResponseEntity getCategory(@PathVariable("category-id")@Positive long categoryId){

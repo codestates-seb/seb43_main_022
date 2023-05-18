@@ -18,7 +18,7 @@ public class Menu {
     @Column(nullable = false)
     private int price;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "restaurant_id")
     private Restaurant restaurant;
 

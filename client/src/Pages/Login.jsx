@@ -1,13 +1,14 @@
 import styled from "styled-components";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
+import memberState from "../state/atoms/SignAtom";
 import isLoginState from "../state/atoms/IsLoginAtom";
 import Button from "../Component/style/StyleButton";
 import Input from "../Component/style/StyleInput";
 import Logo from "../Component/style/img/Eaaaaaaats.svg";
-
 import Auth from "../Component/StyleAuth";
+import { api } from "../Util/api";
 
 const Main = styled.div`
   flex-direction: column;
@@ -64,23 +65,66 @@ const Authdiv = styled.div`
 
 export default function Login() {
   const [isLogin, setIsLogin] = useRecoilState(isLoginState);
-  const [err, setErr] = useState(true);
+  const [member, setMember] = useRecoilState(memberState);
   const [errMessage, setErrMessage] = useState("");
   const [errPw, setErrPw] = useState("");
-  const [member, setMember] = useState({
+  const [Loginmember, setLoginMember] = useState({
     email: "",
     password: "",
   });
+  const navi = useNavigate();
 
   const handleInputValue = (key) => (e) => {
-    setMember({ ...member, [key]: e.target.value });
+    setLoginMember({ ...Loginmember, [key]: e.target.value });
+  };
+
+  const handleOnKeyPress = (e) => {
+    if (e.key === "Enter") onClick();
   };
 
   function onClick() {
-    setIsLogin(!isLogin);
-    setErr(!err);
-    setErrMessage("등록되지 않는 이메일입니다.");
-    setErrPw("패스워드가 맞지 않습니다.");
+    if (!Loginmember.email || !Loginmember.email.includes("@")) {
+      setErrPw("");
+      setErrMessage("등록되지 않는 이메일입니다.");
+      return;
+    } else if (!Loginmember.password || Loginmember.password.length < 8) {
+      setErrMessage("");
+      setErrPw("패스워드가 양식에 맞지 않습니다.");
+      return;
+    }
+    return api
+      .post(`/members/login`, {
+        email: Loginmember.email,
+        password: Loginmember.password,
+      })
+      .then((res) => {
+        api.defaults.headers.common["Authorization"] =
+          res.headers.authorization;
+        setIsLogin(!isLogin);
+        navi("/");
+
+        api
+          .get(`/members/mypage`)
+          .then((res) => {
+            setMember({
+              ...member,
+              memberId: res.data.memberId,
+              email: res.data.email,
+              streetAddress: res.data.address.streetAddress,
+              businessAccount: res.data.businessAccount,
+              nickName: res.data.nickName,
+              latitude: res.data.address.latitude,
+              longitude: res.data.address.longitude,
+            });
+          })
+          .catch((err) => {
+            console.log(err);
+            console.log("토큰 제거");
+          });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }
 
   return (
@@ -90,10 +134,11 @@ export default function Login() {
           <Img src={Logo} alt="" />
           <Textdiv>
             <P>이메일</P>
-            {err ? (
+            {!errMessage ? (
               <Input
                 inputType="default"
                 placeholder="email"
+                value={Loginmember.email}
                 onChange={handleInputValue("email")}
               />
             ) : (
@@ -111,12 +156,14 @@ export default function Login() {
           </Textdiv>
           <Textdiv>
             <P>비밀번호</P>
-            {err ? (
+            {!errPw ? (
               <Input
                 type="password"
                 inputType="default"
                 placeholder="password"
+                value={Loginmember.password}
                 onChange={handleInputValue("password")}
+                onKeyPress={handleOnKeyPress}
               />
             ) : (
               <>
@@ -125,6 +172,7 @@ export default function Login() {
                   inputType="error"
                   placeholder="password"
                   onChange={handleInputValue("password")}
+                  onKeyPress={handleOnKeyPress}
                 />
                 <Errdiv>
                   <Errspan>* {errPw}</Errspan>

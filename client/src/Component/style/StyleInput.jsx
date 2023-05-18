@@ -38,12 +38,14 @@ function Input({
   type,
   placeholder,
   onChange,
+  onKeyPress,
   name,
   value,
   id,
   width,
   height,
   radius,
+  readOnly,
   inputType,
 }) {
   const inputStyle = InputType[inputType];
@@ -53,12 +55,14 @@ function Input({
       type={type}
       placeholder={placeholder}
       onChange={onChange}
+      onKeyPress={onKeyPress}
       id={id}
       name={name}
       value={value}
       width={width}
       height={height}
       radius={radius}
+      readOnly={readOnly}
       inputType={inputStyle}
     ></TextInput>
   );

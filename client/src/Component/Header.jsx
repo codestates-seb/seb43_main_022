@@ -1,7 +1,9 @@
 import styled from "styled-components";
-import { Link } from "react-router-dom";
-import { useRecoilValue } from "recoil";
+import { Link, useNavigate } from "react-router-dom";
+import { api } from "../Util/api";
+import { useRecoilState, useResetRecoilState } from "recoil";
 import isLoginState from "../state/atoms/IsLoginAtom";
+import memberState from "../state/atoms/SignAtom";
 import Button from "./style/StyleButton";
 import Logo from "./style/img/Eaaaaaaats.svg";
 import Search from "./style/img/search.png";
@@ -82,7 +84,16 @@ const Frameicon = styled.img`
 `;
 
 const Header = () => {
-  const isLogin = useRecoilValue(isLoginState);
+  const resetMember = useResetRecoilState(memberState);
+  const [isLogin, setIsLogin] = useRecoilState(isLoginState);
+  const navi = useNavigate();
+
+  const logoutFunc = () => {
+    setIsLogin(!isLogin);
+    api.defaults.headers.common["Authorization"] = "";
+    localStorage.removeItem("recoil-persist");
+    navi("/");
+  };
 
   return (
     <>
@@ -97,7 +108,9 @@ const Header = () => {
               <Button btnstyle="HBtn">로그인</Button>
             </Link>
             <Link to="/signup">
-              <Button btnstyle="HBtn">회원가입</Button>
+              <Button btnstyle="HBtn" onClick={resetMember}>
+                회원가입
+              </Button>
             </Link>
           </LoginDiv>
         </Container>
@@ -110,7 +123,9 @@ const Header = () => {
               <Frameicon src={Frame} alt="" />
               마이페이지
             </Button>
-            <Button btnstyle="HBtn">로그아웃</Button>
+            <Button btnstyle="HBtn" onClick={(resetMember, logoutFunc)}>
+              로그아웃
+            </Button>
           </LoginDiv>
         </Container>
       )}

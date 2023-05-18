@@ -1,6 +1,8 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 import defaultImg from "../style/img/defaultImg.png";
+// import { api } from "../../Util/api";
+import axios from "axios";
 
 const Container = styled.div`
   margin: auto;
@@ -23,20 +25,34 @@ const Intro = styled.div`
 `;
 
 const StoreIntro = () => {
-  const [data] = useState({
-    Img: defaultImg,
-    content: `안녕하세요 'OPM(오픈마인드)' 입니다. 이름부터가 고민이 많았지만 우리가
-    느낀 그대로를 표현하고 싶었습니다. '온전하고 자유로운 삶 그대로를'
-    전달해 드릴 예정입니다. 우리와 함께 카페 오픈마인드에서 우리의 긍정적인
-    시너지를 받아 가시고 우리에게 긍정적인 에너지를 주시면 더할 나위 없이
-    좋은 공간이 될 것 같습니다. 많은 사람들이 남녀노소 누구나가 너 나 할 것
-    없이 아무 제약 없이 정해진 것 없이 자유롭게 즐길 수 있습니다.
-    '어서오세요. 카페 오픈마인드 입니다'`,
+  const [data, setData] = useState({
+    photo: defaultImg,
+    content: "",
   });
+  // `안녕하세요 'OPM(오픈마인드)' 입니다. 이름부터가 고민이 많았지만 우리가 느낀 그대로를 표현하고 싶었습니다.
+  // '온전하고 자유로운 삶 그대로를' 전달해 드릴 예정입니다. 우리와 함께 카페 오픈마인드에서 우리의 긍정적인 시너지를 받아 가시고 우리에게 긍정적인 에너지를 주시면 더할 나위 없이 좋은 공간이 될 것 같습니다. 많은 사람들이 남녀노소 누구나가 너 나 할 것 없이 아무 제약 없이 정해진 것 없이 자유롭게 즐길 수 있습니다. '어서오세요. 카페 오픈마인드 입니다'`
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(
+          "http://ec2-54-180-31-226.ap-northeast-2.compute.amazonaws.com:8080/restaurants/1",
+        );
+        const { photo, content } = response.data;
+        const newData = {
+          photo: photo || defaultImg,
+          content,
+        };
+        setData(newData);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+    fetchData();
+  }, []);
 
   return (
     <Container>
-      <Image src={data.Img} alt="defaultImg" />
+      <Image src={data.photo} alt="defaultImg" />
       <Intro>{data.content}</Intro>
     </Container>
   );

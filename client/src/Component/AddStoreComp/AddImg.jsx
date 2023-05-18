@@ -1,7 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import styled from "styled-components";
 import { IoMdImages } from "react-icons/io";
-
 const AddImgWrap = styled.form`
   width: 100%;
   height: 220px;
@@ -17,7 +16,7 @@ const AddImgWrap = styled.form`
     color: var(--black-200);
   }
   // label태그
-  > .signup-profileImg-label {
+  > .signup-photoUrl-label {
     /* border: 1px solid var(--eatsgreen); */
     box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);
     position: absolute;
@@ -69,26 +68,33 @@ const ButtonContainer = styled.div`
 const AddImg = ({ formData, setFormData }) => {
   const [imgFile, setImgFile] = useState("");
   const [isUploaded, setIsUploaded] = useState(false);
+  useEffect(() => {
+    if (formData.photoUrl) {
+      setImgFile(formData.photoUrl);
+      setIsUploaded(true);
+    }
+  }, [formData.photoUrl]);
 
-  const saveImgFile = (file) => {
-    if (!file) return;
+  const handleImageChange = (e) => {
+    const selectedImage = e.target.files[0];
     const reader = new FileReader();
-    reader.readAsDataURL(file);
     reader.onloadend = () => {
       setImgFile(reader.result);
+      setFormData({
+        ...formData,
+        photoUrl: reader.result,
+      });
+      setIsUploaded(true);
     };
+    reader.readAsDataURL(selectedImage);
   };
-
   const handleDelete = () => {
     setImgFile("");
     setIsUploaded(false);
-  };
-
-  const onInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
-    saveImgFile(e.target.files[0]);
-    setIsUploaded(true);
+    setFormData({
+      ...formData,
+      photoUrl: "",
+    });
   };
   return (
     <AddImgWrap>
@@ -105,15 +111,14 @@ const AddImg = ({ formData, setFormData }) => {
           </button>
         </ButtonContainer>
       )}
-      <label className="signup-profileImg-label" htmlFor="profileImg">
+      <label className="signup-photoUrl-label" htmlFor="photoUrl">
         {isUploaded ? "이미지 변경" : "이미지 등록"}
       </label>
       <input
         type="file"
         accept="image/*"
-        id="profileImg"
-        value={formData.storePhoto || ""}
-        onChange={onInputChange}
+        id="photoUrl"
+        onChange={handleImageChange}
       />
     </AddImgWrap>
   );

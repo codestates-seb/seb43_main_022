@@ -30,9 +30,9 @@ export default function List({ menu, i }) {
   let Slice = menu.slice(i, i + 10);
   return (
     <Cdiv>
-      {Slice.map((item, idx) => {
+      {Slice.map((item) => {
         return (
-          <Li key={idx}>
+          <Li key={item.menuId}>
             <El>{item.name}</El> <Center src={Line} />
             <El>{item.price}원</El>
           </Li>

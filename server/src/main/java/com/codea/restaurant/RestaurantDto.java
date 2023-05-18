@@ -84,7 +84,6 @@ public class RestaurantDto {
         private List<MenuDto.Response> menu;
         private List<ReviewDto.Response> reviews;
         private List<TagRestaurantDto.Response> tagRestaurants;
-        private List<Tag> tags;
         private String category;
         private String streetAddress;
         private String detailAddress;

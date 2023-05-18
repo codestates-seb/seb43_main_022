@@ -4,6 +4,9 @@ import Button from "./../style/StyleButton";
 import Modal from "../Modal";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+// import isLoginState from "../../state/atoms/IsLoginAtom";
+// import { useRecoilValue } from "recoil";
+// import { api } from "../../Util/api";
 import axios from "axios";
 
 const Container = styled.div`
@@ -79,23 +82,27 @@ const StoreInfo = () => {
   };
 
   const [data, setData] = useState({
-    location: "",
+    restaurantId: 1,
+    address: { addressId: 0, streetAddress: "", latitude: 0, longitude: 0 },
     tel: "",
     category: "",
-    openTime: "",
-    menu: [],
+    open_time: "",
   });
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("url");
-        const { location, tel, category, opentime, menu } = response.data;
+        const response = await axios.get(
+          "http://ec2-54-180-31-226.ap-northeast-2.compute.amazonaws.com:8080/restaurants/1",
+        );
+        const { restaurantId, address, tel, category, open_time, menu } =
+          response.data;
         setData({
-          location,
+          restaurantId,
+          address,
           tel,
           category,
-          opentime,
+          open_time,
           menu,
         });
       } catch (error) {
@@ -104,40 +111,6 @@ const StoreInfo = () => {
     };
     fetchData();
   }, []);
-
-  // const menu = [
-  //   { name: "샌드위치", price: 4000 },
-  //   { name: "B", price: 2000 },
-  //   { name: "햄버거", price: 7000 },
-  //   { name: "샌드위치", price: 4000 },
-  //   { name: "콜라", price: 2000 },
-  //   { name: "햄버거", price: 7000 },
-  //   { name: "샌드위치", price: 4000 },
-  //   { name: "사이다", price: 2000 },
-  //   { name: "샌드위치", price: 4000 },
-  //   { name: "B", price: 2000 },
-  //   { name: "햄버거", price: 7000 },
-  //   { name: "샌드위치", price: 4000 },
-  //   { name: "콜라", price: 2000 },
-  //   { name: "햄버거", price: 7000 },
-  //   { name: "샌드위치", price: 4000 },
-  //   { name: "사이다", price: 2000 },
-  //   { name: "샌드위치", price: 4000 },
-  //   { name: "B", price: 2000 },
-  //   { name: "햄버거", price: 7000 },
-  //   { name: "샌드위치", price: 4000 },
-  //   { name: "콜라", price: 2000 },
-  //   { name: "햄버거", price: 7000 },
-  //   { name: "샌드위치", price: 4000 },
-  //   { name: "사이다", price: 2000 },
-  // ];
-
-  // const dumyData = {
-  //   address: "경기 용인시 수지구 용구대로 2725-2",
-  //   phoneNumber: "031-123-4567",
-  //   foodType: "브런치 / 샌드위치",
-  //   businessHours: "06:00~06:01",
-  // };
 
   const updatedDate = new Date().toLocaleDateString("ko-KR", {
     year: "numeric",
@@ -151,7 +124,7 @@ const StoreInfo = () => {
         <InfoList>
           <InfoItem>
             <InfoName>주소</InfoName>
-            <InfoContent>{data.location}</InfoContent>
+            <InfoContent>{data.address.streetAddress}</InfoContent>
           </InfoItem>
           <InfoItem>
             <InfoName>전화번호</InfoName>
@@ -163,7 +136,7 @@ const StoreInfo = () => {
           </InfoItem>
           <InfoItem>
             <InfoName>영업시간</InfoName>
-            <InfoContent>{data.openTime}</InfoContent>
+            <InfoContent>{data.open_time}</InfoContent>
           </InfoItem>
         </InfoList>
         <MenuList>

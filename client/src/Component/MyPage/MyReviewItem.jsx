@@ -20,19 +20,19 @@ const Content = styled.div`
   > .title {
     font-size: var(--medium-font);
   }
-  > .day {
+  > .created_at {
     font-size: var(--medium-font);
     color: var(--black-350);
   }
 `;
 
-const MyReviewItem = () => {
+const MyReviewItem = ({ restaurantName, title, createdAt }) => {
   return (
     <Container>
-      <StoreName>김밥천국</StoreName>
+      <StoreName>{restaurantName}</StoreName>
       <Content>
-        <div className="title">김밥 맛있게 먹었습니다.</div>
-        <div className="day">2023.05.08</div>
+        <div className="title">{title}</div>
+        <div className="created_at">{createdAt}</div>
       </Content>
     </Container>
   );

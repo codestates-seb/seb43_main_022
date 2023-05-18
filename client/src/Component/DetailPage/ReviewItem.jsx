@@ -1,6 +1,9 @@
 import styled from "styled-components";
 import Button from "../style/StyleButton";
 import ImgBtn from "../style/ImgBtn";
+import { useRecoilState } from "recoil";
+import isLoginState from "../../state/atoms/IsLoginAtom";
+import axios from "axios";
 // import profile from "../style/img/profile.png";
 
 const Container = styled.div`
@@ -69,23 +72,34 @@ const Text = styled.section`
   /* white-space: pre-wrap; // 줄바꿈을 유지하면서 공백도 유지
   overflow-wrap: break-all; */
 `;
-const Poto = styled.div`
-  display: flex;
-  flex-direction: row;
-  margin-top: 20px;
-  overflow: hidden; //<PotoItem>이 컨테이너에 가득 차게 되면 가로 스크롤이 생기지 않고 숨겨진 상태로 보여짐
-`;
-const PhotoItem = styled.img`
-  width: 281px;
-  height: 135px;
-  flex-shrink: 0; //아이템의 크기를 고정시키기 위해 flex-shrink 속성 추가
-  margin-right: 10px;
-  margin-top: 50px;
-`;
+// const Photo = styled.div`
+//   display: flex;
+//   flex-direction: row;
+//   margin-top: 20px;
+//   overflow: hidden; //<PotoItem>이 컨테이너에 가득 차게 되면 가로 스크롤이 생기지 않고 숨겨진 상태로 보여짐
+// `;
+// const PhotoItem = styled.img`
+//   width: 281px;
+//   height: 135px;
+//   flex-shrink: 0; //아이템의 크기를 고정시키기 위해 flex-shrink 속성 추가
+//   margin-right: 10px;
+//   margin-top: 50px;
+// `;
 
 const ReviewItem = ({ data, onDelete }) => {
-  const handleDelete = () => {
-    onDelete(data);
+  const [isLogin, setIsLogin] = useRecoilState(isLoginState);
+  setIsLogin(!false);
+
+  const handleDelete = async () => {
+    try {
+      const response = await axios.delete(
+        "http://ec2-54-180-31-226.ap-northeast-2.compute.amazonaws.com:8080/reviews/1",
+      );
+      console.log("Review deleted:", response.data);
+      onDelete(data);
+    } catch (error) {
+      console.error("Error deleting review:", error);
+    }
   };
 
   return (
@@ -93,30 +107,34 @@ const ReviewItem = ({ data, onDelete }) => {
       <Container>
         <ReviewHead>
           <Left>
-            <Profile src={data.profileImg} alt="profile" />
+            <Profile src={data.photo} alt="profile" />
             <TitleInfo>
               <div className="title">{data.title}</div>
               <div className="day-button">
-                <span>{data.created_at}</span>
-                <Button btnstyle="SBtn">수정</Button>
-                <Button btnstyle="SBtn" onClick={handleDelete}>
-                  삭제
-                </Button>
+                <span>{data.modifiedAt || data.createdAt}</span>
+                {/* data.modified_at의 값이 존재하는 경우(truthy 값) 그 값을 반환하고, data.modified_at의 값이 존재하지 않는 경우(falsy 값) data.created_at의 값을 반환 */}
+                {data.memberId === isLogin.memberId && (
+                  <>
+                    <Button btnstyle="SBtn">수정</Button>
+                    <Button btnstyle="SBtn" onClick={handleDelete}>
+                      삭제
+                    </Button>
+                  </>
+                )}
               </div>
             </TitleInfo>
           </Left>
-          <ImgBtn imgstyle={"Like"} />
-          {/* 수정하기 */}
+          <ImgBtn imgstyle={data.rating === "LIKE" ? "LIKE" : "HATE"} />
         </ReviewHead>
         <ReviewContent>
           <div className="username">{data.memberName}</div>
           <div className="contents">
             <Text>{data.content}</Text>
-            <Poto>
+            {/* <Photo>
               {data.photoImg.map((img, imgIndex) => (
                 <PhotoItem key={imgIndex} src={img} />
               ))}
-            </Poto>
+            </Photo> */}
           </div>
         </ReviewContent>
       </Container>

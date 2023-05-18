@@ -26,12 +26,12 @@ const Menu = styled.div`
 `;
 
 const MenuItem = ({ menu }) => {
-  const slicedMenu = menu.slice(0, 5);
+  const slicedMenu = menu ? menu.slice(0, 5) : [];
 
   return (
     <Container>
-      {slicedMenu.map((item, index) => (
-        <Menu key={index}>
+      {slicedMenu.map((item) => (
+        <Menu key={item.menuId}>
           <span className="name">{item.name}</span>
           <span className="price">{item.price}원</span>
         </Menu>

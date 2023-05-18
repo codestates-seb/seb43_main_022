@@ -1,9 +1,7 @@
 import axios from "axios";
 
 const baseURL =
-  process.env.NODE_ENV === "production"
-    ? process.env.RESOUCE_URL
-    : "http://localhost:8080";
+  process.env.NODE_ENV === "production" ? process.env.RESOUCE_URL : "";
 
 const api = axios.create({
   baseURL,

@@ -7,6 +7,7 @@ import com.codea.address.AddressMapper;
 import com.codea.category.Category;
 import com.codea.category.CategoryDto;
 import com.codea.category.CategoryMapper;
+import com.codea.dto.SingleResponseDto;
 import com.codea.member.Member;
 import com.codea.member.MemberDto;
 import com.codea.response.MultiResponseDto;
@@ -84,8 +85,18 @@ public class RestaurantController {
     public ResponseEntity getRestaurant(@PathVariable("restaurant-id") long restaurantId){
         Restaurant restaurant = restaurantService.findRestaurant(restaurantId);
 
-        return new ResponseEntity<>(mapper.restaurantToRestaurantResponseDto(restaurant), HttpStatus.OK);
+        return new ResponseEntity<>(
+                new SingleResponseDto<>(mapper.restaurantToRestaurantResponseDto(restaurant)), HttpStatus.OK);
     }
+
+//    @GetMapping("/{coffee-id}")
+//    public ResponseEntity getCoffee(@PathVariable("coffee-id") long coffeeId) {
+//        Coffee coffee = coffeeService.findCoffee(coffeeId);
+//
+//        return new ResponseEntity<>(
+//                new SingleResponseDto<>(mapper.coffeeToCoffeeResponseDto(coffee)),
+//                HttpStatus.OK);
+//    }
 
     @Transactional
     @GetMapping

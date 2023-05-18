@@ -10,6 +10,7 @@ import com.codea.category.CategoryDto;
 import com.codea.category.CategoryRepository;
 import com.codea.exception.BusinessLogicException;
 import com.codea.exception.ExceptionCode;
+import com.codea.favorite.Favorite;
 import com.codea.member.Member;
 import com.codea.member.MemberDto;
 import com.codea.member.MemberRepository;
@@ -31,6 +32,7 @@ import java.util.Optional;
 import static com.codea.review.Review.ReviewStatus.REVIEW_VALID;
 import static java.awt.SystemColor.menu;
 
+@Transactional
 @Service
 public class RestaurantService {
     private final RestaurantRepository restaurantRepository;
@@ -40,19 +42,10 @@ public class RestaurantService {
     private final TagRepository tagRepository;
     private final CategoryRepository categoryRepository;
     private final TagMapper tagMapper;
+    private final TagRestaurantRepository tagRestaurantRepository;
+    private final TagRestaurant tagRestaurant;
 
 
-    public RestaurantService(RestaurantRepository restaurantRepository, MemberRepository memberRepository,
-                             AddressRepository addressRepository, MenuRepository menuRepository,
-                             TagRepository tagRepository, CategoryRepository categoryRepository, TagMapper tagMapper) {
-        this.restaurantRepository = restaurantRepository;
-        this.memberRepository = memberRepository;
-        this.addressRepository = addressRepository;
-        this.menuRepository = menuRepository;
-        this.tagRepository = tagRepository;
-        this.categoryRepository = categoryRepository;
-        this.tagMapper = tagMapper;
-    }
 
     public Restaurant createRestaurant(String email, Address address, Category category, RestaurantDto.Post post) {
         Restaurant restaurant = new Restaurant(post.getRestaurantName(), post.getContent(), post.getTel(), post.getOpen_time(),
@@ -75,6 +68,8 @@ public class RestaurantService {
             menuRepository.save(menu);
         }
 
+
+//        for (TagDto.Post tagPost : post.getTag()) {
         for (TagDto.Post tagPost : post.getTag()) {
             Tag tag = new Tag(tagPost.getName());
             TagRestaurant tagRestaurant = new TagRestaurant();
@@ -82,9 +77,17 @@ public class RestaurantService {
             tagRestaurant.setTag(tag);
 //            Tag tag = tagMapper.tagPostDtoToTag(tagPost);
 //             new Tag(tagPost.getRestaurantId(), restaurant);
+
             tagRepository.save(tag);
-            //tagRepository.findByName(tag.getName()).orElseGet(() ->  tagRepository.save(tag));
+            tagRestaurantRepository.save(tagRestaurant);
+
         }
+
+        TagRestaurantDto.Response dto = TagRestaurantDto.Response.builder()
+                .tagId(tagRestaurant.getTag().getId())    // assuming getId() is a method that returns the id of the tag
+                .tagName(tagRestaurant.getTag().getName()) // assuming getName() is a method that returns the name of the tag
+                // set other properties
+                .build();
 
 
         return restaurantRepository.save(restaurant);

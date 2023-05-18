@@ -5,13 +5,16 @@ import com.codea.address.Address;
 import com.codea.category.Category;
 import com.codea.category.CategoryDto;
 import com.codea.review.ReviewDto;
+import com.codea.tag.Tag;
 import com.codea.tag.TagDto;
+import com.codea.tag.TagRestaurant;
 import com.codea.tag.TagRestaurantDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Positive;
 import java.time.LocalDateTime;
@@ -22,6 +25,7 @@ import java.util.Optional;
 
 public class RestaurantDto {
     @Getter
+    @Setter
     @AllArgsConstructor
     public static class Post {
         @NotBlank
@@ -42,6 +46,7 @@ public class RestaurantDto {
         private List<MenuDto.Post> menu;
         private CategoryDto.Post category;
         private List<TagDto.Post> tag;
+//        @Valid
 
     }
 
@@ -64,7 +69,7 @@ public class RestaurantDto {
     }
 
     @Getter
-    @AllArgsConstructor
+    @Setter
     public static class Response {
         private long restaurantId;
         private String restaurantName;
@@ -80,11 +85,13 @@ public class RestaurantDto {
         private double rating;
         private List<MenuDto.Response> menu;
         private List<ReviewDto.Response> reviews;
-        private List<TagDto.Response> tag;
+//        private List<TagDto.Response> tag;
         private String category;
         private String streetAddress;
         private String detailAddress;
         private double latitude;
         private double longitude;
+        private List<TagRestaurantDto.Response> tagRestaurants;
+
     }
 }

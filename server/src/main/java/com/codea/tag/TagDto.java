@@ -1,9 +1,6 @@
 package com.codea.tag;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
@@ -17,11 +14,10 @@ public class TagDto {
     @AllArgsConstructor
     @NoArgsConstructor
     public static  class Post{
-        @NotNull
         private String name;
-        @NotNull
-        @Valid
-        private List<TagRestaurantDto.Post> tagRestaurants;
+//        @NotNull
+//        @Valid
+//        private List<TagRestaurantDto.Post> tagRestaurants;
     }
     @Getter
     @Setter
@@ -36,7 +32,7 @@ public class TagDto {
 
     }
     @Getter
-    @AllArgsConstructor
+    @Builder
     public static class Response{
         private long tagId;
         private String name;

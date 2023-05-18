@@ -3,13 +3,20 @@ package com.codea.restaurant;
 import com.codea.Menu.MenuMapper;
 import com.codea.address.AddressMapper;
 import com.codea.review.ReviewMapper;
+import com.codea.tag.Tag;
+import com.codea.tag.TagDto;
+import com.codea.tag.TagMapper;
+//import com.codea.tag.TagRestaurantMapper;
+import com.codea.tag.TagRestaurantDto;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Mapper(componentModel = "spring")
-//@Mapper(componentModel = "spring", uses = {MenuMapper.class, ReviewMapper.class, AddressMapper.class})
 public interface RestaurantMapper {
     Restaurant restaurantPostDtoToRestaurant(RestaurantDto.Post restaurantPostDto);
     Restaurant restaurantPatchDtoToRestaurant(RestaurantDto.Patch restaurantPatchDto);
@@ -23,4 +30,9 @@ public interface RestaurantMapper {
     @Mapping(target = "longitude", expression = "java(restaurant.getAddress().getlongitude())")
     @Mapping(target = "category", expression = "java(restaurant.getCategory().getName())")
     List<RestaurantDto.Response> restaurantToRestaurantResponseDtos(List<Restaurant> restaurant);
+
+
+
+
+
 }

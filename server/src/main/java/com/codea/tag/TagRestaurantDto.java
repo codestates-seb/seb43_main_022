@@ -1,7 +1,9 @@
 package com.codea.tag;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.Setter;
 
 import javax.validation.constraints.Positive;
 
@@ -12,13 +14,18 @@ public class TagRestaurantDto {
         @Positive
         private long restaurantId;
         private String name;
+
+
     }
 
+    @Builder
     @Getter
-    @AllArgsConstructor
+    @Setter
     public static class Response {
         private long tagId;
-        private String name;
+//        private String tagName;
+        private TagDto.TagResponse tag;
+
     }
 
 }

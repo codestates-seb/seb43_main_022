@@ -1,6 +1,3 @@
-server:
-  port: 7080
-
 #logging:
 #  level:
 #    root: DEBUG
@@ -9,7 +6,6 @@ server:
 #        web: debug
 #    org.springframework.web.servlet: debug
 #    org.hibernate.type.descriptor.sql.BasicBinder: trace
-
 
 spring:
   h2:

@@ -58,7 +58,7 @@ public class RestaurantController {
         Category category = categoryMapper.categoryPostDtoToCategory(categoryDto);
 
 //        Restaurant restaurant = restaurantService.createRestaurant(email, mapper.restaurantPostDtoToRestaurant(requestBody));
-        Restaurant restaurant = restaurantService.createRestaurant(email, address, category ,requestBody);
+        Restaurant restaurant = restaurantService.createRestaurant(email, address, category, requestBody);
 
         URI location = UriCreator.createUri("/restaurants", restaurant.getRestaurantId());
         return ResponseEntity.created(location).build();
@@ -82,7 +82,7 @@ public class RestaurantController {
 
     @Transactional
     @GetMapping("/{restaurant-id}")
-    public ResponseEntity getRestaurant(@PathVariable("restaurant-id") long restaurantId){
+    public ResponseEntity getRestaurant(@PathVariable("restaurant-id") long restaurantId) {
         Restaurant restaurant = restaurantService.findRestaurant(restaurantId);
 
         return new ResponseEntity<>(
@@ -102,8 +102,8 @@ public class RestaurantController {
     @GetMapping
     public ResponseEntity getRestaurants(@Positive @RequestParam(value = "page", required = false) Integer page,
                                          @Positive @RequestParam(value = "size", required = false) Integer size) {
-        if(page == null) page = 1;
-        if(size == null) size = 10;
+        if (page == null) page = 1;
+        if (size == null) size = 8;
         Page<Restaurant> restaurantPage = restaurantService.findRestaurants(page - 1, size);
         List<Restaurant> restaurants = restaurantPage.getContent();
 
@@ -130,15 +130,38 @@ public class RestaurantController {
 //        return new ResponseEntity(top10Responses, HttpStatus.OK);
 //    }
 
-    @GetMapping("/top10")
-    public ResponseEntity getTop10Restaurants(@Positive @RequestParam(value = "page", required = false) Integer page,
-                                         @Positive @RequestParam(value = "size", required = false) Integer size) {
-        if(page == null) page = 1;
-        if(size == null) size = 10;
-        Page<Restaurant> restaurantPage = restaurantService.getTop10Restaurants(page - 1, size);
+//    @GetMapping("/top10")
+//    public ResponseEntity getTop10Restaurants(@Positive @RequestParam(value = "page", required = false) Integer page,
+//                                              @Positive @RequestParam(value = "size", required = false) Integer size) {
+//        if (page == null) page = 1;
+//        if (size == null) size = 10;
+//        Page<Restaurant> restaurantPage = restaurantService.getTop10Restaurants(page - 1, size);
+//        List<Restaurant> restaurants = restaurantPage.getContent();
+//
+//        return new ResponseEntity<>(
+//                new MultiResponseDto<>(mapper.restaurantToRestaurantResponseDtos(restaurants), restaurantPage), HttpStatus.OK);
+//    }
+
+    @GetMapping("/search")
+    public ResponseEntity searchRestaurants(@RequestParam(value = "page", required = false) Integer page,
+                                            @RequestParam(value = "size", required = false) Integer size,
+                                            @RequestParam(value = "keyword") String keyword) {
+
+        if (page == null) page = 1;
+        if (size == null) size = 4;
+        Page<Restaurant> restaurantPage = restaurantService.searchRestaurants(page - 1, size, keyword);
         List<Restaurant> restaurants = restaurantPage.getContent();
 
         return new ResponseEntity<>(
                 new MultiResponseDto<>(mapper.restaurantToRestaurantResponseDtos(restaurants), restaurantPage), HttpStatus.OK);
     }
 }
+
+
+
+
+
+
+
+
+

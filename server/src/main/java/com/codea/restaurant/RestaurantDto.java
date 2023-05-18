@@ -95,6 +95,6 @@ public class RestaurantDto {
     @AllArgsConstructor
     public static class ResponseToMember {
         private long restaurantId;
-        private long restaurantName;
+        private String restaurantName;
     }
 }

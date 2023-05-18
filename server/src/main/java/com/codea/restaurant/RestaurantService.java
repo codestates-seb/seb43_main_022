@@ -151,4 +151,10 @@ public class RestaurantService {
 
     }
 
+    public Page<Restaurant> searchRestaurants(int page, int size, String keyword) {
+
+        return restaurantRepository.searchByKeyword(keyword, PageRequest.of(page, size, Sort.by("restaurantId").descending()));
+    }
+
+
 }

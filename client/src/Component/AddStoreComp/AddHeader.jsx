@@ -26,19 +26,19 @@ const AddHeader = ({ formData, setFormData }) => {
   };
 
   const onAddTag = (newTag) => {
-    setFormData({ ...formData, tags: [...formData.tags, newTag] });
+    setFormData({ ...formData, tag: [...formData.tag, newTag] });
   };
 
   return (
     <AddHeaderArea>
       <StoreTitle
         type="text"
-        name="storeName"
-        value={formData.storeName || ""}
+        name="restaurantName"
+        value={formData.restaurantName || ""}
         onChange={onInputChange}
         placeholder="이곳에 가게 이름을 입력해주세요!"
       />
-      <AddTagsInput onAddTag={onAddTag} />
+      <AddTagsInput onAddTag={onAddTag} formData={formData} />
     </AddHeaderArea>
   );
 };

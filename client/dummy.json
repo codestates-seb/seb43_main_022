@@ -1,0 +1,35 @@
+{
+  "restaurants": [
+    {
+      "restaurantName": "가게타이틀입력란",
+      "tag": [
+        {
+          "name": "태그입력1"
+        },
+        {
+          "name": "태그입력2"
+        }
+      ],
+      "photoUrl": null,
+      "content": "가게소개글입력",
+      "tel": "010-042-2124",
+      "category": "한식",
+      "open_time": "12시~22시",
+      "menu": [
+        {
+          "name": "햄버거",
+          "price": "10000"
+        },
+        {
+          "name": "피자",
+          "price": "20000"
+        }
+      ],
+      "streetAddress": "경기 성남시 분당구 대왕판교로 477",
+      "detailAddress": "상세주소입력칸",
+      "latitude": "37.3861046866025",
+      "longitude": "127.100374788286",
+      "id": 1
+    }
+  ]
+}

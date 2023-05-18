@@ -14,13 +14,14 @@ const AddInfoWrap = styled.div`
 const AddInfoTextarea = styled.textarea`
   width: 100%;
   min-height: 140px;
-  resize: none; /* Add this line to prevent resizing */
+  resize: none;
   box-sizing: border-box;
   padding: 20px;
   border: 1px solid #ddd;
   font-size: var(--medium-font);
-  display: inline-block; /* Add this line */
-  vertical-align: top; /* Add this line */
+  display: inline-block;
+  vertical-align: top;
+  border-radius: 10px;
 `;
 
 const AddExplanation = ({ formData, setFormData }) => {
@@ -31,10 +32,10 @@ const AddExplanation = ({ formData, setFormData }) => {
 
   return (
     <AddInfoWrap>
-      <label htmlFor="storeIntroduction">Store Introduction:</label>
+      <label htmlFor="content">Store Introduction:</label>
       <AddInfoTextarea
-        name="storeIntroduction"
-        value={formData.storeIntroduction || ""}
+        name="content"
+        value={formData.content || ""}
         onChange={onInputChange}
         type="text"
         placeholder="가게 소개글을 입력해주세요"

@@ -6,6 +6,7 @@ import Login from "../Pages/Login";
 import Signup from "../Pages/Signup";
 import DetailPage from "../Pages/DetailPage";
 import MyPage from "../Pages/MyPage";
+import EditStore from "../Pages/EditStore";
 
 const RouteList = [
   {
@@ -39,6 +40,10 @@ const RouteList = [
   {
     path: "/mypage",
     element: <MyPage />,
+  },
+  {
+    path: "/editstore/:id",
+    element: <EditStore />,
   },
 ];
 

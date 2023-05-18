@@ -1,5 +1,7 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+// import axios from "axios";
 import styled from "styled-components";
+import { api } from "../../Util/api";
 const AddInfoTagWrap = styled.div`
   display: flex;
   align-items: flex-start;
@@ -60,9 +62,13 @@ const TagLi = styled.li`
     cursor: pointer;
   }
 `;
-const AddTagsInput = ({ onAddTag }) => {
-  const [tags, setTags] = useState([]);
+const AddTagsInput = ({ onAddTag, formData }) => {
+  const [tag, setTag] = useState(formData.tag || []);
   const [tagInputValue, setTagInputValue] = useState("");
+
+  useEffect(() => {
+    setTag(formData.tag || []);
+  }, [formData.tag]);
 
   const handleTagInputChange = (event) => {
     setTagInputValue(event.target.value);
@@ -72,21 +78,35 @@ const AddTagsInput = ({ onAddTag }) => {
     event.preventDefault();
     const trimmedValue = tagInputValue.trim();
     if (trimmedValue !== "") {
-      setTags([...tags, trimmedValue]);
-      onAddTag(trimmedValue);
+      setTag([...tag, { name: trimmedValue }]);
+      onAddTag({ name: trimmedValue });
       setTagInputValue("");
     }
   };
-  const removeTag = (indexToRemove) => {
-    setTags(tags.filter((tag, index) => index !== indexToRemove));
+  const removeTag = async (nameToRemove) => {
+    // 로컬 상태 업데이트
+    const updatedTags = tag.filter((tag) => tag.name !== nameToRemove);
+    setTag(updatedTags);
+    console.log(updatedTags);
+    // 서버에 PATCH 요청
+    try {
+      await api.patch("/restaurants/1", {
+        tag: updatedTags,
+      });
+    } catch (error) {
+      console.error("태그 업데이트에 실패했습니다:", error);
+    }
   };
   return (
     <AddInfoTagWrap>
       <TagUl>
-        {tags.map((tag, index) => (
+        {tag.map((tag, index) => (
           <TagLi key={index}>
-            <span className="tag-title">{tag}</span>
-            <button className="tag-close-icon" onClick={() => removeTag(index)}>
+            <span className="tag-title">#{tag.name}</span>
+            <button
+              className="tag-close-icon"
+              onClick={() => removeTag(tag.name)}
+            >
               x
             </button>
           </TagLi>

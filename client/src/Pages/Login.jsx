@@ -98,18 +98,13 @@ export default function Login() {
         password: Loginmember.password,
       })
       .then((res) => {
-        console.log(res);
+        api.defaults.headers.common["Authorization"] =
+          res.headers.authorization;
         setIsLogin(!isLogin);
         navi("/");
-        localStorage.setItem("token", res.headers.get("Authorization"));
-        localStorage.setItem("Refresh", res.headers.get("Refresh"));
 
         api
-          .get(`/members/mypage`, {
-            headers: {
-              Authorization: localStorage.getItem("token"),
-            },
-          })
+          .get(`/members/mypage`)
           .then((res) => {
             setMember({
               ...member,
@@ -124,12 +119,10 @@ export default function Login() {
           })
           .catch((err) => {
             console.log(err);
+            console.log("토큰 제거");
           });
       })
       .catch((err) => {
-        if (err.response.status === 401) {
-          setErrPw("이메일 또는 패스워드를 잘못 입력했습니다.");
-        }
         console.log(err);
       });
   }

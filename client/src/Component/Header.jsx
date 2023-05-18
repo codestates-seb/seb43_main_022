@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { Link, useNavigate } from "react-router-dom";
+import { api } from "../Util/api";
 import { useRecoilState, useResetRecoilState } from "recoil";
 import isLoginState from "../state/atoms/IsLoginAtom";
 import memberState from "../state/atoms/SignAtom";
@@ -86,12 +87,12 @@ const Header = () => {
   const resetMember = useResetRecoilState(memberState);
   const [isLogin, setIsLogin] = useRecoilState(isLoginState);
   const navi = useNavigate();
+
   const logoutFunc = () => {
     setIsLogin(!isLogin);
-    localStorage.removeItem("token");
-    localStorage.removeItem("Refresh");
+    api.defaults.headers.common["Authorization"] = "";
+    localStorage.removeItem("recoil-persist");
     navi("/");
-    alert("로그아웃 되었습니다.");
   };
 
   return (

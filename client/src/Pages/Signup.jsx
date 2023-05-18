@@ -5,7 +5,7 @@ import Button from "../Component/style/StyleButton";
 import Input from "../Component/style/StyleInput";
 import Auth from "../Component/StyleAuth";
 import Plus from "../Component/style/img/signup.svg";
-import { api } from "../Util/api";
+import { SignupApi } from "../Util/SignupApi";
 
 const Main = styled.main`
   margin: 20px 0;
@@ -202,16 +202,15 @@ function Signup() {
       return;
     }
 
-    return api
-      .post(`/members/signup`, {
-        email: member.email,
-        nickName: member.username,
-        password: member.password,
-        streetAddress: Address.address + " " + Address.detailAddress,
-        latitude: member.latitude,
-        longitude: member.longitude,
-        businessAccount: member.businessAccount,
-      })
+    return SignupApi.post(`/members/signup`, {
+      email: member.email,
+      nickName: member.username,
+      password: member.password,
+      streetAddress: Address.address + " " + Address.detailAddress,
+      latitude: member.latitude,
+      longitude: member.longitude,
+      businessAccount: member.businessAccount,
+    })
       .then(() => {
         alert("회원가입한 계정으로 로그인 해주세요.");
         navi("/login");

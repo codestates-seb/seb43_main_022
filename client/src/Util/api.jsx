@@ -13,48 +13,28 @@ const api = axios.create({
   },
 });
 
-// api.interceptors.request.use(
-//   async (config) => {
-//     const token = sessionStorage.getItem("access_token");
-//     if (token) {
-//       config.headers["Authorization"] = `Bearer ${token}`; //여기는 accessToken
-//     }
-//     return config;
-//   },
-//   (error) => {
-//     return Promise.reject(error);
-//   },
-// );
+// api.interceptors.request.use(function (config) {
+//   api.defaults.headers.common["Authorization"] = config.headers.authorization;
+//   localStorage.setItem("token", config.headers.authorization);
+//   console.log(config);
+//   return config;
+// });
 
+// 토큰 재발급 요청....
 // api.interceptors.response.use(
-//   (response) => {
-//     const res = response.data;
-//     return res;
+//   function (response) {
+//     return response;
 //   },
-//   (error) => {
-//     const { config, status } = error;
-//     if (status === 401) {
-//       if (error.response.data.message === "TokenExpiredError") {
-//         const originalRequest = config; // 어떤 요청이 실패
-//         const refreshToken = localStorage.getItem("refreshToken");
-//         // token refresh 요청
-//         const { data } = axios.post(
-//           `${baseURL}/api/token/refresh/`, // token refresh api
-//           {
-//             refreshToken,
-//           },
-//         );
-//         // 새로운 토큰 저장
-//         sessionStorage.setItem("newAccessToken", data.accessToken);
-//         localStorage.setItem("newRefreshToken", data.refreshToken);
-//         originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
-//         return api.request(originalRequest);
-//       } else {
-//         return Promise.reject(error);
+//   function (error) {
+//     if (error.message === "refresh" && error.config.status === "401") {
+//       try {
+//         axios.defaults.headers.common["Authorization"] =
+//           error.config.header.authorization;
+//       } catch (e) {
+//         console.log(e.error);
 //       }
-//     } else {
-//       return Promise.reject(error);
 //     }
+//     return Promise.reject(error);
 //   },
 // );
 

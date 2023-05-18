@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 import AddHeader from "../Component/AddStoreComp/AddHeader";
 import AddImg from "../Component/AddStoreComp/AddImg";
@@ -8,7 +7,7 @@ import AddEplanation from "../Component/AddStoreComp/AddExplanation";
 import AddInfo from "../Component/AddStoreComp/AddInfo";
 import AddMenu from "../Component/AddStoreComp/AddMenu";
 import Button from "../Component/style/StyleButton";
-
+import { api } from "../Util/api";
 const AddContainer = styled.div`
   box-sizing: border-box;
   padding: 60px 0;
@@ -37,28 +36,29 @@ const AddBtnWrap = styled.div`
     margin-right: auto;
   }
 `;
-// const { id } = useParams(); // URL 파라미터에서 업체 ID를 가져옴
-// 서버에서 업체 정보를 가져옴 http://localhost:4000/restaurants/${id}
 const EditStore = () => {
+  const { id } = useParams(); // URL 파라미터에서 업체 ID를 가져옴
   const history = useNavigate();
   const initFormData = {
-    name: "",
+    restaurantName: "",
     tag: [],
     photoUrl: null,
     content: "",
     tel: "",
     category: "",
-    openTime: "",
-    menuList: [{ menu: "", price: "" }],
+    open_time: "",
+    menu: [],
     streetAddress: "",
     detailAddress: "",
+    latitude: "",
+    longitude: "",
   };
   const [formData, setFormData] = useState(initFormData);
 
   useEffect(() => {
     const fetchRestaurant = async () => {
       try {
-        const response = await axios.get(`http://localhost:4000/restaurants/1`);
+        const response = await api.get(`/restaurants/${id}`);
         setFormData(response.data);
         console.log("페이지렌더링시 저장된 데이터 : ", response.data);
       } catch (error) {
@@ -71,7 +71,7 @@ const EditStore = () => {
 
   const patchFormData = async () => {
     try {
-      await axios.patch(`http://localhost:4000/restaurants/1`, formData);
+      await api.patch(`/restaurants/${id}`, formData);
       console.log(formData);
       alert("업체 정보가 수정되었습니다.");
     } catch (error) {
@@ -82,7 +82,7 @@ const EditStore = () => {
   const deleteFormData = async () => {
     if (window.confirm("업체 정보를 삭제하시겠습니까?")) {
       try {
-        await axios.delete(`http://localhost:4000/restaurants/1`);
+        await api.delete(`/restaurants/${id}`);
         alert("업체 정보가 삭제되었습니다.");
         history(-1);
       } catch (error) {

@@ -1,7 +1,6 @@
 // AddStore.jsx
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 import styled from "styled-components";
 import AddHeader from "../Component/AddStoreComp/AddHeader";
 import AddImg from "../Component/AddStoreComp/AddImg";
@@ -9,7 +8,7 @@ import AddEplanation from "../Component/AddStoreComp/AddExplanation";
 import AddInfo from "../Component/AddStoreComp/AddInfo";
 import AddMenu from "../Component/AddStoreComp/AddMenu";
 import Button from "../Component/style/StyleButton";
-
+import { api } from "../Util/api";
 const AddContainer = styled.div`
   box-sizing: border-box;
   padding: 60px 0;
@@ -36,14 +35,14 @@ const AddBtnWrap = styled.div`
 const AddStore = () => {
   const history = useNavigate();
   const initFormData = {
-    name: "",
+    restaurantName: "",
     tag: [],
     photoUrl: null,
     content: "",
     tel: "",
     category: "",
-    openTime: "",
-    menuList: [],
+    open_time: "",
+    menu: [],
     streetAddress: "",
     detailAddress: "",
     latitude: "",
@@ -53,7 +52,7 @@ const AddStore = () => {
 
   const postFormData = async () => {
     try {
-      await axios.post("http://localhost:4000/restaurants", formData);
+      await api.post("/restaurants", formData);
       // 서버로 전송이 완료되면 사용자에게 알림을 줄 수 있는 로직을 추가.
       console.log(formData);
       alert("업체 정보가 등록되었습니다.");

@@ -86,6 +86,7 @@ const AddInfo = ({ formData, setFormData }) => {
         type="hidden"
         maxLength="100"
       />
+      {console.log(formData)}
       <label htmlFor="detailAddress">상세주소</label>
       <InfoInput
         name="detailAddress"

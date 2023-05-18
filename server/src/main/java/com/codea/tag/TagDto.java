@@ -1,6 +1,10 @@
 package com.codea.tag;
 
-import lombok.*;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
@@ -13,7 +17,8 @@ public class TagDto {
     @Getter
     @AllArgsConstructor
     @NoArgsConstructor
-    public static  class Post{
+    public static class Post{
+        @NotNull
         private String name;
 //        @NotNull
 //        @Valid
@@ -32,10 +37,9 @@ public class TagDto {
 
     }
     @Getter
-    @Builder
+    @AllArgsConstructor
     public static class Response{
-        private long tagId;
-        private String name;
+        private List<TagRestaurantDto.Response> tagRestaurants;
     }
 
     @Getter
@@ -44,4 +48,5 @@ public class TagDto {
         private long tagId;
         private String name;
     }
+
 }

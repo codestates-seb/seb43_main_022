@@ -1,30 +1,26 @@
 package com.codea.tag;
 
+import com.codea.restaurant.Restaurant;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
-import lombok.Setter;
 
 import javax.validation.constraints.Positive;
-import java.util.List;
 
 @Getter
 public class TagRestaurantDto {
     @Getter
     public static class Post {
         private String name;
-
-
     }
 
-    @Builder
     @Getter
-    @Setter
+    @AllArgsConstructor
     public static class Response {
-        private long tagId;
-//        private String tagName;
+//        private long tagId;
+//        private String name;
         private TagDto.TagResponse tag;
-
     }
+
 
 }

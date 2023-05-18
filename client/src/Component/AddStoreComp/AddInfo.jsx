@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import styled from "styled-components";
 import { useRecoilValue } from "recoil";
-import { categoryState } from "../../state/atoms/categoryAtom";
+import { categoryState } from "../../state/atoms/CategoryAtom";
 
 const AddInfoWrap = styled.div`
   width: calc(50% - 25px);

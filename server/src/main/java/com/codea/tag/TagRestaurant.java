@@ -27,14 +27,15 @@ public class TagRestaurant  {
     @JoinColumn(name = "TAG_ID")
     private Tag tag;
 
+
     public void setTag(Tag tag){
         this.tag = tag;
-        if(!this.tag.getTagRestaurants().contains(this)){
-            this.tag.getTagRestaurants().add(this);
+        if(!this.tag.getTagRestaurant().contains(this)){
+            this.tag.getTagRestaurant().add(this);
         }
     }
 
-    public  void setRestaurant(Restaurant restaurant){
+    public void setRestaurant(Restaurant restaurant){
         this.restaurant = restaurant;
         if(!this.restaurant.getTagRestaurants().contains(this)){
             this.restaurant.setTagRestaurant(this);

@@ -83,7 +83,7 @@ public class RestaurantService {
 //            Tag tag = tagMapper.tagPostDtoToTag(tagPost);
 //             new Tag(tagPost.getRestaurantId(), restaurant);
             tagRepository.save(tag);
-            //tagRepository.findByName(tag.getName()).orElseGet(() ->  tagRepository.save(tag));
+         //   tagRepository.findByName(tag.getName()).orElseGet(() ->  tagRepository.save(tag));
         }
 
 
@@ -130,7 +130,7 @@ public class RestaurantService {
         return restaurantRepository.save(findRestaurant);
     }
 
-    @EntityGraph(attributePaths = "menu")
+    @EntityGraph(attributePaths = {"menu", "reviews", "tagRestaurant"})
     public Restaurant findRestaurant(long restaurantId) {
         return restaurantRepository.findById(restaurantId).orElseThrow(() -> new BusinessLogicException(ExceptionCode.RESTAURANT_NOT_FOUND));
     }

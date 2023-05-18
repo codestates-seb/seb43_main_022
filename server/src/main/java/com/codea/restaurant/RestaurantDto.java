@@ -5,8 +5,12 @@ import com.codea.address.Address;
 import com.codea.category.Category;
 import com.codea.category.CategoryDto;
 import com.codea.review.ReviewDto;
+import com.codea.tag.Tag;
 import com.codea.tag.TagDto;
+import com.codea.tag.TagRestaurant;
 import com.codea.tag.TagRestaurantDto;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonUnwrapped;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -42,7 +46,6 @@ public class RestaurantDto {
         private List<MenuDto.Post> menu;
         private CategoryDto.Post category;
         private List<TagDto.Post> tag;
-
     }
 
     @Getter
@@ -80,11 +83,19 @@ public class RestaurantDto {
         private double rating;
         private List<MenuDto.Response> menu;
         private List<ReviewDto.Response> reviews;
-        private List<TagDto.Response> tag;
+        private List<TagRestaurantDto.Response> tagRestaurants;
+        private List<Tag> tags;
         private String category;
         private String streetAddress;
         private String detailAddress;
         private double latitude;
         private double longitude;
+    }
+
+    @Getter
+    @AllArgsConstructor
+    public static class ResponseToMember {
+        private long restaurantId;
+        private long restaurantName;
     }
 }

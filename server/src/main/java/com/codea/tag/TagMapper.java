@@ -24,11 +24,11 @@ public interface TagMapper {
 //
 //        return tag;
 //    }
-    Tag tagPostDtoToTag(TagDto.Post tagPostDto) ;
-    Tag tagPatchDtoToTag(TagDto.Patch tagPatchDto);
-    TagDto.Response tagToTagResponseDto(Tag tag);
+//    Tag tagPostDtoToTag(TagDto.Post tagPostDto);
+//    Tag tagPatchDtoToTag(TagDto.Patch tagPatchDto);
+//    TagDto.Response tagToTagResponseDto(Tag tag);
+//    List<TagDto.Response> tagsToTagResponseDto(List<Tag> tag);
+//
+//    TagRestaurantDto.Response TagRestaurantToTagRestaurantResponseDto(TagRestaurant tagRestaurant);
 
-    List<TagDto.Response> tagsToTagResponseDto(List<Tag> tag);
-
-    TagRestaurantDto.Response tagRestaurantTo
 }

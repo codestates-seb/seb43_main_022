@@ -2,6 +2,7 @@ import { Title } from "../../Pages/StoreList";
 import { GrMap } from "react-icons/gr";
 import styled from "styled-components";
 import KakaoMap from "./KakaoMap";
+import { useState } from "react";
 const MapWrap = styled.div`
   width: calc(100% - 830px);
 `;
@@ -25,21 +26,24 @@ const MapArea = styled.div`
   width: 100%;
 `;
 const MapFrame = styled(MapArea)`
-  height: 300px;
-  background-color: #ebebeb;
-  border-radius: 30px;
+  overflow: hidden;
 `;
 const StoreMap = () => {
+  const [currentAddress, setCurrentAddress] = useState(null);
+
+  const handleAddressUpdate = (newAddress) => {
+    setCurrentAddress(newAddress);
+  };
   return (
     <MapWrap>
       <Title>내 위치 주변 맛집</Title>
       <MyPosition>
         <GrMap className="mapIcon" />
-        현재 위치는 {123}입니다
+        {currentAddress}
       </MyPosition>
       <MapArea>
         <MapFrame>
-          <KakaoMap />
+          <KakaoMap onAddressUpdate={handleAddressUpdate} />
         </MapFrame>
       </MapArea>
     </MapWrap>

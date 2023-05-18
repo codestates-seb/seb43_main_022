@@ -42,7 +42,7 @@ const RouteList = [
     element: <MyPage />,
   },
   {
-    path: "/editstore",
+    path: "/editstore/:id",
     element: <EditStore />,
   },
 ];

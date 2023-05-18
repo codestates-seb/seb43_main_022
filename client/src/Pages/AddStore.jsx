@@ -9,6 +9,7 @@ import AddInfo from "../Component/AddStoreComp/AddInfo";
 import AddMenu from "../Component/AddStoreComp/AddMenu";
 import Button from "../Component/style/StyleButton";
 import { api } from "../Util/api";
+// import axios from "axios";
 const AddContainer = styled.div`
   box-sizing: border-box;
   padding: 60px 0;
@@ -53,14 +54,12 @@ const AddStore = () => {
   const postFormData = async () => {
     try {
       await api.post("/restaurants", formData);
-      // 서버로 전송이 완료되면 사용자에게 알림을 줄 수 있는 로직을 추가.
       console.log(formData);
       alert("업체 정보가 등록되었습니다.");
       setFormData(initFormData); // 폼 데이터 초기화
       history(-1);
     } catch (error) {
       console.error(error);
-      // 에러 처리 로직을 추가.
       alert("업체 정보 등록에 실패하였습니다.");
     }
   };

@@ -6,13 +6,12 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.validation.constraints.Positive;
+import java.util.List;
 
 @Getter
 public class TagRestaurantDto {
     @Getter
     public static class Post {
-        @Positive
-        private long restaurantId;
         private String name;
 
 

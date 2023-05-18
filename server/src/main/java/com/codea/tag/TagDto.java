@@ -37,4 +37,11 @@ public class TagDto {
         private long tagId;
         private String name;
     }
+
+    @Getter
+    @AllArgsConstructor
+    public static class TagResponse{
+        private long tagId;
+        private String name;
+    }
 }

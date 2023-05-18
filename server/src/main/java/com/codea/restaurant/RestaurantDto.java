@@ -94,4 +94,12 @@ public class RestaurantDto {
         private List<TagRestaurantDto.Response> tagRestaurants;
 
     }
+
+    @Getter
+    @AllArgsConstructor
+    public static class ResponseToMember {
+        private long restaurantId;
+        private long restaurantName;
+    }
+
 }

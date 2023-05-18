@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 import defaultImg from "../style/img/defaultImg.png";
-// import { api } from "../../Util/api";
-import axios from "axios";
+import { api } from "../../Util/api";
 
 const Container = styled.div`
   margin: auto;
@@ -34,9 +33,7 @@ const StoreIntro = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(
-          "http://ec2-54-180-31-226.ap-northeast-2.compute.amazonaws.com:8080/restaurants/1",
-        );
+        const response = await api.get("/restaurants/1");
         const { photo, content } = response.data;
         const newData = {
           photo: photo || defaultImg,

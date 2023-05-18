@@ -6,8 +6,7 @@ import { useState, useEffect } from "react";
 import { useRecoilState } from "recoil";
 import { reviewDataAtom } from "../../state/atoms/reviewDataAtom";
 
-// import { api } from "../../Util/api";
-import axios from "axios";
+import { api } from "../../Util/api";
 
 const ReviewListContainer = styled.div`
   display: flex;
@@ -21,9 +20,7 @@ const ReviewList = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(
-          `http://ec2-54-180-31-226.ap-northeast-2.compute.amazonaws.com:8080/restaurants/1`,
-        ); //${restaurant-id}
+        const response = await api.get(`/restaurants/1`); //${restaurant-id}
         setData(response.data.reviews);
         console.log(response.data.reviews);
       } catch (error) {

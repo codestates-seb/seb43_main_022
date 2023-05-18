@@ -6,8 +6,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 // import isLoginState from "../../state/atoms/IsLoginAtom";
 // import { useRecoilValue } from "recoil";
-// import { api } from "../../Util/api";
-import axios from "axios";
+import { api } from "../../Util/api";
 
 const Container = styled.div`
   display: flex;
@@ -92,9 +91,7 @@ const StoreInfo = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(
-          "http://ec2-54-180-31-226.ap-northeast-2.compute.amazonaws.com:8080/restaurants/1",
-        );
+        const response = await api.get("/restaurants/1");
         const { restaurantId, address, tel, category, open_time, menu } =
           response.data;
         setData({

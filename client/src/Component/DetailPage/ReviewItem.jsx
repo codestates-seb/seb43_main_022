@@ -3,7 +3,8 @@ import Button from "../style/StyleButton";
 import ImgBtn from "../style/ImgBtn";
 import { useRecoilState } from "recoil";
 import isLoginState from "../../state/atoms/IsLoginAtom";
-import axios from "axios";
+import { api } from "../../Util/api";
+
 // import profile from "../style/img/profile.png";
 
 const Container = styled.div`
@@ -88,13 +89,11 @@ const Text = styled.section`
 
 const ReviewItem = ({ data, onDelete }) => {
   const [isLogin, setIsLogin] = useRecoilState(isLoginState);
-  setIsLogin(!false);
+  setIsLogin(!isLogin);
 
   const handleDelete = async () => {
     try {
-      const response = await axios.delete(
-        "http://ec2-54-180-31-226.ap-northeast-2.compute.amazonaws.com:8080/reviews/1",
-      );
+      const response = await api.delete("/reviews/1");
       console.log("Review deleted:", response.data);
       onDelete(data);
     } catch (error) {

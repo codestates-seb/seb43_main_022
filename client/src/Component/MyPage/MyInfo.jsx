@@ -4,8 +4,7 @@ import Button from "../style/StyleButton";
 import profile from "./../style/img/profile.png";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-// import { api } from "../../Util/api";
-import axios from "axios";
+import { api } from "../../Util/api";
 
 const Container = styled.div`
   margin-top: 84px;
@@ -118,9 +117,7 @@ const MyInfo = () => {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const response = await axios.get(
-          "http://ec2-54-180-31-226.ap-northeast-2.compute.amazonaws.com:8080/members/mypage",
-        );
+        const response = await api.get("/members/mypage");
         const { memberId, nickName, email, location, businessAccount, photo } =
           response.data;
         setUserData({

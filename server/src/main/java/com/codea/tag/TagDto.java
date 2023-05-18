@@ -29,10 +29,7 @@ public class TagDto {
     @AllArgsConstructor
     @NoArgsConstructor
     public static class Patch{
-
         private long tagId;
-        //@NotBlank
-        //@Size(max = 30)
         private String name;
 
     }

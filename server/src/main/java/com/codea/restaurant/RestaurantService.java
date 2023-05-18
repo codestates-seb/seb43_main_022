@@ -39,19 +39,19 @@ public class RestaurantService {
     private final MenuRepository menuRepository;
     private final TagRepository tagRepository;
     private final CategoryRepository categoryRepository;
-    private final TagMapper tagMapper;
+    private final RestaurantMapper restaurantMapper;
 
 
     public RestaurantService(RestaurantRepository restaurantRepository, MemberRepository memberRepository,
                              AddressRepository addressRepository, MenuRepository menuRepository,
-                             TagRepository tagRepository, CategoryRepository categoryRepository, TagMapper tagMapper) {
+                             TagRepository tagRepository, CategoryRepository categoryRepository, RestaurantMapper restaurantMapper) {
         this.restaurantRepository = restaurantRepository;
         this.memberRepository = memberRepository;
         this.addressRepository = addressRepository;
         this.menuRepository = menuRepository;
         this.tagRepository = tagRepository;
         this.categoryRepository = categoryRepository;
-        this.tagMapper = tagMapper;
+        this.restaurantMapper = restaurantMapper;
     }
 
     public Restaurant createRestaurant(String email, Address address, Category category, RestaurantDto.Post post) {
@@ -71,42 +71,34 @@ public class RestaurantService {
 
         for (MenuDto.Post menuPost : post.getMenu()) {
             Menu menu = new Menu(menuPost.getName(), menuPost.getPrice(), restaurant);
-//            menuService.createMenu(menuDto);
             menuRepository.save(menu);
         }
 
         for (TagDto.Post tagPost : post.getTag()) {
-            Tag tag = new Tag(tagPost.getName());
+            Tag findTag = tagRepository.findByName(tagPost.getName()).orElseGet(() -> {
+                Tag tag = new Tag(tagPost.getName());
+                return tagRepository.save(tag);
+            });
             TagRestaurant tagRestaurant = new TagRestaurant();
+            tagRestaurant.setTag(findTag);
             tagRestaurant.setRestaurant(restaurant);
-            tagRestaurant.setTag(tag);
-//            Tag tag = tagMapper.tagPostDtoToTag(tagPost);
-//             new Tag(tagPost.getRestaurantId(), restaurant);
-            tagRepository.save(tag);
-         //   tagRepository.findByName(tag.getName()).orElseGet(() ->  tagRepository.save(tag));
-        }
 
+        }
 
         return restaurantRepository.save(restaurant);
     }
 
 
-    // 주소가 비어 있으면 = address 가 null이면
-    // 데이터 저장 -> address (null) -> error
-
-    // ! 주소가 비어있지 않으면
-    // 데이터 저장
-//        restaurant.setAddress(address);
-//        restaurant.setMember(member);
-//
-//        return restaurantRepository.save(restaurant);
 
     @Transactional
-    public Restaurant updateRestaurant(long restaurantId, String email, Address address,  Restaurant restaurant) {
+    public Restaurant updateRestaurant(long restaurantId, String email, Address address,  RestaurantDto.Patch patch) {
         // 주소를 수정하면 데이터베이스를 직접 수정하는 게 아닌, 수정된 주소를 데이터베이스에 추가함
         // 만약, 수정된 주소가 데이터베이스에 존재하면, 수정된 주소를 set 한다
         // 수정된 주소가 데이터베이스에 존재하지 않으면, 수정된 주소를 데이터베이스에 추가한다.
         // 주소를 삭제하면 데이터베이스의 값을 삭제하지 않고 그대로 놔둠 -> 나중에 같은 도로명 주소를 저장하는 경우가 생길 수 있기 때문
+
+        patch.setRestaurantId(restaurantId);
+        Restaurant restaurant = restaurantMapper.restaurantPatchDtoToRestaurant(patch);
 
         Restaurant findRestaurant = findRestaurant(restaurantId);
 
@@ -120,13 +112,78 @@ public class RestaurantService {
         Optional.ofNullable(restaurant.getDetailAddress()).ifPresent(detailAddress -> findRestaurant.setDetailAddress(detailAddress));
         findRestaurant.setModifiedAt(LocalDateTime.now());
 
-        if (address != null) {
+        if (address != null) {  // 수정 안됨, 200 ok
             String streetAddress = address.getStreetAddress();
             Address findAddress = addressRepository.findByStreetAddress(streetAddress)
                     .orElseGet(() -> addressRepository.save(address));
-            restaurant.setAddress(findAddress);
+            findRestaurant.setAddress(findAddress);
         }
 
+
+//        if (address != null) {
+//            String streetAddress = address.getStreetAddress();
+//            Address persistedAddress = addressRepository.findByStreetAddress(streetAddress)
+//                    .orElseGet(() -> addressRepository.save(address));
+//            findMember.setAddress(persistedAddress);
+//        }
+////
+//         Optional.ofNullable(restaurant.getCategory()).ifPresent(category -> findRestaurant.setCategory(category));
+
+        Optional.ofNullable(restaurant.getCategory()).ifPresent(category -> {
+            Category categoryTemp = new Category();
+            categoryTemp.setName(patch.getCategory().getName());
+
+            Category findCategory = categoryRepository.findByName(categoryTemp.getName()).orElseGet(() -> categoryRepository.save(category));
+            findRestaurant.setCategory(findCategory);
+        });
+
+//        String categoryName = patch.getCategory().getName();
+//        Category findCategory = categoryRepository.findByName(categoryName).orElseGet(() -> categoryRepository.save(patch));
+//        restaurant.setCategory(findCategory);
+
+
+        Optional.ofNullable(restaurant.getMenu()).ifPresent((menuList) -> {
+            for (Menu menuTemp: restaurant.getMenu()) {
+//                menuTemp.set
+                Menu findMenu = menuRepository.findById(menuTemp.getMenuId()).orElseGet(() -> {
+                    menuTemp.setRestaurant(findRestaurant);
+                    return menuRepository.save(menuTemp);
+                });
+
+                findMenu.setName(menuTemp.getName());
+                findMenu.setPrice(menuTemp.getPrice());
+                menuRepository.save(findMenu);
+
+            }
+            findRestaurant.setMenu(menuList);
+        });
+
+//        for (TagDto.Post tagPost : post.getTag()) {
+//            Tag tag = new Tag(tagPost.getName());
+//            TagRestaurant tagRestaurant = new TagRestaurant();
+//            tagRestaurant.setRestaurant(restaurant);
+//            tagRestaurant.setTag(tag);
+//            tagRepository.save(tag);
+//        }
+
+//        Optional.ofNullable(restaurant.getTagRestaurants()).ifPresent((TagList) -> {
+//            for (TagRestaurant tagRestaurantTemp : restaurant.getTagRestaurants()) {
+//
+//            //    Tag tag = new Tag (tagTemp.getTagId(), tagTemp.getName(), restaurant.getTagRestaurants());
+//                Tag findTag = tagRepository.findById(tagRestaurantTemp.getTag().getTagId()).orElseGet(() -> {
+//                    //태그가 없으면 추가
+//                    return tagRepository.save(tagTemp);
+//                });
+//                Tag tagTemp1 = new Tag(tag.getName());
+//                TagRestaurant tagRestaurant = new TagRestaurant();
+//                tagRestaurant.setRestaurant(restaurant);
+//                tagRestaurant.setTag(tag);
+////            Tag tag = tagMapper.tagPostDtoToTag(tagPost);
+////             new Tag(tagPost.getRestaurantId(), restaurant);
+//                tagRepository.save(tag);
+//                //   tagRepository.findByName(tag.getName()).orElseGet(() ->  tagRepository.save(tag));
+//            }
+//        }
         return restaurantRepository.save(findRestaurant);
     }
 
@@ -145,10 +202,20 @@ public class RestaurantService {
         restaurantRepository.delete(findRestaurant);
     }
 
-    public Page<Restaurant> getTop10Restaurants(int page, int size) {
-//        return restaurantRepository.findAllOrderByTotalFavorite(1,PageRequest.of(page, size, Sort.by("restaurantId").descending()));
-        return restaurantRepository.findAllByOrderByTotalFavoriteDesc(PageRequest.of(page, size, Sort.by("restaurantId").descending()));
+//    public Page<Restaurant> getTop10Restaurants(int page, int size) {
+//        return restaurantRepository.findAllByOrderByTotalFavoriteDesc(PageRequest.of(page, size, Sort.by("restaurantId").descending()));
+//
+//    }
 
+    public Page<Restaurant> searchRestaurants(int page, int size, String keyword) {
+
+        return restaurantRepository.searchByKeyword(keyword, PageRequest.of(page, size, Sort.by("restaurantId").descending()));
     }
+
+//    public Page<Restaurant> searchByTagRestaurants(int page, int size, String url, String tag) {
+//
+//        return restaurantRepository.searchByTag(url, tag, PageRequest.of(page, size, Sort.by("restaurantId").descending()));
+//    }
+
 
 }

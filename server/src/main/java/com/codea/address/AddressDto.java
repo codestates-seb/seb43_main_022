@@ -24,6 +24,8 @@ public class AddressDto {
     public static class Patch {
         private long addressId;
         private String streetAddress;
+        private double latitude;
+        private double longitude;
     }
 
     @Getter

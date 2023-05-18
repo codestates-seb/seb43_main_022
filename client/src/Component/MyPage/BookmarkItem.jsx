@@ -27,13 +27,13 @@ const Content = styled.div`
   }
 `;
 
-const BookmarkItem = () => {
+const BookmarkItem = ({ name, streetAddress, category }) => {
   return (
     <Container>
-      <StoreName>김밥천국</StoreName>
+      <StoreName>{name}</StoreName>
       <Content>
-        <div className="area">지역 : 강남역</div>
-        <div className="menu">메뉴 : 브런치/샌드위치</div>
+        <div className="area">{streetAddress}</div>
+        <div className="menu">{category}</div>
         <ImgBtn imgstyle={"Heart"}></ImgBtn>
       </Content>
     </Container>

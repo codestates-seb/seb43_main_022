@@ -2,6 +2,10 @@ import styled from "styled-components";
 import Input from "./../style/StyleInput";
 import Button from "../style/StyleButton";
 import profile from "./../style/img/profile.png";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+// import { api } from "../../Util/api";
+import axios from "axios";
 
 const Container = styled.div`
   margin-top: 84px;
@@ -63,7 +67,7 @@ const Buttons = styled.div`
   padding-top: 40px;
 `;
 
-const Btn1 = styled.div`
+const BusinessAccount = styled.div`
   > .button {
     width: auto;
     height: 41px;
@@ -87,7 +91,7 @@ const Btn1 = styled.div`
   flex-direction: row;
   align-items: center;
 `;
-const Btn2 = styled.div`
+const Btns = styled.div`
   display: flex;
   flex-direction: row;
   & > * {
@@ -97,11 +101,48 @@ const Btn2 = styled.div`
 `;
 
 const MyInfo = () => {
+  const navigate = useNavigate();
+  const onClickAdd = () => {
+    navigate("/addstore");
+  };
+
+  const [userData, setUserData] = useState({
+    memberId: 0,
+    nickName: "",
+    email: "",
+    location: "강남구",
+    businessAccount: true,
+    photo: profile,
+  });
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const response = await axios.get(
+          "http://ec2-54-180-31-226.ap-northeast-2.compute.amazonaws.com:8080/members/mypage",
+        );
+        const { memberId, nickName, email, location, businessAccount, photo } =
+          response.data;
+        setUserData({
+          memberId: memberId,
+          nickName: nickName,
+          email: email,
+          location: location,
+          businessAccount: businessAccount,
+          photo: photo || profile,
+        });
+      } catch (error) {
+        console.error("Failed to fetch user data:", error);
+      }
+    };
+    fetchUserData();
+  }, []);
+
   return (
     <Container>
       <Profile>
         <InfoName>프로필 이미지</InfoName>
-        <img className="profile-img" src={profile} alt="" />
+        <img className="profile-img" src={userData.photo} alt="profile" />
       </Profile>
       <div className="info">
         <UserInfo>
@@ -111,7 +152,7 @@ const MyInfo = () => {
           </div>
           <div className="userbox">
             <InfoName>이메일</InfoName>
-            <Input type="default" placeholder="eaaats@eats.com" />
+            <Input type="default" placeholder="eaaats@codea.com" />
           </div>
           <div className="userbox">
             <InfoName>지역</InfoName>
@@ -121,14 +162,19 @@ const MyInfo = () => {
           </div>
         </UserInfo>
         <Buttons>
-          <Btn1>
-            <InfoName>사업자 계정</InfoName>
-            <button className="button">업체등록</button>
-          </Btn1>
-          <Btn2>
+          {/* 서버연결 후 확인하기 */}
+          {userData.businessAccount && (
+            <BusinessAccount>
+              <InfoName>사업자 계정</InfoName>
+              <button className="button" onClick={onClickAdd}>
+                업체등록
+              </button>
+            </BusinessAccount>
+          )}
+          <Btns>
             <Button btnstyle="Btn">정보수정</Button>
             <Button btnstyle="Btn">회원탈퇴</Button>
-          </Btn2>
+          </Btns>
         </Buttons>
       </div>
     </Container>

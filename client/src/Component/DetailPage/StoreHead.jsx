@@ -52,21 +52,6 @@ const StoreHead = () => {
     totalFavorite: "",
   });
 
-  // const [tags, setTags] = useState([]);
-
-  // {
-  //   tagId: 1,
-  //   name: "#분위기좋은곳",
-  // },
-  // {
-  //   tagId: 2,
-  //   name: "#브런치",
-  // },
-  // {
-  //   tagId: 3,
-  //   name: "#샌드위치",
-  // },
-
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -88,25 +73,19 @@ const StoreHead = () => {
     fetchData();
   }, []);
 
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     try {
-  //       const response = await axios.get(
-  //         "http://ec2-54-180-31-226.ap-northeast-2.compute.amazonaws.com:8080/tags",
-  //       );
-  //       const { tags } = response.data;
-
-  //       setTags(tags);
-  //     } catch (error) {
-  //       console.error("Error fetching data:", error);
-  //     }
-  //   };
-
-  //   fetchData();
-  // }, []);
-
-  const handleHeartIcon = () => {
-    setHeartIcon(!heartIcon);
+  const handleHeartIcon = async () => {
+    try {
+      if (heartIcon) {
+        await api.delete(`/favorites/1`); //${favorites-id}
+        console.log("즐겨찾기 해제");
+      } else {
+        await api.post(`/favorites/restaurant/1`); //${restaurant - id}
+        console.log("즐겨찾기 저장");
+      }
+      setHeartIcon(!heartIcon);
+    } catch (error) {
+      console.error("Error toggling favorite:", error);
+    }
   };
   const handleShareIcon = () => {
     setShareIcon(!shareIcon);

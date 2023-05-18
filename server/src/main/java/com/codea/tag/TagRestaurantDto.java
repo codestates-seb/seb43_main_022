@@ -11,7 +11,8 @@ import javax.validation.constraints.Positive;
 public class TagRestaurantDto {
     @Getter
     public static class Post {
-        private String name;
+        private Tag tag;
+        private Restaurant restaurant;
     }
 
     @Getter

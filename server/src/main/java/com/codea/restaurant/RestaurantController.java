@@ -12,6 +12,8 @@ import com.codea.member.Member;
 import com.codea.member.MemberDto;
 import com.codea.response.MultiResponseDto;
 import com.codea.review.Review;
+import com.codea.tag.Tag;
+import com.codea.tag.TagDto;
 import com.codea.utils.UriCreator;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpHeaders;
@@ -75,7 +77,7 @@ public class RestaurantController {
         Address address = addressMapper.addressPostDtoToAddress(addressDto);
 //        MenuDto.Post menuDto = new List<MenuDto.Post> (requestBody.getMenu());
 
-        Restaurant restaurant = restaurantService.updateRestaurant(restaurantId, email, address, mapper.restaurantPatchDtoToRestaurant(requestBody));
+        Restaurant restaurant = restaurantService.updateRestaurant(restaurantId, email, address, requestBody);
 
         return new ResponseEntity<>(mapper.restaurantToRestaurantResponseDto(restaurant), HttpStatus.OK);
     }
@@ -155,6 +157,21 @@ public class RestaurantController {
         return new ResponseEntity<>(
                 new MultiResponseDto<>(mapper.restaurantToRestaurantResponseDtos(restaurants), restaurantPage), HttpStatus.OK);
     }
+
+//    @GetMapping("/search")
+//    public ResponseEntity searchByTag(@PathVariable("url") String url,
+//                                      @RequestParam(value = "tag") String tag,
+//                                      @RequestParam(value = "page", required = false) Integer page,
+//                                      @RequestParam(value = "size", required = false) Integer size) {
+//
+//        if (page == null) page = 1;
+//        if (size == null) size = 4;
+//        Page<Restaurant> restaurantPage = restaurantService.searchByTagRestaurants(page - 1, size, url, tag);
+//        List<Restaurant> restaurants = restaurantPage.getContent();
+//
+//        return new ResponseEntity<>(
+//                new MultiResponseDto<>(mapper.restaurantToRestaurantResponseDtos(restaurants), restaurantPage), HttpStatus.OK);
+//    }
 }
 
 

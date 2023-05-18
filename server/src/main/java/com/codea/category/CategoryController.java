@@ -49,26 +49,26 @@ public class CategoryController {
 //        return new ResponseEntity<>(categoryMapper.categoryToCategoryResponseDto(response), HttpStatus.OK);
 //    }
     // 하나의 카테고리 조회
-    @GetMapping("/{category-id}")
-    public ResponseEntity getCategory(@PathVariable("category-id")@Positive long categoryId){
-        Category response = categoryService.findCategory(categoryId);
-        return new ResponseEntity<>(categoryMapper.categoryToCategoryResponseDto(response),HttpStatus.OK);
-    }
-    // 모든 카테고리 조회
-    @GetMapping
-    public ResponseEntity getCategories(@Positive @RequestParam int page,
-                                        @Positive @RequestParam int size){
-        Page<Category> categories = categoryService.findCategories(page -1, size);
-        List<Category> response = categories.getContent();
-
-        return new ResponseEntity<>(
-                new MultiResponseDto<>(categoryMapper.categoriesToCategoryResponseDto(response), categories), HttpStatus.OK);
-    }
-    // 카테고리 삭제
-    @DeleteMapping("/{category-id}")
-    public ResponseEntity deleteCategory(@PathVariable("category-id") @Positive long categoryId){
-        categoryService.deleteCategory(categoryId);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-    }
+//    @GetMapping("/{category-id}")
+//    public ResponseEntity getCategory(@PathVariable("category-id")@Positive long categoryId){
+//        Category response = categoryService.findCategory(categoryId);
+//        return new ResponseEntity<>(categoryMapper.categoryToCategoryResponseDto(response),HttpStatus.OK);
+//    }
+//    // 모든 카테고리 조회
+//    @GetMapping
+//    public ResponseEntity getCategories(@Positive @RequestParam int page,
+//                                        @Positive @RequestParam int size){
+//        Page<Category> categories = categoryService.findCategories(page -1, size);
+//        List<Category> response = categories.getContent();
+//
+//        return new ResponseEntity<>(
+//                new MultiResponseDto<>(categoryMapper.categoriesToCategoryResponseDto(response), categories), HttpStatus.OK);
+//    }
+//    // 카테고리 삭제
+//    @DeleteMapping("/{category-id}")
+//    public ResponseEntity deleteCategory(@PathVariable("category-id") @Positive long categoryId){
+//        categoryService.deleteCategory(categoryId);
+//        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+//    }
   }
 

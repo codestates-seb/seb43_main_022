@@ -86,7 +86,7 @@ public class MemberService {
             String streetAddress = address.getStreetAddress();
             Address persistedAddress = addressRepository.findByStreetAddress(streetAddress)
                     .orElseGet(() -> addressRepository.save(address));
-            member.setAddress(persistedAddress);
+            findMember.setAddress(persistedAddress);
         }
 
         return memberRepository.save(findMember);

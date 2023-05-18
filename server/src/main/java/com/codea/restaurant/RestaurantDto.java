@@ -49,6 +49,7 @@ public class RestaurantDto {
     }
 
     @Getter
+    @Setter
     @AllArgsConstructor
     public static class Patch {
         private long restaurantId;

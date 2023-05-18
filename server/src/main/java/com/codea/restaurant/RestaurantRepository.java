@@ -24,8 +24,13 @@ public interface RestaurantRepository extends JpaRepository<Restaurant, Long> {
 
     Page<Restaurant> findByRestaurantName(Pageable pageable, String keyword);
 
-    @Query("SELECT r FROM Restaurant r WHERE r.streetAddress LIKE %:keyword% OR r.restaurantName LIKE %:keyword%")
-    Page<Restaurant> searchByKeyword(@Param("keyword") String keyword, Pageable pageable);
+    //    @Query("SELECT r, t FROM Restaurant, Tag r WHERE r.streetAddress LIKE %:keyword% OR r.restaurantName LIKE %:keyword%")
+    @Query("SELECT r FROM Restaurant r LEFT JOIN r.tagRestaurants tr LEFT JOIN tr.tag t " +
+            "WHERE r.streetAddress LIKE %:keyword% OR r.restaurantName LIKE %:keyword% OR t.name LIKE %:keyword%")
+    Page<Restaurant> searchByKeyword(@Param("keyword") String keyword, Pageable pageable); //'localhost:8080/restaurant/?keyword='맛집'&page=1&size=10&tag='태그1'
+//
+//    @Query("SELECT r FROM Restaurant r LEFT JOIN r.tagRestaurants tr LEFT JOIN tr.tag t WHERE r.streetAddress LIKE %:keyword% OR r.restaurantName LIKE %:keyword% OR t.name LIKE %:keyword%")
+//    Page<Restaurant> searchByTag(@Param("keyword") String url, String tag, Pageable pageable);
 
 
 

@@ -2,8 +2,12 @@ import styled from "styled-components";
 import MenuItem from "./MenuItem";
 import Button from "./../style/StyleButton";
 import Modal from "../Modal";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+// import isLoginState from "../../state/atoms/IsLoginAtom";
+// import { useRecoilValue } from "recoil";
+// import { api } from "../../Util/api";
+import axios from "axios";
 
 const Container = styled.div`
   display: flex;
@@ -77,49 +81,38 @@ const StoreInfo = () => {
     setModal(!modal);
   };
 
-  const menu = [
-    { name: "샌드위치", price: 4000 },
-    { name: "B", price: 2000 },
-    { name: "햄버거", price: 7000 },
-    { name: "샌드위치", price: 4000 },
-    { name: "콜라", price: 2000 },
-    { name: "햄버거", price: 7000 },
-    { name: "샌드위치", price: 4000 },
-    { name: "사이다", price: 2000 },
-    { name: "샌드위치", price: 4000 },
-    { name: "B", price: 2000 },
-    { name: "햄버거", price: 7000 },
-    { name: "샌드위치", price: 4000 },
-    { name: "콜라", price: 2000 },
-    { name: "햄버거", price: 7000 },
-    { name: "샌드위치", price: 4000 },
-    { name: "사이다", price: 2000 },
-    { name: "샌드위치", price: 4000 },
-    { name: "B", price: 2000 },
-    { name: "햄버거", price: 7000 },
-    { name: "샌드위치", price: 4000 },
-    { name: "콜라", price: 2000 },
-    { name: "햄버거", price: 7000 },
-    { name: "샌드위치", price: 4000 },
-    { name: "사이다", price: 2000 },
-  ];
+  const [data, setData] = useState({
+    restaurantId: 1,
+    address: { addressId: 0, streetAddress: "", latitude: 0, longitude: 0 },
+    tel: "",
+    category: "",
+    open_time: "",
+  });
 
-  const dumyData = {
-    address: "경기 용인시 수지구 용구대로 2725-2",
-    phoneNumber: "031-123-4567",
-    foodType: "브런치 / 샌드위치",
-    businessHours: "06:00~06:01",
-  };
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(
+          "http://ec2-54-180-31-226.ap-northeast-2.compute.amazonaws.com:8080/restaurants/1",
+        );
+        const { restaurantId, address, tel, category, open_time, menu } =
+          response.data;
+        setData({
+          restaurantId,
+          address,
+          tel,
+          category,
+          open_time,
+          menu,
+        });
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+    fetchData();
+  }, []);
 
-  // const [storeData, setStoreData] = useState({
-  //   address:"",
-  //   phoneNumber:"",
-  //   foodType:"",
-  //   businessHours:""
-  // })
-
-  const updateDate = new Date();
-  const updatedDate = updateDate.toLocaleDateString("ko-KR", {
+  const updatedDate = new Date().toLocaleDateString("ko-KR", {
     year: "numeric",
     month: "long",
     day: "numeric",
@@ -131,28 +124,28 @@ const StoreInfo = () => {
         <InfoList>
           <InfoItem>
             <InfoName>주소</InfoName>
-            <InfoContent>{dumyData.address}</InfoContent>
+            <InfoContent>{data.address.streetAddress}</InfoContent>
           </InfoItem>
           <InfoItem>
             <InfoName>전화번호</InfoName>
-            <InfoContent>{dumyData.phoneNumber}</InfoContent>
+            <InfoContent>{data.tel}</InfoContent>
           </InfoItem>
           <InfoItem>
             <InfoName>음식 종류</InfoName>
-            <InfoContent>{dumyData.foodType}</InfoContent>
+            <InfoContent>{data.category}</InfoContent>
           </InfoItem>
           <InfoItem>
             <InfoName>영업시간</InfoName>
-            <InfoContent>{dumyData.businessHours}</InfoContent>
+            <InfoContent>{data.open_time}</InfoContent>
           </InfoItem>
         </InfoList>
         <MenuList>
           <div>
             <InfoName>메뉴</InfoName>
-            <MenuItem menu={menu} />
+            <MenuItem menu={data.menu} />
           </div>
           <div>
-            {modal ? <Modal menu={menu} showModal={showModal} /> : null}
+            {modal ? <Modal menu={data.menu} showModal={showModal} /> : null}
           </div>
           <More onClick={showModal}>메뉴 전체보기</More>
         </MenuList>

@@ -13,29 +13,4 @@ const api = axios.create({
   },
 });
 
-// api.interceptors.request.use(function (config) {
-//   api.defaults.headers.common["Authorization"] = config.headers.authorization;
-//   localStorage.setItem("token", config.headers.authorization);
-//   console.log(config);
-//   return config;
-// });
-
-// 토큰 재발급 요청....
-// api.interceptors.response.use(
-//   function (response) {
-//     return response;
-//   },
-//   function (error) {
-//     if (error.message === "refresh" && error.config.status === "401") {
-//       try {
-//         axios.defaults.headers.common["Authorization"] =
-//           error.config.header.authorization;
-//       } catch (e) {
-//         console.log(e.error);
-//       }
-//     }
-//     return Promise.reject(error);
-//   },
-// );
-
 export { api };

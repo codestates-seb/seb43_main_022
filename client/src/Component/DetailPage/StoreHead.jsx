@@ -1,16 +1,8 @@
 import styled from "styled-components";
 import ImgBtn from "../style/ImgBtn";
-import { useState } from "react";
-// import { useRecoilState } from "recoil";
-// import {
-//   shareIconState,
-//   heartIconState,
-//   //useRecoilValue
-// // storeNameState,
-// //   storeTagsState,
-// //   viewCountState,
-// //   heartCountState,
-// } from "../../state/atoms/detailInfoAtom";
+import { useState, useEffect } from "react";
+// import { api } from "../../Util/api";
+import axios from "axios";
 
 const Container = styled.div`
   margin: auto;
@@ -51,27 +43,70 @@ const SubInfo = styled.div`
 `;
 
 const StoreHead = () => {
-  // const storeName = useRecoilValue(storeNameState);
-  // const storeTags = useRecoilValue(storeTagsState);
-  // const viewCount = useRecoilValue(viewCountState);
-  // const heartCount = useRecoilValue(heartCountState);
-
   const [heartIcon, setHeartIcon] = useState(false);
   const [shareIcon, setShareIcon] = useState(false);
 
-  // const [storeData, setStoreData] = useState({
-  //   storeName: "",
-  //   storeTags: [],
-  //   viewCount: "",
-  //   heartCount: "",
-  // });
+  const [data, setData] = useState({
+    restaurantName: "",
+    tag: [],
+    total_views: "",
+    totalFavorite: "",
+  });
 
-  const dumyData = {
-    storeName: "오프마인드",
-    storeTags: ["#브런치", "#샌드위치", "#분위기좋은곳"],
-    viewCount: "1.2k",
-    heartCount: "302",
-  };
+  // const [tags, setTags] = useState([]);
+
+  // {
+  //   tagId: 1,
+  //   name: "#분위기좋은곳",
+  // },
+  // {
+  //   tagId: 2,
+  //   name: "#브런치",
+  // },
+  // {
+  //   tagId: 3,
+  //   name: "#샌드위치",
+  // },
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(
+          "http://ec2-54-180-31-226.ap-northeast-2.compute.amazonaws.com:8080/restaurants/1",
+        );
+        const { restaurantName, tag, total_views, totalFavorite } =
+          response.data;
+
+        setData({
+          restaurantName,
+          tag,
+          total_views,
+          totalFavorite,
+        });
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+    console.log();
+    fetchData();
+  }, []);
+
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       const response = await axios.get(
+  //         "http://ec2-54-180-31-226.ap-northeast-2.compute.amazonaws.com:8080/tags",
+  //       );
+  //       const { tags } = response.data;
+
+  //       setTags(tags);
+  //     } catch (error) {
+  //       console.error("Error fetching data:", error);
+  //     }
+  //   };
+
+  //   fetchData();
+  // }, []);
 
   const handleHeartIcon = () => {
     setHeartIcon(!heartIcon);
@@ -83,18 +118,19 @@ const StoreHead = () => {
   return (
     <div>
       <Container>
-        <StoreName>{dumyData.storeName}</StoreName>
+        <StoreName>{data.restaurantName}</StoreName>
         <StoreInfo>
           <Tags>
-            {dumyData.storeTags.map((tag, index) => (
-              <TagItem key={index}>{tag}</TagItem>
-            ))}
+            {data.tag &&
+              data.tag.map((tag) => (
+                <TagItem key={tag.tagId}>{tag.name}</TagItem>
+              ))}
           </Tags>
           <SubInfo>
             <ImgBtn imgstyle={"View"} />
-            <span>{dumyData.viewCount}</span>
+            <span>{data.total_views}</span>
             <ImgBtn imgstyle={"Heart"} onClick={handleHeartIcon} />
-            <span>{dumyData.heartCount}</span>
+            <span>{data.totalFavorite}</span>
             <ImgBtn imgstyle={"Share"} onClick={handleShareIcon} />
           </SubInfo>
         </StoreInfo>

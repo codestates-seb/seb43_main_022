@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import BookmarkList from "./bookmarkList";
+import BookmarkList from "./BookmarkList";
 
 const Container = styled.div`
   width: 594px;

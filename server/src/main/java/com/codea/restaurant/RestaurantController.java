@@ -83,7 +83,7 @@ public class RestaurantController {
     }
 
     @Transactional
-    @GetMapping("/view/{restaurant-id}")
+    @GetMapping("/{restaurant-id}")
     public ResponseEntity getRestaurant(@PathVariable("restaurant-id") long restaurantId) {
         Restaurant restaurant = restaurantService.findRestaurant(restaurantId);
 

@@ -69,10 +69,10 @@ public class RestaurantController {
 
     @Transactional
     @PatchMapping("/{restaurant-id}")
-    public ResponseEntity patchRestaurant(@PathVariable("restaurant-id") String strRestaurantId,
+    public ResponseEntity patchRestaurant(@PathVariable("restaurant-id") long restaurantId,
                                           @Valid @RequestBody RestaurantDto.Patch requestBody,
                                           @AuthenticationPrincipal String email) {
-        long restaurantId = Long.parseLong(strRestaurantId);
+
         AddressDto.Post addressDto = new AddressDto.Post(requestBody.getStreetAddress(), requestBody.getLatitude(), requestBody.getLongitude());
         Address address = addressMapper.addressPostDtoToAddress(addressDto);
 //        MenuDto.Post menuDto = new List<MenuDto.Post> (requestBody.getMenu());
@@ -83,9 +83,8 @@ public class RestaurantController {
     }
 
     @Transactional
-    @GetMapping("/{restaurant-id}")
-    public ResponseEntity getRestaurant(@PathVariable("restaurant-id") String strRestaurantId) {
-        long restaurantId = Long.parseLong(strRestaurantId);
+    @GetMapping("/view/{restaurant-id}")
+    public ResponseEntity getRestaurant(@PathVariable("restaurant-id") long restaurantId) {
         Restaurant restaurant = restaurantService.findRestaurant(restaurantId);
 
         return new ResponseEntity<>(
@@ -106,8 +105,7 @@ public class RestaurantController {
     }
 
     @DeleteMapping("/{restaurant-id}")
-    public ResponseEntity deleteRestaurant(@PathVariable("restaurant-id") String strRestaurantId) {
-        long restaurantId = Long.parseLong(strRestaurantId);
+    public ResponseEntity deleteRestaurant(@PathVariable("restaurant-id") long restaurantId) {
         restaurantService.deleteRestaurant(restaurantId);
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -121,12 +119,13 @@ public class RestaurantController {
 
         if (page == null) page = 1;
         if (size == null) size = 4;
-        Page<Restaurant> restaurantPage = restaurantService.searchRestaurants(page - 1, size, keyword);
+        Page<Restaurant> restaurantPage = restaurantService.searchRestaurants(keyword,page - 1, size);
         List<Restaurant> restaurants = restaurantPage.getContent();
 
         return new ResponseEntity<>(
                 new MultiResponseDto<>(mapper.restaurantToRestaurantResponseDtos(restaurants), restaurantPage), HttpStatus.OK);
     }
+
 
 //    @GetMapping("/search")
 //    public ResponseEntity searchByTag(@PathVariable("url") String url,

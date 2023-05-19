@@ -40,11 +40,13 @@ public class RestaurantService {
     private final TagRepository tagRepository;
     private final CategoryRepository categoryRepository;
     private final RestaurantMapper restaurantMapper;
+    private final TagRestaurantRepository tagRestaurantRepository;
 
 
     public RestaurantService(RestaurantRepository restaurantRepository, MemberRepository memberRepository,
                              AddressRepository addressRepository, MenuRepository menuRepository,
-                             TagRepository tagRepository, CategoryRepository categoryRepository, RestaurantMapper restaurantMapper) {
+                             TagRepository tagRepository, CategoryRepository categoryRepository,
+                             RestaurantMapper restaurantMapper, TagRestaurantRepository tagRestaurantRepository) {
         this.restaurantRepository = restaurantRepository;
         this.memberRepository = memberRepository;
         this.addressRepository = addressRepository;
@@ -52,6 +54,7 @@ public class RestaurantService {
         this.tagRepository = tagRepository;
         this.categoryRepository = categoryRepository;
         this.restaurantMapper = restaurantMapper;
+        this.tagRestaurantRepository = tagRestaurantRepository;
     }
 
     public Restaurant createRestaurant(String email, Address address, Category category, RestaurantDto.Post post) {
@@ -82,6 +85,7 @@ public class RestaurantService {
             TagRestaurant tagRestaurant = new TagRestaurant();
             tagRestaurant.setTag(findTag);
             tagRestaurant.setRestaurant(restaurant);
+            tagRestaurantRepository.save(tagRestaurant);
 
         }
 
@@ -89,9 +93,8 @@ public class RestaurantService {
     }
 
 
-
     @Transactional
-    public Restaurant updateRestaurant(long restaurantId, String email, Address address,  RestaurantDto.Patch patch) {
+    public Restaurant updateRestaurant(long restaurantId, String email, Address address, RestaurantDto.Patch patch) {
         // 주소를 수정하면 데이터베이스를 직접 수정하는 게 아닌, 수정된 주소를 데이터베이스에 추가함
         // 만약, 수정된 주소가 데이터베이스에 존재하면, 수정된 주소를 set 한다
         // 수정된 주소가 데이터베이스에 존재하지 않으면, 수정된 주소를 데이터베이스에 추가한다.
@@ -102,7 +105,8 @@ public class RestaurantService {
 
         Restaurant findRestaurant = findRestaurant(restaurantId);
 
-        if (!findRestaurant.getMember().getEmail().equals(email)) throw new BusinessLogicException(ExceptionCode.UNAUTHORIZED_EDIT);
+        if (!findRestaurant.getMember().getEmail().equals(email))
+            throw new BusinessLogicException(ExceptionCode.UNAUTHORIZED_EDIT);
 
         Optional.ofNullable(restaurant.getRestaurantName()).ifPresent(restaurantName -> findRestaurant.setRestaurantName(restaurantName));
         Optional.ofNullable(restaurant.getContent()).ifPresent(content -> findRestaurant.setContent(content));
@@ -112,22 +116,13 @@ public class RestaurantService {
         Optional.ofNullable(restaurant.getDetailAddress()).ifPresent(detailAddress -> findRestaurant.setDetailAddress(detailAddress));
         findRestaurant.setModifiedAt(LocalDateTime.now());
 
-        if (address != null) {  // 수정 안됨, 200 ok
+        if (address != null) {
             String streetAddress = address.getStreetAddress();
             Address findAddress = addressRepository.findByStreetAddress(streetAddress)
                     .orElseGet(() -> addressRepository.save(address));
             findRestaurant.setAddress(findAddress);
         }
 
-
-//        if (address != null) {
-//            String streetAddress = address.getStreetAddress();
-//            Address persistedAddress = addressRepository.findByStreetAddress(streetAddress)
-//                    .orElseGet(() -> addressRepository.save(address));
-//            findMember.setAddress(persistedAddress);
-//        }
-////
-//         Optional.ofNullable(restaurant.getCategory()).ifPresent(category -> findRestaurant.setCategory(category));
 
         Optional.ofNullable(restaurant.getCategory()).ifPresent(category -> {
             Category categoryTemp = new Category();
@@ -137,14 +132,9 @@ public class RestaurantService {
             findRestaurant.setCategory(findCategory);
         });
 
-//        String categoryName = patch.getCategory().getName();
-//        Category findCategory = categoryRepository.findByName(categoryName).orElseGet(() -> categoryRepository.save(patch));
-//        restaurant.setCategory(findCategory);
-
 
         Optional.ofNullable(restaurant.getMenu()).ifPresent((menuList) -> {
-            for (Menu menuTemp: restaurant.getMenu()) {
-//                menuTemp.set
+            for (Menu menuTemp : restaurant.getMenu()) {
                 Menu findMenu = menuRepository.findById(menuTemp.getMenuId()).orElseGet(() -> {
                     menuTemp.setRestaurant(findRestaurant);
                     return menuRepository.save(menuTemp);
@@ -157,14 +147,6 @@ public class RestaurantService {
             }
             findRestaurant.setMenu(menuList);
         });
-
-//        for (TagDto.Post tagPost : post.getTag()) {
-//            Tag tag = new Tag(tagPost.getName());
-//            TagRestaurant tagRestaurant = new TagRestaurant();
-//            tagRestaurant.setRestaurant(restaurant);
-//            tagRestaurant.setTag(tag);
-//            tagRepository.save(tag);
-//        }
 
 //        Optional.ofNullable(restaurant.getTagRestaurants()).ifPresent((TagList) -> {
 //            for (TagRestaurant tagRestaurantTemp : restaurant.getTagRestaurants()) {
@@ -184,6 +166,24 @@ public class RestaurantService {
 //                //   tagRepository.findByName(tag.getName()).orElseGet(() ->  tagRepository.save(tag));
 //            }
 //        }
+
+//    Optional.ofNullable(restaurant.getTagRestaurants()).ifPresent((tagList) -> {
+//        for (TagRestaurant tagPost : restaurant.getTagRestaurants()) {
+//            TagRestaurant findTag = tagRestaurantRepository.findById(tagPost.getTag().getTagId()).orElseGet(() -> {
+//                tagPost.setRestaurant(findRestaurant);
+//                return tagRestaurantRepository.save(tagPost);
+//            });
+//            TagRestaurant tagRestaurant = new TagRestaurant();
+//            tagRestaurant.setTag(findTag);
+//            tagRestaurant.setRestaurant(restaurant);
+//            tagRestaurantRepository.save(tagRestaurant);
+//
+//        }
+//    });
+
+
+
+
         return restaurantRepository.save(findRestaurant);
     }
 

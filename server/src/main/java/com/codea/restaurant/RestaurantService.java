@@ -175,14 +175,17 @@ public class RestaurantService {
         // 변수에 저장. 태그가 존재하지 않으면 데이터베이스에도 저장.
         // 찾아온 태그로 이름을 찾고
         Optional.ofNullable(patch.getTag()).ifPresent((TagList) -> {
-            tagRestaurantRepository.deleteAllByRestaurant(restaurant);
-            for (TagDto.Patch tagTemp : patch.getTag()) {
+            tagRestaurantRepository.deleteAllByRestaurant(restaurant);  //태그레스토랑 비우기
+            System.out.println("111111111111111111111111111111111111111111111" + tagRestaurantRepository.findAll());
+            System.out.println("22222222222222222222222222222222222222222222222" + restaurant);
+            System.out.println(System.identityHashCode(tagRestaurantRepository));
+            for (TagDto.Patch tagTemp : patch.getTag()) {  //태그 저장
                 Tag findTag = tagRepository.findByName(tagTemp.getName()).orElseGet(() -> {
                     Tag newtag = new Tag(tagTemp.getName());
                     return tagRepository.save(newtag);
                 });
 
-                TagRestaurant findTagRestaurant = tagRestaurantRepository.findByTag_TagId(findTag.getTagId()).orElseGet(() -> {
+            //    TagRestaurant findTagRestaurant = tagRestaurantRepository.findByTag_TagId(findTag.getTagId()).orElseGet(() -> { //생성한 태그를 찾아서 태그레스토랑과 매치.
                     TagRestaurant newTagRestaurant = new TagRestaurant(restaurant, findTag);
                     tagRestaurantRepository.save(newTagRestaurant);
            //     });

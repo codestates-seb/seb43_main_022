@@ -42,6 +42,19 @@ public class ReviewDto {
         private LocalDateTime modifiedAt;
         private Review.Rating rating;
         private MemberDto.ReviewResponse member;
+    }
+
+    @Getter
+    @AllArgsConstructor
+    public static class MyPageResponse {
+        private long reviewId;
+        private String title;
+        private String content;
+        private String photo;
+        private LocalDateTime createdAt;
+        private LocalDateTime modifiedAt;
+        private Review.Rating rating;
+//        private MemberDto.ReviewResponse member;
         private RestaurantDto.ResponseToMember rest;
     }
 }

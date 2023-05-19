@@ -58,7 +58,7 @@ public class MemberDto {
         private String nickName;
         private String email;
         private boolean businessAccount;
-        private List<ReviewDto.Response> reviews;
+        private List<ReviewDto.MyPageResponse> reviews;
         private List<FavoriteDto.ResponseFavorite> favorites;
         private String photo;
         private int favoriteCount;

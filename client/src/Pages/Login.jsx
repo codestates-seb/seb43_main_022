@@ -98,9 +98,11 @@ export default function Login() {
         password: Loginmember.password,
       })
       .then((res) => {
-        api.defaults.headers.common["Authorization"] =
-          res.headers.authorization;
         setIsLogin(!isLogin);
+        sessionStorage.setItem(
+          "Authorization",
+          res.headers.get("Authorization"),
+        );
         navi("/");
 
         api
@@ -119,7 +121,7 @@ export default function Login() {
           })
           .catch((err) => {
             console.log(err);
-            console.log("토큰 제거");
+            console.log("cancelToekn");
           });
       })
       .catch((err) => {
@@ -181,7 +183,7 @@ export default function Login() {
             )}
           </Textdiv>
           <Btndiv>
-            <Button btnstyle="Btn" width="120px" onClick={onClick}>
+            <Button btnstyle="Btn" width="120px" onClick={() => onClick()}>
               로그인
             </Button>
             <Link to="/signup">

@@ -1,6 +1,9 @@
 import styled from "styled-components";
-import ImgBtn from "./../style/ImgBtn";
-
+import Heart from "../style/img/redheart.svg";
+import Check from "../style/img/check.svg";
+import XBtn from "../style/img/x.svg";
+import { useState } from "react";
+import { api } from "../../Util/api";
 const Container = styled.div`
   border-bottom: 1px solid var(--black-350);
   width: 480px;
@@ -12,30 +15,94 @@ const Container = styled.div`
 const StoreName = styled.div`
   font-size: var(--large-font);
   margin-top: 30px;
-  margin-bottom: 10px;
+  margin-bottom: 20px;
 `;
 
 const Content = styled.div`
   display: flex;
-  justify-content: space-between;
-  margin-bottom: 20px;
+  align-items: flex-end;
+
   > .area {
+    width: 120px;
+    margin-right: 100px;
     font-size: var(--medium-font);
   }
-  > .menu {
+  > .BtnDiv .menu {
     font-size: var(--medium-font);
+  }
+  > .BtnDiv .Btn {
+    background: white;
+  }
+  > .BtnDiv {
+    width: 80%;
+    font-size: var(--medium-font);
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
   }
 `;
 
-const BookmarkItem = ({ name, streetAddress, category }) => {
+const BtnDiv = styled.div`
+  display: flex;
+  width: 60px;
+  background: white;
+`;
+
+const BookmarkItem = ({
+  name,
+  streetAddress,
+  category,
+  favoriteId,
+  setData,
+}) => {
+  const [del, setDel] = useState(false);
+
+  const deleteFunc = (key) => {
+    return api
+      .delete(`/favorites/${key}`)
+      .then(() => {
+        api.get("/members/mypage").then((res) => {
+          setData(res.data.favorite);
+          console.log(res);
+        });
+      })
+      .catch((err) => console.log(err));
+  };
+
   return (
     <Container>
-      <StoreName>{name}</StoreName>
-      <Content>
-        <div className="area">{streetAddress}</div>
-        <div className="menu">{category}</div>
-        <ImgBtn imgstyle={"Heart"}></ImgBtn>
-      </Content>
+      {!del ? (
+        <>
+          <StoreName>{name}</StoreName>
+          <Content>
+            <div className="area">{streetAddress}</div>
+            <div className="BtnDiv">
+              <div className="menu">{category}</div>
+              <button className="Btn" onClick={() => setDel(!del)}>
+                <img src={Heart} alt="" />
+              </button>
+            </div>
+          </Content>
+        </>
+      ) : (
+        <>
+          <StoreName>{name}</StoreName>
+          <Content>
+            <div className="area">{streetAddress}</div>
+            <div className="BtnDiv">
+              <div className="menu">{category}</div>
+              <BtnDiv className="BtnDiv">
+                <button className="Btn" onClick={() => deleteFunc(favoriteId)}>
+                  <img src={Check} alt="" />
+                </button>
+                <button className="Btn" onClick={() => setDel(!del)}>
+                  <img src={XBtn} alt="" />
+                </button>
+              </BtnDiv>
+            </div>
+          </Content>
+        </>
+      )}
     </Container>
   );
 };

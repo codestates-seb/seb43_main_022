@@ -128,7 +128,7 @@ public class RestaurantController {
 
     @Transactional
     @GetMapping("/search/{keyword}")
-    public ResponseEntity searchRestaurans(@PathVariable("keyword") String keyword,
+    public ResponseEntity searchRestaurants2(@PathVariable("keyword") String keyword,
                                             @RequestParam(value = "page", required = false) Integer page,
                                             @RequestParam(value = "size", required = false) Integer size) {
 

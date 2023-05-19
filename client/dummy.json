@@ -1,34 +1,45 @@
 {
   "restaurants": [
     {
-      "restaurantName": "가게타이틀입력란",
-      "tag": [
+      "restaurantId": 1,
+      "restaurantName": "가게이름입력",
+      "tagRestaurants": [
         {
-          "name": "태그입력1"
+          "tag": {
+            "tagId": 1,
+            "name": "태그1"
+          }
         },
         {
-          "name": "태그입력2"
+          "tag": {
+            "tagId": 2,
+            "name": "태그2"
+          }
         }
       ],
       "photoUrl": null,
-      "content": "가게소개글입력",
-      "tel": "010-042-2124",
-      "category": "한식",
-      "open_time": "12시~22시",
+      "content": "123123",
+      "tel": "123-1231-2312",
+      "category": "중식",
+      "open_time": "12시~24시",
       "menu": [
         {
-          "name": "햄버거",
-          "price": "10000"
+          "name": "치킨",
+          "price": "1242"
         },
         {
-          "name": "피자",
-          "price": "20000"
+          "name": "햄버거",
+          "price": "12252"
+        },
+        {
+          "name": "24224",
+          "price": "22"
         }
       ],
-      "streetAddress": "경기 성남시 분당구 대왕판교로 477",
-      "detailAddress": "상세주소입력칸",
-      "latitude": "37.3861046866025",
-      "longitude": "127.100374788286",
+      "streetAddress": "경기 가평군 북면 화악리 482-9",
+      "detailAddress": "123",
+      "latitude": "37.926640292523",
+      "longitude": "127.565059558998",
       "id": 1
     }
   ]

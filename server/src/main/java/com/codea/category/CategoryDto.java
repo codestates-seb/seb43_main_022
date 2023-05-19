@@ -15,7 +15,7 @@ public class CategoryDto {
     @AllArgsConstructor
     @NoArgsConstructor
     @Setter
-    public static  class Post {
+    public static class Post {
         @NotBlank
         @Size(max = 20)
         private String name;

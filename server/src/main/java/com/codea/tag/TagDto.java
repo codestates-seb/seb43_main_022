@@ -1,5 +1,6 @@
 package com.codea.tag;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,12 +17,12 @@ public class TagDto {
     @Getter
     @AllArgsConstructor
     @NoArgsConstructor
-    public static  class Post{
+    public static class Post{
         @NotNull
         private String name;
-        @NotNull
-        @Valid
-        private List<TagRestaurantDto.Post> tagRestaurants;
+//        @NotNull
+//        @Valid
+//        private List<TagRestaurantDto.Post> tagRestaurants;
     }
     @Getter
     @Setter
@@ -29,20 +30,20 @@ public class TagDto {
     @NoArgsConstructor
     public static class Patch{
 
-        private long tagId;
-        //@NotBlank
-        //@Size(max = 30)
         private String name;
 
     }
     @Getter
-    @Setter
     @AllArgsConstructor
-    @NoArgsConstructor
     public static class Response{
+        private List<TagRestaurantDto.Response> tagRestaurants;
+    }
+
+    @Getter
+    @AllArgsConstructor
+    public static class TagResponse{
         private long tagId;
-        @NotBlank
-        @Size(max = 30)
         private String name;
     }
+
 }

@@ -71,9 +71,8 @@ public class MemberController {
 
     }
 
-    @PatchMapping("/{member-id}")
-    public ResponseEntity patchMember(@PathVariable("member-id") @Positive long memberId,
-                                      @Valid @RequestBody MemberDto.Patch requestBody,
+    @PatchMapping
+    public ResponseEntity patchMember(@Valid @RequestBody MemberDto.Patch requestBody,
                                       @AuthenticationPrincipal String email) {
 //        memberService.sameMemberTest(memberId, token);
 //        requestBody.setMemberId(memberId);
@@ -81,7 +80,7 @@ public class MemberController {
         AddressDto.Post addressDto = new AddressDto.Post(requestBody.getStreetAddress(), requestBody.getLatitude(), requestBody.getLongitude());
         Address address = addressMapper.addressPostDtoToAddress(addressDto);
 
-        Member member = memberService.updateMember(memberId, email, address, memberMapper.memberPatchDtoToMember(requestBody));
+        Member member = memberService.updateMember(email, address, memberMapper.memberPatchDtoToMember(requestBody));
 
 
 //        Member updateMember = memberService.updateMember(address, memberMapper.memberPatchDtoToMember(requestBody));

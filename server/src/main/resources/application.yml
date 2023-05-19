@@ -1,6 +1,3 @@
-server:
-  port: 8080
-
 #logging:
 #  level:
 #    root: DEBUG
@@ -18,7 +15,6 @@ spring:
       path: /h2
   datasource:
     url: jdbc:h2:mem:test
-
 #  datasource:
 #    driver-class-name: com.mysql.cj.jdbc.Driver
 #    url: jdbc:mysql://localhost:3306/main022?serverTimezone=Asia/Seoul
@@ -42,6 +38,17 @@ jwt:
   access-token-expiration-minutes: 30000
   refresh-token-expiration-minutes: 30000
 
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: subgusals6650@gmail.com
+    password: ${GOOGLE_CLIENT_PASSWORD}
+    properties:
+      mail:
+        smtp:
+          starttls:
+            enable: true
+          auth: true
 mail:
   address:
     admin: admin@gmail.com

@@ -18,45 +18,31 @@ public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long categoryId;
-    @Column(nullable = false,updatable = false,unique = true,length = 20)
+
     private String name;
 
     @OneToMany(mappedBy = "category")
     private List<Restaurant> restaurants = new ArrayList<>();
 
-//    public Category(String name) {
-//        this.name = name;
-//        this.restaurants = new ArrayList<>();
-//    }
+//    public enum CategoryName{
+//        KOREAN_FOOD("한식"),
+//        WESTERN_FOOD("양식"),
+//        JAPANESE_FOOD("일식"),
+//        CHINESE_FOOD("중식"),
+//        VIETNAMESE_FOOD("베트남 요리"),
+//        INDIAN_FOOD("인도 요리"),
+//        FLOUR_BASED_FOOD("분식"),
+//        DESSERT("후식"),
+//        FUSION_FOOD("퓨전 요리"),
+//        VEGETARIAN_DIET("채식"),
+//        SEAFOOD("해물"),
+//        MEAT("고기");
 //
-//    public void addRestaurant(Restaurant restaurant) {
-//        this.restaurants.add(restaurant);
+//        @Getter
+//        private String CategoryName;
+//
+//        CategoryName(String CategoryName){
+//            this.CategoryName = CategoryName;
+//        }
 //    }
-
-
-    public Category(String name) {
-        this.name = name;
-    }
-
-    public enum CategoryStatus{
-        KOREAN_FOOD("한식"),
-        WESTERN_FOOD("양식"),
-        JAPANESE_FOOD("일식"),
-        CHINESE_FOOD("중식"),
-        VIETNAMESE_FOOD("베트남 요리"),
-        INDIAN_FOOD("인도 요리"),
-        FLOUR_BASED_FOOD("분식"),
-        DESSERT("후식"),
-        FUSION_FOOD("퓨전 요리"),
-        VEGETARIAN_DIET("채식"),
-        SEAFOOD("해물"),
-        MEAT("고기");
-
-        @Getter
-        private String status;
-
-        CategoryStatus(String status){
-            this.status = status;
-        }
-    }
 }

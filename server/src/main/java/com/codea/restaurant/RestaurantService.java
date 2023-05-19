@@ -184,8 +184,9 @@ public class RestaurantService {
 
                 TagRestaurant findTagRestaurant = tagRestaurantRepository.findByTag_TagId(findTag.getTagId()).orElseGet(() -> {
                     TagRestaurant newTagRestaurant = new TagRestaurant(restaurant, findTag);
-                    return tagRestaurantRepository.save(newTagRestaurant);
-                });
+                    tagRestaurantRepository.save(newTagRestaurant);
+           //     });
+
             }
         });
 

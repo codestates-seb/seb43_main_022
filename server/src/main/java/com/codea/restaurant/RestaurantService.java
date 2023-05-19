@@ -212,7 +212,7 @@ public class RestaurantService {
 //
 //    }
 
-    public Page<Restaurant> searchRestaurants(int page, int size, String keyword) {
+    public Page<Restaurant> searchRestaurants(String keyword, int page, int size) {
 
         return restaurantRepository.searchByKeyword(keyword, PageRequest.of(page, size, Sort.by("restaurantId").descending()));
     }

@@ -1,14 +1,15 @@
 import styled from "styled-components";
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { api } from "../Util/api";
-import { useRecoilState, useResetRecoilState } from "recoil";
+import { useRecoilState, useResetRecoilState, useSetRecoilState } from "recoil";
 import isLoginState from "../state/atoms/IsLoginAtom";
 import memberState from "../state/atoms/SignAtom";
 import Button from "./style/StyleButton";
 import Logo from "./style/img/Eaaaaaaats.svg";
 import Search from "./style/img/search.png";
 import Frame from "./style/img/Frame.svg";
-
+import { searchTermState } from "../state/atoms/SearchTermState";
 const Container = styled.header`
   width: 100vw;
   height: 69px;
@@ -94,7 +95,22 @@ const Header = () => {
     localStorage.removeItem("recoil-persist");
     navi("/");
   };
+  const setSearchTerm = useSetRecoilState(searchTermState);
+  const [localSearchTerm, setLocalSearchTerm] = useState("");
 
+  const handleSearch = () => {
+    setSearchTerm(localSearchTerm);
+    setLocalSearchTerm(""); // 검색 후 값 초기화
+  };
+  const handleInputChange = (e) => {
+    setLocalSearchTerm(e.target.value);
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+      handleSearch();
+    }
+  };
   return (
     <>
       {isLogin ? (
@@ -102,7 +118,13 @@ const Header = () => {
           <Link to="/">
             <LogoBtn />
           </Link>
-          <Hinput placeholder="지역/ 상호/ 키워드를 입력해주세요." />
+          <Hinput
+            placeholder="지역/ 상호/ 키워드를 입력해주세요."
+            value={localSearchTerm}
+            onChange={handleInputChange}
+            onKeyDown={handleKeyDown}
+          />
+          <button onClick={handleSearch}>찾기</button>
           <LoginDiv>
             <Link to="/login">
               <Button btnstyle="HBtn">로그인</Button>
@@ -117,7 +139,13 @@ const Header = () => {
       ) : (
         <Container>
           <LogoBtn />
-          <IsLoginInput placeholder="지역/ 상호/ 키워드를 입력해주세요." />
+          <IsLoginInput
+            placeholder="지역/ 상호/ 키워드를 입력해주세요."
+            value={localSearchTerm}
+            onChange={handleInputChange}
+            onKeyDown={handleKeyDown}
+          />
+          <button onClick={handleSearch}>찾기</button>
           <LoginDiv>
             <Button btnstyle="HBtn">
               <Frameicon src={Frame} alt="" />

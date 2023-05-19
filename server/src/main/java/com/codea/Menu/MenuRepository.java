@@ -11,7 +11,9 @@ import java.util.Optional;
 
 public interface MenuRepository extends JpaRepository<Menu, Long> {
     Page<Menu> findByRestaurant_RestaurantId(long restaurantId, Pageable pageable);
+    List<Menu> findByRestaurant_RestaurantId(long restaurantId);
 //    Menu findByName(Menu menu);
     Optional<Menu> findByName(String name);
+    void deleteAllByRestaurant_RestaurantId(Long restaurantId);
 
 }

@@ -42,4 +42,8 @@ public class TagRestaurant  {
         }
     }
 
+    public TagRestaurant(Restaurant restaurant, Tag tag) {
+        this.restaurant = restaurant;
+        this.tag = tag;
+    }
 }

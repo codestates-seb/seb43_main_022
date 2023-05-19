@@ -24,7 +24,6 @@ public class Category {
     @OneToMany(mappedBy = "category")
     private List<Restaurant> restaurants = new ArrayList<>();
 
-
 //    public enum CategoryName{
 //        KOREAN_FOOD("한식"),
 //        WESTERN_FOOD("양식"),

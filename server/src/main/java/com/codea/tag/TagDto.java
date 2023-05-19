@@ -29,7 +29,7 @@ public class TagDto {
     @AllArgsConstructor
     @NoArgsConstructor
     public static class Patch{
-        private long tagId;
+
         private String name;
 
     }

@@ -3,16 +3,13 @@ package com.codea.member;
 
 import com.codea.address.Address;
 import com.codea.favorite.FavoriteDto;
-import com.codea.restaurant.RestaurantDto;
 import com.codea.review.ReviewDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.Column;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
-import java.time.LocalDateTime;
 import java.util.List;
 
 
@@ -62,11 +59,10 @@ public class MemberDto {
         private String email;
         private boolean businessAccount;
         private List<ReviewDto.Response> reviews;
-        private List<FavoriteDto.Response> favorites;
+        private List<FavoriteDto.ResponseFavorite> favorites;
         private String photo;
         private int favoriteCount;
         private Address address;
-        private List<RestaurantDto.ResponseToMember> restaurants;
     }
 
     @Getter

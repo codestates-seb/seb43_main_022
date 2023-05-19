@@ -42,7 +42,10 @@ public class RestaurantService {
     private final CategoryRepository categoryRepository;
     private final RestaurantMapper restaurantMapper;
 
-    public RestaurantService(RestaurantRepository restaurantRepository, MemberRepository memberRepository, AddressRepository addressRepository, MenuRepository menuRepository, TagRepository tagRepository, TagRestaurantRepository tagRestaurantRepository, CategoryRepository categoryRepository, RestaurantMapper restaurantMapper) {
+    public RestaurantService(RestaurantRepository restaurantRepository, MemberRepository memberRepository,
+                             AddressRepository addressRepository, MenuRepository menuRepository,
+                             TagRepository tagRepository, TagRestaurantRepository tagRestaurantRepository,
+                             CategoryRepository categoryRepository, RestaurantMapper restaurantMapper) {
         this.restaurantRepository = restaurantRepository;
         this.memberRepository = memberRepository;
         this.addressRepository = addressRepository;

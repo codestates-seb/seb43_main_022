@@ -6,6 +6,8 @@ import com.codea.address.AddressDto;
 import com.codea.address.AddressMapper;
 import com.codea.auth.userdetails.MemberDetailsService;
 import com.codea.dto.MultiResponseDto;
+import com.codea.favorite.Favorite;
+import com.codea.favorite.FavoriteDto;
 import com.codea.restaurant.Restaurant;
 import com.codea.review.Review;
 import com.codea.review.ReviewDto;
@@ -97,6 +99,7 @@ public class MemberController {
         MemberDto.Response responseDto = memberMapper.memberToMemberResponseDto(member);
 
         List<Review> reviews = memberService.getReviewsByMember(member);
+        List<Favorite> favorites = memberService.getFavoritesByMember(member);
         return new ResponseEntity(responseDto, HttpStatus.OK);
     }
 

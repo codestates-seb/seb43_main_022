@@ -26,23 +26,25 @@ public class FavoriteDto {
         private String restaurantName;
         private Long memberId;
         private int favoriteCount;
+        private Long restaurantId;
 
         public ResponseFavorite(Favorite favorite, int favoriteCount) {
             this.favoriteId = favorite.getFavoriteId();
             this.restaurantName = favorite.getRestaurant().getRestaurantName();
             this.memberId = favorite.getMember().getMemberId();
             this.favoriteCount = favoriteCount;
+            this.restaurantId = favorite.getRestaurant().getRestaurantId();
         }
 
     }
 
-    @Getter
-    @AllArgsConstructor
-    public static class Response {
-        private Long favoriteId;
-        private Long RestaurantId;
-
-        private String restaurantName;
-
-    }
+//    @Getter
+//    @AllArgsConstructor
+//    public static class Response {
+//        private Long favoriteId;
+//        private Long RestaurantId;
+//
+//        private String restaurantName;
+//
+//    }
 }

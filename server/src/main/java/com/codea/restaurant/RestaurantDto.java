@@ -1,27 +1,17 @@
 package com.codea.restaurant;
 
 import com.codea.Menu.MenuDto;
-import com.codea.address.Address;
-import com.codea.category.Category;
 import com.codea.category.CategoryDto;
 import com.codea.review.ReviewDto;
-import com.codea.tag.Tag;
 import com.codea.tag.TagDto;
-import com.codea.tag.TagRestaurant;
 import com.codea.tag.TagRestaurantDto;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonUnwrapped;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Positive;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 
 public class RestaurantDto {

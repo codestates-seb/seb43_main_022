@@ -6,6 +6,7 @@ import com.codea.address.AddressRepository;
 import com.codea.auth.utils.CustomAuthorityUtils;
 import com.codea.exception.BusinessLogicException;
 import com.codea.exception.ExceptionCode;
+import com.codea.favorite.Favorite;
 import com.codea.favorite.FavoriteRepository;
 import com.codea.restaurant.Restaurant;
 import com.codea.review.Review;
@@ -40,6 +41,7 @@ public class MemberService {
     private final ReviewRepository reviewRepository;
     private final AddressRepository addressRepository;
     private final RedisTemplate redisTemplate;
+    private final FavoriteRepository favoriteRepository;
 
     public Member createMember(Address address, Member member) {
         verifyExistsEmail(member.getEmail());
@@ -77,8 +79,14 @@ public class MemberService {
 
         if (!findMember.getEmail().equals(email)) throw new BusinessLogicException(ExceptionCode.UNAUTHORIZED_EDIT);
 
+
         Optional.ofNullable(member.getNickName()).ifPresent(name -> findMember.setNickName(name));
-        Optional.ofNullable(member.getPassword()).ifPresent(password -> findMember.setPassword(password));
+//        Optional.ofNullable(member.getPassword()).ifPresent(password -> findMember.setPassword(password));
+        Optional.ofNullable(member.getPassword()).ifPresent(password -> {
+            String encryptedPassword = passwordEncoder.encode(password);
+            findMember.setPassword(encryptedPassword);
+        });
+
         Optional.ofNullable(member.getPhoto()).ifPresent(image -> findMember.setPhoto(image));
         findMember.setModifiedAt(LocalDateTime.now());
 
@@ -139,6 +147,10 @@ public class MemberService {
 
     public List<Review> getReviewsByMember(Member member) {
         return reviewRepository.findByMember(member);
+    }
+
+    public List<Favorite> getFavoritesByMember(Member member) {
+        return favoriteRepository.findByMember(member);
     }
 
 

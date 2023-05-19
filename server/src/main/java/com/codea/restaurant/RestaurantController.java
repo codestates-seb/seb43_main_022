@@ -84,7 +84,8 @@ public class RestaurantController {
 
     @Transactional
     @GetMapping("/{restaurant-id}")
-    public ResponseEntity getRestaurant(@PathVariable("restaurant-id") long restaurantId) {
+    public ResponseEntity getRestaurant(@PathVariable("restaurant-id") String strRestaurantId) {
+        long restaurantId = Long.parseLong(strRestaurantId);
         Restaurant restaurant = restaurantService.findRestaurant(restaurantId);
 
         return new ResponseEntity<>(

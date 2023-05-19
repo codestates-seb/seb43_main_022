@@ -97,7 +97,7 @@ public class RestaurantService {
         // 만약, 수정된 주소가 데이터베이스에 존재하면, 수정된 주소를 set 한다
         // 수정된 주소가 데이터베이스에 존재하지 않으면, 수정된 주소를 데이터베이스에 추가한다.
         // 주소를 삭제하면 데이터베이스의 값을 삭제하지 않고 그대로 놔둠 -> 나중에 같은 도로명 주소를 저장하는 경우가 생길 수 있기 때문
-
+        //tagRestaurantRepository.deleteAllByRestaurant_RestaurantId(restaurantId);
         patch.setRestaurantId(restaurantId);
         Restaurant restaurant = restaurantMapper.restaurantPatchDtoToRestaurant(patch);
 

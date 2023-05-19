@@ -98,9 +98,11 @@ export default function Login() {
         password: Loginmember.password,
       })
       .then((res) => {
-        api.defaults.headers.common["Authorization"] =
-          res.headers.authorization;
         setIsLogin(!isLogin);
+        sessionStorage.setItem(
+          "Authorization",
+          res.headers.get("Authorization"),
+        );
         navi("/");
 
         api
@@ -115,11 +117,12 @@ export default function Login() {
               nickName: res.data.nickName,
               latitude: res.data.address.latitude,
               longitude: res.data.address.longitude,
+              favorites: res.data.favorites,
             });
           })
           .catch((err) => {
             console.log(err);
-            console.log("토큰 제거");
+            console.log("cancelToekn");
           });
       })
       .catch((err) => {

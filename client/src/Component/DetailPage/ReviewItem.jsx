@@ -1,11 +1,10 @@
 import styled from "styled-components";
 import Button from "../style/StyleButton";
 import ImgBtn from "../style/ImgBtn";
-import { useRecoilState } from "recoil";
-import isLoginState from "../../state/atoms/IsLoginAtom";
+import profile from "../style/img/profile.png";
+import { useRecoilValue } from "recoil";
+import memberState from "../../state/atoms/SignAtom";
 import { api } from "../../Util/api";
-
-// import profile from "../style/img/profile.png";
 
 const Container = styled.div`
   width: 1200px;
@@ -57,15 +56,17 @@ const ReviewContent = styled.div`
   margin-top: 20px;
   display: flex;
   flex-direction: row;
+  justify-content: center;
   > .username {
     font-size: var(--large-font);
-
-    margin-left: 15px;
+    text-align: center;
+    width: 110px;
   }
   > .contents {
     flex-direction: column;
     width: 1050px;
-    margin-left: 50px;
+
+    margin-left: 40px;
   }
 `;
 const Text = styled.section`
@@ -88,12 +89,11 @@ const Text = styled.section`
 // `;
 
 const ReviewItem = ({ data, onDelete }) => {
-  const [isLogin, setIsLogin] = useRecoilState(isLoginState);
-  setIsLogin(!isLogin);
+  const member = useRecoilValue(memberState);
 
   const handleDelete = async () => {
     try {
-      const response = await api.delete("/reviews/1");
+      const response = await api.delete(`/reviews/1`);
       console.log("Review deleted:", response.data);
       onDelete(data);
     } catch (error) {
@@ -106,27 +106,27 @@ const ReviewItem = ({ data, onDelete }) => {
       <Container>
         <ReviewHead>
           <Left>
-            <Profile src={data.photo} alt="profile" />
+            <Profile src={data.photo || profile} alt="profile" />
             <TitleInfo>
               <div className="title">{data.title}</div>
               <div className="day-button">
                 <span>{data.modifiedAt || data.createdAt}</span>
                 {/* data.modified_at의 값이 존재하는 경우(truthy 값) 그 값을 반환하고, data.modified_at의 값이 존재하지 않는 경우(falsy 값) data.created_at의 값을 반환 */}
-                {data.memberId === isLogin.memberId && (
+                {member.memberId === data.member.memberId ? (
                   <>
                     <Button btnstyle="SBtn">수정</Button>
                     <Button btnstyle="SBtn" onClick={handleDelete}>
                       삭제
                     </Button>
                   </>
-                )}
+                ) : null}
               </div>
             </TitleInfo>
           </Left>
           <ImgBtn imgstyle={data.rating === "LIKE" ? "LIKE" : "HATE"} />
         </ReviewHead>
         <ReviewContent>
-          <div className="username">{data.memberName}</div>
+          <div className="username">{data.nickName}</div>
           <div className="contents">
             <Text>{data.content}</Text>
             {/* <Photo>

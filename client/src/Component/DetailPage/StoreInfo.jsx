@@ -3,9 +3,9 @@ import MenuItem from "./MenuItem";
 import Button from "./../style/StyleButton";
 import Modal from "../Modal";
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-// import isLoginState from "../../state/atoms/IsLoginAtom";
-// import { useRecoilValue } from "recoil";
+import { useNavigate, useParams } from "react-router-dom";
+import { useRecoilValue } from "recoil";
+import memberState from "../../state/atoms/SignAtom";
 import { api } from "../../Util/api";
 
 const Container = styled.div`
@@ -71,8 +71,9 @@ const Modify = styled.div`
 
 const StoreInfo = () => {
   const navigate = useNavigate();
+  const { id } = useParams();
   const onClickModify = () => {
-    navigate("/addstore");
+    navigate(`/editstore/${id}`);
   };
 
   const [modal, setModal] = useState(false);
@@ -80,27 +81,50 @@ const StoreInfo = () => {
     setModal(!modal);
   };
 
+  const member = useRecoilValue(memberState);
+
   const [data, setData] = useState({
-    restaurantId: 1,
-    address: { addressId: 0, streetAddress: "", latitude: 0, longitude: 0 },
+    restaurantId: 0,
+    streetAddress: "",
+    detailAddress: "",
+    latitude: 0,
+    longitude: 0,
     tel: "",
     category: "",
     open_time: "",
+    createdAt: "",
+    modifiedAt: "",
   });
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await api.get("/restaurants/1");
-        const { restaurantId, address, tel, category, open_time, menu } =
-          response.data;
-        setData({
+        const {
           restaurantId,
-          address,
+          streetAddress,
+          detailAddress,
+          latitude,
+          longitude,
           tel,
           category,
           open_time,
           menu,
+          createdAt,
+          modifiedAt,
+        } = response.data.data;
+        setData({
+          restaurantId,
+          streetAddress,
+          detailAddress,
+          latitude,
+          longitude,
+          tel,
+          category,
+          open_time,
+          menu,
+          createdAt,
+          modifiedAt,
         });
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -109,19 +133,13 @@ const StoreInfo = () => {
     fetchData();
   }, []);
 
-  const updatedDate = new Date().toLocaleDateString("ko-KR", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  }); // 수정하기
-
   return (
     <>
       <Container>
         <InfoList>
           <InfoItem>
             <InfoName>주소</InfoName>
-            <InfoContent>{data.address.streetAddress}</InfoContent>
+            <InfoContent>{data.streetAddress}</InfoContent>
           </InfoItem>
           <InfoItem>
             <InfoName>전화번호</InfoName>
@@ -148,10 +166,12 @@ const StoreInfo = () => {
         </MenuList>
       </Container>
       <Modify>
-        <span>최종 업데이트 {updatedDate}</span>
-        <Button btnstyle="SBtn2" onClick={onClickModify}>
-          수정
-        </Button>
+        <span>{`최종 업데이트 ${data.modifiedAt || data.createdAt}`}</span>
+        {member.businessAccount ? (
+          <Button btnstyle="SBtn2" onClick={onClickModify}>
+            수정
+          </Button>
+        ) : null}
       </Modify>
     </>
   );

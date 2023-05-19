@@ -11,6 +11,7 @@ import com.codea.member.Member;
 import com.codea.member.MemberDto;
 import com.codea.response.MultiResponseDto;
 import com.codea.review.Review;
+import com.codea.review.ReviewRepository;
 import com.codea.utils.UriCreator;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpHeaders;
@@ -36,12 +37,16 @@ public class RestaurantController {
     private final RestaurantMapper mapper;
     private final AddressMapper addressMapper;
     private final CategoryMapper categoryMapper;
+    private final RestaurantRepository restaurantRepository;
+   // private final ReviewRepository reviewRepository;
 
-    public RestaurantController(RestaurantService restaurantService, RestaurantMapper mapper, AddressMapper addressMapper, CategoryMapper categoryMapper) {
+    public RestaurantController(RestaurantService restaurantService, RestaurantMapper mapper, AddressMapper addressMapper, CategoryMapper categoryMapper /*ReviewRepository reviewRepository*/,RestaurantRepository restaurantRepository) {
         this.restaurantService = restaurantService;
         this.mapper = mapper;
         this.addressMapper = addressMapper;
         this.categoryMapper = categoryMapper;
+       // this.reviewRepository = reviewRepository;
+       this.restaurantRepository = restaurantRepository;
     }
 
     @Transactional
@@ -81,8 +86,20 @@ public class RestaurantController {
 
     @Transactional
     @GetMapping("/{restaurant-id}")
-    public ResponseEntity getRestaurant(@PathVariable("restaurant-id") long restaurantId){
+    public ResponseEntity<RestaurantDto.Response> getRestaurant(@PathVariable("restaurant-id") long restaurantId){
         Restaurant restaurant = restaurantService.findRestaurant(restaurantId);
+        double averageRating = restaurant.getAverageRating();
+        restaurant.setAverageRating(averageRating);
+
+        /*Restaurant restaurant1 = restaurantRepository.findById(restaurantId).orElse(null);
+        if(restaurant1 != null){
+            double averageRating = restaurant1.getAverageRating();
+            restaurant1.setAverageRating(averageRating);
+            return ResponseEntity.ok(restaurant1);
+        }
+        else{
+            return  ResponseEntity.notFound().build();
+        }*/
 
         return new ResponseEntity<>(mapper.restaurantToRestaurantResponseDto(restaurant), HttpStatus.OK);
     }

@@ -32,6 +32,7 @@ import static com.codea.review.Review.ReviewStatus.REVIEW_VALID;
 import static java.awt.SystemColor.menu;
 
 @Service
+@Transactional
 public class RestaurantService {
     private final RestaurantRepository restaurantRepository;
     private final MemberRepository memberRepository;
@@ -150,5 +151,13 @@ public class RestaurantService {
         return restaurantRepository.findAllByOrderByTotalFavoriteDesc(PageRequest.of(page, size, Sort.by("restaurantId").descending()));
 
     }
+    public double getAverageRatingForRestaurant(long restaurantId){
+        Restaurant restaurant = restaurantRepository.findById(restaurantId).orElse(null);
+        if(restaurant != null){
+            return restaurant.getAverageRating();
+        }
+        return 0;
+    }
+
 
 }

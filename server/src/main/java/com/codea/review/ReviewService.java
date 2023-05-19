@@ -68,4 +68,11 @@ public class ReviewService {
         findReview.setStatus(Review.ReviewStatus.REVIEW_DELETED);
         reviewRepository.save(findReview);
     }
+    public double getAverageRatingForRestaurant(long restaurantId){
+        Restaurant restaurant = restaurantRepository.findById(restaurantId).orElse(null);
+        if (restaurant != null){
+            return  restaurant.getAverageRating();
+        }
+        return 0;
+    }
 }

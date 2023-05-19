@@ -64,6 +64,7 @@ public class Restaurant extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "category_id")
     private Category category;
+    private double averageRating;
 
     public void incrementFavoriteCount() {
         this.totalFavorite += 1;
@@ -100,6 +101,32 @@ public class Restaurant extends BaseEntity {
         if (tagRestaurant.getRestaurant() != this) {
             tagRestaurant.setRestaurant(this);
         }
+    }
+
+    public double getAverageRating(){
+        if( reviews.isEmpty()){
+            return 0;
+        }
+        int totalScore = 0;
+        for(Review review : reviews){
+            totalScore += review.getRating().getScore();
+        }
+        return (double) totalScore / reviews.size();
+    }
+    public void setAverageRating(double averageRating){
+        this.averageRating = averageRating;
+    }
+    public  long getRestaurantId(){
+        return restaurantId;
+    }
+    public void  setRestaurantId(long restaurantId){
+        this.restaurantId  = restaurantId;
+    }
+    public  List<Review> getReviews(){
+        return reviews;
+    }
+    public  void  setReviews(List<Review> reviews){
+        this.reviews = reviews;
     }
 
 }

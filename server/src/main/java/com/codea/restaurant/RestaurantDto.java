@@ -41,6 +41,7 @@ public class RestaurantDto {
         private List<MenuDto.Post> menu;
         private CategoryDto.Post category;
         private List<TagDto.Post> tag;
+        //private double rating;
 
     }
 

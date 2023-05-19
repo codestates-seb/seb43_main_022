@@ -1,5 +1,6 @@
 package com.codea.review;
 
+import com.codea.member.Member;
 import com.codea.response.MultiResponseDto;
 import com.codea.utils.UriCreator;
 import org.springframework.data.domain.Page;
@@ -20,10 +21,12 @@ import java.util.List;
 public class ReviewController {
     private final ReviewService reviewService;
     private final ReviewMapper mapper;
+    //private final ReviewRepository reviewRepository;
 
-    public ReviewController(ReviewService reviewService, ReviewMapper mapper) {
+    public ReviewController(ReviewService reviewService, ReviewMapper mapper, ReviewRepository reviewRepository) {
         this.reviewService = reviewService;
         this.mapper = mapper;
+       // this.reviewRepository = reviewRepository;
     }
 
     @PostMapping("/restaurants/{restaurant-id}")
@@ -48,8 +51,27 @@ public class ReviewController {
     }
 
     @GetMapping("/{review-id}")
-    public ResponseEntity getReview(@PathVariable("review-id") @Positive long reviewId) {
+    public ResponseEntity getReview(@PathVariable("review-id") @Positive long reviewId
+                                   /* @PathVariable("member") Member member*/ ) {
         Review review = reviewService.findReview(reviewId);
+        /*List<Review> reviews = reviewRepository.findByMember(member);
+
+        int totalPoints = 0;
+        int totalReviews = reviews.size();
+
+        for (Review review1 : reviews) {
+            if (review1.getRating().equals("맛있어요")) {
+                totalPoints += 5;
+            } else if (review1.getRating().equals("별로에요")) {
+                totalPoints += 1;
+            }
+        }
+        if (totalReviews > 0) {
+            return (double) totalPoints / totalReviews;
+        }
+        else {
+            return 0.0;
+        } */
 
         return new ResponseEntity<>(mapper.reviewToReviewResponseDto(review),HttpStatus.OK);
     }

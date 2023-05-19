@@ -9,7 +9,6 @@ import AddInfo from "../Component/AddStoreComp/AddInfo";
 import AddMenu from "../Component/AddStoreComp/AddMenu";
 import Button from "../Component/style/StyleButton";
 import { api } from "../Util/api";
-// import axios from "axios";
 const AddContainer = styled.div`
   box-sizing: border-box;
   padding: 60px 0;

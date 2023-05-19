@@ -5,7 +5,6 @@
 #        web: debug
 #    org.springframework.web.servlet: debug
 #    org.hibernate.type.descriptor.sql.BasicBinder: trace
-
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver

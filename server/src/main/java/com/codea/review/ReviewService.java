@@ -35,7 +35,7 @@ public class ReviewService {
         Member member = memberRepository.findByEmail(email).orElseThrow(() -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
         review.setRestaurant(restaurant);
         review.setMember(member);
-
+        
         return reviewRepository.save(review);
     }
 

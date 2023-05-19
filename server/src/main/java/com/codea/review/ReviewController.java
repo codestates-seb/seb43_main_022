@@ -67,7 +67,7 @@ public class ReviewController {
                 new MultiResponseDto<>(mapper.reviewToReviewResponseDto(review), reviewPage), HttpStatus.OK);
     }
 
-    @DeleteMapping("/reviews/{review-id}")
+    @DeleteMapping("/{review-id}")
     public ResponseEntity deleteReview(@PathVariable("review-id") @Positive long reviewId) {
         reviewService.deleteReview(reviewId);
 

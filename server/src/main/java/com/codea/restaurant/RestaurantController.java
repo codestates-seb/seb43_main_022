@@ -84,7 +84,7 @@ public class RestaurantController {
 
     @Transactional
     @GetMapping("/{restaurant-id}")
-    public ResponseEntity<RestaurantDto.Response> getRestaurant(@PathVariable("restaurant-id") long restaurantId) {
+    public ResponseEntity getRestaurant(@PathVariable("restaurant-id") long restaurantId) {
         Restaurant restaurant = restaurantService.findRestaurant(restaurantId);
         double averageRating = restaurant.calculateAverageRating();
 

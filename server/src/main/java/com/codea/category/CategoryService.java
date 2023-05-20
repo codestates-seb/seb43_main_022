@@ -37,7 +37,7 @@ public class CategoryService {
     }
     public Page<Category> findCategories(int page, int size) {
         return  categoryRepository.findAll(PageRequest.of(page, size,
-                Sort.by("categoryId").descending()));
+                Sort.by("categoryId")));
     }
 
 //    public void deleteCategory(long categoryId){

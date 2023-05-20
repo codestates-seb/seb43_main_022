@@ -43,6 +43,7 @@ public class FavoriteService {
         favorite.setMember(member);
         favorite.ChangeStatus(requestBody.getStatus());
 
+
         restaurant.incrementFavoriteCount(); // 즐겨찾기가 추가될 때 카운트를 증가시킵니다.
         restaurantRepository.save(restaurant); // 카운트가 업데이트된 restaurant를 저장합니다.
 

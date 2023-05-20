@@ -30,12 +30,35 @@ public class ReviewService {
         this.memberRepository = memberRepository;
     }
 
+    @Transactional
     public Review createReview(long restaurantId, String email, Review review) {
         Restaurant restaurant = restaurantRepository.findById(restaurantId).orElseThrow(() -> new BusinessLogicException(ExceptionCode.RESTAURANT_NOT_FOUND));
         Member member = memberRepository.findByEmail(email).orElseThrow(() -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
         review.setRestaurant(restaurant);
         review.setMember(member);
-        
+
+        int totalScore = 0;
+
+        List<Review> reviewList = restaurant.getReviews(); // 리뷰를 리뷰의 수가 아니라.
+        for (Review reviewTemp : reviewList) {
+            int score = review.getRating().getScore();
+            totalScore += score;
+        }
+
+        double rating = (double) totalScore / (restaurant.getTotal_reviews() + 1);
+        restaurant.setRating(rating);
+
+//        int rating = review.getRating().getScore(); //Like("맛있어요", 5), Hate
+//        total = rating + total;  //총 리뷰점수 구해서
+//        double average = total / (restaurant.getTotal_reviews() + 1);      //나눠서
+//        restaurant.setRating(average);                // 다시 반영
+//
+//int a = restaurant.getReviews().size();
+//
+//for(Review reviewScore : restaurant.getReviews()){
+//    total = reviewScore.getRating().getScore();
+//}
+
         return reviewRepository.save(review);
     }
 

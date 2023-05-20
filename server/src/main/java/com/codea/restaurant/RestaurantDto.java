@@ -80,12 +80,6 @@ public class RestaurantDto {
         private String detailAddress;
         private double latitude;
         private double longitude;
-        private double averageRating;
-        public void setAverageRating(double averageRating){
-            this.averageRating = averageRating;
-        }
-
-
     }
 
     @Getter

@@ -84,12 +84,29 @@ public class RestaurantController {
 
     @Transactional
     @GetMapping("/{restaurant-id}")
-    public ResponseEntity getRestaurant(@PathVariable("restaurant-id") long restaurantId) {
+    public ResponseEntity<RestaurantDto.Response> getRestaurant(@PathVariable("restaurant-id") long restaurantId) {
         Restaurant restaurant = restaurantService.findRestaurant(restaurantId);
+        double averageRating = restaurant.calculateAverageRating();
 
-        return new ResponseEntity<>(
-                new SingleResponseDto<>(mapper.restaurantToRestaurantResponseDto(restaurant)), HttpStatus.OK);
+        restaurant.setAverageRating(averageRating);
+        restaurant.setRating(averageRating);
+        RestaurantDto.Response responseDto = mapper.restaurantToRestaurantResponseDto(restaurant);
+        //SingleResponseDto<RestaurantDto.Response> singleResponseDto = new SingleResponseDto<>(responseDto);
+        // responseDto.setAverageRating(averageRating);
+        return new ResponseEntity<>(responseDto , HttpStatus.OK);
     }
+
+    /*private double calculateAverageRating(Restaurant restaurant){
+        List<Review> reviews =restaurant.getReviews();
+        if(reviews.isEmpty()){
+            return 0;
+        }
+        int totalScore = 0;
+        for (Review review : reviews){
+            totalScore += review.getRating().getScore();
+        }
+        return (double) totalScore / reviews.size();
+    }*/
 
 //    @GetMapping("/{coffee-id}")
 //    public ResponseEntity getCoffee(@PathVariable("coffee-id") long coffeeId) {
@@ -173,9 +190,6 @@ public class RestaurantController {
 //                new MultiResponseDto<>(mapper.restaurantToRestaurantResponseDtos(restaurants), restaurantPage), HttpStatus.OK);
 //    }
 }
-
-
-
 
 
 

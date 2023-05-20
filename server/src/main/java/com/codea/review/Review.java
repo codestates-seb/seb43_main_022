@@ -63,6 +63,10 @@ public class Review extends BaseEntity {
         ReviewStatus(String status) { this.reviewStatus = status; }
     }
 
+    public void setRating(Rating rating){
+        this.rating = rating;
+    }
+
 
 
 }

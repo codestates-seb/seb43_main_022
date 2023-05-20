@@ -43,7 +43,7 @@ public class Restaurant extends BaseEntity {
     private int total_reviews;
     @Column
     private int totalFavorite;
-    @Column
+    //@Column(nullable = false)
     private double rating;
     @Column
     private String streetAddress;
@@ -80,7 +80,7 @@ public class Restaurant extends BaseEntity {
     @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL)
     private List<TagRestaurant> tagRestaurants = new ArrayList<>();
 
-    @OneToMany(mappedBy = "restaurant", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "restaurant", cascade = CascadeType./*REMOVE*/ ALL)
     private List<Review> reviews = new ArrayList<>();
 
     @OneToMany(mappedBy = "restaurant", cascade = CascadeType.REMOVE)
@@ -103,19 +103,22 @@ public class Restaurant extends BaseEntity {
         }
     }
 
-    public double getAverageRating(){
+    public double calculateAverageRating(){
+        List<Review> reviews = this.reviews;
         if( reviews.isEmpty()){
-            return 0;
+            return 0.0;
         }
         int totalScore = 0;
+        int totalReviews = reviews.size();
         for(Review review : reviews){
             totalScore += review.getRating().getScore();
         }
-        return (double) totalScore / reviews.size();
+        double averageRating = (double) totalScore / totalReviews;
+        this.rating = averageRating;
+        return averageRating;
     }
     public void setAverageRating(double averageRating){
-        this.averageRating = averageRating;
-    }
+        this.averageRating = averageRating;}
     public  long getRestaurantId(){
         return restaurantId;
     }

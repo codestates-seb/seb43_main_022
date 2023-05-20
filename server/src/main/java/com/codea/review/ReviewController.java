@@ -25,7 +25,6 @@ public class ReviewController {
     private final ReviewService reviewService;
     private final ReviewMapper mapper;
     private final RestaurantService restaurantService;
-    //private final ReviewRepository reviewRepository;
 
     public ReviewController(ReviewService reviewService, ReviewMapper mapper, ReviewRepository reviewRepository, RestaurantService restaurantService) {
         this.reviewService = reviewService;
@@ -79,7 +78,7 @@ public class ReviewController {
         int totalReviews = reviews.size();
 
         for (Review review1 : reviews) {
-            if (review1.getRating().equals("맛있어요")) {
+            if (review1.getRating)().equals("맛있어요") {
                 totalPoints += 5;
             } else if (review1.getRating().equals("별로에요")) {
                 totalPoints += 1;

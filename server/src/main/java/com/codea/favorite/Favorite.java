@@ -39,4 +39,9 @@ public class Favorite extends BaseEntity {
         this.member = member;
         this.status = status;
     }
+
+    public Boolean ChangeStatus(Boolean status) {
+        this.status = status;
+        return status;
+    }
 }

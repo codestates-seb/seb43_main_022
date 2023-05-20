@@ -5,13 +5,20 @@ import com.codea.address.Address;
 import com.codea.category.Category;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 public class FavoriteDto {
     @Getter
     @AllArgsConstructor
+    @NoArgsConstructor
+    @Setter
     public static class AddFavoriteRequest {
-        private Long restaurantId;
-        private Long memberId;
+//        private Long restaurantId;
+//        private Long memberId;
+        private Boolean status;
+
+
     }
 
 

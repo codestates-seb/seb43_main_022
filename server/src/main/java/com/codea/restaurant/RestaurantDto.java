@@ -3,6 +3,7 @@ package com.codea.restaurant;
 import com.codea.Menu.MenuDto;
 import com.codea.category.CategoryDto;
 import com.codea.favorite.Favorite;
+import com.codea.favorite.FavoriteDto;
 import com.codea.review.ReviewDto;
 import com.codea.tag.TagDto;
 import com.codea.tag.TagRestaurantDto;
@@ -75,17 +76,12 @@ public class RestaurantDto {
         private List<MenuDto.Response> menu;
         private List<ReviewDto.Response> reviews;
         private List<TagRestaurantDto.Response> tagRestaurants;
+        private List<FavoriteDto.ResponseFavorite> favorites;
         private String category;
         private String streetAddress;
         private String detailAddress;
         private double latitude;
         private double longitude;
-        private double averageRating;
-        public void setAverageRating(double averageRating){
-            this.averageRating = averageRating;
-        }
-
-
     }
 
     @Getter

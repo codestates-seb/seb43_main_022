@@ -84,12 +84,38 @@ public class RestaurantController {
 
     @Transactional
     @GetMapping("/{restaurant-id}")
-    public ResponseEntity getRestaurant(@PathVariable("restaurant-id") long restaurantId) {
+    public ResponseEntity<RestaurantDto.Response> getRestaurant(@PathVariable("restaurant-id") long restaurantId) {
         Restaurant restaurant = restaurantService.findRestaurant(restaurantId);
+        double averageRating = restaurant.calculateAverageRating();
 
-        return new ResponseEntity<>(
-                new SingleResponseDto<>(mapper.restaurantToRestaurantResponseDto(restaurant)), HttpStatus.OK);
+        restaurant.setAverageRating(averageRating);
+        restaurant.setRating(averageRating);
+        RestaurantDto.Response responseDto = mapper.restaurantToRestaurantResponseDto(restaurant);
+        //SingleResponseDto<RestaurantDto.Response> singleResponseDto = new SingleResponseDto<>(responseDto);
+        // responseDto.setAverageRating(averageRating);
+        return new ResponseEntity<>(responseDto , HttpStatus.OK);
     }
+
+    /*private double calculateAverageRating(Restaurant restaurant){
+        List<Review> reviews =restaurant.getReviews();
+        if(reviews.isEmpty()){
+            return 0;
+        }
+        int totalScore = 0;
+        for (Review review : reviews){
+            totalScore += review.getRating().getScore();
+        }
+        return (double) totalScore / reviews.size();
+    }*/
+
+//    @GetMapping("/{coffee-id}")
+//    public ResponseEntity getCoffee(@PathVariable("coffee-id") long coffeeId) {
+//        Coffee coffee = coffeeService.findCoffee(coffeeId);
+//
+//        return new ResponseEntity<>(
+//                new SingleResponseDto<>(mapper.coffeeToCoffeeResponseDto(coffee)),
+//                HttpStatus.OK);
+//    }
 
     @Transactional
     @GetMapping
@@ -120,21 +146,6 @@ public class RestaurantController {
         if (page == null) page = 1;
         if (size == null) size = 4;
         Page<Restaurant> restaurantPage = restaurantService.searchRestaurants(keyword,page - 1, size);
-        List<Restaurant> restaurants = restaurantPage.getContent();
-
-        return new ResponseEntity<>(
-                new MultiResponseDto<>(mapper.restaurantToRestaurantResponseDtos(restaurants), restaurantPage), HttpStatus.OK);
-    }
-
-
-    @GetMapping("/category/{category-id}")
-    public ResponseEntity searchCategory(@PathVariable("category-id") long categoryId,
-                                            @RequestParam(value = "page", required = false) Integer page,
-                                            @RequestParam(value = "size", required = false) Integer size) {
-
-        if (page == null) page = 1;
-        if (size == null) size = 4;
-        Page<Restaurant> restaurantPage = restaurantService.searchByCategory(categoryId,page - 1, size);
         List<Restaurant> restaurants = restaurantPage.getContent();
 
         return new ResponseEntity<>(

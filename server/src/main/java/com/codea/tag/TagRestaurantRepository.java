@@ -13,4 +13,6 @@ import java.util.Optional;
 public interface TagRestaurantRepository extends JpaRepository<TagRestaurant, Long> {
     Optional<TagRestaurant> findByTag_TagId(long tagId);
     void deleteAllByRestaurant(Restaurant restaurant);
+    void deleteAllByRestaurant_RestaurantId(Long restaurantId);
+
 }

@@ -35,7 +35,7 @@ public class ReviewService {
         Member member = memberRepository.findByEmail(email).orElseThrow(() -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
         review.setRestaurant(restaurant);
         review.setMember(member);
-
+        
         return reviewRepository.save(review);
     }
 
@@ -67,5 +67,12 @@ public class ReviewService {
 
         findReview.setStatus(Review.ReviewStatus.REVIEW_DELETED);
         reviewRepository.save(findReview);
+    }
+    public double getAverageRatingForRestaurant(long restaurantId){
+        Restaurant restaurant = restaurantRepository.findById(restaurantId).orElse(null);
+        if (restaurant != null){
+            return  restaurant.getAverageRating();
+        }
+        return 0;
     }
 }

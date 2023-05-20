@@ -98,8 +98,8 @@ public class MemberController {
         Member member = memberService.findMember(email);
         MemberDto.Response responseDto = memberMapper.memberToMemberResponseDto(member);
 
-        List<Review> reviews = memberService.getReviewsByMember(member);
-        List<Favorite> favorites = memberService.getFavoritesByMember(member);
+//        List<Review> reviews = memberService.getReviewsByMember(member);
+//        List<Favorite> favorites = memberService.getFavoritesByMember(member);
         return new ResponseEntity(responseDto, HttpStatus.OK);
     }
 

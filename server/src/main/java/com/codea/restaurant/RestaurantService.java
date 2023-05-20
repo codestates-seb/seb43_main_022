@@ -31,6 +31,7 @@ import static com.codea.review.Review.ReviewStatus.REVIEW_VALID;
 import static java.awt.SystemColor.menu;
 
 @Service
+@Transactional
 public class RestaurantService {
     private final RestaurantRepository restaurantRepository;
     private final MemberRepository memberRepository;
@@ -96,7 +97,7 @@ public class RestaurantService {
         // 만약, 수정된 주소가 데이터베이스에 존재하면, 수정된 주소를 set 한다
         // 수정된 주소가 데이터베이스에 존재하지 않으면, 수정된 주소를 데이터베이스에 추가한다.
         // 주소를 삭제하면 데이터베이스의 값을 삭제하지 않고 그대로 놔둠 -> 나중에 같은 도로명 주소를 저장하는 경우가 생길 수 있기 때문
-
+        //tagRestaurantRepository.deleteAllByRestaurant_RestaurantId(restaurantId);
         patch.setRestaurantId(restaurantId);
         Restaurant restaurant = restaurantMapper.restaurantPatchDtoToRestaurant(patch);
 
@@ -119,14 +120,14 @@ public class RestaurantService {
             findRestaurant.setAddress(findAddress);
         }
 
-
+//
 //        if (address != null) {
 //            String streetAddress = address.getStreetAddress();
 //            Address persistedAddress = addressRepository.findByStreetAddress(streetAddress)
 //                    .orElseGet(() -> addressRepository.save(address));
 //            findMember.setAddress(persistedAddress);
 //        }
-////
+//////
 //         Optional.ofNullable(restaurant.getCategory()).ifPresent(category -> findRestaurant.setCategory(category));
 
         Optional.ofNullable(restaurant.getCategory()).ifPresent(category -> {
@@ -141,9 +142,9 @@ public class RestaurantService {
 //        Category findCategory = categoryRepository.findByName(categoryName).orElseGet(() -> categoryRepository.save(patch));
 //        restaurant.setCategory(findCategory);
 
-
         Optional.ofNullable(restaurant.getMenu()).ifPresent((menuList) -> {
             menuRepository.deleteAllByRestaurant_RestaurantId(restaurantId);
+//            DELETE FROM menu WHERE restaurant_id = :restaurantId
 
             for (Menu menuTemp: restaurant.getMenu()) {
 
@@ -159,38 +160,26 @@ public class RestaurantService {
             }
             findRestaurant.setMenu(menuList);
         });
-//
-//        for (TagDto.Post tagPost : post.getTag()) {
-//            Tag findTag = tagRepository.findByName(tagPost.getName()).orElseGet(() -> {
-//                Tag tag = new Tag(tagPost.getName());
-//                return tagRepository.save(tag);
-//            });
-//            TagRestaurant tagRestaurant = new TagRestaurant();
-//            tagRestaurant.setTag(findTag);
-//            tagRestaurant.setRestaurant(restaurant);
-//            tagRestaurantRepository.save(tagRestaurant);
-//        }
-        //태그 레스토랑의 tagId 를 받아와서 태그를 조회한뒤,
-        // 변수에 저장. 태그가 존재하지 않으면 데이터베이스에도 저장.
-        // 찾아온 태그로 이름을 찾고
+
+
+
+
+        tagRestaurantRepository.deleteAllByRestaurant_RestaurantId(restaurantId);
+        deleteTagRestaurant(restaurantId);
         Optional.ofNullable(patch.getTag()).ifPresent((TagList) -> {
-            tagRestaurantRepository.deleteAllByRestaurant(restaurant);  //태그레스토랑 비우기
-            System.out.println("111111111111111111111111111111111111111111111" + tagRestaurantRepository.findAll());
-            System.out.println("22222222222222222222222222222222222222222222222" + restaurant);
-            System.out.println(System.identityHashCode(tagRestaurantRepository));
             for (TagDto.Patch tagTemp : patch.getTag()) {  //태그 저장
                 Tag findTag = tagRepository.findByName(tagTemp.getName()).orElseGet(() -> {
                     Tag newtag = new Tag(tagTemp.getName());
                     return tagRepository.save(newtag);
                 });
 
-            //    TagRestaurant findTagRestaurant = tagRestaurantRepository.findByTag_TagId(findTag.getTagId()).orElseGet(() -> { //생성한 태그를 찾아서 태그레스토랑과 매치.
-                    TagRestaurant newTagRestaurant = new TagRestaurant(restaurant, findTag);
-                    tagRestaurantRepository.save(newTagRestaurant);
-           //     });
+                TagRestaurant newTagRestaurant = new TagRestaurant(findRestaurant, findTag);
+                tagRestaurantRepository.save(newTagRestaurant);
 
             }
         });
+
+
 
         return restaurantRepository.save(findRestaurant);
     }
@@ -210,6 +199,15 @@ public class RestaurantService {
         restaurantRepository.delete(findRestaurant);
     }
 
+
+    public void deleteTagRestaurant(long restaurantId) {
+
+        tagRestaurantRepository.deleteAllByRestaurant_RestaurantId(restaurantId);
+
+
+    }
+
+
 //    public Page<Restaurant> getTop10Restaurants(int page, int size) {
 //        return restaurantRepository.findAllByOrderByTotalFavoriteDesc(PageRequest.of(page, size, Sort.by("restaurantId").descending()));
 //
@@ -219,6 +217,14 @@ public class RestaurantService {
 
         return restaurantRepository.searchByKeyword(keyword, PageRequest.of(page, size, Sort.by("restaurantId").descending()));
     }
+    public double getAverageRatingForRestaurant(long restaurantId){
+        Restaurant restaurant = restaurantRepository.findById(restaurantId).orElse(null);
+        if(restaurant != null){
+            return restaurant.getAverageRating();
+        }
+        return 0;
+    }
+
 
     public Page<Restaurant> searchByCategory(long categoryId, int page, int size) {
 

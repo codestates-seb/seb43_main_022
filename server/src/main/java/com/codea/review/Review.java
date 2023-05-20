@@ -44,11 +44,15 @@ public class Review extends BaseEntity {
 
 
     public enum Rating {
-        LIKE("맛있어요"),
-        HATE("별로에요");
+        LIKE("맛있어요",5),
+        HATE("별로에요",1);
         @Getter
         private String rating;
-        Rating(String rating) { this.rating = rating; }
+        @Getter
+        private int score;
+        Rating(String rating, int score) {
+            this.rating = rating;
+            this.score = score;}
     }
 
     public enum ReviewStatus {
@@ -57,6 +61,10 @@ public class Review extends BaseEntity {
         @Getter
         private String reviewStatus;
         ReviewStatus(String status) { this.reviewStatus = status; }
+    }
+
+    public void setRating(Rating rating){
+        this.rating = rating;
     }
 
 

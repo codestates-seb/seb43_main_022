@@ -32,6 +32,7 @@ import static com.codea.review.Review.ReviewStatus.REVIEW_VALID;
 import static java.awt.SystemColor.menu;
 
 @Service
+@Transactional
 public class RestaurantService {
     private final RestaurantRepository restaurantRepository;
     private final MemberRepository memberRepository;
@@ -163,19 +164,18 @@ public class RestaurantService {
 
 
 
+
+        tagRestaurantRepository.deleteAllByRestaurant_RestaurantId(restaurantId);
+        deleteTagRestaurant(restaurantId);
         Optional.ofNullable(patch.getTag()).ifPresent((TagList) -> {
-            tagRestaurantRepository.deleteAllByRestaurant_RestaurantId(restaurantId);
-            deleteTagRestaurant(restaurantId);
             for (TagDto.Patch tagTemp : patch.getTag()) {  //태그 저장
                 Tag findTag = tagRepository.findByName(tagTemp.getName()).orElseGet(() -> {
                     Tag newtag = new Tag(tagTemp.getName());
                     return tagRepository.save(newtag);
                 });
 
-            //    TagRestaurant findTagRestaurant = tagRestaurantRepository.findByTag_TagId(findTag.getTagId()).orElseGet(() -> { //생성한 태그를 찾아서 태그레스토랑과 매치.
-                    TagRestaurant newTagRestaurant = new TagRestaurant(findRestaurant, findTag);
-//                    tagRestaurantRepository.save(TagList);
-           //     });
+                TagRestaurant newTagRestaurant = new TagRestaurant(findRestaurant, findTag);
+                tagRestaurantRepository.save(newTagRestaurant);
 
             }
         });
@@ -201,16 +201,10 @@ public class RestaurantService {
     }
 
 
-    @EntityGraph(attributePaths = {"menu", "reviews", "tagRestaurant"})
-    public TagRestaurant findTagRestaurant(long restaurantId) {
-        return tagRestaurantRepository.findById(restaurantId).orElseThrow(() -> new BusinessLogicException(ExceptionCode.RESTAURANT_NOT_FOUND));
-    }
-
     public void deleteTagRestaurant(long restaurantId) {
-        TagRestaurant findRestaurant = findTagRestaurant(restaurantId);
 
-//        tagRestaurantRepository.deleteAllByRestaurant_RestaurantId(findRestaurant);
         tagRestaurantRepository.deleteAllByRestaurant_RestaurantId(restaurantId);
+
 
     }
 
@@ -224,6 +218,14 @@ public class RestaurantService {
 
         return restaurantRepository.searchByKeyword(keyword, PageRequest.of(page, size, Sort.by("restaurantId").descending()));
     }
+    public double getAverageRatingForRestaurant(long restaurantId){
+        Restaurant restaurant = restaurantRepository.findById(restaurantId).orElse(null);
+        if(restaurant != null){
+            return restaurant.getAverageRating();
+        }
+        return 0;
+    }
+
 
 //    public Page<Restaurant> searchByTagRestaurants(int page, int size, String url, String tag) {
 //

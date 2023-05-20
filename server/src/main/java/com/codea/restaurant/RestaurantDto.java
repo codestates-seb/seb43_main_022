@@ -32,9 +32,9 @@ public class RestaurantDto {
         private double latitude;
         private double longitude;
         private String photoUrl;
-        private List<MenuDto.Post> menu;
-        private CategoryDto.Post category;
-        private List<TagDto.Post> tag;
+        private List<MenuDto.Post> menu;//
+        private CategoryDto.Post category;//
+        private List<TagDto.Post> tag; //
     }
 
     @Getter
@@ -79,6 +79,10 @@ public class RestaurantDto {
         private String detailAddress;
         private double latitude;
         private double longitude;
+        private double averageRating;
+        public void setAverageRating(double averageRating){
+            this.averageRating = averageRating;
+        }
     }
 
     @Getter

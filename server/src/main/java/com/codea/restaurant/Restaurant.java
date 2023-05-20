@@ -43,7 +43,7 @@ public class Restaurant extends BaseEntity {
     private int total_reviews;
     @Column
     private int totalFavorite;
-    @Column
+    //@Column(nullable = false)
     private double rating;
     @Column
     private String streetAddress;
@@ -64,6 +64,7 @@ public class Restaurant extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "category_id")
     private Category category;
+    private double averageRating;
 
     public void incrementFavoriteCount() {
         this.totalFavorite += 1;
@@ -79,7 +80,7 @@ public class Restaurant extends BaseEntity {
     @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL)
     private List<TagRestaurant> tagRestaurants = new ArrayList<>();
 
-    @OneToMany(mappedBy = "restaurant", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "restaurant", cascade = CascadeType./*REMOVE*/ ALL)
     private List<Review> reviews = new ArrayList<>();
 
     @OneToMany(mappedBy = "restaurant", cascade = CascadeType.REMOVE)
@@ -100,6 +101,35 @@ public class Restaurant extends BaseEntity {
         if (tagRestaurant.getRestaurant() != this) {
             tagRestaurant.setRestaurant(this);
         }
+    }
+
+    public double calculateAverageRating(){
+        List<Review> reviews = this.reviews;
+        if( reviews.isEmpty()){
+            return 0.0;
+        }
+        int totalScore = 0;
+        int totalReviews = reviews.size();
+        for(Review review : reviews){
+            totalScore += review.getRating().getScore();
+        }
+        double averageRating = (double) totalScore / totalReviews;
+        this.rating = averageRating;
+        return averageRating;
+    }
+    public void setAverageRating(double averageRating){
+        this.averageRating = averageRating;}
+    public  long getRestaurantId(){
+        return restaurantId;
+    }
+    public void  setRestaurantId(long restaurantId){
+        this.restaurantId  = restaurantId;
+    }
+    public  List<Review> getReviews(){
+        return reviews;
+    }
+    public  void  setReviews(List<Review> reviews){
+        this.reviews = reviews;
     }
 
 }

@@ -26,10 +26,9 @@ public class ReviewController {
     private final ReviewMapper mapper;
     private final RestaurantService restaurantService;
 
-    public ReviewController(ReviewService reviewService, ReviewMapper mapper, ReviewRepository reviewRepository, RestaurantService restaurantService) {
+    public ReviewController(ReviewService reviewService, ReviewMapper mapper, RestaurantService restaurantService) {
         this.reviewService = reviewService;
         this.mapper = mapper;
-        // this.reviewRepository = reviewRepository;
         this.restaurantService = restaurantService;
     }
 

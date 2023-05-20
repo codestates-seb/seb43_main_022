@@ -36,7 +36,6 @@ import java.util.Optional;
 public class MemberService {
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
-    //    private final CustomAuthorityUtils authorityUtils;
     private final JwtUtil jwtUtil;
     private final ReviewRepository reviewRepository;
     private final AddressRepository addressRepository;

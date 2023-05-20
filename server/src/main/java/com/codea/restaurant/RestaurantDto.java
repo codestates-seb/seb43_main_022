@@ -84,14 +84,4 @@ public class RestaurantDto {
         private double longitude;
     }
 
-    @Getter
-    @AllArgsConstructor
-    public static class ResponseToMember {
-        private long restaurantId;
-        private String restaurantName;
-
-        public ResponseToMember(Restaurant restaurant) {
-            this.restaurantName = getRestaurantName();
-        }
-    }
 }

@@ -35,6 +35,7 @@ public class CategoryService {
     public Category findCategory(long categoryId){
        return findVerifiedCategory(categoryId);
     }
+
     public Page<Category> findCategories(int page, int size) {
         return  categoryRepository.findAll(PageRequest.of(page, size,
                 Sort.by("categoryId")));

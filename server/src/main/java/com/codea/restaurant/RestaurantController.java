@@ -1,22 +1,12 @@
 package com.codea.restaurant;
 
-import com.codea.Menu.MenuDto;
 import com.codea.address.Address;
 import com.codea.address.AddressDto;
 import com.codea.address.AddressMapper;
-import com.codea.category.Category;
-import com.codea.category.CategoryDto;
 import com.codea.category.CategoryMapper;
-import com.codea.dto.SingleResponseDto;
-import com.codea.member.Member;
-import com.codea.member.MemberDto;
 import com.codea.response.MultiResponseDto;
-import com.codea.review.Review;
-import com.codea.tag.Tag;
-import com.codea.tag.TagDto;
 import com.codea.utils.UriCreator;
 import org.springframework.data.domain.Page;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -26,11 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;
-import java.io.UnsupportedEncodingException;
 import java.net.URI;
-import java.net.URLDecoder;
-import java.net.URLEncoder;
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController

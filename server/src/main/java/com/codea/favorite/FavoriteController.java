@@ -33,10 +33,9 @@ public class FavoriteController {
 
     @PostMapping("restaurant/{restaurant-id}")
     public ResponseEntity postFavorite(@PathVariable("restaurant-id") @Positive long restaurantId,
-                                       @AuthenticationPrincipal String email,
-                                       @RequestBody FavoriteDto.AddFavoriteRequest requestBody) {
-        Favorite favorite = favoriteService.createFavorite(restaurantId, email, requestBody);
-//        mapper.favoritePostFavoriteDtoToFavorite(requestBody);
+                                       @AuthenticationPrincipal String email) {
+
+        Favorite favorite = favoriteService.createFavorite(restaurantId, email);
         URI location = UriCreator.createUri("/favorites", favorite.getFavoriteId());
 
         return ResponseEntity.created(location).build();

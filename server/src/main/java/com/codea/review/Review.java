@@ -44,6 +44,7 @@ public class Review extends BaseEntity {
         Rating(String rating, int score) {
             this.rating = rating;
             this.score = score;}
+
     }
 
     public enum ReviewStatus {

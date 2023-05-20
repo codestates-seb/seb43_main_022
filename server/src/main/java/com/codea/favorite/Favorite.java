@@ -13,7 +13,6 @@ import javax.persistence.*;
 @AllArgsConstructor
 @Getter
 @Setter
-@Builder
 @Entity
 public class Favorite extends BaseEntity {
     @Id
@@ -29,9 +28,6 @@ public class Favorite extends BaseEntity {
     @JoinColumn(name = "member_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Member member;
-
-    @Column(nullable = false)
-    private boolean status; // true = 즐겨찾기, false = 즐겨찾기 취소
 
 
     public Favorite(Restaurant restaurant, Member member) {

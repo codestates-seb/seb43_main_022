@@ -1,6 +1,7 @@
 package com.codea.favorite;
 
 
+import com.codea.address.Address;
 import com.codea.category.Category;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -29,7 +30,7 @@ public class FavoriteDto {
         private int favoriteCount;
         private Long restaurantId;
         private String category;
-        private String streetAddress;
+        private Address address;
 
         public ResponseFavorite(Favorite favorite, int favoriteCount) {
             this.favoriteId = favorite.getFavoriteId();
@@ -38,7 +39,7 @@ public class FavoriteDto {
             this.favoriteCount = favoriteCount;
             this.restaurantId = favorite.getRestaurant().getRestaurantId();
             this.category = favorite.getRestaurant().getCategory().getName();
-//            this.streetAddress = favorite.getRestaurant();
+            this.address = favorite.getRestaurant().getAddress();
         }
 
     }

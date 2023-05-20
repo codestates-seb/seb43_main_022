@@ -1,7 +1,10 @@
 package com.codea.review;
 
+import com.codea.address.Address;
+import com.codea.favorite.Favorite;
 import com.codea.member.Member;
 import com.codea.member.MemberDto;
+import com.codea.restaurant.Restaurant;
 import com.codea.restaurant.RestaurantDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -45,16 +48,25 @@ public class ReviewDto {
     }
 
     @Getter
-    @AllArgsConstructor
     public static class MyPageResponse {
         private long reviewId;
+        private long restaurantId;
+
         private String title;
-        private String content;
-        private String photo;
+        private String restaurantName;
         private LocalDateTime createdAt;
         private LocalDateTime modifiedAt;
-        private Review.Rating rating;
-//        private MemberDto.ReviewResponse member;
-        private RestaurantDto.ResponseToMember rest;
+
+        public MyPageResponse(Review review) {
+            this.reviewId = review.getReviewId();
+            this.restaurantId = review.getRestaurant().getRestaurantId();
+            this.title = review.getTitle();
+            this.restaurantName = review.getRestaurant().getRestaurantName();
+            this.createdAt = review.getCreatedAt();
+            this.modifiedAt = review.getModifiedAt();
+        }
+
+
+
     }
 }

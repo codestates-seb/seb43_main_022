@@ -38,12 +38,6 @@ public class FavoriteService {
         Restaurant restaurant = restaurantRepository.findById(restaurantId).orElseThrow(() -> new BusinessLogicException(ExceptionCode.RESTAURANT_NOT_FOUND));
         Member member = memberRepository.findByEmail(email).orElseThrow(() -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
 
-        System.out.println(email);
-        System.out.println(restaurantId);
-        System.out.println(restaurant);
-        System.out.println(member);
-        System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
-
         Favorite favorite = new Favorite();
         favorite.setRestaurant(restaurant);
         favorite.setMember(member);

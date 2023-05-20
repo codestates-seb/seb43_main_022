@@ -115,7 +115,7 @@ public class MemberController {
                 HttpStatus.OK);
     }
 
-    @DeleteMapping("/delete-account")
+    @DeleteMapping
     public ResponseEntity deleteMember(@AuthenticationPrincipal String email) {
 //        memberService.sameMemberTest(email);
 

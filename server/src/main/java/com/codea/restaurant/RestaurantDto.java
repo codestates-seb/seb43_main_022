@@ -2,6 +2,7 @@ package com.codea.restaurant;
 
 import com.codea.Menu.MenuDto;
 import com.codea.category.CategoryDto;
+import com.codea.favorite.Favorite;
 import com.codea.review.ReviewDto;
 import com.codea.tag.TagDto;
 import com.codea.tag.TagRestaurantDto;
@@ -83,6 +84,8 @@ public class RestaurantDto {
         public void setAverageRating(double averageRating){
             this.averageRating = averageRating;
         }
+
+
     }
 
     @Getter
@@ -90,5 +93,9 @@ public class RestaurantDto {
     public static class ResponseToMember {
         private long restaurantId;
         private String restaurantName;
+
+        public ResponseToMember(Restaurant restaurant) {
+            this.restaurantName = getRestaurantName();
+        }
     }
 }

@@ -1,17 +1,10 @@
 import { useState, useEffect } from "react";
+import ReactPaginate from "react-paginate";
 import { Title } from "../../Pages/StoreList";
-// import { useRecoilState } from "recoil";
-// import { storesState } from "../../state/atoms/keywordsAtom";
 import { useRecoilValue } from "recoil";
 import { searchTermState } from "../../state/atoms/SearchTermState";
 import ImgBtn from "../style/ImgBtn";
 import styled from "styled-components";
-import {
-  MdKeyboardArrowLeft,
-  MdKeyboardArrowRight,
-  MdKeyboardDoubleArrowLeft,
-  MdKeyboardDoubleArrowRight,
-} from "react-icons/md";
 import { api } from "../../Util/api";
 const StoreListBox = styled.div`
   width: calc(100% - 400px);
@@ -72,7 +65,8 @@ const ResultList = styled.div`
   width: calc(100%);
   gap: 20px;
 `;
-const StoreCard = styled.div`
+
+const StoreCard = styled.li`
   width: 100%;
   max-width: calc(100% / 2 - 10px);
   border-radius: 30px;
@@ -84,27 +78,37 @@ const StoreCard = styled.div`
   gap: 20px;
   border: 1px solid var(--black-100);
   position: relative;
-  > img {
-    width: calc(100%);
-    height: 185px;
-    border-radius: 30px 30px 0 0;
+  > .photoUrl {
+    width: 100%;
     position: absolute;
     left: 0;
     top: 0;
-  }
-  > span {
-    position: absolute;
-    right: 20px;
-    top: 20px;
-    button {
-      background-color: transparent;
+    img {
+      width: 100%;
+      height: 185px;
+      object-fit: cover;
+      object-position: center;
+      border-radius: 30px 30px 0 0;
+    }
+    > span {
+      position: absolute;
+      right: 20px;
+      top: 20px;
+      button {
+        background-color: transparent;
+      }
     }
   }
-  > h3 {
+  > .category {
+    position: absolute;
+    top: 20px;
+  }
+
+  > .restaurantName {
     font-size: var(--x-large-font);
     height: 22px;
   }
-  > div.filterIntro {
+  > .content {
     width: 100%;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -118,16 +122,17 @@ const StoreCard = styled.div`
     font-size: var(--medium-font);
     color: var(--black-700);
   }
-  > div.filterCount {
+  > .Count {
     display: flex;
     flex-direction: row;
     gap: 40px;
-    > p {
+    p {
       font-size: var(--medium-font);
     }
   }
-  > div.cardTag {
+  > .tagRestaurants {
     display: flex;
+
     gap: 6px;
     > button {
       width: auto;
@@ -146,62 +151,92 @@ const PaginationWrap = styled.div`
   display: flex;
   justify-content: center;
   margin: 30px 0;
-`;
-const PageNumber = styled.button`
-  background-color: ${({ isActive, disabled }) =>
-    disabled ? "transparent" : isActive ? "var(--eatsgreen)" : "transparent"};
-  color: ${({ isActive, disabled }) =>
-    disabled ? "var(--white)" : isActive ? "white" : "var(--black-500)"};
-  font-weight: ${({ isActive }) => (isActive ? "600" : "400")};
-  width: 30px;
-  height: 30px;
-  margin: 2px;
-  border-radius: 4px;
-  cursor: ${({ disabled }) => (disabled ? "not-allowed" : "pointer")};
-  svg {
-    width: 1.2em;
-    height: 1.2em;
-    margin-top: 4px;
-  }
-  :hover {
-    color: ${({ disabled, isActive }) =>
-      disabled ? "transparent" : isActive ? "" : "var(--black-500)"};
-  }
-`;
 
-const StoreCardComponent = ({ store }) => {
-  return (
-    <StoreCard>
-      <img src={store.photoUrl} alt={store.restaurantName} />
-      <span>
-        {store.totalFavorite > 0 ? <ImgBtn imgstyle="Heart" /> : null}
-      </span>
-      <h3>{store.restaurantName}</h3>
-      <div className="filterIntro">{store.content}</div>
-      <div className="filterCount">
-        <p>리뷰 수: {store.total_reviews}</p>
-        <p>즐겨찾기 수: {store.totalFavorite}</p>
-      </div>
-      <div className="cardTag">
-        {store.tagRestaurants.map((tag, index) => (
-          <button key={index}>{tag.tag.name}</button>
-        ))}
-        {store.category}
-      </div>
-    </StoreCard>
-  );
-};
+  .pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 15px;
+  }
+
+  ul {
+    list-style: none;
+    padding: 0;
+  }
+
+  ul.pagination li {
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    border: 1px solid #e2e2e2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1rem;
+    cursor: pointer;
+  }
+
+  ul.pagination li:first-child {
+    border-radius: 5px 0 0 5px;
+  }
+
+  ul.pagination li:last-child {
+    border-radius: 0 5px 5px 0;
+  }
+
+  ul.pagination li a {
+    text-decoration: none;
+    color: #337ab7;
+    font-size: 1rem;
+  }
+
+  ul.pagination li.active a {
+    color: white;
+  }
+
+  ul.pagination li.active {
+    background-color: #337ab7;
+  }
+
+  ul.pagination li a:hover,
+  ul.pagination li a.active {
+    color: blue;
+    font-weight: 700;
+  }
+  .page-selection {
+    width: 48px;
+    height: 30px;
+    color: #337ab7;
+  }
+`;
 const StoreKeywordResult = () => {
-  // const [stores] = useRecoilState(storesState);
   const [stores, setStores] = useState([]);
-  // eslint-disable-next-line no-unused-vars
-  const [loading, setLoading] = useState(true);
+  const [, setLoading] = useState(true);
+  const [currentPage, setCurrentPage] = useState(0);
   const searchTerm = useRecoilValue(searchTermState);
+  const resultsPerPage = 4;
+  const [isHeartActive, setIsHeartActive] = useState(false);
+  const [currentFilter, setCurrentFilter] = useState("createdAt");
+
+  const filterByLatest = (a, b) => {
+    const dateA = new Date(a.createdAt);
+    const dateB = new Date(b.createdAt);
+    return dateB - dateA;
+  };
+
+  const filterByReview = (a, b) => {
+    return b.total_review - a.total_review;
+  };
+
+  const filterByFavorites = (a, b) => {
+    return b.total_favorite - a.total_favorite;
+  };
+
   useEffect(() => {
     const fetchStores = async () => {
       try {
         const response = await api.get(
-          `/restaurants/search?keyword=${searchTerm}`,
+          // `/restaurants/search?keyword=${searchTerm}`,
+          `/restaurants`,
         );
         let data = response.data;
 
@@ -209,8 +244,15 @@ const StoreKeywordResult = () => {
           const allStoresResponse = await api.get("/restaurants");
           data = allStoresResponse.data;
         }
-        console.log(response.data);
 
+        if (currentFilter === "createdAt") {
+          data.sort(filterByLatest);
+        } else if (currentFilter === "total_review") {
+          data.sort(filterByReview);
+        } else if (currentFilter === "total_favorite") {
+          data.sort(filterByFavorites);
+        }
+        console.log(response.data);
         setStores(data);
         setLoading(false);
       } catch (error) {
@@ -220,151 +262,88 @@ const StoreKeywordResult = () => {
     };
 
     fetchStores();
-  }, [searchTerm]);
+  }, [searchTerm, currentFilter]);
 
-  // useEffect(() => {
-  //   setFilteredResults(stores);
-  // }, [stores]);
-
-  // 필터 아이템
-  const [activeFilter, setActiveFilter] = useState("newest");
-  const [filteredResults, setFilteredResults] = useState([]);
-  // 페이지네이션
-  const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 4;
-  // 페이지네이션 관련 코드
-  const totalPages = Math.ceil(filteredResults.length / itemsPerPage);
-  const handleClickPage = (pageNumber) => {
-    setCurrentPage(pageNumber);
+  const handlePageClick = ({ selected: selectedPage }) => {
+    setCurrentPage(selectedPage);
   };
-  const displayPagination = () => {
-    const pages = [];
-    const startPage =
-      currentPage <= 3 ? 1 : Math.min(totalPages - 4, currentPage - 2);
-    const endPage =
-      currentPage <= 3
-        ? Math.min(5, totalPages)
-        : Math.min(totalPages, currentPage + 2);
-    const createPageBtn = (key, pageNumber, content, disabled = false) => (
-      <PageNumber
-        key={key}
-        onClick={() => handleClickPage(pageNumber)}
-        isActive={pageNumber === currentPage}
-        disabled={disabled}
-      >
-        {content}
-      </PageNumber>
-    );
 
-    pages.push(
-      createPageBtn(
-        "first",
-        1,
-        <MdKeyboardDoubleArrowLeft />,
-        currentPage === 1,
-      ),
-    );
-    pages.push(
-      createPageBtn(
-        "prev",
-        Math.max(1, currentPage - 1),
-        <MdKeyboardArrowLeft />,
-        currentPage === 1,
-      ),
-    );
+  const offset = currentPage * resultsPerPage;
 
-    for (let i = startPage; i <= endPage; i++) {
-      pages.push(createPageBtn(i, i, i, false));
-    }
-
-    pages.push(
-      createPageBtn(
-        "next",
-        Math.min(totalPages, currentPage + 1),
-        <MdKeyboardArrowRight />,
-        currentPage === totalPages,
-      ),
-    );
-    pages.push(
-      createPageBtn(
-        "last",
-        totalPages,
-        <MdKeyboardDoubleArrowRight />,
-        currentPage === totalPages,
-      ),
-    );
-
-    return pages;
+  const handleClick = () => {
+    setIsHeartActive(!isHeartActive);
   };
-  // 최신순,리뷰순, 즐겨찾기순 필터
-  const handleFilterClick = (filter) => {
-    setActiveFilter(filter);
-    const sortedStores = sortStoresByFilter(filteredResults, filter);
-    setFilteredResults(sortedStores);
-  };
-  //이곳
-  const sortStoresByFilter = (stores, filter) => {
-    if (stores.length === 0) {
-      return stores;
-    }
+  const currentPageData = stores
+    .slice(offset, offset + resultsPerPage)
+    .map((store, restaurantId) => (
+      <StoreCard key={restaurantId}>
+        <div className="photoUrl">
+          {store.photoUrl ? (
+            <img src={store.photoUrl} alt={store.restaurantName} />
+          ) : (
+            "등록된 이미지가 없습니다."
+          )}
+          {store.isFavorite === false ? (
+            <span>
+              <ImgBtn imgstyle="Heart" onClick={handleClick} />
+            </span>
+          ) : (
+            <span>
+              <ImgBtn imgstyle="Heart" />
+            </span>
+          )}
+        </div>
+        <p className="category">{store.category}</p>
+        <h2 className="restaurantName">{store.restaurantName}</h2>
+        <p className="content">{store.content}</p>
+        <div className="Count">
+          <p>즐겨찾기 : {store.total_favorite}</p>
+          <p>리뷰 : {store.total_review}</p>
+        </div>
+        <div className="tagRestaurants">
+          {store.tagRestaurants.map((tag, index) => (
+            <button key={index} className="tagButton">
+              {tag.tag.name}
+            </button>
+          ))}
+        </div>
+      </StoreCard>
+    ));
 
-    const copiedStores = [...stores];
-
-    if (filter === "newest") {
-      return copiedStores.sort(
-        (a, b) => new Date(b.createdDate) - new Date(a.createdDate),
-      );
-    } else if (filter === "reviews") {
-      return copiedStores.sort((a, b) => b.reviews - a.reviews);
-    } else if (filter === "favorites") {
-      return copiedStores.sort((a, b) => b.favorites - a.favorites);
-    } else {
-      return copiedStores;
-    }
-  };
-  useEffect(() => {
-    handleFilterClick(activeFilter);
-  }, [stores, activeFilter]);
+  const pageCount = Math.ceil(stores.length / resultsPerPage);
 
   return (
     <>
       <StoreListBox>
         <Title>키워드 검색결과</Title>
         <ResultFilter>
-          <Total>총 {filteredResults.length}개의 검색결과가 있습니다!</Total>
+          <Total>총 {stores.length}개의 검색결과가 있습니다!</Total>
           <FilterUl>
-            <FilterLi
-              onClick={() => handleFilterClick("newest")}
-              className={activeFilter === "newest" ? "active" : ""}
-            >
+            <FilterLi onClick={() => setCurrentFilter("createdAt")}>
               최신순
             </FilterLi>
-            <FilterLi
-              onClick={() => handleFilterClick("reviews")}
-              className={activeFilter === "reviews" ? "active" : ""}
-            >
+            <FilterLi onClick={() => setCurrentFilter("total_review")}>
               리뷰순
             </FilterLi>
-            <FilterLi
-              onClick={() => handleFilterClick("favorites")}
-              className={activeFilter === "favorites" ? "active" : ""}
-            >
+            <FilterLi onClick={() => setCurrentFilter("total_favorite")}>
               즐겨찾기순
             </FilterLi>
           </FilterUl>
         </ResultFilter>
-        <ResultList>
-          {filteredResults
-            .slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage)
-            .map((store) => (
-              <StoreCardComponent
-                key={store.restaurantId}
-                store={store}
-                restaurantId={store.restaurantId}
-              />
-            ))}
-        </ResultList>
-        <PaginationWrap>{displayPagination()}</PaginationWrap>
+        <ResultList>{currentPageData}</ResultList>
+        <PaginationWrap>
+          <ReactPaginate
+            previousLabel={"←"}
+            nextLabel={"→"}
+            pageCount={pageCount}
+            onPageChange={handlePageClick}
+            containerClassName={"pagination"}
+            previousLinkClassName={"pagination__link"}
+            nextLinkClassName={"pagination__link"}
+            disabledClassName={"pagination__link--disabled"}
+            activeClassName={"pagination__link--active"}
+          />
+        </PaginationWrap>
       </StoreListBox>
     </>
   );

@@ -10,13 +10,10 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.Optional;
 @Repository
-
 public interface ReviewRepository extends JpaRepository<Review, Long> {
     Page<Review> findByRestaurant_RestaurantIdAndStatus(long restaurantId, Review.ReviewStatus status, Pageable pageable);
 
     List<Review> findByMember(Member member);
-
-
 
 
 }

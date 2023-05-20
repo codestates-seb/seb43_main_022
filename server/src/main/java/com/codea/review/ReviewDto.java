@@ -2,6 +2,7 @@ package com.codea.review;
 
 import com.codea.member.Member;
 import com.codea.member.MemberDto;
+import com.codea.restaurant.Restaurant;
 import com.codea.restaurant.RestaurantDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -55,6 +56,6 @@ public class ReviewDto {
         private LocalDateTime modifiedAt;
         private Review.Rating rating;
 //        private MemberDto.ReviewResponse member;
-        private RestaurantDto.ResponseToMember rest;
+        private Restaurant restaurant;
     }
 }

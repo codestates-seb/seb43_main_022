@@ -2,6 +2,8 @@ package com.codea.restaurant;
 
 import com.codea.Menu.MenuMapper;
 import com.codea.address.AddressMapper;
+import com.codea.favorite.Favorite;
+import com.codea.favorite.FavoriteDto;
 import com.codea.review.ReviewMapper;
 import com.codea.tag.TagDto;
 import com.codea.tag.TagRestaurant;
@@ -33,6 +35,7 @@ public interface RestaurantMapper {
    // @Mapping(target = "tagRestaurants", expression = "java(restaurant.getTagRestaurants().tagRestaurant.getTag())")
    // @Mapping(target = "tagRestaurant", expression = "java(tagRestaurantToResponse(restaurant.getTagRestaurants()))")
     List<RestaurantDto.Response> restaurantToRestaurantResponseDtos(List<Restaurant> restaurant);
+
 
 
 }

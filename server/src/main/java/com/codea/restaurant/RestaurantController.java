@@ -26,7 +26,10 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;
+import java.io.UnsupportedEncodingException;
 import java.net.URI;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -56,11 +59,11 @@ public class RestaurantController {
         AddressDto.Post addressDto = new AddressDto.Post(requestBody.getStreetAddress(), requestBody.getLatitude(), requestBody.getLongitude());
         Address address = addressMapper.addressPostDtoToAddress(addressDto);
 
-        CategoryDto.Post categoryDto = new CategoryDto.Post(requestBody.getCategory().getName());
-        Category category = categoryMapper.categoryPostDtoToCategory(categoryDto);
+//        CategoryDto.Post categoryDto = new CategoryDto.Post(requestBody.getCategory().getName());
+//        Category category = categoryMapper.categoryPostDtoToCategory(categoryDto);
 
 //        Restaurant restaurant = restaurantService.createRestaurant(email, mapper.restaurantPostDtoToRestaurant(requestBody));
-        Restaurant restaurant = restaurantService.createRestaurant(email, address, category, requestBody);
+        Restaurant restaurant = restaurantService.createRestaurant(email, address, requestBody);
 
         URI location = UriCreator.createUri("/restaurants", restaurant.getRestaurantId());
         return ResponseEntity.created(location).build();
@@ -146,6 +149,20 @@ public class RestaurantController {
         if (page == null) page = 1;
         if (size == null) size = 4;
         Page<Restaurant> restaurantPage = restaurantService.searchRestaurants(keyword,page - 1, size);
+        List<Restaurant> restaurants = restaurantPage.getContent();
+
+        return new ResponseEntity<>(
+                new MultiResponseDto<>(mapper.restaurantToRestaurantResponseDtos(restaurants), restaurantPage), HttpStatus.OK);
+    }
+
+    @Transactional
+    @GetMapping("/category")
+    public ResponseEntity searchCategory(@RequestParam(value = "name", name = "name") String name,
+                                            @RequestParam(value = "page", required = false) Integer page,
+                                            @RequestParam(value = "size", required = false) Integer size) {
+        if (page == null) page = 1;
+        if (size == null) size = 4;
+        Page<Restaurant> restaurantPage = restaurantService.searchByCategory(name,page - 1, size);
         List<Restaurant> restaurants = restaurantPage.getContent();
 
         return new ResponseEntity<>(

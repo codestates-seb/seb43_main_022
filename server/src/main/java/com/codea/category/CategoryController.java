@@ -16,10 +16,10 @@ import java.util.stream.Collectors;
 import com.codea.category.CategoryMapper;
 
 @RestController
-@RequestMapping("/categories")
+@RequestMapping("/category")
 @Validated
 public class CategoryController {
-    private final static  String CATEGORY_DEFAULT_URL = "/categories";
+    private final static  String CATEGORY_DEFAULT_URL = "/category";
     private final CategoryService categoryService;
     private final CategoryMapper categoryMapper;
 

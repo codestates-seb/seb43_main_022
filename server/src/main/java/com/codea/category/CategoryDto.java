@@ -17,7 +17,6 @@ public class CategoryDto {
     @Setter
     public static class Post {
         @NotBlank
-        @Size(max = 20)
         private String name;
     }
     @Getter
@@ -27,8 +26,6 @@ public class CategoryDto {
     public  static  class  Patch{
 
         private long categoryId;
-        @NotBlank
-        @Size(max = 20)
         private String name;
 
     }
@@ -39,8 +36,6 @@ public class CategoryDto {
     public  static class Response{
 
         private long categoryId;
-        @NotBlank
-        @Size(max = 20)
         private String name;
     }
 }

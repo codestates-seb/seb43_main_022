@@ -22,6 +22,8 @@ import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -56,7 +58,7 @@ public class RestaurantService {
         this.restaurantMapper = restaurantMapper;
     }
 
-    public Restaurant createRestaurant(String email, Address address, Category category, RestaurantDto.Post post) {
+    public Restaurant createRestaurant(String email, Address address, RestaurantDto.Post post) {
         Restaurant restaurant = new Restaurant(post.getRestaurantName(), post.getContent(), post.getTel(), post.getOpen_time(),
                 post.getPhotoUrl(), post.getDetailAddress());
 
@@ -67,8 +69,8 @@ public class RestaurantService {
         Address findAddress = addressRepository.findByStreetAddress(streetAddress).orElseGet(() -> addressRepository.save(address));
         restaurant.setAddress(findAddress);
 
-        String categoryName = category.getName();
-        Category findCategory = categoryRepository.findByName(categoryName).orElseGet(() -> categoryRepository.save(category));
+        String categoryName = post.getCategory().getName();
+        Category findCategory = categoryRepository.findByName(categoryName).orElseThrow(() -> new BusinessLogicException(ExceptionCode.CATEGORY_NOT_FOUND));
         restaurant.setCategory(findCategory);
 
         for (MenuDto.Post menuPost : post.getMenu()) {
@@ -131,10 +133,9 @@ public class RestaurantService {
 //         Optional.ofNullable(restaurant.getCategory()).ifPresent(category -> findRestaurant.setCategory(category));
 
         Optional.ofNullable(restaurant.getCategory()).ifPresent(category -> {
-            Category categoryTemp = new Category();
-            categoryTemp.setName(patch.getCategory().getName());
+            String categoryName = patch.getCategory().getName();
 
-            Category findCategory = categoryRepository.findByName(categoryTemp.getName()).orElseGet(() -> categoryRepository.save(category));
+            Category findCategory = categoryRepository.findByName(categoryName).orElseThrow(() -> new BusinessLogicException(ExceptionCode.CATEGORY_NOT_FOUND));
             findRestaurant.setCategory(findCategory);
         });
 
@@ -226,9 +227,9 @@ public class RestaurantService {
     }
 
 
-    public Page<Restaurant> searchByCategory(long categoryId, int page, int size) {
+    public Page<Restaurant> searchByCategory(String name, int page, int size) {
 
-        return restaurantRepository.findByCategory_CategoryId(categoryId, PageRequest.of(page, size, Sort.by("restaurantId").descending()));
+        return restaurantRepository.findByCategory_Name(name, PageRequest.of(page, size, Sort.by("restaurantId").descending()));
     }
 
 

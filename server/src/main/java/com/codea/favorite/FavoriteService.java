@@ -34,14 +34,14 @@ public class FavoriteService {
         this.memberRepository = memberRepository;
     }
 
-    public Favorite createFavorite(long restaurantId, String email) {
+    public Favorite createFavorite(long restaurantId, String email, Boolean status) {
         Restaurant restaurant = restaurantRepository.findById(restaurantId).orElseThrow(() -> new BusinessLogicException(ExceptionCode.RESTAURANT_NOT_FOUND));
         Member member = memberRepository.findByEmail(email).orElseThrow(() -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
 
         Favorite favorite = new Favorite();
         favorite.setRestaurant(restaurant);
         favorite.setMember(member);
-        favorite.setStatus(true);
+        favorite.setStatus(status);
 
         restaurant.incrementFavoriteCount(); // 즐겨찾기가 추가될 때 카운트를 증가시킵니다.
         restaurantRepository.save(restaurant); // 카운트가 업데이트된 restaurant를 저장합니다.

@@ -74,7 +74,7 @@ public class Restaurant extends BaseEntity {
         this.totalFavorite -= 1;
     }
 
-    @OneToMany(mappedBy = "restaurant", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL)
     private List<Menu> menu = new ArrayList<>();
 
     @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL)
@@ -83,7 +83,8 @@ public class Restaurant extends BaseEntity {
     @OneToMany(mappedBy = "restaurant", cascade = CascadeType./*REMOVE*/ ALL)
     private List<Review> reviews = new ArrayList<>();
 
-    @OneToMany(mappedBy = "restaurant", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL)
+//    @OneToMany(mappedBy = "restaurant")
     private List<Favorite> favorites = new ArrayList<>();
 
 

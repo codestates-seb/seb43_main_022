@@ -18,8 +18,6 @@ public class TagRestaurantDto {
     @Getter
     @AllArgsConstructor
     public static class Response {
-//        private long tagId;
-//        private String name;
         private TagDto.TagResponse tag;
     }
 

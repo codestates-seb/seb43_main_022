@@ -15,13 +15,16 @@ import com.codea.member.MemberDto;
 import com.codea.member.MemberRepository;
 import com.codea.review.Review;
 import com.codea.tag.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityManager;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -41,6 +44,7 @@ public class RestaurantService {
     private final TagRestaurantRepository tagRestaurantRepository;
     private final CategoryRepository categoryRepository;
     private final RestaurantMapper restaurantMapper;
+
 
     public RestaurantService(RestaurantRepository restaurantRepository, MemberRepository memberRepository,
                              AddressRepository addressRepository, MenuRepository menuRepository,
@@ -164,9 +168,9 @@ public class RestaurantService {
 
 
 
-        tagRestaurantRepository.deleteAllByRestaurant_RestaurantId(restaurantId);
-        deleteTagRestaurant(restaurantId);
         Optional.ofNullable(patch.getTag()).ifPresent((TagList) -> {
+            tagRestaurantRepository.deleteAllByRestaurant_RestaurantId(restaurantId);
+//            deleteTagRestaurant(restaurantId);
             for (TagDto.Patch tagTemp : patch.getTag()) {  //태그 저장
                 Tag findTag = tagRepository.findByName(tagTemp.getName()).orElseGet(() -> {
                     Tag newtag = new Tag(tagTemp.getName());

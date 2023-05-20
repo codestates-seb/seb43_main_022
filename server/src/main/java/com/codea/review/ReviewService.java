@@ -40,7 +40,7 @@ public class ReviewService {
 
         int totalScore = 0;
 
-        List<Review> reviewList = restaurant.getReviews(); // 리뷰를 리뷰의 수가 아니라.
+        List<Review> reviewList = restaurant.getReviews();
         for (Review reviewTemp : reviewList) {
             int score = review.getRating().getScore();
             totalScore += score;
@@ -48,17 +48,6 @@ public class ReviewService {
 
         double rating = (double) totalScore / (restaurant.getTotal_reviews() + 1);
         restaurant.setRating(rating);
-
-//        int rating = review.getRating().getScore(); //Like("맛있어요", 5), Hate
-//        total = rating + total;  //총 리뷰점수 구해서
-//        double average = total / (restaurant.getTotal_reviews() + 1);      //나눠서
-//        restaurant.setRating(average);                // 다시 반영
-//
-//int a = restaurant.getReviews().size();
-//
-//for(Review reviewScore : restaurant.getReviews()){
-//    total = reviewScore.getRating().getScore();
-//}
 
         return reviewRepository.save(review);
     }
@@ -89,7 +78,7 @@ public class ReviewService {
     public void deleteReview(long reviewId) {
         Review findReview = findReview(reviewId);
 
-//        findReview.setStatus(Review.ReviewStatus.REVIEW_DELETED);
+
         reviewRepository.delete(findReview);
     }
     public double getAverageRatingForRestaurant(long restaurantId){

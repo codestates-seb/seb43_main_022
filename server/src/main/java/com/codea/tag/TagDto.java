@@ -20,9 +20,6 @@ public class TagDto {
     public static class Post{
         @NotNull
         private String name;
-//        @NotNull
-//        @Valid
-//        private List<TagRestaurantDto.Post> tagRestaurants;
     }
     @Getter
     @Setter

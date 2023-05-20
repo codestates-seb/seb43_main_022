@@ -14,7 +14,6 @@ import com.codea.member.Member;
 import com.codea.member.MemberDto;
 import com.codea.member.MemberRepository;
 import com.codea.review.Review;
-import com.codea.review.ReviewRepository;
 import com.codea.tag.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -220,6 +219,12 @@ public class RestaurantService {
 
         return restaurantRepository.searchByKeyword(keyword, PageRequest.of(page, size, Sort.by("restaurantId").descending()));
     }
+
+    public Page<Restaurant> searchByCategory(long categoryId, int page, int size) {
+
+        return restaurantRepository.findByCategory_CategoryId(categoryId, PageRequest.of(page, size, Sort.by("restaurantId").descending()));
+    }
+
 
 //    public Page<Restaurant> searchByTagRestaurants(int page, int size, String url, String tag) {
 //

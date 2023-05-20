@@ -127,6 +127,21 @@ public class RestaurantController {
     }
 
 
+    @GetMapping("/category/{category-id}")
+    public ResponseEntity searchCategory(@PathVariable("category-id") long categoryId,
+                                            @RequestParam(value = "page", required = false) Integer page,
+                                            @RequestParam(value = "size", required = false) Integer size) {
+
+        if (page == null) page = 1;
+        if (size == null) size = 4;
+        Page<Restaurant> restaurantPage = restaurantService.searchByCategory(categoryId,page - 1, size);
+        List<Restaurant> restaurants = restaurantPage.getContent();
+
+        return new ResponseEntity<>(
+                new MultiResponseDto<>(mapper.restaurantToRestaurantResponseDtos(restaurants), restaurantPage), HttpStatus.OK);
+    }
+
+
 //    @GetMapping("/search")
 //    public ResponseEntity searchByTag(@PathVariable("url") String url,
 //                                      @RequestParam(value = "tag") String tag,

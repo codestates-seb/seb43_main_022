@@ -32,28 +32,28 @@ public class CategoryService {
 //
 //       return categoryRepository.save(findCategory);
 //    }
-//    public Category findCategory(long categoryId){
-//       return findVerifiedCategory(categoryId);
-//    }
-//    public Page<Category> findCategories(int page, int size) {
-//        return  categoryRepository.findAll(PageRequest.of(page, size,
-//                Sort.by("categoryId").descending()));
-//    }
-//
+    public Category findCategory(long categoryId){
+       return findVerifiedCategory(categoryId);
+    }
+    public Page<Category> findCategories(int page, int size) {
+        return  categoryRepository.findAll(PageRequest.of(page, size,
+                Sort.by("categoryId").descending()));
+    }
+
 //    public void deleteCategory(long categoryId){
 //        Category findCategory = findVerifiedCategory(categoryId);
 //        categoryRepository.delete(findCategory);
 //
 //    }
-//    public Category findVerifiedCategory(long categoryId){
-//        Optional<Category> optionalCategory =
-//                categoryRepository.findById(categoryId);
-//        Category findCategory =
-//                optionalCategory.orElseThrow(()->
-//                        new BusinessLogicException(ExceptionCode.CATEGORY_NOT_FOUND));
-//
-//        return findCategory;
-//    }
+    public Category findVerifiedCategory(long categoryId){
+        Optional<Category> optionalCategory =
+                categoryRepository.findById(categoryId);
+        Category findCategory =
+                optionalCategory.orElseThrow(()->
+                        new BusinessLogicException(ExceptionCode.CATEGORY_NOT_FOUND));
+
+        return findCategory;
+    }
 //    private void verifyExistsName(String name){
 //        Optional<Category> category = categoryRepository.findByName(name);
 //        if(category.isPresent())

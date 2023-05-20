@@ -2,25 +2,25 @@
   "restaurants": [
     {
       "restaurantId": 1,
-      "restaurantName": "가게이름입력",
+      "restaurantName": "가로수길햄버거",
       "tagRestaurants": [
         {
           "tag": {
             "tagId": 1,
-            "name": "태그1"
+            "name": "햄버거"
           }
         },
         {
           "tag": {
             "tagId": 2,
-            "name": "태그2"
+            "name": "가로수길"
           }
         }
       ],
-      "photoUrl": null,
-      "content": "123123",
+      "photoUrl": "/logo512.png",
+      "content": "안녕하세요, 가로수길햄버거 입니다. 신선한 품질의 버거를 위하여 모든 재료는 직접 손수 매일 준비합니다. 가로수길햄버거",
       "tel": "123-1231-2312",
-      "category": "중식",
+      "category": "브런치",
       "open_time": "12시~24시",
       "menu": [
         {
@@ -40,7 +40,207 @@
       "detailAddress": "123",
       "latitude": "37.926640292523",
       "longitude": "127.565059558998",
-      "id": 1
+      "id": 1,
+      "total_views": 0,
+      "total_review" : 45,
+      "total_favorite" : 24, 
+      "rating" : 4.5,
+      "isFavorite":true,
+      "createdAt": "2023-05-20T13:11:43.664707",
+      "modifiedAt": "2023-05-20T13:11:43.664707"
+    }, {
+      "restaurantId": 2,
+      "restaurantName": "22222222",
+      "tagRestaurants": [
+        {
+          "tag": {
+            "tagId": 1,
+            "name": "햄버거"
+          }
+        },
+        {
+          "tag": {
+            "tagId": 2,
+            "name": "가로수길"
+          }
+        }
+      ],
+      "photoUrl": "/logo512.png",
+      "content": "222222안녕하세요, 가로수길햄버거 입니다. 신선한 품질의 버거를 위하여 모든 재료는 직접 손수 매일 준비합니다. 가로수길햄버거",
+      "tel": "123-1231-2312",
+      "category": "브런치",
+      "open_time": "12시~24시",
+      "menu": [
+        {
+          "name": "치킨",
+          "price": "1242"
+        },
+        {
+          "name": "햄버거",
+          "price": "12252"
+        },
+        {
+          "name": "24224",
+          "price": "22"
+        }
+      ],
+      "streetAddress": "경기 가평군 북면 화악리 482-9",
+      "detailAddress": "123",
+      "latitude": "37.926640292523",
+      "longitude": "127.565059558998",
+      "id": 1,
+      "total_views": 0,
+      "total_review" : 0,
+      "total_favorite" : 1, 
+      "rating" : 4.5,
+      "isFavorite":true,
+      "createdAt": "2023-05-12T13:11:43.664707",
+      "modifiedAt": "2023-05-20T13:11:43.664707"
+    }, 
+    {
+      "restaurantId": 3,
+      "restaurantName": "3333333",
+      "tagRestaurants": [
+        {
+          "tag": {
+            "tagId": 1,
+            "name": "햄버거"
+          }
+        },
+        {
+          "tag": {
+            "tagId": 2,
+            "name": "가로수길"
+          }
+        }
+      ],
+      "photoUrl": "/logo512.png",
+      "content": "안녕하세요, 가로수길햄버거 입니다. 신선한 품질의 버거를 위하여 모든 재료는 직접 손수 매일 준비합니다. 가로수길햄버거",
+      "tel": "123-1231-2312",
+      "category": "브런치",
+      "open_time": "12시~24시",
+      "menu": [
+        {
+          "name": "치킨",
+          "price": "1242"
+        },
+        {
+          "name": "햄버거",
+          "price": "12252"
+        },
+        {
+          "name": "24224",
+          "price": "22"
+        }
+      ],
+      "streetAddress": "경기 가평군 북면 화악리 482-9",
+      "detailAddress": "123",
+      "latitude": "37.926640292523",
+      "longitude": "127.565059558998",
+      "id": 1,
+      "total_views": 0,
+      "total_review" : 15,
+      "total_favorite" : 44, 
+      "rating" : 4.5,
+      "isFavorite":true,
+      "createdAt": "2023-05-24T13:11:43.664707",
+      "modifiedAt": "2023-05-20T13:11:43.664707"
+    }, {
+      "restaurantId": 4,
+      "restaurantName": "444444444444",
+      "tagRestaurants": [
+        {
+          "tag": {
+            "tagId": 1,
+            "name": "햄버거"
+          }
+        },
+        {
+          "tag": {
+            "tagId": 2,
+            "name": "가로수길"
+          }
+        }
+      ],
+      "photoUrl": "/logo512.png",
+      "content": "44444444품질의 버거를 위하여 모든 재료는 직접 손수 매일 준비합니다. 가로수길햄버거",
+      "tel": "123-1231-2312",
+      "category": "브런치",
+      "open_time": "12시~24시",
+      "menu": [
+        {
+          "name": "치킨",
+          "price": "1242"
+        },
+        {
+          "name": "햄버거",
+          "price": "12252"
+        },
+        {
+          "name": "24224",
+          "price": "22"
+        }
+      ],
+      "streetAddress": "경기 가평군 북면 화악리 482-9",
+      "detailAddress": "123",
+      "latitude": "37.926640292523",
+      "longitude": "127.565059558998",
+      "id": 1,
+      "total_views": 0,
+      "total_review" : 145,
+      "total_favorite" : 244, 
+      "rating" : 4.5,
+      "isFavorite":true,
+      "createdAt": "2023-05-10T13:11:43.664707",
+      "modifiedAt": "2023-05-10T13:11:43.664707"
+    }, {
+      "restaurantId": 5,
+      "restaurantName": "5555555555",
+      "tagRestaurants": [
+        {
+          "tag": {
+            "tagId": 1,
+            "name": "햄버거"
+          }
+        },
+        {
+          "tag": {
+            "tagId": 2,
+            "name": "가로수길"
+          }
+        }
+      ],
+      "photoUrl": "/logo512.png",
+      "content": "555거 입니다. 신선한 품질의 버거를 위하여 모든 재료는 직접 손수 매일 준비합니다. 가로수길햄버거",
+      "tel": "123-1231-2312",
+      "category": "브런치",
+      "open_time": "12시~24시",
+      "menu": [
+        {
+          "name": "치킨",
+          "price": "1242"
+        },
+        {
+          "name": "햄버거",
+          "price": "12252"
+        },
+        {
+          "name": "24224",
+          "price": "22"
+        }
+      ],
+      "streetAddress": "경기 가평군 북면 화악리 482-9",
+      "detailAddress": "123",
+      "latitude": "37.926640292523",
+      "longitude": "127.565059558998",
+      "id": 1,
+      "total_views": 0,
+      "total_review" : 55,
+      "total_favorite" : 54, 
+      "rating" : 4.5,
+      "isFavorite":true,
+      "createdAt": "2023-04-20T13:11:43.664707",
+      "modifiedAt": "2023-02-20T13:11:43.664707"
     }
   ]
 }

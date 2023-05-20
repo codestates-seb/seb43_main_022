@@ -6,6 +6,7 @@ import { searchTermState } from "../../state/atoms/SearchTermState";
 import ImgBtn from "../style/ImgBtn";
 import styled from "styled-components";
 import { api } from "../../Util/api";
+
 const StoreListBox = styled.div`
   width: calc(100% - 400px);
   display: flex;
@@ -131,8 +132,10 @@ const StoreCard = styled.li`
     }
   }
   > .tagRestaurants {
+    width: 100%;
+    /* overflow-x: scroll; */
     display: flex;
-
+    flex-wrap: wrap;
     gap: 6px;
     > button {
       width: auto;
@@ -185,21 +188,25 @@ const PaginationWrap = styled.div`
 
   ul.pagination li a {
     text-decoration: none;
-    color: #337ab7;
+    color: #636363;
     font-size: 1rem;
   }
 
-  ul.pagination li.active a {
+  ul.pagination li.pagination__link--active a {
     color: white;
   }
 
-  ul.pagination li.active {
-    background-color: #337ab7;
+  ul.pagination li.pagination__link--active {
+    background-color: var(--eatsgreen);
+    border: 1px solid var(--eatsgreen);
+    a:hover {
+      color: white;
+    }
   }
 
   ul.pagination li a:hover,
   ul.pagination li a.active {
-    color: blue;
+    color: var(--eatsgreen);
     font-weight: 700;
   }
   .page-selection {
@@ -208,6 +215,8 @@ const PaginationWrap = styled.div`
     color: #337ab7;
   }
 `;
+
+const NoResult = () => <div>검색결과가 없습니다</div>;
 const StoreKeywordResult = () => {
   const [stores, setStores] = useState([]);
   const [, setLoading] = useState(true);
@@ -216,6 +225,7 @@ const StoreKeywordResult = () => {
   const resultsPerPage = 4;
   const [isHeartActive, setIsHeartActive] = useState(false);
   const [currentFilter, setCurrentFilter] = useState("createdAt");
+  const [noResult, setNoResult] = useState(false);
 
   const filterByLatest = (a, b) => {
     const dateA = new Date(a.createdAt);
@@ -234,15 +244,21 @@ const StoreKeywordResult = () => {
   useEffect(() => {
     const fetchStores = async () => {
       try {
-        const response = await api.get(
-          // `/restaurants/search?keyword=${searchTerm}`,
-          `/restaurants`,
-        );
-        let data = response.data;
+        let data = [];
+        if (searchTerm.length !== 0) {
+          const response = await api.get(
+            `/restaurants/search?keyword=${searchTerm}`,
+          );
+          data = response.data.data;
 
-        if (data.length === 0) {
+          if (data.length === 0) {
+            setNoResult(true);
+          } else {
+            setNoResult(false);
+          }
+        } else {
           const allStoresResponse = await api.get("/restaurants");
-          data = allStoresResponse.data;
+          data = allStoresResponse.data.data;
         }
 
         if (currentFilter === "createdAt") {
@@ -252,12 +268,13 @@ const StoreKeywordResult = () => {
         } else if (currentFilter === "total_favorite") {
           data.sort(filterByFavorites);
         }
-        console.log(response.data);
+
         setStores(data);
         setLoading(false);
       } catch (error) {
         console.error("Error fetching data: ", error);
         setLoading(false);
+        setNoResult(true);
       }
     };
 
@@ -276,7 +293,7 @@ const StoreKeywordResult = () => {
   const currentPageData = stores
     .slice(offset, offset + resultsPerPage)
     .map((store, restaurantId) => (
-      <StoreCard key={restaurantId}>
+      <StoreCard key={restaurantId} restaurantName={store.restaurantName}>
         <div className="photoUrl">
           {store.photoUrl ? (
             <img src={store.photoUrl} alt={store.restaurantName} />
@@ -315,22 +332,31 @@ const StoreKeywordResult = () => {
   return (
     <>
       <StoreListBox>
-        <Title>키워드 검색결과</Title>
+        <Title>등록된 가게 리스트</Title>
         <ResultFilter>
           <Total>총 {stores.length}개의 검색결과가 있습니다!</Total>
           <FilterUl>
-            <FilterLi onClick={() => setCurrentFilter("createdAt")}>
+            <FilterLi
+              onClick={() => setCurrentFilter("createdAt")}
+              className={currentFilter === "createdAt" ? "active" : ""}
+            >
               최신순
             </FilterLi>
-            <FilterLi onClick={() => setCurrentFilter("total_review")}>
+            <FilterLi
+              onClick={() => setCurrentFilter("total_review")}
+              className={currentFilter === "total_review" ? "active" : ""}
+            >
               리뷰순
             </FilterLi>
-            <FilterLi onClick={() => setCurrentFilter("total_favorite")}>
+            <FilterLi
+              onClick={() => setCurrentFilter("total_favorite")}
+              className={currentFilter === "total_favorite" ? "active" : ""}
+            >
               즐겨찾기순
             </FilterLi>
           </FilterUl>
         </ResultFilter>
-        <ResultList>{currentPageData}</ResultList>
+        {noResult ? <NoResult /> : <ResultList>{currentPageData}</ResultList>}
         <PaginationWrap>
           <ReactPaginate
             previousLabel={"←"}

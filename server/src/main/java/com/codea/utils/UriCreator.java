@@ -13,11 +13,4 @@ public class UriCreator {
                 .toUri();
     }
 
-    public static URI createUri(String defaultUrl, String additionalUrl) {
-        return UriComponentsBuilder
-                .newInstance()
-                .path(defaultUrl + "/{additionalUrl}")
-                .buildAndExpand(additionalUrl)
-                .toUri();
-    }
 }

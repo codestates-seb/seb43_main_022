@@ -115,22 +115,12 @@ public class RestaurantService {
         Optional.ofNullable(restaurant.getDetailAddress()).ifPresent(detailAddress -> findRestaurant.setDetailAddress(detailAddress));
         findRestaurant.setModifiedAt(LocalDateTime.now());
 
-        if (address != null) {  // 수정 안됨, 200 ok
+        if (address != null) {
             String streetAddress = address.getStreetAddress();
             Address findAddress = addressRepository.findByStreetAddress(streetAddress)
                     .orElseGet(() -> addressRepository.save(address));
             findRestaurant.setAddress(findAddress);
         }
-
-//
-//        if (address != null) {
-//            String streetAddress = address.getStreetAddress();
-//            Address persistedAddress = addressRepository.findByStreetAddress(streetAddress)
-//                    .orElseGet(() -> addressRepository.save(address));
-//            findMember.setAddress(persistedAddress);
-//        }
-//////
-//         Optional.ofNullable(restaurant.getCategory()).ifPresent(category -> findRestaurant.setCategory(category));
 
         Optional.ofNullable(restaurant.getCategory()).ifPresent(category -> {
             String categoryName = patch.getCategory().getName();
@@ -139,14 +129,9 @@ public class RestaurantService {
             findRestaurant.setCategory(findCategory);
         });
 
-//        String categoryName = patch.getCategory().getName();
-//        Category findCategory = categoryRepository.findByName(categoryName).orElseGet(() -> categoryRepository.save(patch));
-//        restaurant.setCategory(findCategory);
 
         Optional.ofNullable(restaurant.getMenu()).ifPresent((menuList) -> {
             menuRepository.deleteAllByRestaurant_RestaurantId(restaurantId);
-//            DELETE FROM menu WHERE restaurant_id = :restaurantId
-
             for (Menu menuTemp: restaurant.getMenu()) {
 
                 Menu findMenu = menuRepository.findById(menuTemp.getMenuId()).orElseGet(() -> {
@@ -163,11 +148,8 @@ public class RestaurantService {
         });
 
 
-
-
-        tagRestaurantRepository.deleteAllByRestaurant_RestaurantId(restaurantId);
-        deleteTagRestaurant(restaurantId);
         Optional.ofNullable(patch.getTag()).ifPresent((TagList) -> {
+            tagRestaurantRepository.deleteAllByRestaurant_RestaurantId(restaurantId);
             for (TagDto.Patch tagTemp : patch.getTag()) {  //태그 저장
                 Tag findTag = tagRepository.findByName(tagTemp.getName()).orElseGet(() -> {
                     Tag newtag = new Tag(tagTemp.getName());
@@ -201,29 +183,9 @@ public class RestaurantService {
     }
 
 
-    public void deleteTagRestaurant(long restaurantId) {
-
-        tagRestaurantRepository.deleteAllByRestaurant_RestaurantId(restaurantId);
-
-
-    }
-
-
-//    public Page<Restaurant> getTop10Restaurants(int page, int size) {
-//        return restaurantRepository.findAllByOrderByTotalFavoriteDesc(PageRequest.of(page, size, Sort.by("restaurantId").descending()));
-//
-//    }
-
     public Page<Restaurant> searchRestaurants(String keyword, int page, int size) {
 
         return restaurantRepository.searchByKeyword(keyword, PageRequest.of(page, size, Sort.by("restaurantId").descending()));
-    }
-    public double getAverageRatingForRestaurant(long restaurantId){
-        Restaurant restaurant = restaurantRepository.findById(restaurantId).orElse(null);
-        if(restaurant != null){
-            return restaurant.getAverageRating();
-        }
-        return 0;
     }
 
 
@@ -231,12 +193,5 @@ public class RestaurantService {
 
         return restaurantRepository.findByCategory_Name(name, PageRequest.of(page, size, Sort.by("restaurantId").descending()));
     }
-
-
-//    public Page<Restaurant> searchByTagRestaurants(int page, int size, String url, String tag) {
-//
-//        return restaurantRepository.searchByTag(url, tag, PageRequest.of(page, size, Sort.by("restaurantId").descending()));
-//    }
-
 
 }

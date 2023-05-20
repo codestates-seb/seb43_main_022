@@ -34,14 +34,8 @@ public class Favorite extends BaseEntity {
     private boolean status; // true = 즐겨찾기, false = 즐겨찾기 취소
 
 
-    public Favorite(Restaurant restaurant, Member member, boolean status) {
+    public Favorite(Restaurant restaurant, Member member) {
         this.restaurant = restaurant;
         this.member = member;
-        this.status = status;
-    }
-
-    public Boolean ChangeStatus(Boolean status) {
-        this.status = status;
-        return status;
     }
 }

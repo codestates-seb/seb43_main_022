@@ -76,17 +76,12 @@ public class MemberController {
     @PatchMapping
     public ResponseEntity patchMember(@Valid @RequestBody MemberDto.Patch requestBody,
                                       @AuthenticationPrincipal String email) {
-//        memberService.sameMemberTest(memberId, token);
-//        requestBody.setMemberId(memberId);
 
         AddressDto.Post addressDto = new AddressDto.Post(requestBody.getStreetAddress(), requestBody.getLatitude(), requestBody.getLongitude());
         Address address = addressMapper.addressPostDtoToAddress(addressDto);
 
         Member member = memberService.updateMember(email, address, memberMapper.memberPatchDtoToMember(requestBody));
 
-
-//        Member updateMember = memberService.updateMember(address, memberMapper.memberPatchDtoToMember(requestBody));
-//        MemberDto.Response responseDto = memberMapper.memberToMemberResponseDto(updateMember);
 
         return new ResponseEntity<>(memberMapper.memberToMemberResponseDto(member), HttpStatus.OK);
     }
@@ -98,8 +93,6 @@ public class MemberController {
         Member member = memberService.findMember(email);
         MemberDto.Response responseDto = memberMapper.memberToMemberResponseDto(member);
 
-//        List<Review> reviews = memberService.getReviewsByMember(member);
-//        List<Favorite> favorites = memberService.getFavoritesByMember(member);
         return new ResponseEntity(responseDto, HttpStatus.OK);
     }
 
@@ -117,7 +110,6 @@ public class MemberController {
 
     @DeleteMapping
     public ResponseEntity deleteMember(@AuthenticationPrincipal String email) {
-//        memberService.sameMemberTest(email);
 
         memberService.deleteMember(email);
 

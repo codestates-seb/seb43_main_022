@@ -26,12 +26,12 @@ public class Tag  {
     @OneToMany(mappedBy = "tag",cascade = CascadeType.PERSIST)
     private List<TagRestaurant> tagRestaurant = new ArrayList<>();
 
-    public void setTagRestaurant(TagRestaurant tagRestaurant) {
-        this.tagRestaurant.add(tagRestaurant);
-        if (tagRestaurant.getTag() != this) {
-            tagRestaurant.setTag(this);
-        }
-    }
+//    public void setTagRestaurant(TagRestaurant tagRestaurant) {
+//        this.tagRestaurant.add(tagRestaurant);
+//        if (tagRestaurant.getTag() != this) {
+//            tagRestaurant.setTag(this);
+//        }
+//    }
 
     public Tag(String name) {
         this.name = name;

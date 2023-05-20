@@ -39,6 +39,7 @@ public class ReviewService {
         review.setMember(member);
 
         int totalScore = 0;
+        int reviewCount = reviewRepository.countByRestaurant_RestaurantId(restaurantId);
 
         List<Review> reviewList = restaurant.getReviews();
         for (Review reviewTemp : reviewList) {
@@ -81,11 +82,5 @@ public class ReviewService {
 
         reviewRepository.delete(findReview);
     }
-    public double getAverageRatingForRestaurant(long restaurantId){
-        Restaurant restaurant = restaurantRepository.findById(restaurantId).orElse(null);
-        if (restaurant != null){
-            return  restaurant.getAverageRating();
-        }
-        return 0;
-    }
+
 }

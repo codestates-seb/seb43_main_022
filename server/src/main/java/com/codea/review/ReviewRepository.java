@@ -13,7 +13,6 @@ import java.util.Optional;
 public interface ReviewRepository extends JpaRepository<Review, Long> {
     Page<Review> findByRestaurant_RestaurantIdAndStatus(long restaurantId, Review.ReviewStatus status, Pageable pageable);
 
-    List<Review> findByMember(Member member);
-
+    int countByRestaurant_RestaurantId(long restaurantId);
 
 }

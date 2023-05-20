@@ -48,7 +48,6 @@ public class ReviewDto {
     public static class MyPageResponse {
         private long reviewId;
         private long restaurantId;
-
         private String title;
         private String restaurantName;
         private LocalDateTime createdAt;

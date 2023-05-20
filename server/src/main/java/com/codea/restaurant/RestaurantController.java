@@ -89,10 +89,10 @@ public class RestaurantController {
     @GetMapping("/{restaurant-id}")
     public ResponseEntity getRestaurant(@PathVariable("restaurant-id") long restaurantId) {
         Restaurant restaurant = restaurantService.findRestaurant(restaurantId);
-        double averageRating = restaurant.calculateAverageRating();
+//        double averageRating = restaurant.calculateAverageRating();
 
-        restaurant.setAverageRating(averageRating);
-        restaurant.setRating(averageRating);
+//        restaurant.setAverageRating(averageRating);
+//        restaurant.setRating(averageRating);
         RestaurantDto.Response responseDto = mapper.restaurantToRestaurantResponseDto(restaurant);
         //SingleResponseDto<RestaurantDto.Response> singleResponseDto = new SingleResponseDto<>(responseDto);
         // responseDto.setAverageRating(averageRating);

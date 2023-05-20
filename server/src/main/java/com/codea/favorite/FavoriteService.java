@@ -34,17 +34,17 @@ public class FavoriteService {
         this.memberRepository = memberRepository;
     }
 
-    public Favorite createFavorite(long restaurantId, String email, FavoriteDto.AddFavoriteRequest requestBody) {
+    public Favorite createFavorite(long restaurantId, String email) {
         Restaurant restaurant = restaurantRepository.findById(restaurantId).orElseThrow(() -> new BusinessLogicException(ExceptionCode.RESTAURANT_NOT_FOUND));
         Member member = memberRepository.findByEmail(email).orElseThrow(() -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
 
         Favorite favorite = new Favorite();
         favorite.setRestaurant(restaurant);
         favorite.setMember(member);
-        favorite.ChangeStatus(requestBody.getStatus());
 
 
-        restaurant.incrementFavoriteCount(); // 즐겨찾기가 추가될 때 카운트를 증가시킵니다.
+        int count = favoriteRepository.countByRestaurant_RestaurantId(restaurant.getRestaurantId());
+        restaurant.setTotalFavorite(count);
         restaurantRepository.save(restaurant); // 카운트가 업데이트된 restaurant를 저장합니다.
 
         return favoriteRepository.save(favorite);
@@ -58,7 +58,7 @@ public class FavoriteService {
         Member member = memberRepository.findByEmail(email).orElseThrow(() -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
         long memberId = member.getMemberId();
 
-        return favoriteRepository.findByMember_MemberIdAndStatus(memberId, true, PageRequest.of(page, size, Sort.by("favoriteId").descending()));
+        return favoriteRepository.findByMember_MemberId(memberId, PageRequest.of(page, size, Sort.by("favoriteId").descending()));
     }
 
     public List<Favorite> getFavoritesByMember(Member member) {

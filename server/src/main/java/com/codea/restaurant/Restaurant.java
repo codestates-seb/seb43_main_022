@@ -43,7 +43,7 @@ public class Restaurant extends BaseEntity {
     private int total_reviews;
     @Column
     private int totalFavorite;
-    //@Column(nullable = false)
+    @Column(nullable = false)
     private double rating;
     @Column
     private String streetAddress;
@@ -66,14 +66,6 @@ public class Restaurant extends BaseEntity {
     private Category category;
     private double averageRating;
 
-    public void incrementFavoriteCount() {
-        this.totalFavorite += 1;
-    }
-
-    public void decrementFavoriteCount() {
-        this.totalFavorite -= 1;
-    }
-
     @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL)
     private List<Menu> menu = new ArrayList<>();
 
@@ -84,7 +76,6 @@ public class Restaurant extends BaseEntity {
     private List<Review> reviews = new ArrayList<>();
 
     @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL)
-//    @OneToMany(mappedBy = "restaurant")
     private List<Favorite> favorites = new ArrayList<>();
 
 
@@ -102,35 +93,6 @@ public class Restaurant extends BaseEntity {
         if (tagRestaurant.getRestaurant() != this) {
             tagRestaurant.setRestaurant(this);
         }
-    }
-
-    public double calculateAverageRating(){
-        List<Review> reviews = this.reviews;
-        if( reviews.isEmpty()){
-            return 0.0;
-        }
-        int totalScore = 0;
-        int totalReviews = reviews.size();
-        for(Review review : reviews){
-            totalScore += review.getRating().getScore();
-        }
-        double averageRating = (double) totalScore / totalReviews;
-        this.rating = averageRating;
-        return averageRating;
-    }
-    public void setAverageRating(double averageRating){
-        this.averageRating = averageRating;}
-    public  long getRestaurantId(){
-        return restaurantId;
-    }
-    public void  setRestaurantId(long restaurantId){
-        this.restaurantId  = restaurantId;
-    }
-    public  List<Review> getReviews(){
-        return reviews;
-    }
-    public  void  setReviews(List<Review> reviews){
-        this.reviews = reviews;
     }
 
 }

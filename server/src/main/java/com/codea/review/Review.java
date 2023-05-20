@@ -33,15 +33,6 @@ public class Review extends BaseEntity {
     @JoinColumn(name = "restaurant_id")
     private Restaurant restaurant;
 
-//
-//    @ManyToOne(fetch = FetchType.EAGER)
-//    @JoinColumn(name = "MEMBER_ID")
-//    private Member member;
-//
-//    @ManyToOne(fetch = FetchType.EAGER)
-//    @JoinColumn(name = "RESTAURANT_ID")
-//    private Restaurant restaurant;
-
 
     public enum Rating {
         LIKE("맛있어요",5),
@@ -66,7 +57,6 @@ public class Review extends BaseEntity {
     public void setRating(Rating rating){
         this.rating = rating;
     }
-
 
 
 }

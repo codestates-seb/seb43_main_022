@@ -81,7 +81,6 @@ public class MemberService {
 
 
         Optional.ofNullable(member.getNickName()).ifPresent(name -> findMember.setNickName(name));
-//        Optional.ofNullable(member.getPassword()).ifPresent(password -> findMember.setPassword(password));
         Optional.ofNullable(member.getPassword()).ifPresent(password -> {
             String encryptedPassword = passwordEncoder.encode(password);
             findMember.setPassword(encryptedPassword);
@@ -120,37 +119,11 @@ public class MemberService {
         memberRepository.save(findMember);
     }
 
-    @Transactional(readOnly = true)
-    public Member findVerifiedMember(long memberId) {
-        Optional<Member> optionalMember =
-                memberRepository.findById(memberId);
-        Member findMember =
-                optionalMember.orElseThrow(() ->
-                        new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
-        return findMember;
-    }
 
     private void verifyExistsEmail(String email) {
         Optional<Member> member = memberRepository.findByEmail(email);
         if (member.isPresent())
             throw new BusinessLogicException(ExceptionCode.MEMBER_EXISTS, String.format("%s는 이미 가입한 이메일입니다.", email));
-    }
-
-//    public void sameMemberTest(long memberId, String token) {
-//        String email = jwtUtil.extractEmailFromToken(token);
-//        Member findMember = findVerifiedMember(memberId);
-//
-//        if (!email.equals(findMember.getEmail())) {
-//            throw new BusinessLogicException(ExceptionCode.INVALID_PERMISSION, String.format("유저(%s)가 권한을 가지고 있지 않습니다. 사용자(%s) 정보를 수정할 수 없습니다.", email, findMember.getEmail()));
-//        }
-//    }
-
-    public List<Review> getReviewsByMember(Member member) {
-        return reviewRepository.findByMember(member);
-    }
-
-    public List<Favorite> getFavoritesByMember(Member member) {
-        return favoriteRepository.findByMember(member);
     }
 
 

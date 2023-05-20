@@ -16,7 +16,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Mapper(componentModel = "spring")
-//@Mapper(componentModel = "spring", uses = {MenuMapper.class, ReviewMapper.class, AddressMapper.class})
 public interface RestaurantMapper {
     @Mapping(target = "category", expression = "java(restaurant.getCategory())")
     Restaurant restaurantPostDtoToRestaurant(RestaurantDto.Post restaurantPostDto);
@@ -25,15 +24,11 @@ public interface RestaurantMapper {
     @Mapping(target = "latitude", expression = "java(restaurant.getAddress().getLatitude())")
     @Mapping(target = "longitude", expression = "java(restaurant.getAddress().getLongitude())")
     @Mapping(target = "category", expression = "java(restaurant.getCategory().getName())")
-//    @Mapping(target = "tags", expression = "java(List.of(restaurant.getTagRestaurants().getTag()))")
-   // @Mapping(target = "tag", source = "tagRestaurants")
     RestaurantDto.Response restaurantToRestaurantResponseDto(Restaurant restaurant);
     @Mapping(target = "streetAddress", expression = "java(restaurant.getAddress().getStreetAddress())")
     @Mapping(target = "latitude", expression = "java(restaurant.getAddress().getLatitude())")
     @Mapping(target = "longitude", expression = "java(restaurant.getAddress().getLongitude())")
     @Mapping(target = "category", expression = "java(restaurant.getCategory().getName())")
-   // @Mapping(target = "tagRestaurants", expression = "java(restaurant.getTagRestaurants().tagRestaurant.getTag())")
-   // @Mapping(target = "tagRestaurant", expression = "java(tagRestaurantToResponse(restaurant.getTagRestaurants()))")
     List<RestaurantDto.Response> restaurantToRestaurantResponseDtos(List<Restaurant> restaurant);
 
 

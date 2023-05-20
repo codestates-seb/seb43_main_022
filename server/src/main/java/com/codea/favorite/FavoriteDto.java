@@ -9,25 +9,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 public class FavoriteDto {
-    @Getter
-    @AllArgsConstructor
-    @NoArgsConstructor
-    @Setter
-    public static class AddFavoriteRequest {
-//        private Long restaurantId;
-//        private Long memberId;
-        private Boolean status;
-
-
-    }
-
-
-    @Getter
-    @AllArgsConstructor
-    public static class RemoveFavoriteRequest {
-        private Long restaurantId;
-        private Long memberId;
-    }
 
     @Getter
     public static class ResponseFavorite {
@@ -51,13 +32,4 @@ public class FavoriteDto {
 
     }
 
-//    @Getter
-//    @AllArgsConstructor
-//    public static class Response {
-//        private Long favoriteId;
-//        private Long RestaurantId;
-//
-//        private String restaurantName;
-//
-//    }
 }

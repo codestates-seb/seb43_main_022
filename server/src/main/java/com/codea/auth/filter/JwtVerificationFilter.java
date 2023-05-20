@@ -38,10 +38,6 @@ public class JwtVerificationFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
                                     FilterChain filterChain) throws ServletException, IOException {
-//        Map<String, Object> claims = verifyJws(request);
-//        setAuthenticationToContext(claims);
-//
-//        filterChain.doFilter(request, response);
 
         try {
             Map<String, Object> claims = verifyJws(request); // jwt 토큰의 claims를 검증 및 반환

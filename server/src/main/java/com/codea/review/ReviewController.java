@@ -37,24 +37,10 @@ public class ReviewController {
     public ResponseEntity postReview(@PathVariable("restaurant-id") @Positive long restaurantId,
                                      @Valid @RequestBody ReviewDto.Post requestBody,
                                      @AuthenticationPrincipal String email) {
-       /* Review review = reviewService.createReview(restaurantId, email, mapper.reviewPostDtoToReview(requestBody));
+       Review review = reviewService.createReview(restaurantId, email, mapper.reviewPostDtoToReview(requestBody));
 
         String ReviewUrl = "/restaurants/" + restaurantId + "/reviews";
         URI location = UriCreator.createUri(ReviewUrl, review.getReviewId());
-
-        return ResponseEntity.created(location).build();*/
-        Restaurant restaurant = restaurantService.findRestaurant(restaurantId);
-        if (restaurant == null) {
-            return ResponseEntity.notFound().build();
-        }
-
-        Review review = mapper.reviewPostDtoToReview(requestBody);
-        review.setRestaurant(restaurant);
-
-        reviewService.createReview (restaurantId, email,review);
-
-        String reviewUrl = "/restaurants/" + restaurantId + "/reviews/" + review.getReviewId();
-        URI location = UriComponentsBuilder.fromPath(reviewUrl).build().toUri();
 
         return ResponseEntity.created(location).build();
     }
@@ -69,27 +55,8 @@ public class ReviewController {
     }
 
     @GetMapping("/{review-id}")
-    public ResponseEntity getReview(@PathVariable("review-id") @Positive long reviewId
-            /* @PathVariable("member") Member member*/ ) {
+    public ResponseEntity getReview(@PathVariable("review-id") @Positive long reviewId) {
         Review review = reviewService.findReview(reviewId);
-        /*List<Review> reviews = reviewRepository.findByMember(member);
-
-        int totalPoints = 0;
-        int totalReviews = reviews.size();
-
-        for (Review review1 : reviews) {
-            if (review1.getRating)().equals("맛있어요") {
-                totalPoints += 5;
-            } else if (review1.getRating().equals("별로에요")) {
-                totalPoints += 1;
-            }
-        }
-        if (totalReviews > 0) {
-            return (double) totalPoints / totalReviews;
-        }
-        else {
-            return 0.0;
-        } */
 
         return new ResponseEntity<>(mapper.reviewToReviewResponseDto(review),HttpStatus.OK);
     }

@@ -26,8 +26,7 @@ public class MenuService {
     }
 
     public Menu createMenu(long restaurantId, Menu menu) {
-        Restaurant restaurant = restaurantRepository.findById(restaurantId).orElseThrow(() -> new BusinessLogicException(ExceptionCode.RESTAURANT_NOT_FOUND));
-//        menu.setRestaurant(restaurant);
+        restaurantRepository.findById(restaurantId).orElseThrow(() -> new BusinessLogicException(ExceptionCode.RESTAURANT_NOT_FOUND));
 
         return menuRepository.save(menu);
     }

@@ -24,25 +24,4 @@ public class Category {
     @OneToMany(mappedBy = "category")
     private List<Restaurant> restaurants = new ArrayList<>();
 
-//    public enum CategoryName{
-//        KOREAN_FOOD("한식"),
-//        WESTERN_FOOD("양식"),
-//        JAPANESE_FOOD("일식"),
-//        CHINESE_FOOD("중식"),
-//        VIETNAMESE_FOOD("베트남 요리"),
-//        INDIAN_FOOD("인도 요리"),
-//        FLOUR_BASED_FOOD("분식"),
-//        DESSERT("후식"),
-//        FUSION_FOOD("퓨전 요리"),
-//        VEGETARIAN_DIET("채식"),
-//        SEAFOOD("해물"),
-//        MEAT("고기");
-//
-//        @Getter
-//        private String CategoryName;
-//
-//        CategoryName(String CategoryName){
-//            this.CategoryName = CategoryName;
-//        }
-//    }
 }

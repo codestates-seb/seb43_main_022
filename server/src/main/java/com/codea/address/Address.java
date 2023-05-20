@@ -20,11 +20,8 @@ public class Address {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long addressId;
-//    @Column(length = 50, nullable = false, unique = true)
     private String streetAddress;
-//    @Column(unique = true)
     private double latitude;
-//    @Column(unique = true)
     private double longitude;
 
     public Address(String streetAddress, double latitude, double longitude) {

@@ -1,5 +1,5 @@
 import styled, { css } from "styled-components";
-
+import { useState } from "react";
 const HoverType = {
   green: css`
     --hover: var(--eatsgreen);
@@ -40,6 +40,7 @@ const Style = styled.svg`
 `;
 
 function Plusfunc({ imgstyle, onClick }) {
+  const [isActive, setIsActive] = useState(false);
   let d = "";
   let fill = "";
   let hoverSelect = "";
@@ -65,7 +66,7 @@ function Plusfunc({ imgstyle, onClick }) {
     case "Heart":
       d =
         "M14.5 29.9375L12.6875 28.2875C6.25 22.45 2 18.5875 2 13.875C2 10.0125 5.025 7 8.875 7C11.05 7 13.1375 8.0125 14.5 9.6C15.8625 8.0125 17.95 7 20.125 7C23.975 7 27 10.0125 27 13.875C27 18.5875 22.75 22.45 16.3125 28.2875L14.5 29.9375Z";
-      fill = "#C0C0C0";
+      fill = isActive ? "#FF0000" : "#C0C0C0";
       hoverSelect = "red";
       break;
     case "HATE":
@@ -97,6 +98,12 @@ function Plusfunc({ imgstyle, onClick }) {
       break;
   }
   const Hovertype = HoverType[hoverSelect];
+  const handleClick = () => {
+    setIsActive(!isActive);
+    if (onClick) {
+      onClick();
+    }
+  };
 
   return (
     <>
@@ -108,7 +115,7 @@ function Plusfunc({ imgstyle, onClick }) {
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
           Hovertype={Hovertype}
-          onClick={onClick}
+          onClick={handleClick}
         >
           <path d={d} fill={fill} />
         </Style>

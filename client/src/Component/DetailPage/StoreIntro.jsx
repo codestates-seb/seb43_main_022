@@ -33,7 +33,7 @@ const StoreIntro = () => {
     const fetchData = async () => {
       try {
         const response = await api.get("/restaurants/1");
-        const { photo, content } = response.data.data;
+        const { photo, content } = response.data;
         const newData = {
           photo: photo || defaultImg,
           content,

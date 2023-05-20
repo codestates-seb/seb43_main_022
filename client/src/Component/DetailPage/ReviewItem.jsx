@@ -1,7 +1,9 @@
 import styled from "styled-components";
 import Button from "../style/StyleButton";
 import ImgBtn from "../style/ImgBtn";
+
 import profile from "../style/img/profile.png";
+
 import { useRecoilValue } from "recoil";
 import memberState from "../../state/atoms/SignAtom";
 import { api } from "../../Util/api";
@@ -93,11 +95,11 @@ const ReviewItem = ({ data, onDelete }) => {
 
   const handleDelete = async () => {
     try {
-      const response = await api.delete(`/reviews/1`);
+      const response = await api.delete(`/reviews/2`);
       console.log("Review deleted:", response.data);
       onDelete(data);
     } catch (error) {
-      console.error("Error deleting review:", error);
+      console.error("리뷰삭제 실패:", error);
     }
   };
 
@@ -106,7 +108,7 @@ const ReviewItem = ({ data, onDelete }) => {
       <Container>
         <ReviewHead>
           <Left>
-            <Profile src={data.photo || profile} alt="profile" />
+            <Profile src={data.member.photo || profile} alt="profile" />
             <TitleInfo>
               <div className="title">{data.title}</div>
               <div className="day-button">
@@ -126,12 +128,12 @@ const ReviewItem = ({ data, onDelete }) => {
           <ImgBtn imgstyle={data.rating === "LIKE" ? "LIKE" : "HATE"} />
         </ReviewHead>
         <ReviewContent>
-          <div className="username">{data.nickName}</div>
+          <div className="username">{data.member.nickName}</div>
           <div className="contents">
             <Text>{data.content}</Text>
             {/* <Photo>
-              {data.photoImg.map((img, imgIndex) => (
-                <PhotoItem key={imgIndex} src={img} />
+              {data.photo.map((data, imgIndex) => (
+                <PhotoItem key={imgIndex} src={data.photo} alt={null} />
               ))}
             </Photo> */}
           </div>

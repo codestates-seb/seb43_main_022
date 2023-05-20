@@ -44,9 +44,9 @@ const SubInfo = styled.div`
 `;
 
 const StoreHead = () => {
-  // const isLogin = useRecoilValue(isLoginState);
   const member = useRecoilValue(memberState);
   const [heartIcon, setHeartIcon] = useState(false);
+
   const [shareIcon, setShareIcon] = useState(false);
 
   const [data, setData] = useState({
@@ -60,15 +60,9 @@ const StoreHead = () => {
     const fetchData = async () => {
       try {
         const response = await api.get("/restaurants/1");
-        const { restaurantName, tagRestaurants, total_views, totalFavorite } =
-          response.data.data;
+        const data = response.data;
 
-        setData({
-          restaurantName,
-          tagRestaurants,
-          total_views,
-          totalFavorite,
-        });
+        setData(data);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -87,12 +81,11 @@ const StoreHead = () => {
       if (!heartIcon && member.memberId) {
         await api.post(`/favorites/restaurant/1`); //${restaurant - id}
         console.log("즐겨찾기 저장");
-        setHeartIcon(true);
       } else {
         await api.delete(`/favorites/1`); //${favorites-id}
         console.log("즐겨찾기 해제");
-        setHeartIcon(false);
       }
+      setHeartIcon(!heartIcon);
     } catch (error) {
       console.error("즐겨찾기에러:", error);
     }

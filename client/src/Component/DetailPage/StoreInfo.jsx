@@ -99,33 +99,9 @@ const StoreInfo = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await api.get("/restaurants/1");
-        const {
-          restaurantId,
-          streetAddress,
-          detailAddress,
-          latitude,
-          longitude,
-          tel,
-          category,
-          open_time,
-          menu,
-          createdAt,
-          modifiedAt,
-        } = response.data.data;
-        setData({
-          restaurantId,
-          streetAddress,
-          detailAddress,
-          latitude,
-          longitude,
-          tel,
-          category,
-          open_time,
-          menu,
-          createdAt,
-          modifiedAt,
-        });
+        const response = await api.get(`/restaurants/1`);
+        const data = response.data;
+        setData(data);
       } catch (error) {
         console.error("Error fetching data:", error);
       }

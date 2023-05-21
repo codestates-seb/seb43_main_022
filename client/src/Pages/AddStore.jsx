@@ -59,6 +59,7 @@ const AddStore = () => {
       setFormData(initFormData); // 폼 데이터 초기화
       history(-1);
     } catch (error) {
+      console.log(formData);
       console.error(error);
       // 에러 처리 로직을 추가.
       alert("업체 정보 등록에 실패하였습니다.");

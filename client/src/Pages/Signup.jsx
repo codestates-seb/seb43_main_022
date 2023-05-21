@@ -109,6 +109,22 @@ const Errspan = styled.div`
   color: var(--red-500);
   font-size: 14px;
 `;
+const TextArea = styled.textarea`
+  width: 293px;
+  min-height: 41px;
+  height: auto;
+  font-size: var(--medium-font);
+  border: 1px solid var(--black-200);
+  border-radius: 10px;
+  padding: 5px 10px;
+  white-space: pre-line;
+  overflow: hidden;
+
+  &:active,
+  &:focus {
+    outline: none;
+  }
+`;
 const { kakao } = window;
 
 function Signup() {
@@ -332,7 +348,7 @@ function Signup() {
               검색
             </LocationBtn>
           </LocationWrap>
-          <Input
+          <TextArea
             type="text"
             inputType="default"
             value={Address.address || ""}

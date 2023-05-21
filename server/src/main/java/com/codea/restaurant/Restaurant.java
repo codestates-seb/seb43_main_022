@@ -71,7 +71,7 @@ public class Restaurant extends BaseEntity {
     @OneToMany(mappedBy = "restaurant", cascade = {CascadeType.PERSIST,  CascadeType.REMOVE})//, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private List<Review> reviews = new ArrayList<>();
 
-    @OneToMany(mappedBy = "restaurant", cascade = {CascadeType.PERSIST,  CascadeType.REMOVE})//, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @OneToMany(mappedBy = "restaurant", cascade = CascadeType.REMOVE)//, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private List<Favorite> favorites = new ArrayList<>();
 
 

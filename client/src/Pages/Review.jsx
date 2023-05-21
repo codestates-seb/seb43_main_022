@@ -1,11 +1,11 @@
 import styled from "styled-components";
-import { useNavigate } from "react-router-dom";
+import { useRecoilState } from "recoil";
+import { useNavigate, useParams } from "react-router-dom";
 import Button from "../Component/style/StyleButton";
 import ResInfo from "../Component/ReviewPageComp/ResInfo";
 import ReviewInfo from "../Component/ReviewPageComp/ReviewInfo";
 import { ReviewState } from "../state/atoms/ReviewAtom";
 import { api } from "../Util/api";
-import { useRecoilState } from "recoil";
 
 const BasicContainer = styled.div`
   width: 100%;
@@ -14,7 +14,7 @@ const BasicContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin-bottom: 70px;
+  margin: 90px 0px;
 `;
 const ButtonContainer = styled.div`
   width: 100%;
@@ -26,23 +26,30 @@ const ButtonContainer = styled.div`
   }
 `;
 
-const Review = ({ restaurant_id }) => {
-  const history = useNavigate();
-  const [ReviewData] = useRecoilState(ReviewState);
+const Review = () => {
+  const navi = useNavigate();
+  const [ReviewData, setReviewData] = useRecoilState(ReviewState);
+  const { res_id } = useParams();
+
   // 리뷰 남기기 버튼
-  const handleSubmit = () => {
-    api
-      .post(`/restaurants/${restaurant_id}/review`, ReviewData)
+  const handleSubmit = async () => {
+    await api
+      .post(`/reviews/restaurants/${res_id}`, ReviewData)
       .then(() => {
         console.log("잘보냄");
+        alert("리뷰를 등록하였습니다.");
+        setReviewData({});
+        navi(-1);
       })
       .catch((err) => {
-        console.log(`${err} 에러가 발생함`);
+        alert("리뷰 등록에 실패하였습니다.");
+        console.log(err);
+        console.log(ReviewData, "리뷰 페이지");
       });
   };
   // 취소 버튼
   const handleCancel = () => {
-    history(-1);
+    navi(-1);
   };
   return (
     <BasicContainer className="Basic-Container">

@@ -21,7 +21,7 @@ public class Category {
 
     private String name;
 
-    @OneToMany(mappedBy = "category")
+    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
     private List<Restaurant> restaurants = new ArrayList<>();
 
 }

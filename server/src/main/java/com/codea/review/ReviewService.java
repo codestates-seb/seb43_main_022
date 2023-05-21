@@ -39,7 +39,7 @@ public class ReviewService {
         review.setMember(member);
 
         int totalScore = 0;
-        int reviewCount = reviewRepository.countByRestaurant_RestaurantId(restaurantId);
+        int reviewCount = reviewRepository.countByRestaurant_RestaurantId(restaurantId) + 1;
 
         List<Review> reviewList = restaurant.getReviews();
         for (Review reviewTemp : reviewList) {
@@ -49,7 +49,7 @@ public class ReviewService {
 
         double rating = Math.round((double) (totalScore + (review.getRating().getScore())) / (double) (reviewCount) * 10) / 10.0;
         restaurant.setRating(rating);
-        restaurant.setTotal_reviews(reviewCount + 1);
+        restaurant.setTotal_reviews(reviewCount);
 
         return reviewRepository.save(review);
     }

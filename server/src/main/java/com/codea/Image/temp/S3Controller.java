@@ -22,13 +22,13 @@ public class S3Controller {
     }
 
     @PostMapping("/api/upload")
-    public String uploadFile(FileDto fileDto) throws IOException {
+    public void uploadFile(FileDto fileDto) throws IOException {
         String url = s3Service.uploadFile(fileDto.getFile());
 
         fileDto.setUrl(url);
         fileService.save(fileDto);
 
-        return "redirect:/api/list";
+//        return "redirect:/api/list";
     }
 
     @GetMapping("/api/list")

@@ -19,11 +19,11 @@ public class TagRestaurant  {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long tagRestaurantId;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "RESTAURANT_ID")
     private Restaurant restaurant;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "TAG_ID")
     private Tag tag;
 

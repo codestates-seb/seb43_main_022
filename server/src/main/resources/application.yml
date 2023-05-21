@@ -7,18 +7,37 @@ logging:
     org.springframework.web.servlet: debug
     org.hibernate.type.descriptor.sql.BasicBinder: trace
 
+
+cloud:
+  aws:
+    credentials:
+      access-key: AKIAVZCEWUKJ6A52AAOQ
+      secret-key: 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
+    s3: #버킷이름
+      bucket: main022
+    region:
+      static: ap-northeast-2
+    stack:
+      auto: false
+
+
 spring:
-  h2:
-    console:
-      enabled: true
-      path: /h2
-  datasource:
-    url: jdbc:h2:mem:test
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+
+#  h2:
+#    console:
+#      enabled: true
+#      path: /h2
 #  datasource:
-#    driver-class-name: com.mysql.cj.jdbc.Driver
-#    url: jdbc:mysql://localhost:3306/main022?serverTimezone=Asia/Seoul
-#    username: root
-#    password: root
+#    url: jdbc:h2:mem:test
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/main022?serverTimezone=Asia/Seoul
+    username: root
+    password: root
   jpa:
     defer-datasource-initialization: true
     hibernate.ddl-auto: create
@@ -31,6 +50,7 @@ spring:
 #  redis:
 #    host: localhost  # 배포 시 ec2 주소 사용
 #    port: 6379
+
 
 
 jwt:
@@ -52,20 +72,4 @@ jwt:
 mail:
   address:
     admin: admin@gmail.com
-
-cloud:
-  aws:
-    credentials:
-      access-key: AKIAVZCEWUKJ6A52AAOQ
-      secret-key: 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
-    s3:
-      bucket: main022
-    region:
-      static: ap-northeast-2
-    stack:
-      auto: false
-#  servlet:
-#    multipart:
-#      max-file-size: 10MB
-#      max-request-size: 10MB
 

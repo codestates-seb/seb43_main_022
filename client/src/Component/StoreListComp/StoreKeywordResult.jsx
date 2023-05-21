@@ -1,12 +1,14 @@
 import { useState, useEffect } from "react";
+import { useNavigate, Link } from "react-router-dom";
 import ReactPaginate from "react-paginate";
 import { Title } from "../../Pages/StoreList";
 import { useRecoilValue } from "recoil";
+// useRecoilState
 import { searchTermState } from "../../state/atoms/SearchTermState";
 import ImgBtn from "../style/ImgBtn";
 import styled from "styled-components";
 import { api } from "../../Util/api";
-
+// import BtnState from "../../state/atoms/BtnActive";
 const StoreListBox = styled.div`
   width: calc(100% - 400px);
   display: flex;
@@ -63,14 +65,19 @@ const ResultList = styled.div`
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-start;
-  width: calc(100%);
   gap: 20px;
+  > a {
+    width: 100%;
+    max-width: calc(100% / 2 - 10px);
+    display: flex;
+    flex-wrap: wrap;
+    color: inherit;
+  }
 `;
 
 const StoreCard = styled.li`
   cursor: pointer;
   width: 100%;
-  max-width: calc(100% / 2 - 10px);
   border-radius: 30px;
   display: flex;
   flex-direction: column;
@@ -227,6 +234,7 @@ const StoreKeywordResult = () => {
   const [isHeartActive, setIsHeartActive] = useState(false);
   const [currentFilter, setCurrentFilter] = useState("createdAt");
   const [noResult, setNoResult] = useState(false);
+  // const [acitveHeart, setActiveHeart] = useRecoilState(BtnState);
 
   const filterByLatest = (a, b) => {
     const dateA = new Date(a.createdAt);
@@ -288,44 +296,54 @@ const StoreKeywordResult = () => {
 
   const offset = currentPage * resultsPerPage;
 
-  const handleClick = () => {
+  const history = useNavigate();
+
+  const handleClick = (restaurantId) => {
+    console.log(`Clicked on store with restaurantName: ${restaurantId}`);
+    history.push(`/detail/${restaurantId}`);
     setIsHeartActive(!isHeartActive);
   };
   const currentPageData = stores
     .slice(offset, offset + resultsPerPage)
     .map((store, restaurantId) => (
-      <StoreCard key={restaurantId} restaurantId={store.restaurantId}>
-        <div className="photoUrl">
-          {store.photoUrl ? (
-            <img src={store.photoUrl} alt={store.restaurantName} />
-          ) : (
-            "등록된 이미지가 없습니다."
-          )}
-          {store.isFavorite === false ? (
-            <span>
-              <ImgBtn imgstyle="Heart" onClick={handleClick} />
-            </span>
-          ) : (
-            <span>
-              <ImgBtn imgstyle="Heart" />
-            </span>
-          )}
-        </div>
-        <p className="category">{store.category}</p>
-        <h2 className="restaurantName">{store.restaurantName}</h2>
-        <p className="content">{store.content}</p>
-        <div className="Count">
-          <p>즐겨찾기 : {store.total_favorite}</p>
-          <p>리뷰 : {store.total_review}</p>
-        </div>
-        <div className="tagRestaurants">
-          {store.tagRestaurants.map((tag, index) => (
-            <button key={index} className="tagButton">
-              {tag.tag.name}
-            </button>
-          ))}
-        </div>
-      </StoreCard>
+      <Link
+        key={restaurantId}
+        to={`/detail/${store.restaurantId}`}
+        onClick={() => handleClick(store.restaurantId)}
+      >
+        <StoreCard key={restaurantId} restaurantId={store.restaurantId}>
+          <div className="photoUrl">
+            {store.photoUrl ? (
+              <img src={store.photoUrl} alt={store.restaurantName} />
+            ) : (
+              "등록된 이미지가 없습니다."
+            )}
+            {store.isFavorite === false ? (
+              <span>
+                <ImgBtn imgstyle="Heart" onClick={handleClick} />
+              </span>
+            ) : (
+              <span>
+                <ImgBtn imgstyle="Heart" />
+              </span>
+            )}
+          </div>
+          <p className="category">{store.category}</p>
+          <h2 className="restaurantName">{store.restaurantName}</h2>
+          <p className="content">{store.content}</p>
+          <div className="Count">
+            <p>즐겨찾기 : {store.total_favorite}</p>
+            <p>리뷰 : {store.total_review}</p>
+          </div>
+          <div className="tagRestaurants">
+            {store.tagRestaurants.map((tag, index) => (
+              <button key={index} className="tagButton">
+                {tag.tag.name}
+              </button>
+            ))}
+          </div>
+        </StoreCard>
+      </Link>
     ));
 
   const pageCount = Math.ceil(stores.length / resultsPerPage);

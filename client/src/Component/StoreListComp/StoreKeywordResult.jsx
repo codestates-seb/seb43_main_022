@@ -68,6 +68,7 @@ const ResultList = styled.div`
 `;
 
 const StoreCard = styled.li`
+  cursor: pointer;
   width: 100%;
   max-width: calc(100% / 2 - 10px);
   border-radius: 30px;
@@ -293,7 +294,7 @@ const StoreKeywordResult = () => {
   const currentPageData = stores
     .slice(offset, offset + resultsPerPage)
     .map((store, restaurantId) => (
-      <StoreCard key={restaurantId} restaurantName={store.restaurantName}>
+      <StoreCard key={restaurantId} restaurantId={store.restaurantId}>
         <div className="photoUrl">
           {store.photoUrl ? (
             <img src={store.photoUrl} alt={store.restaurantName} />

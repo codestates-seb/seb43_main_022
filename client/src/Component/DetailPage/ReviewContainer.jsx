@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import Button from "../style/StyleButton";
 import ReviewList from "./ReviewList";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import { reviewDataAtom } from "../../state/atoms/reviewDataAtom";
 import { useState, useEffect } from "react";
@@ -33,40 +33,43 @@ const Buttons = styled.div`
 
 const ReviewContainer = () => {
   const navigate = useNavigate();
+  const { res_id } = useParams();
   const onClickReview = () => {
-    navigate("/review");
+    navigate(`/review/restaurants/${res_id}`);
   };
 
   const data = useRecoilValue(reviewDataAtom);
-  const [filteredData, setFilteredData] = useState([]);
+  const [filteredData, setFilteredData] = useState(data);
+
+  //최신순 정렬
+  const sortByLatest = (reviews) => {
+    return reviews.sort((a, b) => {
+      const dateA = new Date(a.createdAt);
+      const dateB = new Date(b.createdAt);
+      return dateB - dateA;
+    });
+  };
 
   //최신순
   const handleLatest = () => {
-    const sortedData = [...data].sort((a, b) => {
-      const dateA = new Date(a.created_at);
-      const dateB = new Date(b.created_at);
-      return dateB - dateA;
-    });
-    setFilteredData(sortedData);
-    console.log(sortedData);
+    setFilteredData(sortByLatest([...data]));
   };
 
   //긍정순
   const handlePositive = () => {
     const positiveReviews = data.filter((review) => review.rating === "LIKE");
-    setFilteredData(positiveReviews);
-    console.log(positiveReviews);
+    setFilteredData(sortByLatest(positiveReviews));
   };
 
   //부정순
   const handleNegative = () => {
     const negativeReviews = data.filter((review) => review.rating === "HATE");
-    setFilteredData(negativeReviews);
-    console.log(negativeReviews);
+    setFilteredData(sortByLatest(negativeReviews));
   };
 
+  //첫렌더링에서 최신순으로 초기 정렬
   useEffect(() => {
-    setFilteredData(data);
+    setFilteredData(sortByLatest([...data]));
   }, [data]);
 
   return (
@@ -78,7 +81,7 @@ const ReviewContainer = () => {
             <Button btnstyle="SBtn" onClick={handleLatest}>
               최신순
             </Button>
-            <Button btnstyle="SBtn" onClick={handlePositive}>
+            <Button btnstyle="SBtn" className="latest" onClick={handlePositive}>
               긍정순
             </Button>
             <Button btnstyle="SBtn" onClick={handleNegative}>

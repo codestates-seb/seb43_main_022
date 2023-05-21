@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import styled from "styled-components";
-import SlideImg1 from "../style/img/Rectangle1.jpg";
-import SlideImg2 from "../style/img/Rectangle2.jpg";
-import SlideImg3 from "../style/img/Rectangle3.jpg";
+import SlideImg1 from "../style/img/SlideImg1.jpg";
+import SlideImg2 from "../style/img/SlideImg2.jpg";
+import SlideImg3 from "../style/img/SlideImg3.jpg";
 const Container = styled.div`
   width: 400px;
   background-size: cover;

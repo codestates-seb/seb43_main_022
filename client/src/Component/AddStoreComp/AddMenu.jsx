@@ -78,9 +78,13 @@ const PriceInput = styled(MenuInput)`
 
 const AddMenu = ({ formData, setFormData }) => {
   const [menu, setMenu] = useState(formData.menu || []);
+  const nameInputRef = useRef();
+  const priceInputRef = useRef();
 
   useEffect(() => {
-    setMenu(formData.menu);
+    if (formData && formData.menu) {
+      setMenu(formData.menu);
+    }
   }, [formData.menu]);
 
   const onInputChange = (e) => {
@@ -98,8 +102,7 @@ const AddMenu = ({ formData, setFormData }) => {
       menu: updatedMenu,
     });
   };
-  const nameInputRef = useRef();
-  const priceInputRef = useRef();
+
   const onMenuKeyPress = (e) => {
     if (e.key === "Enter") {
       priceInputRef.current.focus();

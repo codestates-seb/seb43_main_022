@@ -43,7 +43,7 @@ const ReviewContainer = styled.div`
 
   .img-Container {
     display: flex;
-    align-items: center;
+    flex-direction: column;
   }
   .review-rating {
     display: flex;
@@ -53,17 +53,23 @@ const ReviewContainer = styled.div`
       margin-right: 10px;
     }
   }
+  label {
+    max-width: 200px;
+  }
 `;
 
 const Imgul = styled.ul`
   display: flex;
   flex-direction: row;
+  align-items: center;
   margin: 20px;
   li {
     position: relative;
     width: 300px;
     height: 200px;
     list-style: none;
+    border: 1px solid var(--black-070);
+    border-radius: 10px;
     margin-right: 30px;
     img {
       width: 100%;
@@ -146,15 +152,15 @@ const ReviewInfo = () => {
   };
 
   useEffect(() => {
-    const photos = showImages.map((image) => ({ photoUrl: image }));
+    // const photo = showImages.map((image) => image);
     setReviewData({
       title,
       content,
-      photo: photos,
+      // photo,
       rating,
     });
     console.log(reviewData);
-  }, [title, content, showImages, rating]);
+  }, [title, content, rating]);
   return (
     <ReviewContainer className="Review-Container">
       <div className="review-title">
@@ -183,11 +189,11 @@ const ReviewInfo = () => {
           onChange={onInputChange}
         />
       </div>
-      <label htmlFor="img-input" className="review-font bold margin">
-        리뷰 사진
-      </label>
-      <p>리뷰 사진은 3개만 등록이 가능합니다.</p>
       <div className="img-Container">
+        <label htmlFor="img-input" className="review-font bold margin">
+          리뷰 사진
+        </label>
+        <p>리뷰 사진은 3개만 등록이 가능합니다.</p>
         {/* // 저장해둔 이미지들을 순회하면서 화면에 이미지 출력 */}
         <Imgul>
           {showImages.map((image, id) => (
@@ -198,20 +204,20 @@ const ReviewInfo = () => {
               </div>
             </li>
           ))}
+          {showImages.length >= 3 ? null : (
+            <Imgadd className="img-add margin">
+              <label htmlFor="img-input">
+                <input
+                  type="file"
+                  id="img-input"
+                  multiple
+                  accept="image/*"
+                  onChange={handleAddImages}
+                />
+              </label>
+            </Imgadd>
+          )}
         </Imgul>
-        {showImages.length >= 3 ? null : (
-          <Imgadd className="img-add margin">
-            <label htmlFor="img-input">
-              <input
-                type="file"
-                id="img-input"
-                multiple
-                accept="image/*"
-                onChange={handleAddImages}
-              />
-            </label>
-          </Imgadd>
-        )}
       </div>
       <div className="review-font bold margin">가게 만족도</div>
       <div className="review-rating">
@@ -221,8 +227,8 @@ const ReviewInfo = () => {
           </label>
           <ImgBtn
             name="like"
-            imgstyle="Like"
-            onClick={() => handleRating("like")}
+            imgstyle="LIKE"
+            onClick={() => handleRating("LIKE")}
           />
         </div>
         <div className="review-bad">
@@ -231,8 +237,8 @@ const ReviewInfo = () => {
           </label>
           <ImgBtn
             name="hate"
-            imgstyle="Hate"
-            onClick={() => handleRating("hate")}
+            imgstyle="HATE"
+            onClick={() => handleRating("HATE")}
           />
         </div>
       </div>

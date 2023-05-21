@@ -35,6 +35,7 @@ const BasicContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  margin: 70px 0px;
   * {
     background: none;
     font-size: var(--large-font);

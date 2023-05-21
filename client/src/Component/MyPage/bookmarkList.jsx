@@ -9,7 +9,6 @@ const BookmarkList = () => {
     const fetchData = async () => {
       try {
         const response = await api.get("members/mypage");
-
         setData(response.data.favorites);
         console.log("res", response.data.favorites);
       } catch (error) {

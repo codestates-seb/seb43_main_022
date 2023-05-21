@@ -35,9 +35,9 @@ const StoreIntro = () => {
     const fetchData = async () => {
       try {
         const response = await api.get(`/restaurants/${res_id}`);
-        const { photo, content } = response.data;
+        const { photoUrl, content } = response.data;
         const newData = {
-          photo: photo || defaultImg,
+          photoUrl: photoUrl || defaultImg,
           content,
         };
         setData(newData);
@@ -50,7 +50,7 @@ const StoreIntro = () => {
 
   return (
     <Container>
-      <Image src={data.photo} alt="defaultImg" />
+      <Image src={data.photoUrl} alt="defaultImg" />
       <Intro>{data.content}</Intro>
     </Container>
   );

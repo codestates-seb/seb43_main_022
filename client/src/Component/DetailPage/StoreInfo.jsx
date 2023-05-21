@@ -148,6 +148,7 @@ const StoreInfo = () => {
             수정
           </Button>
         ) : null}
+        {/* 수정하기 */}
       </Modify>
     </>
   );

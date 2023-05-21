@@ -1,14 +1,11 @@
 import styled from "styled-components";
 import Button from "../style/StyleButton";
 import ImgBtn from "../style/ImgBtn";
-
 import profile from "../style/img/profile.png";
 import { useParams, useNavigate } from "react-router-dom";
 import { useRecoilValue } from "recoil";
-
 import memberState from "../../state/atoms/SignAtom";
 import { api } from "../../Util/api";
-// import { reviewDataAtom } from "../../state/atoms/reviewDataAtom";
 
 const Container = styled.div`
   width: 1200px;
@@ -136,7 +133,9 @@ const ReviewItem = ({ data, onDelete }) => {
               </div>
             </TitleInfo>
           </Left>
-          <ImgBtn imgstyle={data.rating === "LIKE" ? "LIKE" : "HATE"} />
+          <ImgBtn
+            imgstyle={data.rating === "LIKE" ? "LIKEActive" : "HATEActive"}
+          />
         </ReviewHead>
         <ReviewContent>
           <div className="username">{data.member.nickName}</div>

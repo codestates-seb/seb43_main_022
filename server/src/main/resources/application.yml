@@ -57,3 +57,4 @@ jwt:
 mail:
   address:
     admin: admin@gmail.com
+

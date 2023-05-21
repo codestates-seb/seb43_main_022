@@ -26,7 +26,10 @@ const AddHeader = ({ formData, setFormData }) => {
   };
 
   const onAddTag = (newTag) => {
-    setFormData({ ...formData, tag: [...formData.tag, newTag] });
+    setFormData({
+      ...formData,
+      tag: [...(formData.tag || []), newTag],
+    });
   };
 
   return (

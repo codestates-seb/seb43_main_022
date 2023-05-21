@@ -1,21 +1,18 @@
 import { useState, useEffect } from "react";
+import ReactPaginate from "react-paginate";
 import { Title } from "../../Pages/StoreList";
-import { useRecoilState } from "recoil";
-import { storesState } from "../../state/atoms/keywordsAtom";
+import { useRecoilValue } from "recoil";
+import { searchTermState } from "../../state/atoms/SearchTermState";
 import ImgBtn from "../style/ImgBtn";
 import styled from "styled-components";
-import {
-  MdKeyboardArrowLeft,
-  MdKeyboardArrowRight,
-  MdKeyboardDoubleArrowLeft,
-  MdKeyboardDoubleArrowRight,
-} from "react-icons/md";
+import { api } from "../../Util/api";
 
 const StoreListBox = styled.div`
   width: calc(100% - 400px);
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
+  align-content: flex-start;
 `;
 
 const ResultFilter = styled.div`
@@ -69,7 +66,9 @@ const ResultList = styled.div`
   width: calc(100%);
   gap: 20px;
 `;
-const StoreCard = styled.div`
+
+const StoreCard = styled.li`
+  cursor: pointer;
   width: 100%;
   max-width: calc(100% / 2 - 10px);
   border-radius: 30px;
@@ -81,27 +80,37 @@ const StoreCard = styled.div`
   gap: 20px;
   border: 1px solid var(--black-100);
   position: relative;
-  > img {
-    width: calc(100%);
-    height: 185px;
-    border-radius: 30px 30px 0 0;
+  > .photoUrl {
+    width: 100%;
     position: absolute;
     left: 0;
     top: 0;
-  }
-  > span {
-    position: absolute;
-    right: 20px;
-    top: 20px;
-    button {
-      background-color: transparent;
+    img {
+      width: 100%;
+      height: 185px;
+      object-fit: cover;
+      object-position: center;
+      border-radius: 30px 30px 0 0;
+    }
+    > span {
+      position: absolute;
+      right: 20px;
+      top: 20px;
+      button {
+        background-color: transparent;
+      }
     }
   }
-  > h3 {
+  > .category {
+    position: absolute;
+    top: 20px;
+  }
+
+  > .restaurantName {
     font-size: var(--x-large-font);
     height: 22px;
   }
-  > div.filterIntro {
+  > .content {
     width: 100%;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -115,16 +124,19 @@ const StoreCard = styled.div`
     font-size: var(--medium-font);
     color: var(--black-700);
   }
-  > div.filterCount {
+  > .Count {
     display: flex;
     flex-direction: row;
     gap: 40px;
-    > p {
+    p {
       font-size: var(--medium-font);
     }
   }
-  > div.cardTag {
+  > .tagRestaurants {
+    width: 100%;
+    /* overflow-x: scroll; */
     display: flex;
+    flex-wrap: wrap;
     gap: 6px;
     > button {
       width: auto;
@@ -143,183 +155,222 @@ const PaginationWrap = styled.div`
   display: flex;
   justify-content: center;
   margin: 30px 0;
-`;
-const PageNumber = styled.button`
-  background-color: ${({ isActive, disabled }) =>
-    disabled ? "transparent" : isActive ? "var(--eatsgreen)" : "transparent"};
-  color: ${({ isActive, disabled }) =>
-    disabled ? "var(--white)" : isActive ? "white" : "var(--black-500)"};
-  font-weight: ${({ isActive }) => (isActive ? "600" : "400")};
-  width: 30px;
-  height: 30px;
-  margin: 2px;
-  border-radius: 4px;
-  cursor: ${({ disabled }) => (disabled ? "not-allowed" : "pointer")};
-  svg {
-    width: 1.2em;
-    height: 1.2em;
-    margin-top: 4px;
+
+  .pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 15px;
   }
-  :hover {
-    color: ${({ disabled, isActive }) =>
-      disabled ? "transparent" : isActive ? "" : "var(--black-500)"};
+
+  ul {
+    list-style: none;
+    padding: 0;
+  }
+
+  ul.pagination li {
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    border: 1px solid #e2e2e2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1rem;
+    cursor: pointer;
+  }
+
+  ul.pagination li:first-child {
+    border-radius: 5px 0 0 5px;
+  }
+
+  ul.pagination li:last-child {
+    border-radius: 0 5px 5px 0;
+  }
+
+  ul.pagination li a {
+    text-decoration: none;
+    color: #636363;
+    font-size: 1rem;
+  }
+
+  ul.pagination li.pagination__link--active a {
+    color: white;
+  }
+
+  ul.pagination li.pagination__link--active {
+    background-color: var(--eatsgreen);
+    border: 1px solid var(--eatsgreen);
+    a:hover {
+      color: white;
+    }
+  }
+
+  ul.pagination li a:hover,
+  ul.pagination li a.active {
+    color: var(--eatsgreen);
+    font-weight: 700;
+  }
+  .page-selection {
+    width: 48px;
+    height: 30px;
+    color: #337ab7;
   }
 `;
-const StoreCardComponent = ({ store }) => {
-  return (
-    <StoreCard>
-      <img src={store.photo} alt={store.name} />
-      <span>{store.isFavorite ? <ImgBtn imgstyle={"Heart"} /> : null}</span>
-      <h3>{store.name}</h3>
-      <div className="filterIntro">{store.introduction}</div>
-      <div className="filterCount">
-        <p>리뷰 수: {store.reviews}</p>
-        <p>즐겨찾기 수: {store.favorites}</p>
-      </div>
-      <div className="cardTag">
-        {store.tags.map((tag, index) => (
-          <button key={index}>{tag}</button>
-        ))}
-      </div>
-    </StoreCard>
-  );
-};
+
+const NoResult = () => <div>검색결과가 없습니다</div>;
 const StoreKeywordResult = () => {
-  // 필터 아이템
-  const [activeFilter, setActiveFilter] = useState("newest");
-  const [stores] = useRecoilState(storesState);
-  const [filteredResults, setFilteredResults] = useState([]);
-  // 페이지네이션
-  const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 4;
-  // 페이지네이션 관련 코드
-  const totalPages = Math.ceil(filteredResults.length / itemsPerPage);
+  const [stores, setStores] = useState([]);
+  const [, setLoading] = useState(true);
+  const [currentPage, setCurrentPage] = useState(0);
+  const searchTerm = useRecoilValue(searchTermState);
+  const resultsPerPage = 4;
+  const [isHeartActive, setIsHeartActive] = useState(false);
+  const [currentFilter, setCurrentFilter] = useState("createdAt");
+  const [noResult, setNoResult] = useState(false);
 
-  const handleClickPage = (pageNumber) => {
-    setCurrentPage(pageNumber);
-  };
-  const displayPagination = () => {
-    const pages = [];
-
-    const startPage =
-      currentPage <= 3 ? 1 : Math.min(totalPages - 4, currentPage - 2);
-    const endPage =
-      currentPage <= 3
-        ? Math.min(5, totalPages)
-        : Math.min(totalPages, currentPage + 2);
-
-    const createPageBtn = (key, pageNumber, content, disabled = false) => (
-      <PageNumber
-        key={key}
-        onClick={() => handleClickPage(pageNumber)}
-        isActive={pageNumber === currentPage}
-        disabled={disabled}
-      >
-        {content}
-      </PageNumber>
-    );
-
-    pages.push(
-      createPageBtn(
-        "first",
-        1,
-        <MdKeyboardDoubleArrowLeft />,
-        currentPage === 1,
-      ),
-    );
-    pages.push(
-      createPageBtn(
-        "prev",
-        Math.max(1, currentPage - 1),
-        <MdKeyboardArrowLeft />,
-        currentPage === 1,
-      ),
-    );
-
-    for (let i = startPage; i <= endPage; i++) {
-      pages.push(createPageBtn(i, i, i, false));
-    }
-
-    pages.push(
-      createPageBtn(
-        "next",
-        Math.min(totalPages, currentPage + 1),
-        <MdKeyboardArrowRight />,
-        currentPage === totalPages,
-      ),
-    );
-    pages.push(
-      createPageBtn(
-        "last",
-        totalPages,
-        <MdKeyboardDoubleArrowRight />,
-        currentPage === totalPages,
-      ),
-    );
-
-    return pages;
-  };
-  // 최신순,리뷰순, 즐겨찾기순 필터
-  const handleFilterClick = (filter) => {
-    setActiveFilter(filter);
-    const sortedStores = sortStoresByFilter(stores, filter);
-    setFilteredResults(sortedStores);
+  const filterByLatest = (a, b) => {
+    const dateA = new Date(a.createdAt);
+    const dateB = new Date(b.createdAt);
+    return dateB - dateA;
   };
 
-  const sortStoresByFilter = (stores, filter) => {
-    const copiedStores = [...stores];
-
-    if (filter === "newest") {
-      return copiedStores.sort(
-        (a, b) => new Date(b.createdDate) - new Date(a.createdDate),
-      );
-    } else if (filter === "reviews") {
-      return copiedStores.sort((a, b) => b.reviews - a.reviews);
-    } else if (filter === "favorites") {
-      return copiedStores.sort((a, b) => b.favorites - a.favorites);
-    } else {
-      return copiedStores;
-    }
+  const filterByReview = (a, b) => {
+    return b.total_review - a.total_review;
   };
+
+  const filterByFavorites = (a, b) => {
+    return b.total_favorite - a.total_favorite;
+  };
+
   useEffect(() => {
-    handleFilterClick(activeFilter);
-  }, [stores, activeFilter]);
+    const fetchStores = async () => {
+      try {
+        let data = [];
+        if (searchTerm.length !== 0) {
+          const response = await api.get(
+            `/restaurants/search?keyword=${searchTerm}`,
+          );
+          data = response.data.data;
+
+          if (data.length === 0) {
+            setNoResult(true);
+          } else {
+            setNoResult(false);
+          }
+        } else {
+          const allStoresResponse = await api.get("/restaurants");
+          data = allStoresResponse.data.data;
+        }
+
+        if (currentFilter === "createdAt") {
+          data.sort(filterByLatest);
+        } else if (currentFilter === "total_review") {
+          data.sort(filterByReview);
+        } else if (currentFilter === "total_favorite") {
+          data.sort(filterByFavorites);
+        }
+
+        setStores(data);
+        setLoading(false);
+      } catch (error) {
+        console.error("Error fetching data: ", error);
+        setLoading(false);
+        setNoResult(true);
+      }
+    };
+
+    fetchStores();
+  }, [searchTerm, currentFilter]);
+
+  const handlePageClick = ({ selected: selectedPage }) => {
+    setCurrentPage(selectedPage);
+  };
+
+  const offset = currentPage * resultsPerPage;
+
+  const handleClick = () => {
+    setIsHeartActive(!isHeartActive);
+  };
+  const currentPageData = stores
+    .slice(offset, offset + resultsPerPage)
+    .map((store, restaurantId) => (
+      <StoreCard key={restaurantId} restaurantId={store.restaurantId}>
+        <div className="photoUrl">
+          {store.photoUrl ? (
+            <img src={store.photoUrl} alt={store.restaurantName} />
+          ) : (
+            "등록된 이미지가 없습니다."
+          )}
+          {store.isFavorite === false ? (
+            <span>
+              <ImgBtn imgstyle="Heart" onClick={handleClick} />
+            </span>
+          ) : (
+            <span>
+              <ImgBtn imgstyle="Heart" />
+            </span>
+          )}
+        </div>
+        <p className="category">{store.category}</p>
+        <h2 className="restaurantName">{store.restaurantName}</h2>
+        <p className="content">{store.content}</p>
+        <div className="Count">
+          <p>즐겨찾기 : {store.total_favorite}</p>
+          <p>리뷰 : {store.total_review}</p>
+        </div>
+        <div className="tagRestaurants">
+          {store.tagRestaurants.map((tag, index) => (
+            <button key={index} className="tagButton">
+              {tag.tag.name}
+            </button>
+          ))}
+        </div>
+      </StoreCard>
+    ));
+
+  const pageCount = Math.ceil(stores.length / resultsPerPage);
 
   return (
     <>
       <StoreListBox>
-        <Title>키워드 검색결과</Title>
+        <Title>등록된 가게 리스트</Title>
         <ResultFilter>
-          <Total>총 {filteredResults.length}개의 검색결과가 있습니다!</Total>
+          <Total>총 {stores.length}개의 검색결과가 있습니다!</Total>
           <FilterUl>
             <FilterLi
-              onClick={() => handleFilterClick("newest")}
-              className={activeFilter === "newest" ? "active" : ""}
+              onClick={() => setCurrentFilter("createdAt")}
+              className={currentFilter === "createdAt" ? "active" : ""}
             >
               최신순
             </FilterLi>
             <FilterLi
-              onClick={() => handleFilterClick("reviews")}
-              className={activeFilter === "reviews" ? "active" : ""}
+              onClick={() => setCurrentFilter("total_review")}
+              className={currentFilter === "total_review" ? "active" : ""}
             >
               리뷰순
             </FilterLi>
             <FilterLi
-              onClick={() => handleFilterClick("favorites")}
-              className={activeFilter === "favorites" ? "active" : ""}
+              onClick={() => setCurrentFilter("total_favorite")}
+              className={currentFilter === "total_favorite" ? "active" : ""}
             >
               즐겨찾기순
             </FilterLi>
           </FilterUl>
         </ResultFilter>
-        <ResultList>
-          {filteredResults
-            .slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage)
-            .map((store) => (
-              <StoreCardComponent key={store.id} store={store} />
-            ))}
-        </ResultList>
-        <PaginationWrap>{displayPagination()}</PaginationWrap>
+        {noResult ? <NoResult /> : <ResultList>{currentPageData}</ResultList>}
+        <PaginationWrap>
+          <ReactPaginate
+            previousLabel={"←"}
+            nextLabel={"→"}
+            pageCount={pageCount}
+            onPageChange={handlePageClick}
+            containerClassName={"pagination"}
+            previousLinkClassName={"pagination__link"}
+            nextLinkClassName={"pagination__link"}
+            disabledClassName={"pagination__link--disabled"}
+            activeClassName={"pagination__link--active"}
+          />
+        </PaginationWrap>
       </StoreListBox>
     </>
   );

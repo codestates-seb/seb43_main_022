@@ -98,9 +98,11 @@ export default function Login() {
         password: Loginmember.password,
       })
       .then((res) => {
-        api.defaults.headers.common["Authorization"] =
-          res.headers.authorization;
         setIsLogin(!isLogin);
+        sessionStorage.setItem(
+          "Authorization",
+          res.headers.get("Authorization"),
+        );
         navi("/");
 
         api
@@ -115,15 +117,18 @@ export default function Login() {
               nickName: res.data.nickName,
               latitude: res.data.address.latitude,
               longitude: res.data.address.longitude,
+              favorites: res.data.favorites,
             });
           })
           .catch((err) => {
             console.log(err);
-            console.log("토큰 제거");
+            console.log("cancelToekn");
           });
       })
       .catch((err) => {
-        console.log(err);
+        if (err.response.status === 401) {
+          alert("이메일 혹은 비밀번호가 다릅니다.");
+        }
       });
   }
 
@@ -181,7 +186,7 @@ export default function Login() {
             )}
           </Textdiv>
           <Btndiv>
-            <Button btnstyle="Btn" width="120px" onClick={onClick}>
+            <Button btnstyle="Btn" width="120px" onClick={() => onClick()}>
               로그인
             </Button>
             <Link to="/signup">

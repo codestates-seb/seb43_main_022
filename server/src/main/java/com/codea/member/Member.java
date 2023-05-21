@@ -26,7 +26,7 @@ public class Member extends BaseEntity {
     private String nickName;
     @Column(length = 30, nullable = false, updatable = false, unique = true)
     private String email;
-    @Column(length = 30)
+    @Column(length = 68)
     private String password;
     private String photo;
     @Column

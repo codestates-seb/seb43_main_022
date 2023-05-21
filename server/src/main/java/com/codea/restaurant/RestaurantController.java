@@ -141,19 +141,19 @@ public class RestaurantController {
                 new MultiResponseDto<>(mapper.restaurantToRestaurantResponseDtos(restaurants), restaurantPage), HttpStatus.OK);
     }
 
-    @Transactional
-    @GetMapping("/category")
-    public ResponseEntity searchCategory(@RequestParam(value = "name", name = "name") String name,
-                                            @RequestParam(value = "page", required = false) Integer page,
-                                            @RequestParam(value = "size", required = false) Integer size) {
-        if (page == null) page = 1;
-        if (size == null) size = 4;
-        Page<Restaurant> restaurantPage = restaurantService.searchByCategory(name,page - 1, size);
-        List<Restaurant> restaurants = restaurantPage.getContent();
-
-        return new ResponseEntity<>(
-                new MultiResponseDto<>(mapper.restaurantToRestaurantResponseDtos(restaurants), restaurantPage), HttpStatus.OK);
-    }
+//    @Transactional
+//    @GetMapping("/category")
+//    public ResponseEntity searchCategory(@RequestParam(value = "name", name = "name") String name,
+//                                            @RequestParam(value = "page", required = false) Integer page,
+//                                            @RequestParam(value = "size", required = false) Integer size) {
+//        if (page == null) page = 1;
+//        if (size == null) size = 4;
+//        Page<Restaurant> restaurantPage = restaurantService.searchByCategory(name,page - 1, size);
+//        List<Restaurant> restaurants = restaurantPage.getContent();
+//
+//        return new ResponseEntity<>(
+//                new MultiResponseDto<>(mapper.restaurantToRestaurantResponseDtos(restaurants), restaurantPage), HttpStatus.OK);
+//    }
 
 
 //    @GetMapping("/search")

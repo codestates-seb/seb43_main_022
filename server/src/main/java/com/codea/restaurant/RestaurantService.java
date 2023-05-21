@@ -177,9 +177,9 @@ public class RestaurantService {
     }
 
 
-    public Page<Restaurant> searchByCategory(String name, int page, int size) {
-
-        return restaurantRepository.findByCategory_Name(name, PageRequest.of(page, size, Sort.by("restaurantId").descending()));
-    }
+//    public Page<Restaurant> searchByCategory(String name, int page, int size) {
+//
+//        return restaurantRepository.findByCategory_Name(name, PageRequest.of(page, size, Sort.by("restaurantId").descending()));
+//    }
 
 }

@@ -106,6 +106,8 @@ const Header = () => {
     setIsLogin(!isLogin);
     api.defaults.headers.common["Authorization"] = "";
     localStorage.removeItem("recoil-persist");
+    sessionStorage.removeItem("Authorization");
+    sessionStorage.removeItem("IsLogin");
     navi("/");
   };
 
@@ -138,7 +140,7 @@ const Header = () => {
   };
   return (
     <>
-      {isLogin ? (
+      {!isLogin ? (
         <Container>
           <Link to="/">
             <LogoBtn />
@@ -160,15 +162,15 @@ const Header = () => {
               <Button btnstyle="HBtn">로그인</Button>
             </Link>
             <Link to="/signup">
-              <Button btnstyle="HBtn" onClick={resetMember}>
-                회원가입
-              </Button>
+              <Button btnstyle="HBtn">회원가입</Button>
             </Link>
           </LoginDiv>
         </Container>
       ) : (
         <Container>
-          <LogoBtn />
+          <Link to="/">
+            <LogoBtn />
+          </Link>
           <InputContainer>
             <IsLoginInput
               placeholder="지역/ 상호/ 키워드를 입력해주세요."
@@ -181,11 +183,13 @@ const Header = () => {
             <SearchButton onClick={handleSearch} />
           </InputContainer>
           <LoginDiv>
-            <Button btnstyle="HBtn">
-              <Frameicon src={Frame} alt="" />
-              마이페이지
-            </Button>
-            <Button btnstyle="HBtn" onClick={(resetMember, logoutFunc)}>
+            <Link to="/mypage">
+              <Button btnstyle="HBtn">
+                <Frameicon src={Frame} alt="" />
+                마이페이지
+              </Button>
+            </Link>
+            <Button btnstyle="HBtn" onClick={(resetMember, () => logoutFunc())}>
               로그아웃
             </Button>
           </LoginDiv>

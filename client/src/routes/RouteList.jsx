@@ -46,7 +46,7 @@ const RouteList = [
     element: <EditStore />,
   },
   {
-    path: "/review/restaurants/:id",
+    path: "/review/restaurants/:res_id",
     element: <Review />,
   },
 ];

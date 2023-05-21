@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import ImgBtn from "../style/ImgBtn";
 import { useState, useEffect } from "react";
+// import { useParams } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import memberState from "../../state/atoms/SignAtom";
 import { api } from "../../Util/api";
@@ -44,7 +45,9 @@ const SubInfo = styled.div`
 `;
 
 const StoreHead = () => {
+  // const { restaurantId } = useParams();
   const member = useRecoilValue(memberState);
+  // const [, setViewCount] = useState(0);
   const [heartIcon, setHeartIcon] = useState(false);
 
   const [shareIcon, setShareIcon] = useState(false);
@@ -52,14 +55,14 @@ const StoreHead = () => {
   const [data, setData] = useState({
     restaurantName: "",
     tagRestaurants: [],
-    total_views: "",
-    totalFavorite: "",
+    total_views: 0,
+    totalFavorite: 0,
   });
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await api.get("/restaurants/1");
+        const response = await api.get(`/restaurants/1`);
         const data = response.data;
 
         setData(data);
@@ -67,7 +70,7 @@ const StoreHead = () => {
         console.error("Error fetching data:", error);
       }
     };
-    console.log();
+
     fetchData();
   }, []);
 

@@ -33,9 +33,9 @@ const Buttons = styled.div`
 
 const ReviewContainer = () => {
   const navigate = useNavigate();
-  const { id } = useParams();
+  const { res_id } = useParams();
   const onClickReview = () => {
-    navigate(`/review/restaurants/${id}`);
+    navigate(`/review/restaurants/${res_id}`);
   };
 
   const data = useRecoilValue(reviewDataAtom);
@@ -81,7 +81,7 @@ const ReviewContainer = () => {
             <Button btnstyle="SBtn" onClick={handleLatest}>
               최신순
             </Button>
-            <Button btnstyle="SBtn" onClick={handlePositive}>
+            <Button btnstyle="SBtn" className="latest" onClick={handlePositive}>
               긍정순
             </Button>
             <Button btnstyle="SBtn" onClick={handleNegative}>

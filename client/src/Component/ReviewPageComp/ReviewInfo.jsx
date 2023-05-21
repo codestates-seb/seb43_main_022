@@ -124,6 +124,7 @@ const ReviewInfo = () => {
   const [rating, setRating] = useState("");
   const [showImages, setShowImages] = useState([]);
   const [reviewData, setReviewData] = useRecoilState(ReviewState);
+
   //rating 변경 함수
   const handleRating = (choice) => {
     setRating(choice);

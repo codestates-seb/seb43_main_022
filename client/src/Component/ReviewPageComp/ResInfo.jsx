@@ -66,8 +66,8 @@ const ResInfo = () => {
       <div className="res-info">
         <span className="res-title">{resInfo.restaurantName}</span>
         <ul className="tag-ul">
-          {resInfo.tagRestaurants?.map((taginfo) => (
-            <li key={taginfo.tag.tagid}>
+          {resInfo.tagRestaurants?.map((taginfo, idx) => (
+            <li key={idx}>
               <span>#{taginfo.tag.name}</span>
               <Link to={`/itemlist/search?=${taginfo.tag.name}`}></Link>
             </li>

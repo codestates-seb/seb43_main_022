@@ -4,6 +4,7 @@ const baseURL =
   process.env.NODE_ENV === "production"
     ? process.env.REACT_APP_API_URL
     : "http://ec2-54-180-31-226.ap-northeast-2.compute.amazonaws.com:8080";
+
 const api = axios.create({
   baseURL,
   timeout: 3000,

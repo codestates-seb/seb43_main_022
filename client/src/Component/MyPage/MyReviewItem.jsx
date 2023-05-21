@@ -66,7 +66,9 @@ const MyReviewItem = ({ review, setreview, idx }) => {
   };
   return (
     <Condiv>
-      <Link to={`/review/edit/${review.reviewId}`}>
+      <Link
+        to={`/review/edit/${review[idx].restaurantId}/${review[idx].reviewId}`}
+      >
         <Container>
           <StoreName>{review[idx].restaurantName}</StoreName>
           <Content>

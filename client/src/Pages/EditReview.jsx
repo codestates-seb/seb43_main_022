@@ -35,8 +35,9 @@ const EditReview = () => {
   useEffect(() => {
     const fetchReviewData = async () => {
       try {
-        const response = await api.get(`/reviews/${review_id}`);
-        setReviewData(response.data);
+        const res = await api.get(`/reviews/${review_id}`);
+        setReviewData(res.data);
+        console.log(res.data, "리뷰 데이터 가져옴");
       } catch (error) {
         alert("리뷰 데이터를 가져오는데 실패하였습니다.");
         console.error(error);
@@ -81,13 +82,19 @@ const EditReview = () => {
   return (
     <BasicContainer className="Basic-Container">
       <ResInfo />
-      <ReviewInfo reviewData={reviewData} setReviewData={setReviewData} />
+
+      {reviewData.title ? (
+        <ReviewInfo reviewData={reviewData} setReviewData={setReviewData} />
+      ) : (
+        console.log("nonononononononon")
+      )}
+
       <ButtonContainer className="Button-Container">
         <Button btnstyle="Btn" onClick={hendleDelete}>
-          리뷰 삭제하기
+          리뷰 삭제
         </Button>
         <Button btnstyle="Btn" onClick={handleEdit}>
-          리뷰 수정하기
+          리뷰 수정
         </Button>
         <Button btnstyle="Btn" onClick={handleCancel}>
           취 소

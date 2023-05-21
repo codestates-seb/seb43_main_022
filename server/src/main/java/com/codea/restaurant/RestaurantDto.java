@@ -4,6 +4,7 @@ import com.codea.Menu.MenuDto;
 import com.codea.category.CategoryDto;
 import com.codea.favorite.Favorite;
 import com.codea.favorite.FavoriteDto;
+import com.codea.member.MemberDto;
 import com.codea.review.ReviewDto;
 import com.codea.tag.Tag;
 import com.codea.tag.TagDto;
@@ -83,6 +84,7 @@ public class RestaurantDto {
         private String detailAddress;
         private double latitude;
         private double longitude;
+        private MemberDto.RestaurantResponse member;
     }
 
 }

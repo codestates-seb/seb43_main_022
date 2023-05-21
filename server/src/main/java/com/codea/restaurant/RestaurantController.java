@@ -67,7 +67,8 @@ public class RestaurantController {
 
     @Transactional
     @GetMapping("/{restaurant-id}")
-    public ResponseEntity getRestaurant(@PathVariable("restaurant-id") long restaurantId) {
+    public ResponseEntity getRestaurant(@PathVariable("restaurant-id") long restaurantId,
+                                        @AuthenticationPrincipal String email) {
         Restaurant restaurant = restaurantService.findRestaurant(restaurantId);
         restaurantService.updateView(restaurant);
         RestaurantDto.Response responseDto = mapper.restaurantToRestaurantResponseDto(restaurant);

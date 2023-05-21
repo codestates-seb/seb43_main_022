@@ -72,4 +72,11 @@ public class MemberDto {
         private String photo;
     }
 
+    @Getter
+    @AllArgsConstructor
+    public static class RestaurantResponse {
+        private long memberId;
+        private String email;
+    }
+
 }

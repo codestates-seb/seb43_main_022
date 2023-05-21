@@ -51,10 +51,6 @@ function Plusfunc({ imgstyle, onClick, active }) {
     setIsActive({ ...isActive, [active]: !isActive[active] });
   }
 
-  const handleClick = (a) => {
-    console.log(a);
-    setIsActive({ ...isActive, [a]: !isActive[a] });
-  };
   switch (imgstyle) {
     case "Plus":
       d =
@@ -120,7 +116,7 @@ function Plusfunc({ imgstyle, onClick, active }) {
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
           Hovertype={Hovertype}
-          onClick={(onClick, () => handleClick(imgstyle))}
+          onClick={onClick}
           active={active}
         >
           <path d={d} fill={fill} />

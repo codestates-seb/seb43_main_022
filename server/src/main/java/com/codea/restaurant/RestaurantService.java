@@ -125,12 +125,12 @@ public class RestaurantService {
 
 
         Optional.ofNullable(restaurant.getMenu()).ifPresent((menuList) -> {
-            menuRepository.deleteAllByRestaurant_RestaurantId(restaurantId);
+            menuRepository.deleteAllByRestaurant_RestaurantId(restaurantId); //영속성 컨텍스트에서 detached. 영속성 컨텍스트가 해당 엔티티 객체를 관리하지 않는 상태
             for (Menu menuTemp: restaurant.getMenu()) {
 
                 Menu findMenu = menuRepository.findById(menuTemp.getMenuId()).orElseGet(() -> {
                     menuTemp.setRestaurant(findRestaurant);
-                    return menuRepository.save(menuTemp);
+                    return menuRepository.save(menuTemp); // EntityManager.persist() 호출. 영속성 컨텍스트 관리하에 있는 상태
                 });
 
                 findMenu.setName(menuTemp.getName());

@@ -1,5 +1,5 @@
 import { atom } from "recoil";
-export const CategoryState = atom({
+export const categoryState = atom({
   key: "categoryState",
   default: [
     "한식",

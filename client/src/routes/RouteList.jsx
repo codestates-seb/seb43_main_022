@@ -7,11 +7,16 @@ import Signup from "../Pages/Signup";
 import DetailPage from "../Pages/DetailPage";
 import MyPage from "../Pages/MyPage";
 import EditStore from "../Pages/EditStore";
+import EditReview from "../Pages/EditReview";
 
 const RouteList = [
   {
-    path: "/review",
+    path: "/review/restaurants/:res_id",
     element: <Review />,
+  },
+  {
+    path: "/review/edit/:res_id/:review_id",
+    element: <EditReview />,
   },
   {
     path: "/",
@@ -44,6 +49,10 @@ const RouteList = [
   {
     path: "/editstore/:id",
     element: <EditStore />,
+  },
+  {
+    path: "/review/restaurants/:res_id",
+    element: <Review />,
   },
 ];
 

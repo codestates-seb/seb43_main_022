@@ -1,4 +1,4 @@
-package com.codea.Image;
-
-public class ImageMapper {
-}
+//package com.codea.Image;
+//
+//public class ImageMapper {
+//}

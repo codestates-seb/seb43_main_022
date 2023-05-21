@@ -1,13 +1,19 @@
 import styled from "styled-components";
-
+import { api } from "../../Util/api";
+import XBtn from "../style/img/x.svg";
+import { Link } from "react-router-dom";
 const Container = styled.div`
   border-bottom: 1px solid var(--black-350);
+
   width: 480px;
   display: flex;
   margin-left: 57px;
   flex-direction: column;
 `;
 const StoreName = styled.div`
+  display: flex;
+  color: black;
+  justify-content: space-between;
   font-size: var(--large-font);
   margin-top: 30px;
   margin-bottom: 10px;
@@ -16,7 +22,11 @@ const StoreName = styled.div`
 const Content = styled.div`
   display: flex;
   justify-content: space-between;
-  margin-bottom: 20px;
+  align-items: center;
+  width: 100%;
+  min-height: 33px;
+  color: black;
+
   > .title {
     font-size: var(--medium-font);
   }
@@ -26,15 +36,58 @@ const Content = styled.div`
   }
 `;
 
-const MyReviewItem = ({ restaurantName, title, createdAt }) => {
+const XContainer = styled.div`
+  width: 30px;
+  min-height: 33px;
+  position: relative;
+  right: 23px;
+  padding-top: 20px;
+  > .Btn {
+    background: none;
+  }
+`;
+const Condiv = styled.div`
+  width: 100%;
+  display: flex;
+  background: white;
+`;
+const MyReviewItem = ({ review, setreview, idx }) => {
+  console.log("review", review);
+  const deleteFunc = (key) => {
+    return api
+      .delete(`/reviews/${key}`)
+      .then(() => {
+        api.get("/members/mypage").then((res) => {
+          setreview(res.data.reviews);
+          console.log(res);
+        });
+      })
+      .catch((err) => console.log("삭제", err));
+  };
   return (
-    <Container>
-      <StoreName>{restaurantName}</StoreName>
-      <Content>
-        <div className="title">{title}</div>
-        <div className="created_at">{createdAt}</div>
-      </Content>
-    </Container>
+    <Condiv>
+      <Link
+        to={`/review/edit/${review[idx].restaurantId}/${review[idx].reviewId}`}
+      >
+        <Container>
+          <StoreName>{review[idx].restaurantName}</StoreName>
+          <Content>
+            <div className="title">{review[idx].title}</div>
+            <div className="created_at">
+              {review[idx].createdAt.slice(0, 10)}
+            </div>
+          </Content>
+        </Container>
+      </Link>
+      <XContainer>
+        <button
+          className="Btn"
+          onClick={() => deleteFunc(review[idx].reviewId)}
+        >
+          <img src={XBtn} alt=""></img>
+        </button>
+      </XContainer>
+    </Condiv>
   );
 };
 

@@ -69,6 +69,7 @@ public class RestaurantController {
     @GetMapping("/{restaurant-id}")
     public ResponseEntity getRestaurant(@PathVariable("restaurant-id") long restaurantId) {
         Restaurant restaurant = restaurantService.findRestaurant(restaurantId);
+        restaurantService.updateView(restaurant);
         RestaurantDto.Response responseDto = mapper.restaurantToRestaurantResponseDto(restaurant);
 
         return new ResponseEntity<>(responseDto , HttpStatus.OK);

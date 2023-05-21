@@ -9,14 +9,13 @@ import { useRecoilState } from "recoil";
 import memberState from "../../state/atoms/SignAtom";
 import isLoginState from "../../state/atoms/IsLoginAtom";
 
-
 const Container = styled.div`
   margin-top: 84px;
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  witdh: auto;
+  width: auto;
   min-width: 1200px;
   height: 280px;
   border: none;

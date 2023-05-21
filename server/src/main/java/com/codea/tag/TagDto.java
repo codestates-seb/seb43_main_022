@@ -33,7 +33,7 @@ public class TagDto {
     @Getter
     @AllArgsConstructor
     public static class Response{
-        private List<TagRestaurantDto.Response> tagRestaurants;
+//        private List<TagRestaurantDto.Response> tagRestaurants;
     }
 
     @Getter

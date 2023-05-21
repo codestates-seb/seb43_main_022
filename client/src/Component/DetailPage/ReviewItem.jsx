@@ -3,7 +3,7 @@ import Button from "../style/StyleButton";
 import ImgBtn from "../style/ImgBtn";
 
 import profile from "../style/img/profile.png";
-
+import { useParams, useNavigate } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import memberState from "../../state/atoms/SignAtom";
 import { api } from "../../Util/api";
@@ -91,12 +91,17 @@ const Text = styled.section`
 // `;
 
 const ReviewItem = ({ data, onDelete }) => {
+  const { res_id, review_id } = useParams();
+  const navigate = useNavigate();
+  const modifyClick = () => {
+    navigate(`/review/edit/${res_id}/${review_id}`);
+  };
   const member = useRecoilValue(memberState);
 
   const handleDelete = async () => {
     try {
-      const response = await api.delete(`/reviews/2`);
-      console.log("Review deleted:", response.data);
+      const response = await api.delete(`/reviews/${data.reviewId}`);
+      console.log("리뷰삭제:", response.data);
       onDelete(data);
     } catch (error) {
       console.error("리뷰삭제 실패:", error);
@@ -116,7 +121,9 @@ const ReviewItem = ({ data, onDelete }) => {
                 {/* data.modified_at의 값이 존재하는 경우(truthy 값) 그 값을 반환하고, data.modified_at의 값이 존재하지 않는 경우(falsy 값) data.created_at의 값을 반환 */}
                 {member.memberId === data.member.memberId ? (
                   <>
-                    <Button btnstyle="SBtn">수정</Button>
+                    <Button btnstyle="SBtn" onClick={modifyClick}>
+                      수정
+                    </Button>
                     <Button btnstyle="SBtn" onClick={handleDelete}>
                       삭제
                     </Button>

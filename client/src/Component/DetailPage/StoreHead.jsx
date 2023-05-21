@@ -58,7 +58,6 @@ const StoreHead = () => {
     total_views: 0,
     totalFavorite: 0,
   });
-
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -82,10 +81,10 @@ const StoreHead = () => {
         return;
       }
       if (!heartIcon && member.memberId) {
-        await api.post(`/favorites/restaurant/1`); //${restaurant - id}
+        await api.post(`/favorites/restaurant/${data.restaurantId}`); //${restaurant - id}
         console.log("즐겨찾기 저장");
       } else {
-        await api.delete(`/favorites/1`); //${favorites-id}
+        await api.delete(`/favorites/${data.favoriteId}`); //${favorites-id}
         console.log("즐겨찾기 해제");
       }
       setHeartIcon(!heartIcon);

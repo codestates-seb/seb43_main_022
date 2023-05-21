@@ -19,7 +19,10 @@ import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityManager;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -33,6 +36,7 @@ public class RestaurantService {
     private final TagRestaurantRepository tagRestaurantRepository;
     private final CategoryRepository categoryRepository;
     private final RestaurantMapper restaurantMapper;
+    private EntityManager entityManager;
 
     public RestaurantService(RestaurantRepository restaurantRepository, MemberRepository memberRepository,
                              AddressRepository addressRepository, MenuRepository menuRepository,
@@ -140,6 +144,7 @@ public class RestaurantService {
 
         Optional.ofNullable(patch.getTag()).ifPresent((TagList) -> {
             tagRestaurantRepository.deleteAllByRestaurant_RestaurantId(restaurantId);
+            List<TagRestaurant> newTagRestaurantList = new ArrayList<>();
             for (TagDto.Patch tagTemp : patch.getTag()) {  //태그 저장
                 Tag findTag = tagRepository.findByName(tagTemp.getName()).orElseGet(() -> {
                     Tag newtag = new Tag(tagTemp.getName());
@@ -149,7 +154,9 @@ public class RestaurantService {
                 TagRestaurant newTagRestaurant = new TagRestaurant(findRestaurant, findTag);
                 tagRestaurantRepository.save(newTagRestaurant);
 
+                newTagRestaurantList.add(newTagRestaurant);
             }
+            findRestaurant.setTagRestaurants(newTagRestaurantList);
         });
 
         return restaurantRepository.save(findRestaurant);

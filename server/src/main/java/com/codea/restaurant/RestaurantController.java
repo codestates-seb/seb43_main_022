@@ -40,6 +40,7 @@ public class RestaurantController {
     @PostMapping
     public ResponseEntity postRestaurant(@Valid @RequestBody RestaurantDto.Post requestBody, @AuthenticationPrincipal String email) {
 
+
         AddressDto.Post addressDto = new AddressDto.Post(requestBody.getStreetAddress(), requestBody.getLatitude(), requestBody.getLongitude());
         Address address = addressMapper.addressPostDtoToAddress(addressDto);
 
@@ -68,12 +69,11 @@ public class RestaurantController {
     @GetMapping("/{restaurant-id}")
     public ResponseEntity getRestaurant(@PathVariable("restaurant-id") long restaurantId) {
         Restaurant restaurant = restaurantService.findRestaurant(restaurantId);
-        restaurantService.updateView(restaurant);
-
         RestaurantDto.Response responseDto = mapper.restaurantToRestaurantResponseDto(restaurant);
 
         return new ResponseEntity<>(responseDto , HttpStatus.OK);
     }
+
 
     @Transactional
     @GetMapping

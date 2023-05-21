@@ -5,6 +5,7 @@ import com.codea.category.CategoryDto;
 import com.codea.favorite.Favorite;
 import com.codea.favorite.FavoriteDto;
 import com.codea.review.ReviewDto;
+import com.codea.tag.Tag;
 import com.codea.tag.TagDto;
 import com.codea.tag.TagRestaurantDto;
 import lombok.AllArgsConstructor;

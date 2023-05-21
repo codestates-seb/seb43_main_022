@@ -47,8 +47,9 @@ public class ReviewService {
             totalScore += score;
         }
 
-        double rating = Math.round((double) (totalScore + (review.getRating().getScore())) / (double) (reviewCount + 1) * 10) / 10.0;
+        double rating = Math.round((double) (totalScore + (review.getRating().getScore())) / (double) (reviewCount) * 10) / 10.0;
         restaurant.setRating(rating);
+        restaurant.setTotal_reviews(reviewCount + 1);
 
         return reviewRepository.save(review);
     }
@@ -79,8 +80,15 @@ public class ReviewService {
     public void deleteReview(long reviewId) {
         Review findReview = findReview(reviewId);
 
+        Restaurant restaurant = findReview.getRestaurant();
+        long restaurantId = restaurant.getRestaurantId();
+
+        int reviewCount = reviewRepository.countByRestaurant_RestaurantId(restaurantId);
+
+        restaurant.setTotal_reviews(reviewCount - 1);
 
         reviewRepository.delete(findReview);
+        restaurantRepository.save(restaurant);
     }
 
 }

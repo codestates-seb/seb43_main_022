@@ -1,7 +1,9 @@
 import styled from "styled-components";
-import { useRecoilState } from "recoil";
+import { useEffect, useState } from "react";
+import { useParams } from "react-router";
 import ImgBtn from "../style/ImgBtn";
-import { RestaurantState } from "../../state/atoms/RestaurantAtom";
+import { api } from "../../Util/api";
+import { Link } from "react-router-dom";
 
 const RestaurantContainer = styled.div`
   width: 100%;
@@ -37,7 +39,7 @@ const RestaurantContainer = styled.div`
     .imgBtn {
       display: flex;
       span {
-        margin: 0px 15px 0px 0px;
+        margin: -4px 15px 0px 5px;
         font-size: var(--x-large-font);
       }
     }
@@ -45,16 +47,29 @@ const RestaurantContainer = styled.div`
 `;
 
 const ResInfo = () => {
-  const [resinfo] = useRecoilState(RestaurantState);
-
+  const [resInfo, setresInfo] = useState({});
+  const { res_id } = useParams();
+  useEffect(() => {
+    const fetchRestaurant = async () => {
+      try {
+        const res = await api.get(`/restaurants/${res_id}`);
+        setresInfo(res.data);
+        console.log(res.data);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    fetchRestaurant();
+  }, [res_id]);
   return (
     <RestaurantContainer className="restaurant-Container">
       <div className="res-info">
-        <span className="res-title">{resinfo.title}</span>
+        <span className="res-title">{resInfo.restaurantName}</span>
         <ul className="tag-ul">
-          {resinfo.tags.map((tags, tagId) => (
-            <li key={tagId}>
-              <span>{tags.name}</span>
+          {resInfo.tagRestaurants?.map((taginfo) => (
+            <li key={taginfo.tag.tagid}>
+              <span>#{taginfo.tag.name}</span>
+              <Link to={`/itemlist/search?=${taginfo.tag.name}`}></Link>
             </li>
           ))}
         </ul>
@@ -62,11 +77,11 @@ const ResInfo = () => {
       <div className="res-sosial">
         <div className="imgBtn">
           <ImgBtn imgstyle="View" />
-          <span>{resinfo.total_views.toLocaleString("ko-KR")}</span>
+          <span>{resInfo.total_views}</span>
         </div>
         <div className="imgBtn">
           <ImgBtn imgstyle="Heart" />
-          <span>{resinfo.totalFavorite.toLocaleString("ko-KR")}</span>
+          <span>{resInfo.totalFavorite}</span>
         </div>
         <div className="imgBtn">
           <ImgBtn imgstyle="Share" />

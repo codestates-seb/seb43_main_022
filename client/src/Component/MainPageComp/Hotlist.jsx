@@ -75,28 +75,28 @@ const HotlistContainer = styled.div`
 
 const Hotlist = () => {
   const [hotList, setHotList] = useState();
-  const [userid] = "강남역";
+  const local = "강남";
   const navi = useNavigate();
 
   useEffect(() => {
     const fetchHotlist = async () => {
       try {
-        const res = await api.get(`/itemlist?serch=${userid}`);
+        const res = await api.get(`/itemlist?serch=${local}`);
         setHotList(res.data);
       } catch (err) {
         console.log(err);
       }
     };
     fetchHotlist();
-  }, []);
+  }, [local]);
 
   const MoreHotList = () => {
-    navi(`/itemlist?serch=${userid}`);
+    navi(`/itemlist?serch=${local}`);
   };
   return (
     <HotlistContainer className="Hotlist-Container">
       <div className="hotlist-title">내 지역 인기 맛집</div>
-      <div className="hotlist-subtitle">가장 많은 좋아요를 받은 곳이에요</div>
+      <div className="hotlist-subtitle">가장 인기가 많은 맛집이에요</div>
       <ul className="hotlist-ul">
         {hotList ? (
           hotList.map((resInfo) => (

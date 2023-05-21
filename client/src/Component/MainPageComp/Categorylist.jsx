@@ -87,7 +87,7 @@ const CategoryContainer = styled.div`
 `;
 const Categorylist = () => {
   const [categoryData, setCategoryData] = useRecoilState(categoryState);
-  const [searchTerm, setSearchTerm] = useRecoilState(searchTermState);
+  const [, setSearchTerm] = useRecoilState(searchTermState);
   const [currentPage, setCurrentPage] = useState(1);
   const [nextPageData, setNextPageData] = useState([]);
   const navi = useNavigate();
@@ -113,7 +113,7 @@ const Categorylist = () => {
 
   const handleCategoryClick = (name) => {
     setSearchTerm(name);
-    navi(`/itemlist?serch=${searchTerm}`);
+    navi(`/itemlist?search=${name}`);
   };
 
   const prevPage = () => {

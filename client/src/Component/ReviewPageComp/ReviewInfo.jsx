@@ -1,11 +1,9 @@
 import styled from "styled-components";
 import { useState, useEffect } from "react";
-import { useRecoilState } from "recoil";
 import ImgBtn from "../style/ImgBtn";
 import Input from "../style/StyleInput";
 import Plus from "../style/img/signup.svg";
 import { useInput } from "../../hooks/useInput";
-import { ReviewState } from "../../state/atoms/ReviewAtom";
 
 const ReviewContainer = styled.div`
   width: 100%;
@@ -116,20 +114,25 @@ const Imgadd = styled.div`
   }
 `;
 
-const ReviewInfo = () => {
-  const [{ title, content }, onInputChange] = useInput({
-    title: "",
-    content: "",
-  });
-  const [rating, setRating] = useState("");
+const ReviewInfo = ({ reviewData, setReviewData }) => {
   const [showImages, setShowImages] = useState([]);
-  const [reviewData, setReviewData] = useRecoilState(ReviewState);
+  const [rating, setRating] = useState(reviewData.rating);
 
-  //rating 변경 함수
-  const handleRating = (choice) => {
-    setRating(choice);
-    console.log(rating);
-  };
+  const [{ title, content }, onInputChange] = useInput({
+    title: `${reviewData.title}`,
+    content: `${reviewData.content}`,
+  });
+  useEffect(() => {
+    // const photo = showImages.map((image) => image);
+    setReviewData({
+      title,
+      content,
+      // photo,
+      rating,
+    });
+    console.log("reviewinfo창", title, content, rating);
+  }, [title, content, rating, setReviewData]);
+
   // 이미지 추가 기능
   const handleAddImages = (e) => {
     const imgLists = e.target.files;
@@ -152,16 +155,11 @@ const ReviewInfo = () => {
     console.log(updatedImages.length);
   };
 
-  useEffect(() => {
-    // const photo = showImages.map((image) => image);
-    setReviewData({
-      title,
-      content,
-      // photo,
-      rating,
-    });
-    console.log(reviewData);
-  }, [title, content, rating]);
+  //rating 변경 함수
+  const handleRating = (choice) => {
+    setRating(choice);
+    console.log(rating);
+  };
   return (
     <ReviewContainer className="Review-Container">
       <div className="review-title">

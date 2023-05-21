@@ -36,7 +36,7 @@ public class FavoriteService {
 
 
         int count = favoriteRepository.countByRestaurant_RestaurantId(restaurant.getRestaurantId());
-        restaurant.setTotalFavorite(count);
+        restaurant.setTotalFavorite(count + 1);
         restaurantRepository.save(restaurant); // 카운트가 업데이트된 restaurant를 저장합니다.
 
         return favoriteRepository.save(favorite);

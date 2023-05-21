@@ -170,12 +170,13 @@ public class RestaurantService {
         restaurantRepository.delete(findRestaurant);
     }
 
-
     public Page<Restaurant> searchRestaurants(String keyword, int page, int size) {
 
         return restaurantRepository.searchByKeyword(keyword, PageRequest.of(page, size, Sort.by("restaurantId").descending()));
     }
-
+    public void updateView(Restaurant restaurant) {
+        restaurant.setTotal_views(restaurant.getTotal_views() + 1);
+    }
 
 //    public Page<Restaurant> searchByCategory(String name, int page, int size) {
 //

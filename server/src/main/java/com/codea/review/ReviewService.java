@@ -38,7 +38,6 @@ public class ReviewService {
         review.setRestaurant(restaurant);
         review.setMember(member);
 
-
         int totalScore = 0;
         int reviewCount = reviewRepository.countByRestaurant_RestaurantId(restaurantId);
 

@@ -98,9 +98,11 @@ export default function Login() {
         password: Loginmember.password,
       })
       .then((res) => {
-        api.defaults.headers.common["Authorization"] =
-          res.headers.authorization;
         setIsLogin(!isLogin);
+        sessionStorage.setItem(
+          "Authorization",
+          res.headers.get("Authorization"),
+        );
         navi("/");
 
         api
@@ -119,7 +121,7 @@ export default function Login() {
           })
           .catch((err) => {
             console.log(err);
-            console.log("토큰 제거");
+            console.log("cancelToekn");
           });
       })
       .catch((err) => {

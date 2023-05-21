@@ -117,6 +117,7 @@ export default function Login() {
               nickName: res.data.nickName,
               latitude: res.data.address.latitude,
               longitude: res.data.address.longitude,
+              favorites: res.data.favorites,
             });
           })
           .catch((err) => {
@@ -125,7 +126,9 @@ export default function Login() {
           });
       })
       .catch((err) => {
-        console.log(err);
+        if (err.response.status === 401) {
+          alert("이메일 혹은 비밀번호가 다릅니다.");
+        }
       });
   }
 

@@ -22,16 +22,10 @@ const BookmarkList = () => {
   return (
     <>
       {data ? (
-        data.map((item) => (
+        data.map((item, idx) => (
           <BookmarkItem
             key={item.favoriteId}
-            name={item.name}
-            streetAddress={item.streetAddress}
-            latitude={item.latitude}
-            longitude={item.longitude}
-            category={item.category}
-            restaurantId={item.restaurantId}
-            favoriteId={item.favoriteId}
+            idx={idx}
             setData={setData}
             data={data}
           />

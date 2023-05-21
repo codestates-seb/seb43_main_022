@@ -8,7 +8,6 @@ const MyReviewList = () => {
       try {
         const response = await api.get("/members/mypage");
         setData(response.data.reviews.slice(0, 5));
-        console.log("res", response.data.reviews);
       } catch (error) {
         console.error("마이리뷰에러", error);
       }
@@ -20,14 +19,10 @@ const MyReviewList = () => {
   return (
     <div>
       {data ? (
-        data.map((item) => (
+        data.map((item, idx) => (
           <MyReviewItem
             key={item.reviewId}
-            restaurantId={item.restaurantId}
-            restaurantName={item.restaurantName}
-            reviewId={item.reviewId}
-            title={item.title}
-            createdAt={item.created_at}
+            idx={idx}
             setreview={setData}
             review={data}
           />

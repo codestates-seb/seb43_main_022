@@ -23,7 +23,7 @@ const Content = styled.div`
   align-items: flex-end;
 
   > .area {
-    width: 120px;
+    width: 600px;
     margin-right: 100px;
     font-size: var(--medium-font);
   }
@@ -48,13 +48,7 @@ const BtnDiv = styled.div`
   background: white;
 `;
 
-const BookmarkItem = ({
-  name,
-  streetAddress,
-  category,
-  favoriteId,
-  setData,
-}) => {
+const BookmarkItem = ({ data, setData, idx }) => {
   const [del, setDel] = useState(false);
 
   const deleteFunc = (key) => {
@@ -62,7 +56,7 @@ const BookmarkItem = ({
       .delete(`/favorites/${key}`)
       .then(() => {
         api.get("/members/mypage").then((res) => {
-          setData(res.data.favorite);
+          setData(res.data.favorites);
           console.log(res);
         });
       })
@@ -73,11 +67,11 @@ const BookmarkItem = ({
     <Container>
       {!del ? (
         <>
-          <StoreName>{name}</StoreName>
+          <StoreName>{data[idx].restaurantName}</StoreName>
           <Content>
-            <div className="area">{streetAddress}</div>
+            <div className="area">{data[idx].address.streetAddress}</div>
             <div className="BtnDiv">
-              <div className="menu">{category}</div>
+              <div className="menu">{data[idx].category}</div>
               <button className="Btn" onClick={() => setDel(!del)}>
                 <img src={Heart} alt="" />
               </button>
@@ -86,13 +80,16 @@ const BookmarkItem = ({
         </>
       ) : (
         <>
-          <StoreName>{name}</StoreName>
+          <StoreName>{data[idx].restaurantName}</StoreName>
           <Content>
-            <div className="area">{streetAddress}</div>
+            <div className="area">{data[idx].address.streetAddress}</div>
             <div className="BtnDiv">
-              <div className="menu">{category}</div>
+              <div className="menu">{data[idx].category}</div>
               <BtnDiv className="BtnDiv">
-                <button className="Btn" onClick={() => deleteFunc(favoriteId)}>
+                <button
+                  className="Btn"
+                  onClick={() => deleteFunc(data[idx].favoriteId)}
+                >
                   <img src={Check} alt="" />
                 </button>
                 <button className="Btn" onClick={() => setDel(!del)}>

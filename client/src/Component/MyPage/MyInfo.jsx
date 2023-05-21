@@ -5,6 +5,9 @@ import profile from "./../style/img/profile.png";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { api } from "../../Util/api";
+import { useRecoilState } from "recoil";
+import memberState from "../../state/atoms/SignAtom";
+import isLoginState from "../../state/atoms/IsLoginAtom";
 
 const Container = styled.div`
   margin-top: 84px;
@@ -12,8 +15,8 @@ const Container = styled.div`
   flex-direction: row;
   justify-content: center;
   align-items: center;
-
-  width: 1200px;
+  witdh: auto;
+  min-width: 1200px;
   height: 280px;
   border: none;
   border-radius: 30px;
@@ -27,7 +30,8 @@ const Container = styled.div`
   }
 `;
 const LocationBtn = styled.button`
-  width: 60px;
+  width: auto;
+  min-width: 60px;
   height: 30px;
   border-radius: 20px;
   margin-left: 10px;
@@ -66,14 +70,18 @@ const InfoName = styled.div`
   font-weight: bold;
   padding-bottom: 10px;
 `;
+const InfoReName = styled(InfoName)`
+  padding-bottom: 0px;
+`;
 
 const UserInfo = styled.div`
   display: flex;
   flex-direction: row;
   height: 100%;
   margin-bottom: 10px;
-  justify-content: space-around;
+  justify-content: left;
   align-items: center;
+
   > .userbox {
     height: 100px;
     margin-right: 10px;
@@ -94,6 +102,11 @@ const ButtonDiv = styled.div`
 `;
 
 const BusinessAccount = styled.div`
+  height: 41px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
   > .button {
     width: auto;
     height: 41px;
@@ -113,7 +126,6 @@ const BusinessAccount = styled.div`
     margin-right: 10px;
   }
   text-align: center;
-  align-items: center;
 `;
 const Btns = styled.div`
   display: flex;
@@ -136,11 +148,30 @@ const CustomDiv = styled.div`
   justify-content: space-between;
   padding-right: 10px;
 `;
+
+const TextArea = styled.input`
+  width: auto;
+  min-width: 440px;
+  height: 41px;
+  font-size: var(--medium-font);
+  border: 1px solid var(--black-200);
+  border-radius: 10px;
+  padding-left: 10px;
+  overflow: hidden;
+
+  &:active,
+  &:focus {
+    outline: none;
+  }
+`;
+
 const { kakao } = window;
 const MyInfo = () => {
   const navigate = useNavigate();
 
+  const [member, setMember] = useRecoilState(memberState);
   const [memberUpdate, setMemberUpdate] = useState(false);
+  const [isLogin, setIsLogin] = useRecoilState(isLoginState);
   const [userData, setUserData] = useState({
     memberId: 0,
     nickName: "",
@@ -181,6 +212,20 @@ const MyInfo = () => {
   const handleInputValue = (key) => (e) => {
     setPatchData({ ...patchData, [key]: e.target.value });
   };
+  const deleteFunc = () => {
+    return api
+      .delete("/members")
+      .then(() => {
+        alert("정상적으로 회원 탈퇴가 되었습니다.");
+        setIsLogin(!isLogin);
+        api.defaults.headers.common["Authorization"] = "";
+        localStorage.removeItem("recoil-persist");
+        sessionStorage.removeItem("Authorization");
+        sessionStorage.removeItem("IsLogin");
+        navigate("/");
+      })
+      .catch((err) => console.log("delete", err));
+  };
   const checkingFunc = () => {
     if (!patchData.nickName) {
       setCheck({ ...Check, nickName: false });
@@ -201,15 +246,37 @@ const MyInfo = () => {
     }
 
     return api
-      .patch(`members/${userData.mamberId}`, {
+      .patch(`members`, {
         nickName: patchData.nickName,
         password: patchData.password,
-        location: patchData.streetAddress + " " + patchData.detailAddress, //streetAddress
+        streetAddress: patchData.streetAddress + " " + patchData.detailAddress, //streetAddress
         latitude: patchData.latitude,
         longitude: patchData.longitude,
       })
       .then((res) => {
-        console.log("res", res.data);
+        console.log("patch", res.data);
+        console.log(patchData);
+
+        setUserData({
+          ...userData,
+          nickName: res.data.nickName,
+          password: res.data.password,
+          location: res.data.address.streetAddress,
+          latitude: res.data.latitude,
+          longitude: res.data.longitude,
+        });
+        setMember({
+          ...member,
+          memberId: res.data.memberId,
+          email: res.data.email,
+          streetAddress: res.data.address.streetAddress,
+          businessAccount: res.data.businessAccount,
+          nickName: res.data.nickName,
+          latitude: res.data.address.latitude,
+          longitude: res.data.address.longitude,
+          favorites: res.data.favorites,
+        });
+        setMemberUpdate(!memberUpdate);
       })
       .catch((err) => {
         console.log("patch error", err);
@@ -271,10 +338,10 @@ const MyInfo = () => {
     );
   }, [patchData.streetAddress]);
 
-  useEffect(() => {
-    console.log("패치 데이터", patchData);
-    console.log("유저 데이터", userData);
-  }, [patchData]);
+  // useEffect(() => {
+  //   console.log("패치 데이터", patchData);
+  //   console.log("유저 데이터", userData);
+  // }, [patchData]);
 
   return (
     <Container>
@@ -301,17 +368,17 @@ const MyInfo = () => {
                 readOnly={"readOnly"}
               />
             </div>
-            <div className="userbox">
-              <InfoName>지역</InfoName>
-              <Input value={userData.location || ""} readOnly={"readOnly"} />
-            </div>
           </UserInfo>
+          <div className="userbox">
+            <InfoName>지역</InfoName>
+            <TextArea value={userData.location || ""} readOnly={"readOnly"} />
+          </div>
           <Buttons>
             {/* 서버연결 후 확인하기 */}
             <div>
-              {userData.businessAccount ? (
+              {!userData.businessAccount ? (
                 <BusinessAccount>
-                  <InfoName>사업자 계정</InfoName>
+                  <InfoReName>사업자 계정</InfoReName>
                   <button
                     className="button"
                     onClick={() => navigate("/addstore")}
@@ -328,7 +395,9 @@ const MyInfo = () => {
               >
                 정보수정
               </Button>
-              <Button btnstyle="Btn">회원탈퇴</Button>
+              <Button btnstyle="Btn" onClick={() => deleteFunc()}>
+                회원탈퇴
+              </Button>
             </Btns>
           </Buttons>
         </div>
@@ -375,7 +444,7 @@ const MyInfo = () => {
                   검색
                 </LocationBtn>
               </CustomDiv>
-              <Input
+              <TextArea
                 inputType="default"
                 value={patchData.streetAddress || ""}
                 readOnly="readOnly"

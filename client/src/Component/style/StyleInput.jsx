@@ -27,7 +27,7 @@ const TextInput = styled.input`
   border: var(--border, 1px solid var(--black-200));
   border-radius: var(--border-radius, 10px);
   padding: 0px 10px;
-
+  white-space: pre-wrap;
   &:active,
   &:focus {
     outline: none;

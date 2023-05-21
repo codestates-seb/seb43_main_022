@@ -93,12 +93,13 @@ const Header = () => {
     api.defaults.headers.common["Authorization"] = "";
     localStorage.removeItem("recoil-persist");
     sessionStorage.removeItem("Authorization");
+    sessionStorage.removeItem("IsLogin");
     navi("/");
   };
 
   return (
     <>
-      {isLogin ? (
+      {!isLogin ? (
         <Container>
           <Link to="/">
             <LogoBtn />

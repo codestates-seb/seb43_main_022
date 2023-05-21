@@ -16,7 +16,6 @@ api.interceptors.request.use(function (config) {
   config.headers["authorization"] =
     window.sessionStorage.getItem("Authorization");
 
-  console.log(config);
   return config;
 });
 

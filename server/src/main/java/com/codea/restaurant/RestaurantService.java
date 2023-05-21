@@ -124,11 +124,11 @@ public class RestaurantService {
         });
 
 
-        Optional.ofNullable(restaurant.getMenu()).ifPresent((menuList) -> {
-            menuRepository.deleteAllByRestaurant_RestaurantId(restaurantId);
-            for (Menu menuTemp: restaurant.getMenu()) {
+        Optional.ofNullable(restaurant.getMenu()).ifPresent((menuList) -> { //menu는 영속성 컨텍스트에 영속된 상태
+            menuRepository.deleteAllByRestaurant_RestaurantId(restaurantId); //영속성 컨텍스트에서 menu가 detached 된 상태
+            for (Menu menuTemp: restaurant.getMenu()) { //영속성 컨텍스트 1차 캐시에 restaurant.menu에 대한 select query 생성 후 반환, 이후 1차 캐시의 select query를 통해 Menu객체 select
 
-                Menu findMenu = menuRepository.findById(menuTemp.getMenuId()).orElseGet(() -> {
+                Menu findMenu = menuRepository.findById(menuTemp.getMenuId()).orElseGet(() -> { //영속성 컨텍스트 1차 캐시에 restaurant.menu에 대한 select query 생성 후 반
                     menuTemp.setRestaurant(findRestaurant);
                     return menuRepository.save(menuTemp);
                 });

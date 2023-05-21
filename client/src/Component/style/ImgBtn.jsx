@@ -1,6 +1,5 @@
 import styled, { css } from "styled-components";
-import { useRecoilState } from "recoil";
-import BtnState from "../../state/atoms/BtnActive";
+
 const HoverType = {
   green: css`
     --hover: var(--eatsgreen);

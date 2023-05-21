@@ -49,29 +49,29 @@ public class Restaurant extends BaseEntity {
     private double latitude;
     @Column
     private double longitude;
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "MEMBER_ID")
     private Member member;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "address_id")
     private Address address;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "category_id")
     private Category category;
     private double averageRating;
 
-    @OneToMany(mappedBy = "restaurant", cascade = {CascadeType.PERSIST, CascadeType.MERGE})//, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "restaurant", cascade =CascadeType.REMOVE)//, cascade = {CascadeType.PERSIST, CascadeType.MERGE})//, cascade = CascadeType.ALL)
     private List<Menu> menu = new ArrayList<>();
 
-    @OneToMany(mappedBy = "restaurant", cascade = {CascadeType.PERSIST, CascadeType.MERGE})//, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "restaurant", cascade ={CascadeType.PERSIST,  CascadeType.REMOVE})//, cascade = {CascadeType.PERSIST, CascadeType.MERGE})//, cascade = CascadeType.ALL)
     private List<TagRestaurant> tagRestaurants = new ArrayList<>();
 
-    @OneToMany(mappedBy = "restaurant", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @OneToMany(mappedBy = "restaurant", cascade = {CascadeType.PERSIST,  CascadeType.REMOVE})//, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private List<Review> reviews = new ArrayList<>();
 
-    @OneToMany(mappedBy = "restaurant", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @OneToMany(mappedBy = "restaurant", cascade = {CascadeType.PERSIST,  CascadeType.REMOVE})//, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private List<Favorite> favorites = new ArrayList<>();
 
 

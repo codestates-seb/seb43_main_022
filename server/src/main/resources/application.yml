@@ -8,9 +8,24 @@ logging:
     org.hibernate.type.descriptor.sql.BasicBinder: trace
 
 
+cloud:
+  aws:
+    credentials:
+      access-key: AKIAVZCEWUKJ6A52AAOQ
+      secret-key: 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
+    s3: #버킷이름
+      bucket: main022
+    region:
+      static: ap-northeast-2
+    stack:
+      auto: false
 
 
 spring:
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
 
 #  h2:
 #    console:

@@ -226,6 +226,7 @@ function Signup() {
       latitude: member.latitude,
       longitude: member.longitude,
       businessAccount: member.businessAccount,
+      photo: imgFile,
     })
       .then(() => {
         alert("회원가입한 계정으로 로그인 해주세요.");

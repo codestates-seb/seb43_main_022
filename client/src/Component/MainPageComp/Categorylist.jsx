@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
+// import { categoryState } from "../../state/atoms/CategoryAtom";
 import { categoryState } from "../../state/atoms/CategoryAtom";
 import { searchTermState } from "../../state/atoms/SearchTermState";
 import { api } from "../../Util/api";

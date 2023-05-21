@@ -62,13 +62,13 @@ public class Restaurant extends BaseEntity {
     private Category category;
     private double averageRating;
 
-    @OneToMany(mappedBy = "restaurant")//, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "restaurant")//, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private List<Menu> menu = new ArrayList<>();
 
-    @OneToMany(mappedBy = "restaurant")//, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "restaurant")//, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private List<TagRestaurant> tagRestaurants = new ArrayList<>();
 
-    @OneToMany(mappedBy = "restaurant", cascade = CascadeType./*REMOVE*/ ALL)
+    @OneToMany(mappedBy = "restaurant")//, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private List<Review> reviews = new ArrayList<>();
 
     @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL)

@@ -1,7 +1,7 @@
 package com.codea.auth.utils;
 
 
-import com.codea.response.ErrorResponse;
+import com.codea.common.response.ErrorResponse;
 import com.google.gson.Gson;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;

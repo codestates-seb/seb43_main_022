@@ -1,10 +1,10 @@
-package com.codea.response;
+package com.codea.common.dto;
+
 
 import lombok.Getter;
 import org.springframework.data.domain.Page;
 
 import java.util.List;
-
 
 @Getter
 public class MultiResponseDto<T> {

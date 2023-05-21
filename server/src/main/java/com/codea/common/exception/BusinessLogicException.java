@@ -1,6 +1,5 @@
-package com.codea.exception;
+package com.codea.common.exception;
 
-import com.codea.exception.ExceptionCode;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 

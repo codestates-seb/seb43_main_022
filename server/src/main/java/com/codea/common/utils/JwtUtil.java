@@ -1,4 +1,4 @@
-package com.codea.utils;
+package com.codea.common.utils;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;

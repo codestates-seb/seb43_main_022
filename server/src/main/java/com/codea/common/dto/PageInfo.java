@@ -1,4 +1,4 @@
-package com.codea.response;
+package com.codea.common.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

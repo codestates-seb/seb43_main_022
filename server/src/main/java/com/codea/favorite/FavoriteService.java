@@ -1,24 +1,16 @@
 package com.codea.favorite;
 
-import com.codea.exception.BusinessLogicException;
-import com.codea.exception.ExceptionCode;
+import com.codea.common.exception.BusinessLogicException;
+import com.codea.common.exception.ExceptionCode;
 import com.codea.member.Member;
 import com.codea.member.MemberRepository;
 import com.codea.restaurant.Restaurant;
 import com.codea.restaurant.RestaurantRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-
-import javax.validation.constraints.Positive;
 import java.util.List;
 
 @Service

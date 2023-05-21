@@ -1,11 +1,10 @@
 package com.codea.Menu;
 
-import com.codea.response.MultiResponseDto;
-import com.codea.utils.UriCreator;
+import com.codea.common.response.MultiResponseDto;
+import com.codea.common.utils.UriCreator;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 

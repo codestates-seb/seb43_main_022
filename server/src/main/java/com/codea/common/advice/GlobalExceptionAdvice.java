@@ -1,8 +1,8 @@
-package com.codea.advice;
+package com.codea.common.advice;
 
 
-import com.codea.exception.BusinessLogicException;
-import com.codea.response.ErrorResponse;
+import com.codea.common.exception.BusinessLogicException;
+import com.codea.common.response.ErrorResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

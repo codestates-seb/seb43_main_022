@@ -1,7 +1,7 @@
 package com.codea.member;
 
 
-import com.codea.BaseEntity.BaseEntity;
+import com.codea.common.BaseEntity.BaseEntity;
 import com.codea.address.Address;
 import com.codea.favorite.Favorite;
 import com.codea.restaurant.Restaurant;
@@ -22,9 +22,11 @@ public class Member extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long memberId;
+    @Column(length = 30)
     private String nickName;
-    @Column(nullable = false, updatable = false, unique = true)
+    @Column(length = 30, nullable = false, updatable = false, unique = true)
     private String email;
+    @Column(length = 30)
     private String password;
     private String photo;
     @Column

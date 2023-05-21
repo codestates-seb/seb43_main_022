@@ -1,7 +1,7 @@
 package com.codea.review;
 
-import com.codea.exception.ExceptionCode;
-import com.codea.exception.BusinessLogicException;
+import com.codea.common.exception.ExceptionCode;
+import com.codea.common.exception.BusinessLogicException;
 import com.codea.member.Member;
 import com.codea.member.MemberRepository;
 import com.codea.restaurant.Restaurant;

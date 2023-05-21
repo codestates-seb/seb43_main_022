@@ -1,4 +1,4 @@
-package com.codea.BaseEntity;
+package com.codea.common.BaseEntity;
 
 import lombok.Getter;
 import lombok.Setter;

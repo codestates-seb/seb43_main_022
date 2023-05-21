@@ -1,6 +1,6 @@
-package com.codea.response;
+package com.codea.common.response;
 
-import com.codea.exception.ExceptionCode;
+import com.codea.common.exception.ExceptionCode;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindingResult;

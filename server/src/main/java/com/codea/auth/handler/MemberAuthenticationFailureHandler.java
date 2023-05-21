@@ -1,6 +1,6 @@
 package com.codea.auth.handler;
 
-import com.codea.response.ErrorResponse;
+import com.codea.common.response.ErrorResponse;
 import com.google.gson.Gson;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;

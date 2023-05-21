@@ -1,17 +1,14 @@
 package com.codea.review;
 
-import com.codea.member.Member;
-import com.codea.response.MultiResponseDto;
-import com.codea.restaurant.Restaurant;
+import com.codea.common.response.MultiResponseDto;
 import com.codea.restaurant.RestaurantService;
-import com.codea.utils.UriCreator;
+import com.codea.common.utils.UriCreator;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;

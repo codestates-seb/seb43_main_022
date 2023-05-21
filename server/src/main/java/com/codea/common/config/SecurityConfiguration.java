@@ -1,4 +1,4 @@
-package com.codea.config;
+package com.codea.common.config;
 
 import com.codea.auth.filter.JwtAuthenticationFilter;
 import com.codea.auth.filter.JwtVerificationFilter;

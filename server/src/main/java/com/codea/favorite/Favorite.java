@@ -1,6 +1,6 @@
 package com.codea.favorite;
 
-import com.codea.BaseEntity.BaseEntity;
+import com.codea.common.BaseEntity.BaseEntity;
 import com.codea.member.Member;
 import com.codea.restaurant.Restaurant;
 import lombok.*;

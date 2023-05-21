@@ -1,8 +1,8 @@
 package com.codea.auth.userdetails;
 
 import com.codea.auth.utils.CustomAuthorityUtils;
-import com.codea.exception.BusinessLogicException;
-import com.codea.exception.ExceptionCode;
+import com.codea.common.exception.BusinessLogicException;
+import com.codea.common.exception.ExceptionCode;
 import com.codea.member.Member;
 import com.codea.member.MemberRepository;
 import org.springframework.data.redis.core.RedisTemplate;

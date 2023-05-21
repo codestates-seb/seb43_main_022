@@ -5,14 +5,8 @@ import com.codea.address.Address;
 import com.codea.address.AddressDto;
 import com.codea.address.AddressMapper;
 import com.codea.auth.userdetails.MemberDetailsService;
-import com.codea.dto.MultiResponseDto;
-import com.codea.favorite.Favorite;
-import com.codea.favorite.FavoriteDto;
-import com.codea.restaurant.Restaurant;
-import com.codea.review.Review;
-import com.codea.review.ReviewDto;
-import com.codea.review.ReviewMapper;
-import com.codea.utils.UriCreator;
+import com.codea.common.dto.MultiResponseDto;
+import com.codea.common.utils.UriCreator;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpHeaders;
@@ -28,9 +22,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;
 import java.net.URI;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/members")

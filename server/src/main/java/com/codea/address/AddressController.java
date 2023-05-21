@@ -1,7 +1,7 @@
 package com.codea.address;
 
-import com.codea.response.MultiResponseDto;
-import com.codea.utils.UriCreator;
+import com.codea.common.response.MultiResponseDto;
+import com.codea.common.utils.UriCreator;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

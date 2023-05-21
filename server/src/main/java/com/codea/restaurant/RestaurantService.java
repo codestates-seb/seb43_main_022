@@ -6,14 +6,11 @@ import com.codea.Menu.MenuRepository;
 import com.codea.address.Address;
 import com.codea.address.AddressRepository;
 import com.codea.category.Category;
-import com.codea.category.CategoryDto;
 import com.codea.category.CategoryRepository;
-import com.codea.exception.BusinessLogicException;
-import com.codea.exception.ExceptionCode;
+import com.codea.common.exception.BusinessLogicException;
+import com.codea.common.exception.ExceptionCode;
 import com.codea.member.Member;
-import com.codea.member.MemberDto;
 import com.codea.member.MemberRepository;
-import com.codea.review.Review;
 import com.codea.tag.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -22,15 +19,8 @@ import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
-
-import static com.codea.review.Review.ReviewStatus.REVIEW_VALID;
-import static java.awt.SystemColor.menu;
 
 @Service
 @Transactional

@@ -1,8 +1,7 @@
 package com.codea.address;
 
-import com.codea.exception.BusinessLogicException;
-import com.codea.exception.ExceptionCode;
-import com.codea.restaurant.RestaurantRepository;
+import com.codea.common.exception.BusinessLogicException;
+import com.codea.common.exception.ExceptionCode;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;

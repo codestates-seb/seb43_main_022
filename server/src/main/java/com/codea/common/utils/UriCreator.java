@@ -1,4 +1,4 @@
-package com.codea.utils;
+package com.codea.common.utils;
 
 import org.springframework.web.util.UriComponentsBuilder;
 

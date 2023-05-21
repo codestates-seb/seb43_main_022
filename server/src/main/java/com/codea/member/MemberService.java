@@ -3,15 +3,11 @@ package com.codea.member;
 
 import com.codea.address.Address;
 import com.codea.address.AddressRepository;
-import com.codea.auth.utils.CustomAuthorityUtils;
-import com.codea.exception.BusinessLogicException;
-import com.codea.exception.ExceptionCode;
-import com.codea.favorite.Favorite;
+import com.codea.common.exception.BusinessLogicException;
+import com.codea.common.exception.ExceptionCode;
 import com.codea.favorite.FavoriteRepository;
-import com.codea.restaurant.Restaurant;
-import com.codea.review.Review;
 import com.codea.review.ReviewRepository;
-import com.codea.utils.JwtUtil;
+import com.codea.common.utils.JwtUtil;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -26,7 +22,6 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Optional;
 
 

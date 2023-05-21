@@ -1,20 +1,16 @@
 package com.codea.restaurant;
 
-import com.codea.BaseEntity.BaseEntity;
+import com.codea.common.BaseEntity.BaseEntity;
 import com.codea.Menu.Menu;
 import com.codea.address.Address;
 import com.codea.category.Category;
 import com.codea.favorite.Favorite;
 import com.codea.member.Member;
 import com.codea.review.Review;
-import com.codea.tag.Tag;
 import com.codea.tag.TagRestaurant;
 import lombok.*;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Positive;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,7 +27,7 @@ public class Restaurant extends BaseEntity {
     private String restaurantName;
     @Column(length = 255, nullable = false)
     private String content;
-    @Column(nullable = false)
+    @Column(length = 50, nullable = false)
     private String tel;
     @Column(length = 50, nullable = false)
     private String open_time;

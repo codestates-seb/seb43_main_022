@@ -1,14 +1,15 @@
 import styled from "styled-components";
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { api } from "../Util/api";
-import { useRecoilState, useResetRecoilState } from "recoil";
+import { useRecoilState, useResetRecoilState, useSetRecoilState } from "recoil";
 import isLoginState from "../state/atoms/IsLoginAtom";
 import memberState from "../state/atoms/SignAtom";
 import Button from "./style/StyleButton";
 import Logo from "./style/img/Eaaaaaaats.svg";
 import Search from "./style/img/search.png";
 import Frame from "./style/img/Frame.svg";
-
+import { searchTermState } from "../state/atoms/SearchTermState";
 const Container = styled.header`
   width: 100vw;
   height: 69px;
@@ -29,7 +30,9 @@ const LogoBtn = styled.button`
   background-size: cover;
   background-repeat: no-repeat;
 `;
-
+const InputContainer = styled.div`
+  position: relative;
+`;
 const LoginDiv = styled.div`
   display: flex;
   justify-content: center;
@@ -49,10 +52,6 @@ const Hinput = styled.input`
   padding: 0px 20px;
   flex-grow: 0.2;
   margin-left: 40px;
-
-  background-image: url(${Search});
-  background-repeat: no-repeat;
-  background-position: 98% center;
 
   &:active,
   &:focus {
@@ -76,7 +75,19 @@ const Hinput = styled.input`
 const IsLoginInput = styled(Hinput)`
   background-position: 98% center;
 `;
-
+const SearchButton = styled.button`
+  position: absolute;
+  top: 0;
+  right: 10px;
+  width: 30px;
+  height: 100%;
+  background-color: transparent;
+  background-image: url(${Search});
+  background-repeat: no-repeat;
+  background-position: center;
+  border: none;
+  cursor: pointer;
+`;
 const Frameicon = styled.img`
   width: 17px;
   height: 17px;
@@ -86,44 +97,99 @@ const Frameicon = styled.img`
 const Header = () => {
   const resetMember = useResetRecoilState(memberState);
   const [isLogin, setIsLogin] = useRecoilState(isLoginState);
+  const [localSearchTerm, setLocalSearchTerm] = useState("");
+  const setSearchTerm = useSetRecoilState(searchTermState);
   const navi = useNavigate();
+  const [isComposing, setIsComposing] = useState(false);
 
   const logoutFunc = () => {
     setIsLogin(!isLogin);
     api.defaults.headers.common["Authorization"] = "";
     localStorage.removeItem("recoil-persist");
+    sessionStorage.removeItem("Authorization");
+    sessionStorage.removeItem("IsLogin");
     navi("/");
   };
 
+  const handleSearch = () => {
+    const encodedSearchTerm = encodeURIComponent(localSearchTerm);
+    setSearchTerm(localSearchTerm);
+    setLocalSearchTerm("");
+    navi(`/itemlist?search=${encodedSearchTerm}`);
+  };
+
+  const handleInputChange = (e) => {
+    setLocalSearchTerm(e.target.value);
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter" && !isComposing) {
+      handleSearch();
+    }
+  };
+
+  const handleCompositionStart = () => {
+    setIsComposing(true);
+  };
+
+  const handleCompositionEnd = (e) => {
+    setIsComposing(false);
+    if (e.key === "Enter") {
+      handleSearch();
+    }
+  };
   return (
     <>
-      {isLogin ? (
+      {!isLogin ? (
         <Container>
           <Link to="/">
             <LogoBtn />
           </Link>
-          <Hinput placeholder="지역/ 상호/ 키워드를 입력해주세요." />
+          <InputContainer>
+            <Hinput
+              placeholder="지역/ 상호/ 키워드를 입력해주세요."
+              value={localSearchTerm}
+              onChange={handleInputChange}
+              onKeyDown={handleKeyDown}
+              onCompositionStart={handleCompositionStart}
+              onCompositionEnd={handleCompositionEnd}
+            />
+            <SearchButton onClick={handleSearch} />
+          </InputContainer>
+
           <LoginDiv>
             <Link to="/login">
               <Button btnstyle="HBtn">로그인</Button>
             </Link>
             <Link to="/signup">
-              <Button btnstyle="HBtn" onClick={resetMember}>
-                회원가입
-              </Button>
+              <Button btnstyle="HBtn">회원가입</Button>
             </Link>
           </LoginDiv>
         </Container>
       ) : (
         <Container>
-          <LogoBtn />
-          <IsLoginInput placeholder="지역/ 상호/ 키워드를 입력해주세요." />
+          <Link to="/">
+            <LogoBtn />
+          </Link>
+          <InputContainer>
+            <IsLoginInput
+              placeholder="지역/ 상호/ 키워드를 입력해주세요."
+              value={localSearchTerm}
+              onChange={handleInputChange}
+              onKeyDown={handleKeyDown}
+              onCompositionStart={handleCompositionStart}
+              onCompositionEnd={handleCompositionEnd}
+            />
+            <SearchButton onClick={handleSearch} />
+          </InputContainer>
           <LoginDiv>
-            <Button btnstyle="HBtn">
-              <Frameicon src={Frame} alt="" />
-              마이페이지
-            </Button>
-            <Button btnstyle="HBtn" onClick={(resetMember, logoutFunc)}>
+            <Link to="/mypage">
+              <Button btnstyle="HBtn">
+                <Frameicon src={Frame} alt="" />
+                마이페이지
+              </Button>
+            </Link>
+            <Button btnstyle="HBtn" onClick={(resetMember, () => logoutFunc())}>
               로그아웃
             </Button>
           </LoginDiv>

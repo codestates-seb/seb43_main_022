@@ -1,8 +1,10 @@
 import styled from "styled-components";
 import ImgBtn from "../style/ImgBtn";
 import { useState, useEffect } from "react";
-// import { api } from "../../Util/api";
-import axios from "axios";
+// import { useParams } from "react-router-dom";
+import { useRecoilValue } from "recoil";
+import memberState from "../../state/atoms/SignAtom";
+import { api } from "../../Util/api";
 
 const Container = styled.div`
   margin: auto;
@@ -43,76 +45,65 @@ const SubInfo = styled.div`
 `;
 
 const StoreHead = () => {
+  // const { restaurantId } = useParams();
+  const member = useRecoilValue(memberState);
+  // const [, setViewCount] = useState(0);
   const [heartIcon, setHeartIcon] = useState(false);
+
   const [shareIcon, setShareIcon] = useState(false);
 
   const [data, setData] = useState({
     restaurantName: "",
-    tag: [],
-    total_views: "",
-    totalFavorite: "",
+    tagRestaurants: [],
+    total_views: 0,
+    totalFavorite: 0,
   });
-
-  // const [tags, setTags] = useState([]);
-
-  // {
-  //   tagId: 1,
-  //   name: "#분위기좋은곳",
-  // },
-  // {
-  //   tagId: 2,
-  //   name: "#브런치",
-  // },
-  // {
-  //   tagId: 3,
-  //   name: "#샌드위치",
-  // },
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(
-          "http://ec2-54-180-31-226.ap-northeast-2.compute.amazonaws.com:8080/restaurants/1",
-        );
-        const { restaurantName, tag, total_views, totalFavorite } =
-          response.data;
+        const response = await api.get(`/restaurants/1`);
+        const data = response.data;
 
-        setData({
-          restaurantName,
-          tag,
-          total_views,
-          totalFavorite,
-        });
+        setData(data);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
     };
-    console.log();
+
     fetchData();
   }, []);
 
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     try {
-  //       const response = await axios.get(
-  //         "http://ec2-54-180-31-226.ap-northeast-2.compute.amazonaws.com:8080/tags",
-  //       );
-  //       const { tags } = response.data;
-
-  //       setTags(tags);
-  //     } catch (error) {
-  //       console.error("Error fetching data:", error);
-  //     }
-  //   };
-
-  //   fetchData();
-  // }, []);
-
-  const handleHeartIcon = () => {
-    setHeartIcon(!heartIcon);
+  const handleHeartIcon = async () => {
+    try {
+      if (!member.memberId) {
+        console.log("로그인이 필요합니다");
+        alert("로그인이 필요합니다.");
+        return;
+      }
+      if (!heartIcon && member.memberId) {
+        await api.post(`/favorites/restaurant/1`); //${restaurant - id}
+        console.log("즐겨찾기 저장");
+      } else {
+        await api.delete(`/favorites/1`); //${favorites-id}
+        console.log("즐겨찾기 해제");
+      }
+      setHeartIcon(!heartIcon);
+    } catch (error) {
+      console.error("즐겨찾기에러:", error);
+    }
   };
+
   const handleShareIcon = () => {
     setShareIcon(!shareIcon);
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(window.location.href);
+      console.log("링크 복사 완료");
+      alert("링크가 복사되었습니다.");
+    } else {
+      console.log("링크 복사 실패");
+      alert("링크 복사에 실패했습니다.");
+    }
   };
 
   return (
@@ -121,9 +112,9 @@ const StoreHead = () => {
         <StoreName>{data.restaurantName}</StoreName>
         <StoreInfo>
           <Tags>
-            {data.tag &&
-              data.tag.map((tag) => (
-                <TagItem key={tag.tagId}>{tag.name}</TagItem>
+            {data.tagRestaurants &&
+              data.tagRestaurants.map((tag) => (
+                <TagItem key={tag.tag.tagId}>{`#${tag.tag.name}`}</TagItem>
               ))}
           </Tags>
           <SubInfo>

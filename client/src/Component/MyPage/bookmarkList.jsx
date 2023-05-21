@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import BookmarkItem from "./BookmarkItem";
-// import { api } from "../../Util/api";
-import axios from "axios";
+import { api } from "../../Util/api";
 
 const BookmarkList = () => {
   const [data, setData] = useState([]);
@@ -9,11 +8,9 @@ const BookmarkList = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(
-          "http://ec2-54-180-31-226.ap-northeast-2.compute.amazonaws.com:8080/members/mypage",
-        );
-
-        setData(response.data.favorite);
+        const response = await api.get("members/mypage");
+        setData(response.data.favorites);
+        console.log("res", response.data.favorites);
       } catch (error) {
         console.error("에러", error);
       }
@@ -22,20 +19,20 @@ const BookmarkList = () => {
   }, []);
 
   return (
-    <div>
-      {data
-        ? data.map((item) => (
-            <BookmarkItem
-              key={item.restaurantId}
-              name={item.name}
-              streetAddress={item.streetAddress}
-              latitude={item.latitude}
-              longitude={item.longitude}
-              category={item.category}
-            />
-          ))
-        : "Loading..."}
-    </div>
+    <>
+      {data ? (
+        data.map((item, idx) => (
+          <BookmarkItem
+            key={item.favoriteId}
+            idx={idx}
+            setData={setData}
+            data={data}
+          />
+        ))
+      ) : (
+        <>"Loading..."</>
+      )}
+    </>
   );
 };
 

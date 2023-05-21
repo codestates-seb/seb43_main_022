@@ -5,8 +5,10 @@ import ImgBtn from "../style/ImgBtn";
 import profile from "../style/img/profile.png";
 import { useParams, useNavigate } from "react-router-dom";
 import { useRecoilValue } from "recoil";
+
 import memberState from "../../state/atoms/SignAtom";
 import { api } from "../../Util/api";
+// import { reviewDataAtom } from "../../state/atoms/reviewDataAtom";
 
 const Container = styled.div`
   width: 1200px;
@@ -91,10 +93,12 @@ const Text = styled.section`
 // `;
 
 const ReviewItem = ({ data, onDelete }) => {
-  const { res_id, review_id } = useParams();
+  const { res_id } = useParams();
+
   const navigate = useNavigate();
   const modifyClick = () => {
-    navigate(`/review/edit/${res_id}/${review_id}`);
+    console.log(data);
+    navigate(`/review/edit/${res_id}/${data.reviewId}`);
   };
   const member = useRecoilValue(memberState);
 

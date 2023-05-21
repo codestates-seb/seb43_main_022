@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import ImgBtn from "../style/ImgBtn";
 import { useState, useEffect } from "react";
-// import { useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import memberState from "../../state/atoms/SignAtom";
 import { api } from "../../Util/api";
@@ -45,13 +45,11 @@ const SubInfo = styled.div`
 `;
 
 const StoreHead = () => {
-  // const { restaurantId } = useParams();
+  const { res_id } = useParams();
   const member = useRecoilValue(memberState);
   // const [, setViewCount] = useState(0);
   const [heartIcon, setHeartIcon] = useState(false);
-
   const [shareIcon, setShareIcon] = useState(false);
-
   const [data, setData] = useState({
     restaurantName: "",
     tagRestaurants: [],
@@ -61,7 +59,7 @@ const StoreHead = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await api.get(`/restaurants/1`);
+        const response = await api.get(`/restaurants/${res_id}`);
         const data = response.data;
 
         setData(data);
@@ -81,10 +79,10 @@ const StoreHead = () => {
         return;
       }
       if (!heartIcon && member.memberId) {
-        await api.post(`/favorites/restaurant/${data.restaurantId}`); //${restaurant - id}
+        await api.post(`/favorites/restaurant/${data.restaurantId}`);
         console.log("즐겨찾기 저장");
       } else {
-        await api.delete(`/favorites/${data.favoriteId}`); //${favorites-id}
+        await api.delete(`/favorites/${data.favoriteId}`); //${favorites-id}{수정하기}
         console.log("즐겨찾기 해제");
       }
       setHeartIcon(!heartIcon);

@@ -71,9 +71,9 @@ const Modify = styled.div`
 
 const StoreInfo = () => {
   const navigate = useNavigate();
-  const { id } = useParams();
+  const { res_id } = useParams();
   const onClickModify = () => {
-    navigate(`/editstore/${id}`);
+    navigate(`/editstore/${res_id}`);
   };
 
   const [modal, setModal] = useState(false);
@@ -99,7 +99,7 @@ const StoreInfo = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await api.get(`/restaurants/1`);
+        const response = await api.get(`/restaurants/${res_id}`);
         const data = response.data;
         setData(data);
       } catch (error) {

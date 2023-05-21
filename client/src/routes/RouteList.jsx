@@ -39,6 +39,10 @@ const RouteList = [
     element: <Signup />,
   },
   {
+    path: "/detail/:res_id",
+    element: <DetailPage />,
+  },
+  {
     path: "/detail",
     element: <DetailPage />,
   },

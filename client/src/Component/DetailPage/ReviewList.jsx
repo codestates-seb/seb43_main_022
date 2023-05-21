@@ -5,7 +5,7 @@ import { useState, useEffect } from "react";
 import { useRecoilState } from "recoil";
 import { reviewDataAtom } from "../../state/atoms/reviewDataAtom";
 import { api } from "../../Util/api";
-
+import { useParams } from "react-router-dom";
 const ReviewListContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -18,6 +18,7 @@ const ReviewList = ({ data }) => {
   const [allReviews, setAllReviews] = useState(false);
   const [showButton, setShowButton] = useState(true);
 
+  const { res_id } = useParams();
   useEffect(() => {
     setDisplayData(data);
   }, [data]);
@@ -33,7 +34,7 @@ const ReviewList = ({ data }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await api.get(`/restaurants/1`); //${restaurant-id}
+        const response = await api.get(`/restaurants/${res_id}`);
         setReviewData(response.data.reviews);
         console.log(response.data.reviews);
       } catch (error) {

@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import styled from "styled-components";
 import defaultImg from "../style/img/defaultImg.png";
 import { api } from "../../Util/api";
+import { useParams } from "react-router-dom";
 
 const Container = styled.div`
   margin: auto;
@@ -28,11 +29,12 @@ const StoreIntro = () => {
     photo: defaultImg,
     content: "",
   });
+  const { res_id } = useParams();
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await api.get("/restaurants/1");
+        const response = await api.get(`/restaurants/${res_id}`);
         const { photo, content } = response.data;
         const newData = {
           photo: photo || defaultImg,

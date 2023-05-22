@@ -1,13 +1,13 @@
+import { useRef } from "react";
 import styled from "styled-components";
 import Input from "../style/StyleInput";
 import Button from "../style/StyleButton";
-import { useRecoilState, useSetRecoilState, useRecoilValue } from "recoil";
-import { keywordsAtom } from "../../state/atoms/keywordsAtom";
 import Slider from "./Slider";
 import { Title } from "../../Pages/StoreList";
+import { useRecoilState, useSetRecoilState } from "recoil";
+import { keywordsAtom } from "../../state/atoms/keywordsAtom";
 import { searchInputState } from "../../state/atoms/SearchStateAtom";
-import { searchStateTag } from "../../state/atoms/SearchStateTagAtom";
-
+// import { searchStateTag } from "../../state/atoms/SearchStateTagAtom";
 export const ArticleBox = styled.article`
   width: calc(100%);
   border-radius: 30px;
@@ -23,13 +23,14 @@ const StoreKeywordBox = styled(ArticleBox)`
 
 /** 박스 내부 검색 & 인기키워드 영역 */
 const KeywordBoxLeftArea = styled.div`
-  width: calc(100% - 500px);
+  width: calc(100% - 450px);
   padding-left: 22px;
   h2:first-child {
     margin-top: 10px;
   }
   > form {
     margin-bottom: 40px;
+    width: calc(100% - 40px);
   }
 `;
 /** 박스 내부 인기키워드 묶음 */
@@ -41,21 +42,31 @@ const HotKeyword = styled.div`
 
 const StoreKeywordSearch = () => {
   const [keywords] = useRecoilState(keywordsAtom);
+  const searchInputRef = useRef(null);
   const setSearchInput = useSetRecoilState(searchInputState);
-  const searchResults = useRecoilValue(searchStateTag);
+
   const handleInputChange = (event) => {
-    setSearchInput(event.target.value);
+    searchInputRef.current = event.target.value;
   };
+
+  const handleFormSubmit = (event) => {
+    event.preventDefault();
+    setSearchInput(searchInputRef.current);
+  };
+
+  const randomKeywords = [...keywords]
+    .sort(() => Math.random() - 0.5)
+    .slice(0, 12);
 
   return (
     <>
       <StoreKeywordBox>
         <KeywordBoxLeftArea>
           <Title>원하는 키워드가 있나요?</Title>
-          <form>
+          <form onSubmit={handleFormSubmit}>
             <Input
               type="text"
-              placeholder="키워드를 입력해주세요"
+              placeholder="원하는 키워드가 있나요?(ex.한식, 중식, ...)"
               onChange={handleInputChange}
               inputType="default"
               width="100%"
@@ -64,7 +75,7 @@ const StoreKeywordSearch = () => {
           </form>
           <Title>인기 키워드로 찾기</Title>
           <HotKeyword>
-            {keywords.map((keyword, index) => (
+            {randomKeywords.map((keyword, index) => (
               <Button key={index} btnstyle="Btn2">
                 {keyword}
               </Button>
@@ -73,14 +84,12 @@ const StoreKeywordSearch = () => {
         </KeywordBoxLeftArea>
         <Slider />
       </StoreKeywordBox>
-      <div>
-        {searchResults.map((result, index) => (
+
+      {/* {searchResults.map((result, index) => (
           <div key={index}>
-            {/* Replace this with how you want to display each result */}
             <h2>{result.restaurantName}</h2>
           </div>
-        ))}
-      </div>
+        ))} */}
     </>
   );
 };

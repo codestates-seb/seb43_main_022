@@ -28,7 +28,8 @@ public class Member extends BaseEntity {
     private String email;
     @Column(length = 68)
     private String password;
-    private String photo;
+    @Column
+    private  String Image;
     @Column
     private Boolean businessAccount = false;
     @Enumerated(value = EnumType.STRING)
@@ -52,11 +53,10 @@ public class Member extends BaseEntity {
     private Address address;
 
 
-    public Member(Long memberId, String nickName, String email, String photo, MemberStatus memberStatus) {
+    public Member(Long memberId, String nickName, String email, MemberStatus memberStatus) {
         this.memberId = memberId;
         this.nickName = nickName;
         this.email = email;
-        this.photo = photo;
         this.memberStatus = memberStatus;
     }
 

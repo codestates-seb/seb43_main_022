@@ -1,6 +1,7 @@
 package com.codea.member;
 
 
+import com.codea.Image.ImageService;
 import com.codea.address.Address;
 import com.codea.address.AddressDto;
 import com.codea.address.AddressMapper;
@@ -34,27 +35,25 @@ public class MemberController {
     private final MemberMapper memberMapper;
     private final AddressMapper addressMapper;
     private final MemberDetailsService memberDetailsService;
+    private final ImageService imageService;
 
-    public MemberController(MemberService memberService, MemberMapper memberMapper,
-                            AddressMapper addressMapper, MemberDetailsService memberDetailsService) {
+    public MemberController(MemberService memberService, MemberMapper memberMapper, AddressMapper addressMapper, MemberDetailsService memberDetailsService, ImageService imageService) {
         this.memberService = memberService;
         this.memberMapper = memberMapper;
         this.addressMapper = addressMapper;
         this.memberDetailsService = memberDetailsService;
+        this.imageService = imageService;
     }
-
+    @Transactional
     @PostMapping("/signup")
     public ResponseEntity postMember(@Valid @RequestBody MemberDto.Post requestBody) {
-        // member 정보와 도로명주소를 받는다.
-        // 도로명 주소를 통해 Address 객체를 얻는다.
-        // Address 객체를 member 엔티티에 저장한다.
-
-        // requestBody 안에 member 정보와 도로명주소, 위도, 경도가 함께 저장되어 있음
 
         AddressDto.Post addressDto = new AddressDto.Post(requestBody.getStreetAddress(), requestBody.getLatitude(), requestBody.getLongitude());
         Address address = addressMapper.addressPostDtoToAddress(addressDto);
 
-        Member member = memberService.createMember(address, memberMapper.memberPostDtoToMember(requestBody));
+        String imageUrl = imageService.uploadImage(requestBody.getImageName(), requestBody.getBase64Image(), requestBody.getEmail());
+
+        Member member = memberService.createMember(address, imageUrl, memberMapper.memberPostDtoToMember(requestBody));
         MemberDto.Response responseDto = memberMapper.memberToMemberResponseDto(member);
 
         URI location = UriCreator.createUri("/members", member.getMemberId());
@@ -62,7 +61,6 @@ public class MemberController {
         headers.setLocation(location);
 
         return new ResponseEntity(responseDto, headers, HttpStatus.CREATED);
-
     }
 
     @PatchMapping
@@ -72,7 +70,12 @@ public class MemberController {
         AddressDto.Post addressDto = new AddressDto.Post(requestBody.getStreetAddress(), requestBody.getLatitude(), requestBody.getLongitude());
         Address address = addressMapper.addressPostDtoToAddress(addressDto);
 
-        Member member = memberService.updateMember(email, address, memberMapper.memberPatchDtoToMember(requestBody));
+        String imageUrl = null;
+        if (requestBody.getBase64Image() != null) {
+            imageUrl = imageService.uploadImage(requestBody.getImageName(), requestBody.getBase64Image(), email);
+        }
+
+        Member member = memberService.updateMember(email, address, imageUrl, memberMapper.memberPatchDtoToMember(requestBody));
 
 
         return new ResponseEntity<>(memberMapper.memberToMemberResponseDto(member), HttpStatus.OK);

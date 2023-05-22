@@ -1,5 +1,9 @@
 package com.codea.review;
 
+import com.codea.Image.ImageService;
+import com.codea.Image.Image;
+import com.codea.Image.ImageDto;
+import com.codea.Image.ImageRepository;
 import com.codea.common.exception.ExceptionCode;
 import com.codea.common.exception.BusinessLogicException;
 import com.codea.member.Member;
@@ -24,20 +28,34 @@ public class ReviewService {
     private final ReviewRepository reviewRepository;
     private final RestaurantRepository restaurantRepository;
     private final MemberRepository memberRepository;
+    private final ImageRepository imageRepository;
+    private final ImageService imageService;
 
-    public ReviewService(ReviewRepository reviewRepository, RestaurantRepository restaurantRepository, MemberRepository memberRepository) {
+    public ReviewService(ReviewRepository reviewRepository, RestaurantRepository restaurantRepository, MemberRepository memberRepository, ImageRepository imageRepository, ImageService imageService) {
         this.reviewRepository = reviewRepository;
         this.restaurantRepository = restaurantRepository;
         this.memberRepository = memberRepository;
+        this.imageRepository = imageRepository;
+        this.imageService = imageService;
     }
 
     @Transactional
-    public Review createReview(long restaurantId, String email, Review review) {
+    public Review createReview(long restaurantId, String email, ReviewDto.Post post) {
         Restaurant restaurant = restaurantRepository.findById(restaurantId).orElseThrow(() -> new BusinessLogicException(ExceptionCode.RESTAURANT_NOT_FOUND));
         Member member = memberRepository.findByEmail(email).orElseThrow(() -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
+
+        Review review = new Review(post.getTitle(), post.getContent(), post.getRating());
         review.setRestaurant(restaurant);
         review.setMember(member);
 
+        for (ImageDto.Post reviewImageTemp : post.getImage()) {
+            String imageUrl = imageService.uploadImage(reviewImageTemp.getImageName(), reviewImageTemp.getBase64Image(), email);
+
+            Image image = new Image(reviewImageTemp.getImageName(), imageUrl, review);
+            imageRepository.save(image);
+        }
+
+        //평점 구하기
         int totalScore = 0;
         int reviewCount = reviewRepository.countByRestaurant_RestaurantId(restaurantId) + 1;
 
@@ -55,16 +73,35 @@ public class ReviewService {
     }
 
     @Transactional
-    public Review updateReview(long reviewId, String email, Review review) {
+    public Review updateReview(long reviewId, String email, ReviewDto.Patch patch) {
         Review findReview = findReview(reviewId);
 
         if (!findReview.getMember().getEmail().equals(email)) throw new BusinessLogicException(ExceptionCode.UNAUTHORIZED_EDIT);
 
-        Optional.ofNullable(review.getTitle()).ifPresent(title -> findReview.setTitle(title));
-        Optional.ofNullable(review.getContent()).ifPresent(content -> findReview.setContent(content));
-        Optional.ofNullable(review.getPhoto()).ifPresent(photo -> findReview.setPhoto(photo));
-        Optional.ofNullable(review.getRating()).ifPresent(rating -> findReview.setRating(rating));
+        Review review = new Review(patch.getTitle(), patch.getContent(), patch.getRating());
+
+        Optional.ofNullable(patch.getTitle()).ifPresent(title -> findReview.setTitle(title));
+        Optional.ofNullable(patch.getContent()).ifPresent(content -> findReview.setContent(content));
+        Optional.ofNullable(patch.getRating()).ifPresent(rating -> findReview.setRating(rating));
         findReview.setModifiedAt(LocalDateTime.now());
+
+        for (ImageDto.Post reviewImageTemp : patch.getImage()) {
+            String imageUrl = imageService.uploadImage(reviewImageTemp.getImageName(), reviewImageTemp.getBase64Image(), email);
+
+            Image image = new Image(reviewImageTemp.getImageName(), imageUrl, review);
+            imageRepository.save(image);
+        }
+
+        Optional.ofNullable(patch.getImage()).ifPresent((imageList) -> {
+            imageRepository.deleteAllByReview_ReviewId(reviewId);
+            for (ImageDto.Post reviewImageTemp : patch.getImage()) {
+                String imageUrl = imageService.uploadImage(reviewImageTemp.getImageName(), reviewImageTemp.getBase64Image(), email);
+
+                Image image = new Image(reviewImageTemp.getImageName(), imageUrl, review);
+                imageRepository.save(image);
+            }
+
+        });
 
         return reviewRepository.save(findReview);
     }

@@ -1,13 +1,13 @@
 package com.codea.review;
 
-import com.codea.member.Member;
+import com.codea.Image.ImageDto;
 import com.codea.member.MemberDto;
-import com.codea.restaurant.RestaurantDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class ReviewDto {
     @Getter
@@ -17,8 +17,14 @@ public class ReviewDto {
         private String title;
         @NotBlank(message = "내용을 입력하세요.")
         private String content;
-        private String photo;
+        private List<ImageDto.Post> image;
         private Review.Rating rating;
+
+        public Post(String title, String content, Review.Rating rating) {
+            this.title = title;
+            this.content = content;
+            this.rating = rating;
+        }
     }
 
     @Getter
@@ -27,7 +33,7 @@ public class ReviewDto {
         private long reviewId;
         private String title;
         private String content;
-        private String photo;
+        private List<ImageDto.Post> image;
         private Review.Rating rating;
     }
 
@@ -42,6 +48,7 @@ public class ReviewDto {
         private LocalDateTime modifiedAt;
         private Review.Rating rating;
         private MemberDto.ReviewResponse member;
+        private List<ImageDto.Response> image;
     }
 
     @Getter

@@ -21,19 +21,19 @@ import java.util.List;
 public class ReviewController {
     private final ReviewService reviewService;
     private final ReviewMapper mapper;
-    private final RestaurantService restaurantService;
 
-    public ReviewController(ReviewService reviewService, ReviewMapper mapper, RestaurantService restaurantService) {
+
+    public ReviewController(ReviewService reviewService, ReviewMapper mapper) {
         this.reviewService = reviewService;
         this.mapper = mapper;
-        this.restaurantService = restaurantService;
     }
 
     @PostMapping("/restaurants/{restaurant-id}")
     public ResponseEntity postReview(@PathVariable("restaurant-id") @Positive long restaurantId,
                                      @Valid @RequestBody ReviewDto.Post requestBody,
                                      @AuthenticationPrincipal String email) {
-       Review review = reviewService.createReview(restaurantId, email, mapper.reviewPostDtoToReview(requestBody));
+
+       Review review = reviewService.createReview(restaurantId, email, requestBody);
 
         String ReviewUrl = "/restaurants/" + restaurantId + "/reviews";
         URI location = UriCreator.createUri(ReviewUrl, review.getReviewId());
@@ -45,7 +45,7 @@ public class ReviewController {
     public ResponseEntity patchReview(@PathVariable("review-id") @Positive long reviewId,
                                       @Valid @RequestBody ReviewDto.Patch requestBody,
                                       @AuthenticationPrincipal String email) {
-        Review review = reviewService.updateReview(reviewId, email, mapper.reviewPatchDtoToReview(requestBody));
+        Review review = reviewService.updateReview(reviewId, email, requestBody);
 
         return new ResponseEntity<>(mapper.reviewToReviewResponseDto(review),HttpStatus.OK);
     }

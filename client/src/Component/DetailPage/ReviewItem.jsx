@@ -1,8 +1,7 @@
 import styled from "styled-components";
 import Button from "../style/StyleButton";
-// import ImgBtn from "../style/ImgBtn";
+import ImgBtn from "../style/ImgBtn";
 import defaultProfile from "../style/img/profile.png";
-import { AiTwotoneLike, AiTwotoneDislike } from "react-icons/ai";
 import { useParams, useNavigate } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import memberState from "../../state/atoms/SignAtom";
@@ -21,20 +20,6 @@ const ReviewHead = styled.div`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-`;
-
-const ImgBtn = styled.div`
-  > .likeImg {
-    height: 30px;
-    width: 30px;
-    fill: green;
-  }
-
-  > .hateImg {
-    height: 30px;
-    width: 30px;
-    fill: darkred;
-  }
 `;
 
 const Left = styled.div`
@@ -163,13 +148,12 @@ const ReviewItem = ({ data, onDelete }) => {
               </div>
             </TitleInfo>
           </Left>
-          <ImgBtn>
-            {data.rating === "LIKE" ? (
-              <AiTwotoneLike className="likeImg" />
-            ) : (
-              <AiTwotoneDislike className="hateImg" />
-            )}
-          </ImgBtn>
+
+          {data.rating === "LIKE" ? (
+            <ImgBtn imgstyle={"LIKEFill"} />
+          ) : (
+            <ImgBtn imgstyle={"HATEFill"} />
+          )}
         </ReviewHead>
         <ReviewContent>
           <div className="username">{data.member.nickName}</div>

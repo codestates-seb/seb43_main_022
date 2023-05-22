@@ -10,6 +10,7 @@ import lombok.Setter;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 
@@ -24,10 +25,14 @@ public class MemberDto {
         private String email;
         @NotBlank(message = "비밀번호는 공백이 아니어야 합니다.")
         private String password;
+        @NotBlank
         private String nickName;
         private Boolean businessAccount;
+        @NotBlank
         private String streetAddress;
+        @NotNull
         private double latitude;
+        @NotNull
         private double longitude;
         private String base64Image;
         private String imageName;

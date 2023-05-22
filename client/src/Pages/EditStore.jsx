@@ -38,7 +38,7 @@ const AddBtnWrap = styled.div`
 `;
 const EditStore = () => {
   const { id } = useParams(); // URL 파라미터에서 업체 ID를 가져옴
-  const history = useNavigate();
+  const navigate = useNavigate();
   const initFormData = {
     restaurantName: "",
     tag: [],
@@ -73,6 +73,7 @@ const EditStore = () => {
     try {
       await api.patch(`/restaurants/${id}`, formData);
       console.log(formData);
+      window.location.reload();
       alert("업체 정보가 수정되었습니다.");
     } catch (error) {
       console.error(error);
@@ -84,7 +85,7 @@ const EditStore = () => {
       try {
         await api.delete(`/restaurants/${id}`);
         alert("업체 정보가 삭제되었습니다.");
-        history(-1);
+        navigate(-1);
       } catch (error) {
         console.error(error);
         alert("업체 정보 삭제에 실패하였습니다.");
@@ -94,7 +95,7 @@ const EditStore = () => {
 
   const handleCancel = () => {
     setFormData(initFormData);
-    history(-1);
+    navigate(-1);
   };
 
   return (

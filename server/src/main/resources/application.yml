@@ -1,11 +1,11 @@
-logging:
-  level:
-    root: DEBUG
-    org:
-      springframework:
-        web: debug
-    org.springframework.web.servlet: debug
-    org.hibernate.type.descriptor.sql.BasicBinder: trace
+#logging:
+#  level:
+#    root: DEBUG
+#    org:
+#      springframework:
+#        web: debug
+#    org.springframework.web.servlet: debug
+#    org.hibernate.type.descriptor.sql.BasicBinder: trace
 
 
 cloud:
@@ -13,7 +13,7 @@ cloud:
     credentials:
       access-key: AKIAVZCEWUKJ6A52AAOQ
       secret-key: 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
-    s3: #버킷이름
+    s3:
       bucket: main022
     region:
       static: ap-northeast-2

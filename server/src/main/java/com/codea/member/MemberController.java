@@ -62,7 +62,6 @@ public class MemberController {
         headers.setLocation(location);
 
         return new ResponseEntity(responseDto, headers, HttpStatus.CREATED);
-
     }
 
     @PatchMapping

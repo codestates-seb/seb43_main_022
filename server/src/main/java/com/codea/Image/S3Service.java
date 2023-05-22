@@ -1,4 +1,4 @@
-package com.codea.Image.temp;
+package com.codea.Image;
 
 import com.amazonaws.AmazonServiceException;
 import com.amazonaws.SdkClientException;
@@ -21,6 +21,7 @@ public class S3Service {
 
     public String uploadFile(MultipartFile multipartFile) throws IOException {
         String fileName = multipartFile.getOriginalFilename();
+        String uploadUrl = "image/" + fileName;
 
         //파일 형식 구하기
         String ext = fileName.split("\\.")[1];
@@ -46,7 +47,7 @@ public class S3Service {
             ObjectMetadata metadata = new ObjectMetadata();
             metadata.setContentType(contentType);
 
-            amazonS3.putObject(new PutObjectRequest(bucket, fileName, multipartFile.getInputStream(), metadata)
+            amazonS3.putObject(new PutObjectRequest(bucket, uploadUrl, multipartFile.getInputStream(), metadata)
                     .withCannedAcl(CannedAccessControlList.PublicRead));
         } catch (AmazonServiceException e) {
             e.printStackTrace();
@@ -61,6 +62,6 @@ public class S3Service {
         for (S3ObjectSummary object: objectSummaries) {
             System.out.println("object = " + object.toString());
         }
-        return amazonS3.getUrl(bucket, fileName).toString();
+        return amazonS3.getUrl(bucket, uploadUrl).toString();
     }
 }

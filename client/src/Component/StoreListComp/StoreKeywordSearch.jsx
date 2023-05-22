@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import styled from "styled-components";
 import Input from "../style/StyleInput";
 import Button from "../style/StyleButton";
@@ -7,6 +7,7 @@ import { Title } from "../../Pages/StoreList";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import { keywordsAtom } from "../../state/atoms/keywordsAtom";
 import { searchInputState } from "../../state/atoms/SearchStateAtom";
+import { GrPowerReset } from "react-icons/gr";
 // import { searchStateTag } from "../../state/atoms/SearchStateTagAtom";
 export const ArticleBox = styled.article`
   width: calc(100%);
@@ -32,6 +33,25 @@ const KeywordBoxLeftArea = styled.div`
     margin-bottom: 40px;
     width: calc(100% - 40px);
   }
+  .hotHeaderWrap {
+    width: calc(100% - 40px);
+    display: flex;
+    align-items: center;
+    > h2 {
+      flex-basis: 170px;
+    }
+    > svg {
+      width: 20px;
+      height: 20px;
+      margin-bottom: 6px;
+      :hover {
+        cursor: pointer;
+        path {
+          stroke: var(--eatsgreen);
+        }
+      }
+    }
+  }
 `;
 /** 박스 내부 인기키워드 묶음 */
 const HotKeyword = styled.div`
@@ -44,7 +64,7 @@ const StoreKeywordSearch = () => {
   const [keywords] = useRecoilState(keywordsAtom);
   const searchInputRef = useRef(null);
   const setSearchInput = useSetRecoilState(searchInputState);
-
+  const [, setRefreshKey] = useState(0);
   const handleInputChange = (event) => {
     searchInputRef.current = event.target.value;
   };
@@ -53,7 +73,13 @@ const StoreKeywordSearch = () => {
     event.preventDefault();
     setSearchInput(searchInputRef.current);
   };
+  const handleKeywordClick = (keyword) => {
+    setSearchInput(keyword);
+  };
 
+  const refreshKeywords = () => {
+    setRefreshKey((prevKey) => prevKey + 1);
+  };
   const randomKeywords = [...keywords]
     .sort(() => Math.random() - 0.5)
     .slice(0, 12);
@@ -73,10 +99,18 @@ const StoreKeywordSearch = () => {
               border="1px solid var(--black-100);"
             />
           </form>
-          <Title>인기 키워드로 찾기</Title>
+          <div className="hotHeaderWrap">
+            <Title>인기 키워드로 찾기</Title>
+            <GrPowerReset onClick={refreshKeywords} />
+          </div>
+
           <HotKeyword>
             {randomKeywords.map((keyword, index) => (
-              <Button key={index} btnstyle="Btn2">
+              <Button
+                key={index}
+                btnstyle="Btn2"
+                onClick={() => handleKeywordClick(keyword)}
+              >
                 {keyword}
               </Button>
             ))}
@@ -84,12 +118,6 @@ const StoreKeywordSearch = () => {
         </KeywordBoxLeftArea>
         <Slider />
       </StoreKeywordBox>
-
-      {/* {searchResults.map((result, index) => (
-          <div key={index}>
-            <h2>{result.restaurantName}</h2>
-          </div>
-        ))} */}
     </>
   );
 };

@@ -61,7 +61,7 @@ const Modify = styled.div`
     position: absolute;
     top: 50%;
     left: 0%;
-    width: 850px;
+    width: ${(props) => (props.showButton ? "800px" : "900px")};
 
     height: 1px;
     background-color: var(--black-200);
@@ -94,6 +94,10 @@ const StoreInfo = () => {
     open_time: "",
     createdAt: "",
     modifiedAt: "",
+    member: {
+      memberId: 0,
+      email: "",
+    },
   });
 
   useEffect(() => {
@@ -141,14 +145,13 @@ const StoreInfo = () => {
           <More onClick={showModal}>메뉴 전체보기</More>
         </MenuList>
       </Container>
-      <Modify>
+      <Modify showButton={member.memberId === data.member.memberId}>
         <span>{`최종 업데이트 ${data.modifiedAt || data.createdAt}`}</span>
-        {member.businessAccount ? (
+        {member.memberId === data.member.memberId ? (
           <Button btnstyle="SBtn2" onClick={onClickModify}>
             수정
           </Button>
         ) : null}
-        {/* 수정하기 */}
       </Modify>
     </>
   );

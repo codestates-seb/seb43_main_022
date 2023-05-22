@@ -1,7 +1,8 @@
 import styled from "styled-components";
 import Button from "../style/StyleButton";
-import ImgBtn from "../style/ImgBtn";
+// import ImgBtn from "../style/ImgBtn";
 import profile from "../style/img/profile.png";
+import { AiTwotoneLike, AiTwotoneDislike } from "react-icons/ai";
 import { useParams, useNavigate } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import memberState from "../../state/atoms/SignAtom";
@@ -20,6 +21,20 @@ const ReviewHead = styled.div`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+`;
+
+const ImgBtn = styled.div`
+  > .likeImg {
+    height: 30px;
+    width: 30px;
+    color: green;
+  }
+
+  > .hateImg {
+    height: 30px;
+    width: 30px;
+    color: darkred;
+  }
 `;
 
 const Left = styled.div`
@@ -75,6 +90,17 @@ const Text = styled.section`
   /* white-space: pre-wrap; // 줄바꿈을 유지하면서 공백도 유지
   overflow-wrap: break-all; */
 `;
+
+const ButtonGroup = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+const VerticalLine = styled.div`
+  width: 1px;
+  height: 20px;
+  background-color: var(--black-350);
+`;
 // const Photo = styled.div`
 //   display: flex;
 //   flex-direction: row;
@@ -121,21 +147,26 @@ const ReviewItem = ({ data, onDelete }) => {
                 <span>{data.modifiedAt || data.createdAt}</span>
                 {/* data.modified_at의 값이 존재하는 경우(truthy 값) 그 값을 반환하고, data.modified_at의 값이 존재하지 않는 경우(falsy 값) data.created_at의 값을 반환 */}
                 {member.memberId === data.member.memberId ? (
-                  <>
+                  <ButtonGroup>
                     <Button btnstyle="SBtn" onClick={modifyClick}>
                       수정
                     </Button>
+                    <VerticalLine />
                     <Button btnstyle="SBtn" onClick={handleDelete}>
                       삭제
                     </Button>
-                  </>
+                  </ButtonGroup>
                 ) : null}
               </div>
             </TitleInfo>
           </Left>
-          <ImgBtn
-            imgstyle={data.rating === "LIKE" ? "LIKEActive" : "HATEActive"}
-          />
+          <ImgBtn>
+            {data.rating === "LIKE" ? (
+              <AiTwotoneLike className="likeImg" />
+            ) : (
+              <AiTwotoneDislike className="hateImg" />
+            )}
+          </ImgBtn>
         </ReviewHead>
         <ReviewContent>
           <div className="username">{data.member.nickName}</div>

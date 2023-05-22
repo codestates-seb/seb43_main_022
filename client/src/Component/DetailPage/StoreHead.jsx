@@ -150,7 +150,10 @@ const StoreHead = () => {
           <SubInfo>
             <ImgBtn imgstyle={"View"} />
             <span>{data.total_views}</span>
-            <ImgBtn imgstyle={"Heart"} onClick={handleHeartIcon} />
+            <ImgBtn
+              imgstyle={heartIcon ? "HeartActive" : "Heart"}
+              onClick={handleHeartIcon}
+            />
             <span>{data.totalFavorite}</span>
             <ImgBtn imgstyle={"Share"} onClick={handleShareIcon} />
           </SubInfo>

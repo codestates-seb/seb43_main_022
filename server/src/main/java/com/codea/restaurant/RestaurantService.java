@@ -168,7 +168,11 @@ public class RestaurantService {
     }
 
     public Page<Restaurant> findRestaurants(int page, int size) {
-        return restaurantRepository.findAll(PageRequest.of(page, size, Sort.by("restaurantId").descending()));
+        return restaurantRepository.findAll(PageRequest.of(page - 1, size, Sort.by("restaurantId").descending()));
+    }
+
+    public List<Restaurant> findAllRestaurants() {
+        return restaurantRepository.findAll();
     }
 
     public void deleteRestaurant(long restaurantId) {

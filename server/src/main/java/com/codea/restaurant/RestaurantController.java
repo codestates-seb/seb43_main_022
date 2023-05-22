@@ -81,9 +81,12 @@ public class RestaurantController {
     @GetMapping
     public ResponseEntity getRestaurants(@Positive @RequestParam(value = "page", required = false) Integer page,
                                          @Positive @RequestParam(value = "size", required = false) Integer size) {
-        if (page == null) page = 1;
-        if (size == null) size = 8;
-        Page<Restaurant> restaurantPage = restaurantService.findRestaurants(page - 1, size);
+
+        if (page == null && size == null) {
+            List<Restaurant> restaurants = restaurantService.findAllRestaurants();
+            return new ResponseEntity<>(mapper.restaurantToRestaurantResponseDtos(restaurants), HttpStatus.OK);
+        }
+        Page<Restaurant> restaurantPage = restaurantService.findRestaurants(page, size);
         List<Restaurant> restaurants = restaurantPage.getContent();
 
         return new ResponseEntity<>(

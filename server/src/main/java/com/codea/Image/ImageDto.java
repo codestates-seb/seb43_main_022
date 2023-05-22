@@ -15,34 +15,11 @@ import java.util.List;
 public class ImageDto {
 
     @Getter
-    @Setter
-    @AllArgsConstructor
-    public static class Post {
-        private String title;
-        private String url;
-        private MultipartFile Image;
-
-    }
-
-    @Getter
-    @Setter
-    @AllArgsConstructor
-    public static class Patch {
-        private long imageId;
-        private String title;
-        private String url;
-        private MultipartFile Image;
-    }
-
-    @Getter
     @AllArgsConstructor
     public static class Response {
         private long imageId;
-        private String title;
-        private String url;
-        private MultipartFile Image;
-
+        private String imageName;
+        private String s3Url;
     }
-
 
 }

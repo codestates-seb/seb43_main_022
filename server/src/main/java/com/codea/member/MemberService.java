@@ -1,6 +1,11 @@
 package com.codea.member;
 
 
+import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.model.CannedAccessControlList;
+import com.amazonaws.services.s3.model.ObjectMetadata;
+import com.amazonaws.services.s3.model.PutObjectRequest;
+import com.codea.Image.Image;
 import com.codea.address.Address;
 import com.codea.address.AddressRepository;
 import com.codea.common.exception.BusinessLogicException;
@@ -9,6 +14,7 @@ import com.codea.favorite.FavoriteRepository;
 import com.codea.review.ReviewRepository;
 import com.codea.common.utils.JwtUtil;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -21,23 +27,33 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.ByteArrayInputStream;
 import java.time.LocalDateTime;
+import java.util.Base64;
 import java.util.Optional;
 
 
-@AllArgsConstructor
+
 @Transactional
 @Service
 public class MemberService {
+    @Value("${cloud.aws.s3.bucket}")
+    private String bucket;
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
-    private final JwtUtil jwtUtil;
-    private final ReviewRepository reviewRepository;
     private final AddressRepository addressRepository;
     private final RedisTemplate redisTemplate;
-    private final FavoriteRepository favoriteRepository;
+    private final AmazonS3 amazonS3;
 
-    public Member createMember(Address address, Member member) {
+    public MemberService(MemberRepository memberRepository, PasswordEncoder passwordEncoder, AddressRepository addressRepository, RedisTemplate redisTemplate, AmazonS3 amazonS3) {
+        this.memberRepository = memberRepository;
+        this.passwordEncoder = passwordEncoder;
+        this.addressRepository = addressRepository;
+        this.redisTemplate = redisTemplate;
+        this.amazonS3 = amazonS3;
+    }
+
+    public Member createMember(Address address, String imageUrl, Member member) {
         verifyExistsEmail(member.getEmail());
 
         String encryptedPassword = passwordEncoder.encode(member.getPassword()); // Password 단방향 암호화
@@ -63,11 +79,13 @@ public class MemberService {
             member.setAddress(persistedAddress);
         }
 
+        member.setImage(imageUrl);
+
         return memberRepository.save(member);
     }
 
     @Transactional(propagation = Propagation.REQUIRED)
-    public Member updateMember(String email, Address address, Member member) {
+    public Member updateMember(String email, Address address, String imageUrl, Member member) {
 
         Member findMember = findMember(email);
 
@@ -80,7 +98,6 @@ public class MemberService {
             findMember.setPassword(encryptedPassword);
         });
 
-        Optional.ofNullable(member.getPhoto()).ifPresent(image -> findMember.setPhoto(image));
         findMember.setModifiedAt(LocalDateTime.now());
 
         if (address != null) {
@@ -89,6 +106,8 @@ public class MemberService {
                     .orElseGet(() -> addressRepository.save(address));
             findMember.setAddress(persistedAddress);
         }
+
+        if (imageUrl != null) findMember.setImage(imageUrl);
 
         return memberRepository.save(findMember);
     }

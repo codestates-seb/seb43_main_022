@@ -25,11 +25,12 @@ public class MemberDto {
         @NotBlank(message = "비밀번호는 공백이 아니어야 합니다.")
         private String password;
         private String nickName;
-        private String photo;
         private Boolean businessAccount;
         private String streetAddress;
         private double latitude;
         private double longitude;
+        private String base64Image;
+        private String imageName;
     }
 
     @Getter
@@ -41,7 +42,8 @@ public class MemberDto {
         private String streetAddress;
         private double latitude;
         private double longitude;
-        private String photo;
+        private String base64Image;
+        private String imageName;
 
         public void setMemberId(long memberId) {
             this.memberId = memberId;

@@ -1,4 +1,4 @@
-package com.codea.Image;
+package com.codea.common.config;
 
 import com.amazonaws.auth.AWSStaticCredentialsProvider;
 import com.amazonaws.auth.BasicAWSCredentials;

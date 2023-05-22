@@ -1,8 +1,6 @@
 package com.codea.member;
 
 
-import com.codea.Image.Image;
-import com.codea.Image.ImageRepository;
 import com.codea.Image.ImageService;
 import com.codea.address.Address;
 import com.codea.address.AddressDto;

@@ -1,7 +1,6 @@
 package com.codea.member;
 
 
-import com.codea.Image.Image;
 import com.codea.common.BaseEntity.BaseEntity;
 import com.codea.address.Address;
 import com.codea.favorite.Favorite;

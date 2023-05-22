@@ -1,7 +1,5 @@
 package com.codea.Image;
 
-import com.codea.address.Address;
-import com.codea.member.Member;
 import com.codea.review.Review;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,7 +11,7 @@ import javax.persistence.*;
 @Getter
 @Setter
 @NoArgsConstructor
-public class Image {
+public class ReviewImage {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,13 +23,11 @@ public class Image {
     @Column
     private String s3Url;
 
-
-
     @ManyToOne
     @JoinColumn(name = "review_id")
     private Review review;
 
-    public Image(String imageName, String s3Url) {
+    public ReviewImage(String imageName, String s3Url) {
         this.imageName = imageName;
         this.s3Url = s3Url;
     }

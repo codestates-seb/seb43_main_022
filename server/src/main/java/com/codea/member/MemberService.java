@@ -2,18 +2,10 @@ package com.codea.member;
 
 
 import com.amazonaws.services.s3.AmazonS3;
-import com.amazonaws.services.s3.model.CannedAccessControlList;
-import com.amazonaws.services.s3.model.ObjectMetadata;
-import com.amazonaws.services.s3.model.PutObjectRequest;
-import com.codea.Image.Image;
 import com.codea.address.Address;
 import com.codea.address.AddressRepository;
 import com.codea.common.exception.BusinessLogicException;
 import com.codea.common.exception.ExceptionCode;
-import com.codea.favorite.FavoriteRepository;
-import com.codea.review.ReviewRepository;
-import com.codea.common.utils.JwtUtil;
-import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -27,9 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.ByteArrayInputStream;
 import java.time.LocalDateTime;
-import java.util.Base64;
 import java.util.Optional;
 
 

@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import Button from "../style/StyleButton";
 // import ImgBtn from "../style/ImgBtn";
-import profile from "../style/img/profile.png";
+import defaultProfile from "../style/img/profile.png";
 import { AiTwotoneLike, AiTwotoneDislike } from "react-icons/ai";
 import { useParams, useNavigate } from "react-router-dom";
 import { useRecoilValue } from "recoil";
@@ -27,13 +27,13 @@ const ImgBtn = styled.div`
   > .likeImg {
     height: 30px;
     width: 30px;
-    color: green;
+    fill: green;
   }
 
   > .hateImg {
     height: 30px;
     width: 30px;
-    color: darkred;
+    fill: darkred;
   }
 `;
 
@@ -101,19 +101,19 @@ const VerticalLine = styled.div`
   height: 20px;
   background-color: var(--black-350);
 `;
-// const Photo = styled.div`
-//   display: flex;
-//   flex-direction: row;
-//   margin-top: 20px;
-//   overflow: hidden; //<PotoItem>이 컨테이너에 가득 차게 되면 가로 스크롤이 생기지 않고 숨겨진 상태로 보여짐
-// `;
-// const PhotoItem = styled.img`
-//   width: 281px;
-//   height: 135px;
-//   flex-shrink: 0; //아이템의 크기를 고정시키기 위해 flex-shrink 속성 추가
-//   margin-right: 10px;
-//   margin-top: 50px;
-// `;
+const Photo = styled.div`
+  display: flex;
+  flex-direction: row;
+  margin-top: 20px;
+  overflow: hidden; //<PotoItem>이 컨테이너에 가득 차게 되면 가로 스크롤이 생기지 않고 숨겨진 상태로 보여짐
+`;
+const PhotoItem = styled.img`
+  width: 281px;
+  height: 135px;
+  flex-shrink: 0; //아이템의 크기를 고정시키기 위해 flex-shrink 속성 추가
+  margin-right: 10px;
+  margin-top: 50px;
+`;
 
 const ReviewItem = ({ data, onDelete }) => {
   const { res_id } = useParams();
@@ -140,7 +140,10 @@ const ReviewItem = ({ data, onDelete }) => {
       <Container>
         <ReviewHead>
           <Left>
-            <Profile src={data.member.photo || profile} alt="profile" />
+            <Profile
+              src={data.member.photo || defaultProfile}
+              alt="defaultProfile"
+            />
             <TitleInfo>
               <div className="title">{data.title}</div>
               <div className="day-button">
@@ -174,9 +177,10 @@ const ReviewItem = ({ data, onDelete }) => {
             <Text>{data.content}</Text>
             {/* <Photo>
               {data.photo.map((data, imgIndex) => (
-                <PhotoItem key={imgIndex} src={data.photo} alt={null} />
+                <PhotoItem key={imgIndex} src={data.photo}  />
               ))}
             </Photo> */}
+            <Photo>{data.photo ? <PhotoItem src={data.photo} /> : null}</Photo>
           </div>
         </ReviewContent>
       </Container>

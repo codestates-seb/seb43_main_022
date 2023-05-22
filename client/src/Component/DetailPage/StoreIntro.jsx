@@ -26,7 +26,7 @@ const Intro = styled.div`
 
 const StoreIntro = () => {
   const [data, setData] = useState({
-    photo: defaultImg,
+    photoUrl: defaultImg,
     content: "",
   });
   const { res_id } = useParams();

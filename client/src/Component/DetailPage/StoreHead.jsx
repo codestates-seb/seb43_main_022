@@ -58,6 +58,7 @@ const StoreHead = () => {
     totalFavorite: 0,
   });
 
+  //사용자가 해당 가게를 즐겨찾기한 경우를 판별
   const heartFunc = (b) => {
     const filterArr = b.filter((item) => {
       return item.memberId === member.memberId ? item : null;

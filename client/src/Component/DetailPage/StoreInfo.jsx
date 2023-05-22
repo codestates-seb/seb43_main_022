@@ -40,8 +40,9 @@ const InfoContent = styled.div`
   font-size: var(--medium-font);
 `;
 
-const More = styled.button`
+const MoreMenu = styled.button`
   font-size: var(--large-font);
+  background-color: transparent;
 `;
 
 const Modify = styled.div`
@@ -142,7 +143,7 @@ const StoreInfo = () => {
           <div>
             {modal ? <Modal menu={data.menu} showModal={showModal} /> : null}
           </div>
-          <More onClick={showModal}>메뉴 전체보기</More>
+          <MoreMenu onClick={showModal}>메뉴 전체보기</MoreMenu>
         </MenuList>
       </Container>
       <Modify showButton={member.memberId === data.member.memberId}>

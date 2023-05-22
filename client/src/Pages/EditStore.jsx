@@ -41,7 +41,7 @@ const EditStore = () => {
   const history = useNavigate();
   const initFormData = {
     restaurantName: "",
-    tag: [],
+    tag: null,
     photoUrl: null,
     content: "",
     tel: "",
@@ -73,6 +73,7 @@ const EditStore = () => {
     try {
       await api.patch(`/restaurants/${id}`, formData);
       console.log(formData);
+      window.location.reload();
       alert("업체 정보가 수정되었습니다.");
     } catch (error) {
       console.error(error);

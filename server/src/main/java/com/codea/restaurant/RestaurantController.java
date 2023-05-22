@@ -70,6 +70,16 @@ public class RestaurantController {
     public ResponseEntity getRestaurant(@PathVariable("restaurant-id") long restaurantId,
                                         @AuthenticationPrincipal String email) {
         Restaurant restaurant = restaurantService.findRestaurant(restaurantId);
+        RestaurantDto.Response responseDto = mapper.restaurantToRestaurantResponseDto(restaurant);
+
+        return new ResponseEntity<>(responseDto , HttpStatus.OK);
+    }
+
+    @Transactional
+    @GetMapping("/{restaurant-id}/detail")
+    public ResponseEntity getDetailRestaurant(@PathVariable("restaurant-id") long restaurantId,
+                                        @AuthenticationPrincipal String email) {
+        Restaurant restaurant = restaurantService.findRestaurant(restaurantId);
         restaurantService.updateView(restaurant);
         RestaurantDto.Response responseDto = mapper.restaurantToRestaurantResponseDto(restaurant);
 

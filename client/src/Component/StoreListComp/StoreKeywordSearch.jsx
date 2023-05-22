@@ -1,10 +1,12 @@
 import styled from "styled-components";
 import Input from "../style/StyleInput";
 import Button from "../style/StyleButton";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useSetRecoilState, useRecoilValue } from "recoil";
 import { keywordsAtom } from "../../state/atoms/keywordsAtom";
 import Slider from "./Slider";
 import { Title } from "../../Pages/StoreList";
+import { searchInputState } from "../../state/atoms/SearchStateAtom";
+import { searchStateTag } from "../../state/atoms/SearchStateTagAtom";
 
 export const ArticleBox = styled.article`
   width: calc(100%);
@@ -39,6 +41,12 @@ const HotKeyword = styled.div`
 
 const StoreKeywordSearch = () => {
   const [keywords] = useRecoilState(keywordsAtom);
+  const setSearchInput = useSetRecoilState(searchInputState);
+  const searchResults = useRecoilValue(searchStateTag);
+  const handleInputChange = (event) => {
+    setSearchInput(event.target.value);
+  };
+
   return (
     <>
       <StoreKeywordBox>
@@ -48,7 +56,7 @@ const StoreKeywordSearch = () => {
             <Input
               type="text"
               placeholder="키워드를 입력해주세요"
-              onChange={(e) => console.log(e.target.value)}
+              onChange={handleInputChange}
               inputType="default"
               width="100%"
               border="1px solid var(--black-100);"
@@ -65,6 +73,14 @@ const StoreKeywordSearch = () => {
         </KeywordBoxLeftArea>
         <Slider />
       </StoreKeywordBox>
+      <div>
+        {searchResults.map((result, index) => (
+          <div key={index}>
+            {/* Replace this with how you want to display each result */}
+            <h2>{result.restaurantName}</h2>
+          </div>
+        ))}
+      </div>
     </>
   );
 };

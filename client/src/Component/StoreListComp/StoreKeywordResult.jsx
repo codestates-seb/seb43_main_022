@@ -1,31 +1,31 @@
 import { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { Title } from "../../Pages/StoreList";
-import { useRecoilValue } from "recoil";
-import { searchTermState } from "../../state/atoms/SearchTermState";
 import { api } from "../../Util/api";
 import ReactPaginate from "react-paginate";
 import ImgBtn from "../style/ImgBtn";
 import styled from "styled-components";
+import { useRecoilValue } from "recoil";
+import { searchResultsState } from "../../state/atoms/SearchStateAtom";
 
 const NoResult = () => <div>검색결과가 없습니다</div>;
 const StoreKeywordResult = () => {
-  const [stores, setStores] = useState([]);
   const [, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(0);
-  const searchTerm = useRecoilValue(searchTermState);
   const resultsPerPage = 4;
   const [isHeartActive, setIsHeartActive] = useState(false);
   const [currentFilter, setCurrentFilter] = useState("createdAt");
   const [noResult, setNoResult] = useState(false);
-  const [userData, setUserData] = useState([]);
   const [userDataFavor, setUserDataFavor] = useState([]);
+  const [stores, setStores] = useState([]);
+  const results = useRecoilValue(searchResultsState);
+
+  console.log("리코일 검색결과 저장된 것 :", results);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await api.get("members/mypage");
-        setUserData(response.data);
         setUserDataFavor(response.data.favorites);
       } catch (error) {
         console.error("에러", error);
@@ -33,8 +33,7 @@ const StoreKeywordResult = () => {
     };
     fetchData();
   }, []);
-  console.log("렌더링사용자데이터", userData);
-  console.log("렌더링사용자즐겨찾기값", userDataFavor);
+  console.log("사용자 즐겨찾기", userDataFavor);
 
   const handleButtonClick = async (restaurantId) => {
     try {
@@ -55,7 +54,7 @@ const StoreKeywordResult = () => {
         await api.post(`/favorites/restaurant/${restaurantId}`);
 
         const response = await api.get("members/mypage");
-        setUserData(response.data);
+        // setUserData(response.data);
         setUserDataFavor(response.data.favorites);
       }
 
@@ -80,31 +79,25 @@ const StoreKeywordResult = () => {
   };
 
   useEffect(() => {
+    let data = [...results];
+    console.log("데이터", data);
+    // if (data === 0) {
+    //   const allStoresResponse = api.get("/restaurants");
+    //   data = allStoresResponse.data.data;
+    //   console.log("검색결과없을때 다받아온거", data);
+    // }
+
     const fetchStores = async () => {
       try {
-        let data = [];
-        if (searchTerm.length !== 0) {
-          const response = await api.get(
-            `/restaurants/search?keyword=${searchTerm}`,
-          );
-          data = response.data.data;
-
-          if (data.length === 0) {
-            setNoResult(true);
-          } else {
-            setNoResult(false);
-          }
-        } else {
-          const allStoresResponse = await api.get("/restaurants");
-          data = allStoresResponse.data.data;
-        }
-
         if (currentFilter === "createdAt") {
           data.sort(filterByLatest);
+          console.log("최신순데이터:", data);
         } else if (currentFilter === "total_review") {
           data.sort(filterByReview);
+          console.log("리뷰순데이터:", data);
         } else if (currentFilter === "total_favorite") {
           data.sort(filterByFavorites);
+          console.log("즐겨찾기순데이터:", data);
         }
 
         setStores(data);
@@ -117,7 +110,7 @@ const StoreKeywordResult = () => {
     };
 
     fetchStores();
-  }, [searchTerm, currentFilter]);
+  }, [currentFilter, results]);
 
   const handlePageClick = ({ selected: selectedPage }) => {
     setCurrentPage(selectedPage);
@@ -157,11 +150,15 @@ const StoreKeywordResult = () => {
                 <p>리뷰 : {store.total_review}</p>
               </div>
               <div className="tagRestaurants">
-                {store.tagRestaurants.map((tag, index) => (
-                  <button key={index} className="tagButton">
-                    {tag.tag.name}
-                  </button>
-                ))}
+                {store.tagRestaurants
+                  ? store.tagRestaurants
+                      .map((tag, index) => (
+                        <button key={index} className="tagButton">
+                          {tag.tag.name}
+                        </button>
+                      ))
+                      .slice(0, 3)
+                  : null}
               </div>
             </StoreCard>
           </CardWrap>

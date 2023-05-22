@@ -18,6 +18,7 @@ public class FavoriteDto {
         private int favoriteCount;
         private Long restaurantId;
         private String category;
+        private String streetAddress;
 
         public ResponseFavorite(Favorite favorite, int favoriteCount) {
             this.favoriteId = favorite.getFavoriteId();
@@ -26,7 +27,7 @@ public class FavoriteDto {
             this.favoriteCount = favoriteCount;
             this.restaurantId = favorite.getRestaurant().getRestaurantId();
             this.category = favorite.getRestaurant().getCategory().getName();
-//            this.address = favorite.getRestaurant().getAddress();
+            this.streetAddress = favorite.getRestaurant().getAddress().getStreetAddress();
         }
 
     }

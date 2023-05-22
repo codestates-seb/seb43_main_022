@@ -1,5 +1,6 @@
 package com.codea.restaurant;
 
+import com.codea.Image.ImageService;
 import com.codea.address.Address;
 import com.codea.address.AddressDto;
 import com.codea.address.AddressMapper;
@@ -28,12 +29,16 @@ public class RestaurantController {
     private final RestaurantMapper mapper;
     private final AddressMapper addressMapper;
     private final CategoryMapper categoryMapper;
+    private final ImageService imageService;
 
-    public RestaurantController(RestaurantService restaurantService, RestaurantMapper mapper, AddressMapper addressMapper, CategoryMapper categoryMapper) {
+
+    public RestaurantController(RestaurantService restaurantService, RestaurantMapper mapper,
+                                AddressMapper addressMapper, CategoryMapper categoryMapper, ImageService imageService) {
         this.restaurantService = restaurantService;
         this.mapper = mapper;
         this.addressMapper = addressMapper;
         this.categoryMapper = categoryMapper;
+        this.imageService = imageService;
     }
 
     @Transactional
@@ -44,7 +49,13 @@ public class RestaurantController {
         AddressDto.Post addressDto = new AddressDto.Post(requestBody.getStreetAddress(), requestBody.getLatitude(), requestBody.getLongitude());
         Address address = addressMapper.addressPostDtoToAddress(addressDto);
 
-        Restaurant restaurant = restaurantService.createRestaurant(email, address, requestBody);
+        String imageUrl = "https://main022.s3.ap-northeast-2.amazonaws.com/image/default.PNG";
+        if (requestBody.getBase64Image() != null && requestBody.getImageName() != null && !(requestBody.getBase64Image().isEmpty()) && !(requestBody.getImageName().isEmpty())) {
+            imageUrl = imageService.uploadImage(requestBody.getImageName(), requestBody.getBase64Image(), email);
+        }
+
+
+        Restaurant restaurant = restaurantService.createRestaurant(email, address, requestBody, imageUrl);
 
         URI location = UriCreator.createUri("/restaurants", restaurant.getRestaurantId());
         return ResponseEntity.created(location).build();
@@ -60,7 +71,12 @@ public class RestaurantController {
         AddressDto.Post addressDto = new AddressDto.Post(requestBody.getStreetAddress(), requestBody.getLatitude(), requestBody.getLongitude());
         Address address = addressMapper.addressPostDtoToAddress(addressDto);
 
-        Restaurant restaurant = restaurantService.updateRestaurant(restaurantId, email, address, requestBody);
+        String imageUrl = null;
+        if (requestBody.getBase64Image() != null) {
+            imageUrl = imageService.uploadImage(requestBody.getImageName(), requestBody.getBase64Image(), email);
+        }
+
+        Restaurant restaurant = restaurantService.updateRestaurant(restaurantId, email, address, requestBody, imageUrl);
 
         return new ResponseEntity<>(mapper.restaurantToRestaurantResponseDto(restaurant), HttpStatus.OK);
     }

@@ -52,9 +52,9 @@ public class RestaurantService {
         this.restaurantMapper = restaurantMapper;
     }
 
-    public Restaurant createRestaurant(String email, Address address, RestaurantDto.Post post) {
+    public Restaurant createRestaurant(String email, Address address, RestaurantDto.Post post, String imageUrl) {
         Restaurant restaurant = new Restaurant(post.getRestaurantName(), post.getContent(), post.getTel(), post.getOpen_time(),
-                post.getPhotoUrl(), post.getDetailAddress());
+                post.getImage(), post.getDetailAddress());
 
         Member member = memberRepository.findByEmail(email).orElseThrow(() -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
         restaurant.setMember(member);
@@ -83,12 +83,14 @@ public class RestaurantService {
             tagRestaurantRepository.save(tagRestaurant);
         }
 
+        restaurant.setImage(imageUrl);
+
         return restaurantRepository.save(restaurant);
     }
 
 
     @Transactional
-    public Restaurant updateRestaurant(long restaurantId, String email, Address address, RestaurantDto.Patch patch) {
+    public Restaurant updateRestaurant(long restaurantId, String email, Address address, RestaurantDto.Patch patch, String imageUrl) {
         // 주소를 수정하면 데이터베이스를 직접 수정하는 게 아닌, 수정된 주소를 데이터베이스에 추가함
         // 만약, 수정된 주소가 데이터베이스에 존재하면, 수정된 주소를 set 한다
         // 수정된 주소가 데이터베이스에 존재하지 않으면, 수정된 주소를 데이터베이스에 추가한다.
@@ -105,7 +107,7 @@ public class RestaurantService {
         Optional.ofNullable(restaurant.getRestaurantName()).ifPresent(restaurantName -> findRestaurant.setRestaurantName(restaurantName));
         Optional.ofNullable(restaurant.getContent()).ifPresent(content -> findRestaurant.setContent(content));
         Optional.ofNullable(restaurant.getTel()).ifPresent(tel -> findRestaurant.setTel(tel));
-        Optional.ofNullable(restaurant.getPhotoUrl()).ifPresent(photoUrl -> findRestaurant.setPhotoUrl(photoUrl));
+        Optional.ofNullable(restaurant.getImage()).ifPresent(image -> findRestaurant.setImage(image));
         Optional.ofNullable(restaurant.getOpen_time()).ifPresent(open_time -> findRestaurant.setOpen_time(open_time));
         Optional.ofNullable(restaurant.getDetailAddress()).ifPresent(detailAddress -> findRestaurant.setDetailAddress(detailAddress));
         findRestaurant.setModifiedAt(LocalDateTime.now());
@@ -123,26 +125,6 @@ public class RestaurantService {
             Category findCategory = categoryRepository.findByName(categoryName).orElseThrow(() -> new BusinessLogicException(ExceptionCode.CATEGORY_NOT_FOUND));
             findRestaurant.setCategory(findCategory);
         });
-
-
-
-
-//        Optional.ofNullable(restaurant.getMenu()).ifPresent((menuList) -> {
-//            menuRepository.deleteAllByRestaurant_RestaurantId(restaurantId); //영속성 컨텍스트에서 detached. 영속성 컨텍스트가 해당 엔티티 객체를 관리하지 않는 상태
-//            for (Menu menuTemp : restaurant.getMenu()) {
-//
-//                Menu findMenu = menuRepository.findById(menuTemp.getMenuId()).orElseGet(() -> {
-//                    menuTemp.setRestaurant(findRestaurant);
-//                    return menuRepository.save(menuTemp); // EntityManager.persist() 호출. 영속성 컨텍스트 관리하에 있는 상태
-//                });
-//
-//                findMenu.setName(menuTemp.getName());
-//                findMenu.setPrice(menuTemp.getPrice());
-//                menuRepository.save(findMenu);
-//
-//            }
-//            findRestaurant.setMenu(menuList);
-//        });
 
         Optional.ofNullable(restaurant.getMenu()).ifPresent((menuList) -> {
             menuRepository.deleteAllByRestaurant_RestaurantId(restaurantId);
@@ -184,6 +166,7 @@ public class RestaurantService {
         });
 
 
+        if (imageUrl != null) findRestaurant.setImage(imageUrl);
 
         return restaurantRepository.save(findRestaurant);
     }

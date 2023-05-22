@@ -21,7 +21,7 @@ public class Review extends BaseEntity {
     @Column(nullable = false)
     private String content;
     @Column
-    private String photo;
+    private String image;
     @Enumerated(EnumType.STRING)
     private Rating rating;
     @Enumerated(EnumType.STRING)

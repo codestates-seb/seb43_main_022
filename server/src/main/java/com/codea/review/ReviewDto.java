@@ -17,7 +17,7 @@ public class ReviewDto {
         private String title;
         @NotBlank(message = "내용을 입력하세요.")
         private String content;
-        private String photo;
+        private String image;
         private Review.Rating rating;
     }
 
@@ -27,7 +27,7 @@ public class ReviewDto {
         private long reviewId;
         private String title;
         private String content;
-        private String photo;
+        private String image;
         private Review.Rating rating;
     }
 
@@ -37,7 +37,7 @@ public class ReviewDto {
         private long reviewId;
         private String title;
         private String content;
-        private String photo;
+        private String image;
         private LocalDateTime createdAt;
         private LocalDateTime modifiedAt;
         private Review.Rating rating;

@@ -58,10 +58,6 @@ public class MemberService {
 //        List<String> roles = authorityUtils.createRoles(member.getEmail()); // admin 권한 설정
 //        member.setRoles(roles);
 
-//        if (member.getPhoto() == null || member.getPhoto().isEmpty()) { // 기본 이미지 등록
-//            member.setPhoto("https://velog.velcdn.com/images/persestitan/post/5ef6f63a-c279-465d-b65d-97ff39848f6c/image.jpeg");
-//        }
-
         if (address != null) {
             String streetAddress = address.getStreetAddress();
             Address persistedAddress = addressRepository.findByStreetAddress(streetAddress)

@@ -51,7 +51,10 @@ public class MemberController {
         AddressDto.Post addressDto = new AddressDto.Post(requestBody.getStreetAddress(), requestBody.getLatitude(), requestBody.getLongitude());
         Address address = addressMapper.addressPostDtoToAddress(addressDto);
 
-        String imageUrl = imageService.uploadImage(requestBody.getImageName(), requestBody.getBase64Image(), requestBody.getEmail());
+        String imageUrl = "https://main022.s3.ap-northeast-2.amazonaws.com/image/default.PNG";
+        if (requestBody.getBase64Image() != null && requestBody.getImageName() != null && !(requestBody.getBase64Image().isEmpty()) && !(requestBody.getImageName().isEmpty())) {
+            imageUrl = imageService.uploadImage(requestBody.getImageName(), requestBody.getBase64Image(), requestBody.getEmail());
+        }
 
         Member member = memberService.createMember(address, imageUrl, memberMapper.memberPostDtoToMember(requestBody));
         MemberDto.Response responseDto = memberMapper.memberToMemberResponseDto(member);

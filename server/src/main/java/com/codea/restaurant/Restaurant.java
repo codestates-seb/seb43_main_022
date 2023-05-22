@@ -41,14 +41,16 @@ public class Restaurant extends BaseEntity {
     private int totalFavorite;
     @Column(nullable = false)
     private double rating;
-    @Column
-    private String streetAddress;
+//    @Column
+//    private String streetAddress;
     @Column
     private String detailAddress;
-    @Column
-    private double latitude;
-    @Column
-    private double longitude;
+//    @Column
+//    private double latitude;
+//    @Column
+//    private double longitude;
+
+
     @ManyToOne
     @JoinColumn(name = "MEMBER_ID")
     private Member member;
@@ -60,7 +62,7 @@ public class Restaurant extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "category_id")
     private Category category;
-    private double averageRating;
+//    private double averageRating;
 
     @OneToMany(mappedBy = "restaurant", cascade =CascadeType.REMOVE)//, cascade = {CascadeType.PERSIST, CascadeType.MERGE})//, cascade = CascadeType.ALL)
     private List<Menu> menu = new ArrayList<>();

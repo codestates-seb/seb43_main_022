@@ -7,7 +7,7 @@ import ImgBtn from "../style/ImgBtn";
 import styled from "styled-components";
 import { useRecoilValue } from "recoil";
 import { searchResultsState } from "../../state/atoms/SearchStateAtom";
-
+import { searchStateTag } from "../../state/atoms/SearchStateTagAtom";
 const NoResult = () => <div>검색결과가 없습니다</div>;
 const StoreKeywordResult = () => {
   const [, setLoading] = useState(true);
@@ -19,6 +19,9 @@ const StoreKeywordResult = () => {
   const [userDataFavor, setUserDataFavor] = useState([]);
   const [stores, setStores] = useState([]);
   const results = useRecoilValue(searchResultsState);
+
+  const searchResults = useRecoilValue(searchStateTag);
+  console.log("필터링데이터", searchResults);
 
   console.log("리코일 검색결과 저장된 것 :", results);
 
@@ -81,14 +84,14 @@ const StoreKeywordResult = () => {
   useEffect(() => {
     let data = [...results];
     console.log("데이터", data);
-    // if (data === 0) {
-    //   const allStoresResponse = api.get("/restaurants");
-    //   data = allStoresResponse.data.data;
-    //   console.log("검색결과없을때 다받아온거", data);
-    // }
 
     const fetchStores = async () => {
       try {
+        if (data.length === 0) {
+          const response = await api.get("/restaurants");
+          data = response.data;
+          console.log("서버 데이터:", data);
+        }
         if (currentFilter === "createdAt") {
           data.sort(filterByLatest);
           console.log("최신순데이터:", data);
@@ -146,8 +149,8 @@ const StoreKeywordResult = () => {
               <h2 className="restaurantName">{store.restaurantName}</h2>
               <p className="content">{store.content}</p>
               <div className="Count">
-                <p>즐겨찾기 : {store.total_favorite}</p>
-                <p>리뷰 : {store.total_review}</p>
+                <p>즐겨찾기 : {store.totalFavorite}</p>
+                <p>리뷰 : {store.total_reviews}</p>
               </div>
               <div className="tagRestaurants">
                 {store.tagRestaurants

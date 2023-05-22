@@ -44,8 +44,12 @@ spring:
     open-in-view: false
     show-sql: true
     properties:
-      hibernate.format_sql: true
-      hibernate.default_batch_fetch_size: 100
+      hibernate:
+        show_sql: true
+        format_sql: true
+        use_sql_comments: true
+        default_batch_fetch_size: 100
+
 
 #  redis:
 #    host: localhost  # 배포 시 ec2 주소 사용

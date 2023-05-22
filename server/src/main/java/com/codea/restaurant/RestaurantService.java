@@ -88,7 +88,7 @@ public class RestaurantService {
 
 
     @Transactional
-    public Restaurant updateRestaurant(long restaurantId, String email, Address address,  RestaurantDto.Patch patch) {
+    public Restaurant updateRestaurant(long restaurantId, String email, Address address, RestaurantDto.Patch patch) {
         // 주소를 수정하면 데이터베이스를 직접 수정하는 게 아닌, 수정된 주소를 데이터베이스에 추가함
         // 만약, 수정된 주소가 데이터베이스에 존재하면, 수정된 주소를 set 한다
         // 수정된 주소가 데이터베이스에 존재하지 않으면, 수정된 주소를 데이터베이스에 추가한다.
@@ -99,7 +99,8 @@ public class RestaurantService {
 
         Restaurant findRestaurant = findRestaurant(restaurantId);
 
-        if (!findRestaurant.getMember().getEmail().equals(email)) throw new BusinessLogicException(ExceptionCode.UNAUTHORIZED_EDIT);
+        if (!findRestaurant.getMember().getEmail().equals(email))
+            throw new BusinessLogicException(ExceptionCode.UNAUTHORIZED_EDIT);
 
         Optional.ofNullable(restaurant.getRestaurantName()).ifPresent(restaurantName -> findRestaurant.setRestaurantName(restaurantName));
         Optional.ofNullable(restaurant.getContent()).ifPresent(content -> findRestaurant.setContent(content));
@@ -124,21 +125,41 @@ public class RestaurantService {
         });
 
 
+
+
+//        Optional.ofNullable(restaurant.getMenu()).ifPresent((menuList) -> {
+//            menuRepository.deleteAllByRestaurant_RestaurantId(restaurantId); //영속성 컨텍스트에서 detached. 영속성 컨텍스트가 해당 엔티티 객체를 관리하지 않는 상태
+//            for (Menu menuTemp : restaurant.getMenu()) {
+//
+//                Menu findMenu = menuRepository.findById(menuTemp.getMenuId()).orElseGet(() -> {
+//                    menuTemp.setRestaurant(findRestaurant);
+//                    return menuRepository.save(menuTemp); // EntityManager.persist() 호출. 영속성 컨텍스트 관리하에 있는 상태
+//                });
+//
+//                findMenu.setName(menuTemp.getName());
+//                findMenu.setPrice(menuTemp.getPrice());
+//                menuRepository.save(findMenu);
+//
+//            }
+//            findRestaurant.setMenu(menuList);
+//        });
+
         Optional.ofNullable(restaurant.getMenu()).ifPresent((menuList) -> {
-            menuRepository.deleteAllByRestaurant_RestaurantId(restaurantId); //영속성 컨텍스트에서 detached. 영속성 컨텍스트가 해당 엔티티 객체를 관리하지 않는 상태
-            for (Menu menuTemp: restaurant.getMenu()) {
+            menuRepository.deleteAllByRestaurant_RestaurantId(restaurantId);
+            List<Menu> newMenuList = new ArrayList<>();
 
-                Menu findMenu = menuRepository.findById(menuTemp.getMenuId()).orElseGet(() -> {
-                    menuTemp.setRestaurant(findRestaurant);
-                    return menuRepository.save(menuTemp); // EntityManager.persist() 호출. 영속성 컨텍스트 관리하에 있는 상태
-                });
+            for (Menu menuTemp : restaurant.getMenu()) {
 
-                findMenu.setName(menuTemp.getName());
-                findMenu.setPrice(menuTemp.getPrice());
-                menuRepository.save(findMenu);
+                Menu newMenu = new Menu();
+                newMenu.setName(menuTemp.getName());
+                newMenu.setPrice(menuTemp.getPrice());
+                newMenu.setRestaurant(findRestaurant);
+                menuRepository.save(newMenu);
 
+                newMenuList.add(newMenu);
             }
-            findRestaurant.setMenu(menuList);
+
+            findRestaurant.setMenu(newMenuList);
         });
 
 
@@ -152,17 +173,22 @@ public class RestaurantService {
                 });
 
                 TagRestaurant newTagRestaurant = new TagRestaurant(findRestaurant, findTag);
+
                 tagRestaurantRepository.save(newTagRestaurant);
 
                 newTagRestaurantList.add(newTagRestaurant);
+
             }
             findRestaurant.setTagRestaurants(newTagRestaurantList);
+
         });
+
+
 
         return restaurantRepository.save(findRestaurant);
     }
 
-    @EntityGraph(attributePaths = {"menu", "reviews", "tagRestaurant"})
+    //    @EntityGraph(attributePaths = {"menu", "reviews", "tagRestaurant"})
     public Restaurant findRestaurant(long restaurantId) {
         return restaurantRepository.findById(restaurantId).orElseThrow(() -> new BusinessLogicException(ExceptionCode.RESTAURANT_NOT_FOUND));
     }
@@ -185,6 +211,7 @@ public class RestaurantService {
 
         return restaurantRepository.searchByKeyword(keyword, PageRequest.of(page, size, Sort.by("restaurantId").descending()));
     }
+
     public void updateView(Restaurant restaurant) {
         restaurant.setTotal_views(restaurant.getTotal_views() + 1);
     }

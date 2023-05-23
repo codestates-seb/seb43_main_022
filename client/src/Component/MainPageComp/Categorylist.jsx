@@ -39,7 +39,10 @@ const CategoryContainer = styled.div`
         margin: 10px;
         overflow: hidden;
         position: relative;
-        transition: transform 0.3s;
+        box-shadow: 0px 1px 10px 1px var(--black-200);
+        &:hover {
+          box-shadow: 0px 1px 10px 1px var(--eatsgreen);
+        }
         img {
           width: 200px;
         }
@@ -50,6 +53,7 @@ const CategoryContainer = styled.div`
           transform: translate(-50%, -50%);
         }
         p {
+          width: 12vw;
           color: #fefefe;
           font-size: 24px;
           font-weight: bold;
@@ -118,11 +122,9 @@ const Categorylist = () => {
 
   const prevPage = () => {
     setCurrentPage((page) => Math.max(page - 1, 1));
-    console.log(currentPage, "이전");
   };
   const nextPage = () => {
     setCurrentPage((page) => page + 1);
-    console.log(currentPage, "앞으로");
   };
   return (
     <CategoryContainer className="Category-Container">

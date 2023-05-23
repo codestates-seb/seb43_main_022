@@ -4,6 +4,8 @@ import { useParams } from "react-router";
 import ImgBtn from "../style/ImgBtn";
 import { api } from "../../Util/api";
 import { Link } from "react-router-dom";
+import { useRecoilValue } from "recoil";
+import memberState from "../../state/atoms/SignAtom";
 
 const RestaurantContainer = styled.div`
   width: 100%;
@@ -12,7 +14,7 @@ const RestaurantContainer = styled.div`
   align-items: center;
   border-bottom: 3px solid var(--black-200);
   .res-info {
-    margin-bottom: 20px;
+    margin-bottom: 10px;
     .res-title {
       margin-bottom: 10px;
       font-size: var(--xx-large-font);
@@ -35,7 +37,7 @@ const RestaurantContainer = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-bottom: -20px;
+    margin-bottom: -30px;
     .imgBtn {
       display: flex;
       span {
@@ -47,27 +49,33 @@ const RestaurantContainer = styled.div`
 `;
 
 const ResInfo = () => {
-  const [resInfo, setresInfo] = useState({});
   const { res_id } = useParams();
+  const [resInfo, setresInfo] = useState({});
+  const userData = useRecoilValue(memberState);
+
   useEffect(() => {
     const fetchRestaurant = async () => {
       try {
         const res = await api.get(`/restaurants/${res_id}`);
         setresInfo(res.data);
-        console.log(res.data);
       } catch (err) {
-        console.log(err);
+        console.error(err);
       }
     };
     fetchRestaurant();
   }, [res_id]);
+
+  const isFavorite = userData.favorites.some(
+    (favorites) => favorites.restaurantId === parseInt(res_id),
+  );
+
   return (
     <RestaurantContainer className="restaurant-Container">
       <div className="res-info">
         <span className="res-title">{resInfo.restaurantName}</span>
         <ul className="tag-ul">
-          {resInfo.tagRestaurants?.map((taginfo, idx) => (
-            <li key={idx}>
+          {resInfo.tagRestaurants?.map((taginfo) => (
+            <li key={taginfo.tag.tagId}>
               <span>#{taginfo.tag.name}</span>
               <Link to={`/itemlist/search?=${taginfo.tag.name}`}></Link>
             </li>
@@ -80,9 +88,10 @@ const ResInfo = () => {
           <span>{resInfo.total_views}</span>
         </div>
         <div className="imgBtn">
-          <ImgBtn imgstyle="Heart" />
+          <ImgBtn imgstyle={isFavorite ? "HeartActive" : "Heart"} />
           <span>{resInfo.totalFavorite}</span>
         </div>
+
         <div className="imgBtn">
           <ImgBtn imgstyle="Share" />
         </div>

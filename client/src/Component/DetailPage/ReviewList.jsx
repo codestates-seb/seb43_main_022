@@ -12,6 +12,12 @@ const ReviewListContainer = styled.div`
   align-items: center;
 `;
 
+const NoReviewMessage = styled.div`
+  margin-top: 100px;
+  color: gray;
+  font-size: 20px;
+`;
+
 const ReviewList = ({ data }) => {
   const [displayData, setDisplayData] = useState(data);
   const [, setReviewData] = useRecoilState(reviewDataAtom);
@@ -62,6 +68,9 @@ const ReviewList = ({ data }) => {
   };
   return (
     <ReviewListContainer>
+      {showReview.length === 0 && (
+        <NoReviewMessage>"리뷰가 없습니다!"</NoReviewMessage>
+      )}
       {showReview.map((data) => (
         <ReviewItem key={data.reviewId} data={data} onDelete={handleDelete} />
       ))}

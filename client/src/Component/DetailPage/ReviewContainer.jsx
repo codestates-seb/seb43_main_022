@@ -7,7 +7,7 @@ import { reviewDataAtom } from "../../state/atoms/reviewDataAtom";
 import { useState, useEffect } from "react";
 
 const Container = styled.div`
-  margin: auto;
+  margin: 0 0 170px auto;
   display: flex;
   flex-direction: column;
   width: 1200px;

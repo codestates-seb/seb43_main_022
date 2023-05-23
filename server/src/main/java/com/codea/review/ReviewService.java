@@ -69,7 +69,7 @@ public class ReviewService {
         restaurant.setTotal_reviews(reviewCount);
 
         for (ImageDto.Post imageTemp : post.getImage()) {  //평점 구하는 코드와 위치를 바꾸면 transient 인스턴스에 대한 참조 에러 발생
-            String imageUrl = imageService.uploadImage(imageTemp.getImageName(), imageTemp.getBase64Image(), email);
+            String imageUrl = imageService.uploadImage(imageTemp.getImageName(), imageTemp.getImage(), email);
 
             Image image = new Image(imageTemp.getImageName(), imageUrl, review);
             imageRepository.save(image);
@@ -95,7 +95,7 @@ public class ReviewService {
             imageRepository.deleteAllByReview_ReviewId(reviewId);
             List<Image> newImageList = new ArrayList<>();
             for (ImageDto.Post imageTemp : patch.getImage()) {
-                String imageUrl = imageService.uploadImage(imageTemp.getImageName(), imageTemp.getBase64Image() , email);
+                String imageUrl = imageService.uploadImage(imageTemp.getImageName(), imageTemp.getImage() , email);
 
                 Image newImage = new Image(imageTemp.getImageName(), imageUrl, findReview);
 

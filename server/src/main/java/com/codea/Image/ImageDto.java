@@ -8,7 +8,7 @@ public class ImageDto {
     @AllArgsConstructor
     public static class Post {
         private String imageName;
-        private String base64Image;
+        private String image;
     }
 
     @Getter

@@ -32,7 +32,7 @@ public class Restaurant extends BaseEntity {
     @Column(length = 50, nullable = false)
     private String open_time;
     @Column
-    private String photoUrl;
+    private String image;
     @Column
     private int total_views;
     @Column
@@ -77,12 +77,12 @@ public class Restaurant extends BaseEntity {
     private List<Favorite> favorites = new ArrayList<>();
 
 
-    public Restaurant(String restaurantName, String content, String tel, String open_time, String photoUrl, String detailAddress) {
+    public Restaurant(String restaurantName, String content, String tel, String open_time, String image, String detailAddress) {
         this.restaurantName = restaurantName;
         this.content = content;
         this.tel = tel;
         this.open_time = open_time;
-        this.photoUrl = photoUrl;
+        this.image = image;
         this.detailAddress = detailAddress;
     }
 

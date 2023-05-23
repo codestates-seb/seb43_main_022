@@ -4,6 +4,7 @@ import com.codea.Image.ImageDto;
 import com.codea.member.MemberDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
@@ -11,6 +12,7 @@ import java.util.List;
 
 public class ReviewDto {
     @Getter
+    @NoArgsConstructor
     @AllArgsConstructor
     public static class Post {
         @NotBlank(message = "제목을 입력하세요.")
@@ -43,7 +45,6 @@ public class ReviewDto {
         private long reviewId;
         private String title;
         private String content;
-        private String photo;
         private LocalDateTime createdAt;
         private LocalDateTime modifiedAt;
         private Review.Rating rating;

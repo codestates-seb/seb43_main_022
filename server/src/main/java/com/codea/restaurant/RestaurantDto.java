@@ -35,10 +35,12 @@ public class RestaurantDto {
         private String detailAddress;
         private double latitude;
         private double longitude;
-        private String photoUrl;
+        private String image;
         private List<MenuDto.Post> menu;
         private CategoryDto.Post category;
         private List<TagDto.Post> tag;
+        private String base64Image;
+        private String imageName;
     }
 
     @Getter
@@ -50,7 +52,7 @@ public class RestaurantDto {
         private String content;
         private String tel;
         private String open_time;
-        private String photoUrl;
+        private String image;
         private String streetAddress;
         private String detailAddress;
         private double latitude;
@@ -58,6 +60,8 @@ public class RestaurantDto {
         private List<MenuDto.Patch> menu;
         private CategoryDto.Post category;
         private List<TagDto.Patch> tag;
+        private String base64Image;
+        private String imageName;
     }
 
     @Getter
@@ -68,7 +72,7 @@ public class RestaurantDto {
         private String content;
         private String tel;
         private String open_time;
-        private String photoUrl;
+        private String image;
         private LocalDateTime createdAt;
         private LocalDateTime modifiedAt;
         private int total_views;

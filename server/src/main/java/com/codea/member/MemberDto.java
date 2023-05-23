@@ -66,7 +66,7 @@ public class MemberDto {
         private boolean businessAccount;
         private List<ReviewDto.MyPageResponse> reviews;
         private List<FavoriteDto.ResponseFavorite> favorites;
-        private String Image;
+        private String image;
         private int favoriteCount;
         private Address address;
     }
@@ -76,7 +76,7 @@ public class MemberDto {
     public static class ReviewResponse {
         private long memberId;
         private String nickName;
-        private String photo;
+        private String image;
     }
 
     @Getter

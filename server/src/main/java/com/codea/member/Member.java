@@ -29,7 +29,7 @@ public class Member extends BaseEntity {
     @Column(length = 68)
     private String password;
     @Column
-    private  String Image;
+    private  String image;
     @Column
     private Boolean businessAccount = false;
     @Enumerated(value = EnumType.STRING)

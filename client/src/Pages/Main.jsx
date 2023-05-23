@@ -1,8 +1,13 @@
 import styled from "styled-components";
 import Hotlist from "../Component/MainPageComp/Hotlist";
 import Categorylist from "../Component/MainPageComp/Categorylist";
-
+import { useRecoilValue } from "recoil";
+import memberState from "../state/atoms/SignAtom";
 const Main = () => {
+  const member = useRecoilValue(memberState);
+  {
+    console.log(member.memberId);
+  }
   return (
     <BasicContainer className="Basic-Container">
       <BannerContainer className="Banner-Container">

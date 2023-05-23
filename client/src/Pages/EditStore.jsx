@@ -41,8 +41,10 @@ const EditStore = () => {
   const navigate = useNavigate();
   const initFormData = {
     restaurantName: "",
-    tag: [],
-    photoUrl: null,
+    tag: null,
+    image: null,
+    imageName: "",
+    base64Image: "base64",
     content: "",
     tel: "",
     category: "",

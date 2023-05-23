@@ -16,7 +16,7 @@ const AddImgWrap = styled.form`
     color: var(--black-200);
   }
   // label태그
-  > .signup-photoUrl-label {
+  > .signup-image-label {
     /* border: 1px solid var(--eatsgreen); */
     box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);
     position: absolute;
@@ -69,20 +69,25 @@ const AddImg = ({ formData, setFormData }) => {
   const [imgFile, setImgFile] = useState("");
   const [isUploaded, setIsUploaded] = useState(false);
   useEffect(() => {
-    if (formData.photoUrl) {
-      setImgFile(formData.photoUrl);
+    if (formData.image) {
+      setImgFile(formData.image);
       setIsUploaded(true);
     }
-  }, [formData.photoUrl]);
+  }, [formData.image]);
 
   const handleImageChange = (e) => {
     const selectedImage = e.target.files[0];
+    if (selectedImage.length === 0) {
+      setImgFile("");
+      return;
+    }
     const reader = new FileReader();
     reader.onloadend = () => {
       setImgFile(reader.result);
       setFormData({
         ...formData,
-        photoUrl: reader.result,
+        image: reader.result,
+        imageName: selectedImage.name,
       });
       setIsUploaded(true);
     };
@@ -93,7 +98,8 @@ const AddImg = ({ formData, setFormData }) => {
     setIsUploaded(false);
     setFormData({
       ...formData,
-      photoUrl: "",
+      image: "",
+      imageName: "",
     });
   };
   return (
@@ -111,13 +117,13 @@ const AddImg = ({ formData, setFormData }) => {
           </button>
         </ButtonContainer>
       )}
-      <label className="signup-photoUrl-label" htmlFor="photoUrl">
+      <label className="signup-image-label" htmlFor="image">
         {isUploaded ? "이미지 변경" : "이미지 등록"}
       </label>
       <input
         type="file"
         accept="image/*"
-        id="photoUrl"
+        id="image"
         onChange={handleImageChange}
       />
     </AddImgWrap>

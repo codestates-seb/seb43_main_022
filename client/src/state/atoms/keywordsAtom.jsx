@@ -3,6 +3,8 @@ import { atom } from "recoil";
 export const keywordsAtom = atom({
   key: "keywords",
   default: [
+    "치킨",
+    "빵",
     "중식",
     "한식",
     "일식",

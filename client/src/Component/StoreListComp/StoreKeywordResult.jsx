@@ -6,9 +6,14 @@ import ReactPaginate from "react-paginate";
 import ImgBtn from "../style/ImgBtn";
 import styled from "styled-components";
 import { useRecoilValue } from "recoil";
-import { searchResultsState } from "../../state/atoms/SearchStateAtom";
+import {
+  searchResultsState,
+  searchInputState,
+} from "../../state/atoms/SearchStateAtom";
 import { searchStateTag } from "../../state/atoms/SearchStateTagAtom";
 import memberState from "../../state/atoms/SignAtom";
+
+console.log("2차검색키워드 저장중인 값", searchInputState.data);
 const NoResult = () => <div>검색결과가 없습니다</div>;
 const StoreKeywordResult = () => {
   const [, setLoading] = useState(true);
@@ -19,23 +24,29 @@ const StoreKeywordResult = () => {
   const [noResult, setNoResult] = useState(false);
   const [userDataFavor, setUserDataFavor] = useState([]);
   const [stores, setStores] = useState([]);
-  const results = useRecoilValue(searchResultsState);
-  const searchResults = useRecoilValue(searchStateTag);
   const member = useRecoilValue(memberState);
-  console.log("필터링데이터", searchResults);
-  console.log("헤더서치 검색결과 저장된 것 :", results);
+  //해더에서 검색되서 온 값 result
+  const results = useRecoilValue(searchResultsState);
+  //2차 검색해서 저장된 값 searchResults
+  const searchTagResults = useRecoilValue(searchStateTag);
+
+  console.log("헤더서치 검색결과 저장된 것 results :", results);
+  console.log("필터링데이터 searchTagResults :", searchTagResults);
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await api.get("members/mypage");
         setUserDataFavor(response.data.favorites);
+        const refreshPageData = await api.get("/restaurants?page=1&size=30");
+        console.log("새로고침시 데이터받기", refreshPageData.data.data);
+        setStores(refreshPageData.data.data);
       } catch (error) {
         console.error("에러", error);
       }
     };
     fetchData();
   }, []);
-  console.log("사용자 즐겨찾기", userDataFavor);
+  console.log("로그인된 사용자 즐겨찾기목록", userDataFavor);
 
   const handleButtonClick = async (restaurantId) => {
     try {
@@ -83,35 +94,37 @@ const StoreKeywordResult = () => {
   };
 
   useEffect(() => {
-    // console.log("검색된 데이터", data);
-    //searchResults 결과 재검색 데이터
-    // 1. 가게리스트로 바로 들어왔을때 태그필터링이 안먹는다.
-    //
     const fetchStores = async () => {
       try {
-        let data = [...results];
-        // else if (searchResults) {
-        //           data = [...searchResults];
-        //         }
-        if (data.length === 0) {
-          const response = await api.get("/restaurants");
-          data = response.data;
-          // setSearchDefaultState(response.data); // allStore
-          // console.log("set처리된것", allStore);
-          console.log("서버 데이터:", data);
+        let data = [];
+        if (searchTagResults) {
+          //만약 searchResults가 있다면 searchResults값을 데이터로
+          data = [...searchTagResults];
+          console.log("2차검색 '있'을때 데이터(초기에도)", data);
+        }
+        //검색된 결과값이 있으면 데이터는 헤더에서 검색된 값으로
+        else if (results) {
+          data = [...results];
+          console.log("2차검색 '없'을때 필터시작할거", data);
+        } else {
+          data = stores.data;
+          console.log(
+            "가게리스트 클릭해서 왔거나, 새로고침했을때 store에 저장했던 데이터:",
+            data,
+          );
         }
         if (currentFilter === "createdAt") {
           data.sort(filterByLatest);
-          console.log("최신순데이터:", data);
-        } else if (currentFilter === "total_review") {
+          console.log("최신순 데이터 :", data);
+        } else if (currentFilter === "total_reviews") {
           data.sort(filterByReview);
-          console.log("리뷰순데이터:", data);
-        } else if (currentFilter === "total_favorite") {
+          console.log("리뷰순 데이터 :", data);
+        } else if (currentFilter === "totalFavorite") {
           data.sort(filterByFavorites);
-          console.log("즐겨찾기순데이터:", data);
+          console.log("즐겨찾기순 데이터 :", data);
         }
-        console.log("이기기기기기기깁ㅈ", data);
-        setStores(searchResults);
+        setStores(data);
+        console.log("필터링거쳐 저장된 가게데이터 :", stores);
         setLoading(false);
       } catch (error) {
         console.error("Error fetching data: ", error);
@@ -121,7 +134,7 @@ const StoreKeywordResult = () => {
     };
 
     fetchStores();
-  }, [currentFilter, results, searchResults]);
+  }, [currentFilter, results, searchTagResults]);
 
   const handlePageClick = ({ selected: selectedPage }) => {
     setCurrentPage(selectedPage);
@@ -206,14 +219,14 @@ const StoreKeywordResult = () => {
               최신순
             </FilterLi>
             <FilterLi
-              onClick={() => setCurrentFilter("total_review")}
-              className={currentFilter === "total_review" ? "active" : ""}
+              onClick={() => setCurrentFilter("total_reviews")}
+              className={currentFilter === "total_reviews" ? "active" : ""}
             >
               리뷰순
             </FilterLi>
             <FilterLi
-              onClick={() => setCurrentFilter("total_favorite")}
-              className={currentFilter === "total_favorite" ? "active" : ""}
+              onClick={() => setCurrentFilter("totalFavorite")}
+              className={currentFilter === "totalFavorite" ? "active" : ""}
             >
               즐겨찾기순
             </FilterLi>

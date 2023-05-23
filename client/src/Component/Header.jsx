@@ -13,7 +13,7 @@ import {
   searchResultsState,
   searchKeywordState,
 } from "../state/atoms/SearchStateAtom";
-// searchDefaultState,
+
 const Container = styled.header`
   width: 100vw;
   height: 69px;
@@ -104,16 +104,16 @@ const Frameicon = styled.img`
 `;
 
 const Header = () => {
+  const navi = useNavigate();
   const resetMember = useResetRecoilState(memberState);
   const [isLogin, setIsLogin] = useRecoilState(isLoginState);
-  const navi = useNavigate();
   const [isComposing, setIsComposing] = useState(false);
-  const setSearchResults = useSetRecoilState(searchResultsState);
+  const [serchKeywordHeader, setSerchKeywordHeader] = useState("");
+  const setSearchResultsState = useSetRecoilState(searchResultsState);
+  const setSearchKeywordState = useSetRecoilState(searchKeywordState);
   // const setSearchDefaultState = useSetRecoilState(searchDefaultState);
-  const setSearchKeyword = useSetRecoilState(searchKeywordState);
-  const [searchInput, setSearchInput] = useState("");
+  // const setResult = useSetRecoilState(searchResultsState);
 
-  const setResult = useSetRecoilState(searchResultsState);
   const logoutFunc = () => {
     setIsLogin(!isLogin);
     api.defaults.headers.common["Authorization"] = "";
@@ -124,22 +124,22 @@ const Header = () => {
   };
 
   const handleSearch = async () => {
-    const encodedSearchTerm = encodeURIComponent(searchInput);
+    const encodedSearchTerm = encodeURIComponent(serchKeywordHeader);
 
     const response = await api.get(
-      `/restaurants/search?keyword=${encodedSearchTerm}&page=1&size=100`,
+      `/restaurants/search?keyword=${encodedSearchTerm}`,
     );
     // console.log(response.data);
-    setSearchResults(response.data.data);
+    setSearchResultsState(response.data.data);
 
-    setSearchKeyword(searchInput);
+    setSearchKeywordState(serchKeywordHeader);
 
-    setSearchInput("");
+    setSerchKeywordHeader("");
     navi(`/itemlist?search=${encodedSearchTerm}`);
   };
 
   const handleInputChange = (event) => {
-    setSearchInput(event.target.value);
+    setSerchKeywordHeader(event.target.value);
   };
 
   const handleKeyDown = (e) => {
@@ -158,12 +158,11 @@ const Header = () => {
       handleSearch();
     }
   };
-  const storeList = async () => {
+  const handleLinkStoreList = async () => {
     const allStore = await api.get(`/restaurants`);
-    console.log(allStore.data);
-    // setSearchDefaultState(allStore.data);
-    // console.log("서버전체데이터", allStore);
-    setResult(allStore.data);
+    // 검색결과상태를 저장하는곳에 저장. 결과페이지에서는 results로 사용됨
+    setSearchResultsState(allStore.data);
+    console.log(searchResultsState.data);
     navi(`/itemlist`);
   };
   return (
@@ -176,7 +175,7 @@ const Header = () => {
           <InputContainer>
             <Hinput
               placeholder="지역/ 상호/ 키워드를 입력해주세요."
-              value={searchInput}
+              value={serchKeywordHeader}
               onChange={handleInputChange}
               onKeyDown={handleKeyDown}
               onCompositionStart={handleCompositionStart}
@@ -185,7 +184,7 @@ const Header = () => {
             <SearchButton onClick={handleSearch} />
           </InputContainer>
           <ListItem>
-            <Button btnstyle="HBtn" onClick={storeList}>
+            <Button btnstyle="HBtn" onClick={handleLinkStoreList}>
               가게 리스트
             </Button>
           </ListItem>
@@ -206,7 +205,7 @@ const Header = () => {
           <InputContainer>
             <IsLoginInput
               placeholder="지역/ 상호/ 키워드를 입력해주세요."
-              value={searchInput}
+              value={serchKeywordHeader}
               onChange={handleInputChange}
               onKeyDown={handleKeyDown}
               onCompositionStart={handleCompositionStart}
@@ -215,7 +214,7 @@ const Header = () => {
             <SearchButton onClick={handleSearch} />
           </InputContainer>
           <ListItem>
-            <Button btnstyle="HBtn" onClick={storeList}>
+            <Button btnstyle="HBtn" onClick={handleLinkStoreList}>
               가게 리스트
             </Button>
           </ListItem>

@@ -12,9 +12,8 @@ import { useRecoilState, useResetRecoilState, useSetRecoilState } from "recoil";
 import {
   searchResultsState,
   searchKeywordState,
-  searchDefaultState,
 } from "../state/atoms/SearchStateAtom";
-
+// searchDefaultState,
 const Container = styled.header`
   width: 100vw;
   height: 69px;
@@ -41,13 +40,18 @@ const InputContainer = styled.div`
 const LoginDiv = styled.div`
   display: flex;
   justify-content: center;
-  width: 300px;
+  width: 240px;
   @media screen and (max-width: 850px) {
     justify-content: center;
     width: 210px;
   }
 `;
+const ListItem = styled(LoginDiv)`
+  width: 100px;
+  margin-left: 20px;
 
+  font-size: var(--medium-font);
+`;
 const Hinput = styled.input`
   min-width: 800px;
   height: 35px;
@@ -105,10 +109,11 @@ const Header = () => {
   const navi = useNavigate();
   const [isComposing, setIsComposing] = useState(false);
   const setSearchResults = useSetRecoilState(searchResultsState);
+  // const setSearchDefaultState = useSetRecoilState(searchDefaultState);
   const setSearchKeyword = useSetRecoilState(searchKeywordState);
-  const setSearchDefaultState = useSetRecoilState(searchDefaultState);
   const [searchInput, setSearchInput] = useState("");
 
+  const setResult = useSetRecoilState(searchResultsState);
   const logoutFunc = () => {
     setIsLogin(!isLogin);
     api.defaults.headers.common["Authorization"] = "";
@@ -124,14 +129,13 @@ const Header = () => {
     const response = await api.get(
       `/restaurants/search?keyword=${encodedSearchTerm}&page=1&size=100`,
     );
-
     // console.log(response.data);
     setSearchResults(response.data.data);
-    setSearchDefaultState(response.data.data);
+
     setSearchKeyword(searchInput);
 
-    navi(`/itemlist?search=${encodedSearchTerm}`);
     setSearchInput("");
+    navi(`/itemlist?search=${encodedSearchTerm}`);
   };
 
   const handleInputChange = (event) => {
@@ -154,6 +158,14 @@ const Header = () => {
       handleSearch();
     }
   };
+  const storeList = async () => {
+    const allStore = await api.get(`/restaurants`);
+    console.log(allStore.data);
+    // setSearchDefaultState(allStore.data);
+    // console.log("서버전체데이터", allStore);
+    setResult(allStore.data);
+    navi(`/itemlist`);
+  };
   return (
     <>
       {!isLogin ? (
@@ -172,7 +184,11 @@ const Header = () => {
             />
             <SearchButton onClick={handleSearch} />
           </InputContainer>
-
+          <ListItem>
+            <Button btnstyle="HBtn" onClick={storeList}>
+              가게 리스트
+            </Button>
+          </ListItem>
           <LoginDiv>
             <Link to="/login">
               <Button btnstyle="HBtn">로그인</Button>
@@ -198,6 +214,11 @@ const Header = () => {
             />
             <SearchButton onClick={handleSearch} />
           </InputContainer>
+          <ListItem>
+            <Button btnstyle="HBtn" onClick={storeList}>
+              가게 리스트
+            </Button>
+          </ListItem>
           <LoginDiv>
             <Link to="/mypage">
               <Button btnstyle="HBtn">

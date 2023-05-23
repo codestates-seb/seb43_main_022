@@ -115,38 +115,48 @@ const Imgadd = styled.div`
 `;
 
 const ReviewInfo = ({ reviewData, setReviewData }) => {
-  const [showImages, setShowImages] = useState([]);
+  const [showImages, setShowImages] = useState(reviewData.image);
   const [rating, setRating] = useState(reviewData.rating);
-
   const [{ title, content }, onInputChange] = useInput({
     title: `${reviewData.title}`,
     content: `${reviewData.content}`,
   });
   useEffect(() => {
-    // const photo = showImages.map((image) => image);
+    const image = showImages.map((image) => image);
     setReviewData({
       title,
       content,
-      // photo,
+      image,
       rating,
     });
-    console.log("reviewinfo창", title, content, rating);
-  }, [title, content, rating, setReviewData]);
+    console.log(showImages, "리뷰 데이터");
+  }, [title, content, showImages, rating, setReviewData]);
 
   // 이미지 추가 기능
-  const handleAddImages = (e) => {
+  const handleAddImages = async (e) => {
     const imgLists = e.target.files;
     let imgUrlLists = [...showImages];
     for (let i = 0; i < imgLists.length; i++) {
-      const currentImgUrl = URL.createObjectURL(imgLists[i]);
-      imgUrlLists.push({ photoUrl: currentImgUrl });
+      const reader = new FileReader();
+      reader.readAsDataURL(imgLists[i]);
+      const readFile = () =>
+        new Promise((res) => {
+          reader.onload = () => {
+            // const currentImgUrl = URL.createObjectURL(imgLists[i]);
+            res(reader.result);
+          };
+        });
+      const currentImgUrl = await readFile();
+      imgUrlLists.push({
+        imageName: imgLists[i].name,
+        image: currentImgUrl,
+      });
     }
     // 3개넘게 선택 시 3개만 잘라서 보여주기
     if (imgUrlLists.length > 3) {
       imgUrlLists = imgUrlLists.slice(0, 3);
     }
     setShowImages(imgUrlLists);
-    console.log(showImages);
   };
   // 이미지 삭제 기능
   const handleDeleteImage = (id) => {
@@ -158,7 +168,6 @@ const ReviewInfo = ({ reviewData, setReviewData }) => {
   //rating 변경 함수
   const handleRating = (choice) => {
     setRating(choice);
-    console.log(rating);
   };
   return (
     <ReviewContainer className="Review-Container">
@@ -197,7 +206,8 @@ const ReviewInfo = ({ reviewData, setReviewData }) => {
         <Imgul>
           {showImages.map((image, id) => (
             <li className="review-img" key={id}>
-              <img src={image.photoUrl} alt={`${image.photoUrl}-${id}`} />
+              <img src={image.image} alt={`${image.name}-${id}`} />
+              {console.log(image, "맵안 이미지")}
               <div>
                 <button onClick={() => handleDeleteImage(id)}>X</button>
               </div>
@@ -226,7 +236,7 @@ const ReviewInfo = ({ reviewData, setReviewData }) => {
           </label>
           <ImgBtn
             name="like"
-            imgstyle="LIKE"
+            imgstyle={rating === "LIKE" ? "LIKEActive" : "LIKE"}
             onClick={() => handleRating("LIKE")}
           />
         </div>
@@ -236,7 +246,7 @@ const ReviewInfo = ({ reviewData, setReviewData }) => {
           </label>
           <ImgBtn
             name="hate"
-            imgstyle="HATE"
+            imgstyle={rating === "HATE" ? "HATEActive" : "HATE"}
             onClick={() => handleRating("HATE")}
           />
         </div>

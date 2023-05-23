@@ -2,9 +2,10 @@ import styled from "styled-components";
 import { useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
 import { categoryState } from "../../state/atoms/CategoryAtom";
-import { searchTermState } from "../../state/atoms/SearchTermState";
+// import { searchTermState } from "../../state/atoms/SearchTermState";
 import { api } from "../../Util/api";
 import { useNavigate } from "react-router";
+import { searchKeywordState } from "../../state/atoms/SearchStateAtom";
 
 const CategoryContainer = styled.div`
   width: 100%;
@@ -90,7 +91,7 @@ const CategoryContainer = styled.div`
 `;
 const Categorylist = () => {
   const [categoryData, setCategoryData] = useRecoilState(categoryState);
-  const [, setSearchTerm] = useRecoilState(searchTermState);
+  const [, setSearchTerm] = useRecoilState(searchKeywordState);
   const [currentPage, setCurrentPage] = useState(1);
   const [visibleCategory, setVisibleCategory] = useState([]);
   const navi = useNavigate();

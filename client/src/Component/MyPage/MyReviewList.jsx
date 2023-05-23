@@ -25,34 +25,39 @@ const PrevBtn = styled.button`
 
 const MyReviewList = () => {
   const [data, setData] = useState([]);
+  const [slice, setSlice] = useState([]);
+  let [count, setCount] = useState(0);
 
-  // const Pagenation = () => {
-
-  // }
+  const Pagenation = (count) => {
+    setCount(count);
+    setSlice(data.slice(count, count + 6));
+  };
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await api.get("/members/mypage");
-        setData(response.data.reviews.slice(0, 6));
+        setData(response.data.reviews);
+        setSlice(response.data.reviews.slice(0, 6));
       } catch (error) {
         console.error("마이리뷰에러", error);
       }
     };
     fetchData();
-    console.log(data);
   }, []);
 
   return (
     <>
       <div>
         {data ? (
-          data.map((item, idx) => (
+          slice.map((item, idx) => (
             <MyReviewItem
               key={item.reviewId}
               idx={idx}
-              setreview={setData}
-              review={data}
+              review={slice}
+              setSlice={setSlice}
+              setCount={setCount}
+              setData={setData}
             />
           ))
         ) : (
@@ -60,9 +65,14 @@ const MyReviewList = () => {
         )}
       </div>
       <Pagediv>
-        <PrevBtn>이전</PrevBtn>
-        <PrevBtn>다음</PrevBtn>
+        {count > 0 ? (
+          <PrevBtn onClick={() => Pagenation((count -= 6))}>이전</PrevBtn>
+        ) : null}
+        {count + 6 < data.length ? (
+          <PrevBtn onClick={() => Pagenation((count += 6))}>다음</PrevBtn>
+        ) : null}
       </Pagediv>
+      {console.log(slice, count)}
     </>
   );
 };

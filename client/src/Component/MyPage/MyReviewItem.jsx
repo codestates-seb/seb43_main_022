@@ -51,16 +51,16 @@ const Condiv = styled.div`
   display: flex;
   background: white;
 `;
-const MyReviewItem = ({ review, setreview, idx }) => {
-  console.log("review", review);
+const MyReviewItem = ({ setData, setSlice, review, idx, setCount }) => {
   const deleteFunc = (key) => {
     return api
       .delete(`/reviews/${key}`)
       .then(() => {
         api.get("/members/mypage").then((res) => {
-          setreview(res.data.reviews);
-          console.log(res);
+          setData(res.data.reviews);
+          setSlice(res.data.reviews.slice(0, 6));
         });
+        setCount(0);
       })
       .catch((err) => console.log("삭제", err));
   };

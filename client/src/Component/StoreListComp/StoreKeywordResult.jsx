@@ -22,11 +22,8 @@ const StoreKeywordResult = () => {
   const results = useRecoilValue(searchResultsState);
   const searchResults = useRecoilValue(searchStateTag);
   const member = useRecoilValue(memberState);
-  // const allStore = useRecoilValue(searchDefaultState);
-  // const setSearchDefaultState = useSetRecoilState(searchDefaultState);
   console.log("필터링데이터", searchResults);
   console.log("헤더서치 검색결과 저장된 것 :", results);
-  // console.log("서버전체데이터", allStore);
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -78,11 +75,11 @@ const StoreKeywordResult = () => {
   };
 
   const filterByReview = (a, b) => {
-    return b.total_review - a.total_review;
+    return b.total_reviews - a.total_reviews;
   };
 
   const filterByFavorites = (a, b) => {
-    return b.total_favorite - a.total_favorite;
+    return b.totalFavorite - a.totalFavorite;
   };
 
   useEffect(() => {

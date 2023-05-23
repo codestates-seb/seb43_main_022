@@ -111,6 +111,10 @@ function KakaoMap({ onAddressUpdate }) {
                     content:
                       '<div style="padding:5px;font-size:12px;">' +
                       data[i].place_name +
+                      "<br />" +
+                      data[i].phone +
+                      "<br />" +
+                      data[i].road_address_name +
                       "</div>",
                     removable: true,
                   });

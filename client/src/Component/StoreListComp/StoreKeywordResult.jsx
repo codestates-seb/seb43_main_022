@@ -8,6 +8,7 @@ import styled from "styled-components";
 import { useRecoilValue } from "recoil";
 import { searchResultsState } from "../../state/atoms/SearchStateAtom";
 import { searchStateTag } from "../../state/atoms/SearchStateTagAtom";
+import memberState from "../../state/atoms/SignAtom";
 const NoResult = () => <div>검색결과가 없습니다</div>;
 const StoreKeywordResult = () => {
   const [, setLoading] = useState(true);
@@ -19,12 +20,13 @@ const StoreKeywordResult = () => {
   const [userDataFavor, setUserDataFavor] = useState([]);
   const [stores, setStores] = useState([]);
   const results = useRecoilValue(searchResultsState);
-
   const searchResults = useRecoilValue(searchStateTag);
+  const member = useRecoilValue(memberState);
+  // const allStore = useRecoilValue(searchDefaultState);
+  // const setSearchDefaultState = useSetRecoilState(searchDefaultState);
   console.log("필터링데이터", searchResults);
-
-  console.log("리코일 검색결과 저장된 것 :", results);
-
+  console.log("헤더서치 검색결과 저장된 것 :", results);
+  // console.log("서버전체데이터", allStore);
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -40,6 +42,9 @@ const StoreKeywordResult = () => {
 
   const handleButtonClick = async (restaurantId) => {
     try {
+      if (!member.memberId) {
+        alert("로그인을해주세요");
+      }
       const isFavorite = userDataFavor.some(
         (fav) => fav.restaurantId === restaurantId,
       );
@@ -57,7 +62,6 @@ const StoreKeywordResult = () => {
         await api.post(`/favorites/restaurant/${restaurantId}`);
 
         const response = await api.get("members/mypage");
-        // setUserData(response.data);
         setUserDataFavor(response.data.favorites);
       }
 
@@ -82,14 +86,21 @@ const StoreKeywordResult = () => {
   };
 
   useEffect(() => {
-    let data = [...results];
-    console.log("데이터", data);
-
+    // console.log("검색된 데이터", data);
+    //searchResults 결과 재검색 데이터
+    // 1. 가게리스트로 바로 들어왔을때 태그필터링이 안먹는다.
+    //
     const fetchStores = async () => {
       try {
+        let data = [...results];
+        // else if (searchResults) {
+        //           data = [...searchResults];
+        //         }
         if (data.length === 0) {
           const response = await api.get("/restaurants");
           data = response.data;
+          // setSearchDefaultState(response.data); // allStore
+          // console.log("set처리된것", allStore);
           console.log("서버 데이터:", data);
         }
         if (currentFilter === "createdAt") {
@@ -102,8 +113,8 @@ const StoreKeywordResult = () => {
           data.sort(filterByFavorites);
           console.log("즐겨찾기순데이터:", data);
         }
-
-        setStores(data);
+        console.log("이기기기기기기깁ㅈ", data);
+        setStores(searchResults);
         setLoading(false);
       } catch (error) {
         console.error("Error fetching data: ", error);
@@ -113,7 +124,7 @@ const StoreKeywordResult = () => {
     };
 
     fetchStores();
-  }, [currentFilter, results]);
+  }, [currentFilter, results, searchResults]);
 
   const handlePageClick = ({ selected: selectedPage }) => {
     setCurrentPage(selectedPage);
@@ -139,8 +150,8 @@ const StoreKeywordResult = () => {
           <CardWrap>
             <StoreCard>
               <div className="photoUrl">
-                {store.photoUrl ? (
-                  <img src={store.photoUrl} alt={store.restaurantName} />
+                {store.image ? (
+                  <img src={store.image} alt={store.restaurantName} />
                 ) : (
                   "등록된 이미지가 없습니다."
                 )}
@@ -316,7 +327,10 @@ const BtnPosition = styled.div`
   position: absolute;
   top: 20px;
   right: 20px;
-  button {
+  background-color: transparent;
+  svg {
+    width: 30px;
+    height: 30px;
     background-color: transparent;
   }
 `;

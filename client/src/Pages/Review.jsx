@@ -54,10 +54,10 @@ const Review = () => {
   return (
     <BasicContainer className="Basic-Container">
       <ResInfo />
-      <ReviewInfo />
+      <ReviewInfo reviewData={ReviewData} setReviewData={setReviewData} />
       <ButtonContainer className="Button-Container">
         <Button btnstyle="Btn" onClick={handleSubmit}>
-          리뷰 남기기
+          리뷰 작성
         </Button>
         <Button btnstyle="Btn" onClick={handleCancel}>
           취 소

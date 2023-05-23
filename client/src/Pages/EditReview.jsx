@@ -15,7 +15,7 @@ const BasicContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin-bottom: 70px;
+  margin: 90px 0px;
 `;
 const ButtonContainer = styled.div`
   width: 100%;
@@ -29,27 +29,29 @@ const ButtonContainer = styled.div`
 
 const EditReview = () => {
   const navi = useNavigate();
-  const [ReviewData, setReviewData] = useRecoilState(ReviewState);
+  const [reviewData, setReviewData] = useRecoilState(ReviewState);
   const { review_id } = useParams();
 
   useEffect(() => {
-    api
-      .get(`/reviews/${review_id}`)
-      .then((res) => {
+    const fetchReviewData = async () => {
+      try {
+        const res = await api.get(`/reviews/${review_id}`);
         setReviewData(res.data);
-        console.log("review 데이터 : ", res.data);
-      })
-      .catch((err) => {
-        console.log(err);
-        alert("업체 정보를 가져오는데 실패하였습니다.");
-      });
-  }, [setReviewData]);
+        console.log(res.data, "리뷰 데이터 가져옴");
+      } catch (error) {
+        alert("리뷰 데이터를 가져오는데 실패하였습니다.");
+        console.error(error);
+      }
+    };
+    fetchReviewData();
+  }, []);
 
   // 리뷰 남기기 버튼
   const handleEdit = async () => {
     await api
-      .patch(`/reviews/${review_id}`, ReviewData)
+      .patch(`/reviews/${review_id}`, reviewData)
       .then(() => {
+        alert("리뷰를 정상적으로 수정하였습니다.");
         console.log("리뷰 수정하기");
         setReviewData({});
         navi(-1);
@@ -58,11 +60,12 @@ const EditReview = () => {
         console.log(`${err} 에러가 발생함`);
       });
   };
-
+  //리뷰 삭제 버튼
   const hendleDelete = async () => {
     if (window.confirm("리뷰를 삭제 하시겠습니까?")) {
       try {
         await api.delete(`/reviews/${review_id}`);
+        setReviewData({});
         alert("업체 정보가 삭제되었습니다.");
         navi(-1);
       } catch (err) {
@@ -70,21 +73,23 @@ const EditReview = () => {
       }
     }
   };
-
   // 취소 버튼
   const handleCancel = () => {
+    setReviewData({});
     navi(-1);
   };
   return (
     <BasicContainer className="Basic-Container">
       <ResInfo />
-      <ReviewInfo />
+      {reviewData.title ? (
+        <ReviewInfo reviewData={reviewData} setReviewData={setReviewData} />
+      ) : null}
       <ButtonContainer className="Button-Container">
         <Button btnstyle="Btn" onClick={hendleDelete}>
-          리뷰 삭제하기
+          리뷰 삭제
         </Button>
         <Button btnstyle="Btn" onClick={handleEdit}>
-          리뷰 수정하기
+          리뷰 수정
         </Button>
         <Button btnstyle="Btn" onClick={handleCancel}>
           취 소

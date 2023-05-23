@@ -5,7 +5,7 @@ export let ReviewState = atom({
   default: {
     title: "",
     content: "",
-    photo: [],
+    image: [],
     rating: "",
   },
 });

@@ -1,8 +1,9 @@
 import styled from "styled-components";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useNavigate } from "react-router";
-// import { useRecoilValue } from "recoil";
-// import memberState from "../../state/atoms/SignAtom";
+import { Link } from "react-router-dom";
+import { useRecoilState } from "recoil";
+import { RestaurantState } from "../../state/atoms/RestaurantAtom";
 import { api } from "../../Util/api";
 
 const HotlistContainer = styled.div`
@@ -12,7 +13,7 @@ const HotlistContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin-bottom: 100px;
+  margin: 70px 0px;
   .hotlist-title {
     font-size: var(--xx-large-font);
     font-weight: bold;
@@ -37,11 +38,21 @@ const HotlistContainer = styled.div`
       margin: 5px 10px;
       border: 1px solid var(--black-200);
       border-radius: 20px;
+      box-shadow: 0px 1px 10px 1px var(--black-200);
       overflow: hidden;
-      .hotitem-img {
-        width: 45%;
+      &:hover {
+        box-shadow: 0px 1px 10px 1px var(--eatsgreen);
+      }
+      .hotitem-imgbox {
+        width: 5em;
         height: 100%;
         margin-right: 8px;
+        overflow: hidden;
+        .hotitem-img {
+          object-fits: cover;
+          width: 100%;
+          height: 100%;
+        }
       }
       .hotitem-info {
         width: 50%;
@@ -49,16 +60,35 @@ const HotlistContainer = styled.div`
         display: flex;
         flex-direction: column;
         justify-content: center;
+
         .hotitem-grade,
         .hotitem-localtag {
           font-size: var(--medium-font);
           font-weight: bold;
         }
+        .hotitem-grade {
+          color: var(--black-800);
+        }
         .hotitem-title {
-          width: 95%;
-          white-space: normal;
+          width: 6em;
+          height: 3em;
+          color: var(--black-800);
           font-weight: bold;
           margin: 10px 0px 20px;
+        }
+        ul {
+          display: flex;
+          flex-direction: row;
+          li {
+            margin-right: 5px;
+            p {
+              font-size: 0.6em;
+              color: var(--black-500);
+              &:hover {
+                color: var(--eatsgreen);
+              }
+            }
+          }
         }
       }
     }
@@ -70,56 +100,74 @@ const HotlistContainer = styled.div`
     border: 1px solid var(--black-200);
     border-radius: 10px;
     padding: 0px 10px;
+    box-shadow: 0px 1px 10px 1px var(--black-200);
+    &:hover {
+      box-shadow: 0px 1px 15px 1px var(--eatsgreen);
+    }
   }
 `;
 
 const Hotlist = () => {
-  const [hotList, setHotList] = useState();
-  const [userid] = "강남역";
+  const [hotListData, setHotListData] = useRecoilState(RestaurantState);
   const navi = useNavigate();
+  const local = "강남";
 
   useEffect(() => {
     const fetchHotlist = async () => {
       try {
-        const res = await api.get(`/itemlist?serch=${userid}`);
-        setHotList(res.data);
+        const res = await api.get(
+          `/restaurants/search?keyword=${local}&page=1&size=15`,
+        );
+        setHotListData(res.data.data);
       } catch (err) {
-        console.log(err);
+        console.error(err);
       }
     };
     fetchHotlist();
-  }, []);
+  }, [local]);
+
+  const filterData = hotListData
+    .filter((item) => item.streetAddress.includes(local))
+    .slice(0, 8);
 
   const MoreHotList = () => {
-    navi(`/itemlist?serch=${userid}`);
+    navi(`/itemlist?serch=${local}`);
   };
   return (
     <HotlistContainer className="Hotlist-Container">
       <div className="hotlist-title">내 지역 인기 맛집</div>
-      <div className="hotlist-subtitle">가장 많은 좋아요를 받은 곳이에요</div>
+      <div className="hotlist-subtitle">가장 인기가 많은 맛집이에요</div>
       <ul className="hotlist-ul">
-        {hotList ? (
-          hotList.map((resInfo) => (
-            <li className="hotlist-item" key={resInfo.restauranid}>
-              <img
-                className="hotitem-img"
-                src={resInfo.photoUrl}
-                alt={`${resInfo.restaurantName} 이미지`}
-              />
-              <div className="hotitem-info">
-                <div className="hotitem-grade ">{resInfo.rating}</div>
-                <div className="hotitem-title">{resInfo.restaurantName}</div>
-                <ul className="res-tagul">
-                  {resInfo.tags
-                    ? resInfo.tags.map((tag, idx) => (
-                        <li className="res-tagli" key={idx}>
-                          #{tag.name}
-                        </li>
-                      ))
-                    : null}
-                </ul>
-              </div>
-            </li>
+        {hotListData ? (
+          filterData.map((resInfo, idx) => (
+            <Link key={idx} to={`/detail/${resInfo.restaurantId} `}>
+              <li className="hotlist-item">
+                <div className="hotitem-imgbox">
+                  <img
+                    className="hotitem-img"
+                    src="https://interactive-examples.mdn.mozilla.net/media/cc0-images/grapefruit-slice-332-332.jpg"
+                    alt={`${resInfo.restaurantName} 이미지`}
+                  />
+                </div>
+                <div className="hotitem-info">
+                  <div className="hotitem-grade ">평점 {resInfo.rating}</div>
+                  <div className="hotitem-title">{resInfo.restaurantName}</div>
+                  <ul className="res-tagul">
+                    {resInfo.tagRestaurants
+                      ? resInfo.tagRestaurants
+                          .map((tag, idx) => (
+                            <li className="res-tagli" key={idx}>
+                              <Link to={`/itemlist/search?=${tag.tag.name}`}>
+                                <p>#{tag.tag.name}</p>
+                              </Link>
+                            </li>
+                          ))
+                          .slice(0, 2)
+                      : null}
+                  </ul>
+                </div>
+              </li>
+            </Link>
           ))
         ) : (
           <p>No hot list available</p>

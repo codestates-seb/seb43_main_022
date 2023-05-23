@@ -2,9 +2,10 @@ import styled from "styled-components";
 import { useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
 import { categoryState } from "../../state/atoms/CategoryAtom";
-import { searchTermState } from "../../state/atoms/SearchTermState";
+// import { searchTermState } from "../../state/atoms/SearchTermState";
 import { api } from "../../Util/api";
 import { useNavigate } from "react-router";
+import { searchKeywordState } from "../../state/atoms/SearchStateAtom";
 
 const CategoryContainer = styled.div`
   width: 100%;
@@ -18,7 +19,6 @@ const CategoryContainer = styled.div`
     margin-bottom: 30px;
   }
   .category-list {
-    width: 100%;
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -40,7 +40,10 @@ const CategoryContainer = styled.div`
         margin: 10px;
         overflow: hidden;
         position: relative;
-        transition: transform 0.3s;
+        box-shadow: 0px 1px 10px 1px var(--black-200);
+        &:hover {
+          box-shadow: 0px 1px 10px 1px var(--eatsgreen);
+        }
         img {
           width: 200px;
         }
@@ -51,6 +54,7 @@ const CategoryContainer = styled.div`
           transform: translate(-50%, -50%);
         }
         p {
+          width: 12vw;
           color: #fefefe;
           font-size: 24px;
           font-weight: bold;
@@ -68,7 +72,7 @@ const CategoryContainer = styled.div`
       background-image: url(https://mp-seoul-image-production-s3.mangoplate.com/web/resources/2018022864551sprites_desktop.png);
       background-position: -935px -179px;
       position: absolute;
-      right: 350px;
+      left: 100%;
     }
     .right-button:disabled {
       display: none;
@@ -78,7 +82,7 @@ const CategoryContainer = styled.div`
       background-image: url(https://mp-seoul-image-production-s3.mangoplate.com/web/resources/2018022864551sprites_desktop.png);
       background-position: -935px -230px;
       position: absolute;
-      left: 350px;
+      right: 100%;
     }
     .left-button:disabled {
       display: none;
@@ -87,25 +91,20 @@ const CategoryContainer = styled.div`
 `;
 const Categorylist = () => {
   const [categoryData, setCategoryData] = useRecoilState(categoryState);
-  const [searchTerm, setSearchTerm] = useRecoilState(searchTermState);
+  const [, setSearchTerm] = useRecoilState(searchKeywordState);
   const [currentPage, setCurrentPage] = useState(1);
-  const [nextPageData, setNextPageData] = useState([]);
+  const [visibleCategory, setVisibleCategory] = useState([]);
   const navi = useNavigate();
+
+  const pageSize = 5;
 
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await api.get(`/category?page=${currentPage}&size=5`);
+        const response = await api.get(`/category?page=1&size=12`);
         setCategoryData(response.data.data);
-        // 다음 페이지 데이터를 미리 불러옴
-        if (response.data.data.length > 0) {
-          const nextResponse = await api.get(
-            `/category?page=${currentPage + 1}&size=5`,
-          );
-          setNextPageData(nextResponse.data.data);
-        }
       } catch (error) {
-        console.error(error);
+        console.error(error, "카테고리 안 불러옴");
       }
     };
     fetchCategories();
@@ -113,17 +112,20 @@ const Categorylist = () => {
 
   const handleCategoryClick = (name) => {
     setSearchTerm(name);
-    navi(`/itemlist?serch=${searchTerm}`);
+    navi(`/itemlist?search=${name}`);
   };
 
+  useEffect(() => {
+    const startIdx = (currentPage - 1) * pageSize;
+    const endIdx = startIdx + pageSize;
+    setVisibleCategory(categoryData.slice(startIdx, endIdx));
+  }, [currentPage, categoryData]);
+
   const prevPage = () => {
-    setCurrentPage((page) => Math.max(page - 1, 0));
-    console.log(currentPage, "이전");
+    setCurrentPage((page) => Math.max(page - 1, 1));
   };
   const nextPage = () => {
     setCurrentPage((page) => page + 1);
-    setCategoryData(nextPageData);
-    console.log(currentPage, "앞으로");
   };
   return (
     <CategoryContainer className="Category-Container">
@@ -135,8 +137,8 @@ const Categorylist = () => {
           disabled={!(currentPage - 1)}
         />
         <ul>
-          {categoryData.map((category) => (
-            <li key={category.categoryid}>
+          {visibleCategory.map((category, idx) => (
+            <li key={idx}>
               <div
                 className="category-img"
                 role="button"
@@ -162,7 +164,7 @@ const Categorylist = () => {
         <button
           className="right-button"
           onClick={nextPage}
-          disabled={!nextPageData.length}
+          disabled={visibleCategory.length < pageSize}
         />
       </div>
     </CategoryContainer>

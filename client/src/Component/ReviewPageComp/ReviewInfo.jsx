@@ -1,11 +1,9 @@
 import styled from "styled-components";
 import { useState, useEffect } from "react";
-import { useRecoilState } from "recoil";
 import ImgBtn from "../style/ImgBtn";
 import Input from "../style/StyleInput";
 import Plus from "../style/img/signup.svg";
 import { useInput } from "../../hooks/useInput";
-import { ReviewState } from "../../state/atoms/ReviewAtom";
 
 const ReviewContainer = styled.div`
   width: 100%;
@@ -116,34 +114,49 @@ const Imgadd = styled.div`
   }
 `;
 
-const ReviewInfo = () => {
+const ReviewInfo = ({ reviewData, setReviewData }) => {
+  const [showImages, setShowImages] = useState(reviewData.image);
+  const [rating, setRating] = useState(reviewData.rating);
   const [{ title, content }, onInputChange] = useInput({
-    title: "",
-    content: "",
+    title: `${reviewData.title}`,
+    content: `${reviewData.content}`,
   });
-  const [rating, setRating] = useState("");
-  const [showImages, setShowImages] = useState([]);
-  const [reviewData, setReviewData] = useRecoilState(ReviewState);
+  useEffect(() => {
+    const image = showImages.map((image) => image);
+    setReviewData({
+      title,
+      content,
+      image,
+      rating,
+    });
+    console.log(showImages, "리뷰 데이터");
+  }, [title, content, showImages, rating, setReviewData]);
 
-  //rating 변경 함수
-  const handleRating = (choice) => {
-    setRating(choice);
-    console.log(rating);
-  };
   // 이미지 추가 기능
-  const handleAddImages = (e) => {
+  const handleAddImages = async (e) => {
     const imgLists = e.target.files;
     let imgUrlLists = [...showImages];
     for (let i = 0; i < imgLists.length; i++) {
-      const currentImgUrl = URL.createObjectURL(imgLists[i]);
-      imgUrlLists.push({ photoUrl: currentImgUrl });
+      const reader = new FileReader();
+      reader.readAsDataURL(imgLists[i]);
+      const readFile = () =>
+        new Promise((res) => {
+          reader.onload = () => {
+            // const currentImgUrl = URL.createObjectURL(imgLists[i]);
+            res(reader.result);
+          };
+        });
+      const currentImgUrl = await readFile();
+      imgUrlLists.push({
+        imageName: imgLists[i].name,
+        image: currentImgUrl,
+      });
     }
     // 3개넘게 선택 시 3개만 잘라서 보여주기
     if (imgUrlLists.length > 3) {
       imgUrlLists = imgUrlLists.slice(0, 3);
     }
     setShowImages(imgUrlLists);
-    console.log(showImages);
   };
   // 이미지 삭제 기능
   const handleDeleteImage = (id) => {
@@ -152,16 +165,10 @@ const ReviewInfo = () => {
     console.log(updatedImages.length);
   };
 
-  useEffect(() => {
-    // const photo = showImages.map((image) => image);
-    setReviewData({
-      title,
-      content,
-      // photo,
-      rating,
-    });
-    console.log(reviewData);
-  }, [title, content, rating]);
+  //rating 변경 함수
+  const handleRating = (choice) => {
+    setRating(choice);
+  };
   return (
     <ReviewContainer className="Review-Container">
       <div className="review-title">
@@ -199,7 +206,8 @@ const ReviewInfo = () => {
         <Imgul>
           {showImages.map((image, id) => (
             <li className="review-img" key={id}>
-              <img src={image.photoUrl} alt={`${image.photoUrl}-${id}`} />
+              <img src={image.image} alt={`${image.name}-${id}`} />
+              {console.log(image, "맵안 이미지")}
               <div>
                 <button onClick={() => handleDeleteImage(id)}>X</button>
               </div>
@@ -228,7 +236,7 @@ const ReviewInfo = () => {
           </label>
           <ImgBtn
             name="like"
-            imgstyle="LIKE"
+            imgstyle={rating === "LIKE" ? "LIKEActive" : "LIKE"}
             onClick={() => handleRating("LIKE")}
           />
         </div>
@@ -238,7 +246,7 @@ const ReviewInfo = () => {
           </label>
           <ImgBtn
             name="hate"
-            imgstyle="HATE"
+            imgstyle={rating === "HATE" ? "HATEActive" : "HATE"}
             onClick={() => handleRating("HATE")}
           />
         </div>

@@ -35,7 +35,7 @@ const KeywordBoxLeftArea = styled.div`
     display: flex;
     align-items: center;
     > h2 {
-      flex-basis: 170px;
+      flex-basis: 150px;
     }
     > svg {
       width: 20px;
@@ -56,7 +56,7 @@ const FormArea = styled.form`
   display: flex;
   flex-wrap: wrap;
   > input {
-    width: 84%;
+    width: calc(100% - 200px);
     border-right: none;
     border-radius: 10px 0 0 10px;
     text-indent: 10px;
@@ -68,7 +68,29 @@ const SubmitBtn = styled.button`
   border-radius: 0 10px 10px 0;
   border: 1px solid #ccc;
   border-left: none;
-  font-size: 14px;
+  font-size: 16px;
+  font-weight: 500;
+  background-color: white;
+  color: var(--black-450);
+  position: relative;
+  :nth-of-type(1) {
+    border-right: none;
+    border-radius: 0;
+    ::after {
+      content: "";
+      display: inline-block;
+      width: 1px;
+      height: 12px;
+      background-color: #ccc;
+      position: absolute;
+      right: 0;
+      top: 14px;
+    }
+  }
+
+  :hover {
+    color: var(--eatsgreen);
+  }
 `;
 /** 박스 내부 인기키워드 묶음 */
 const HotKeyword = styled.div`
@@ -83,6 +105,9 @@ const StoreKeywordSearch = () => {
   const [randomKeywords, setRandomKeywords] = useState([]);
   const setSearchInputState = useSetRecoilState(searchInputState);
 
+  useEffect(() => {
+    setSearchInputState("");
+  }, []);
   // 현재 페이지에서만 작동하는 searchTagInput 입력되면 2중검색태그키워드에 저장된다.
   const handleFormSubmit = (event) => {
     event.preventDefault();
@@ -97,7 +122,7 @@ const StoreKeywordSearch = () => {
   };
   //인기키워드가 클릭되면 setSearchInput에 클릭된값을 넣는다(화면용), setSearchInputState(실제 검색용)값도 변경시킨다.
   const handleKeywordClick = (keyword) => {
-    setSearchInput(keyword);
+    // setSearchInput(keyword);
     setSearchInputState(keyword);
     console.log("인기키워드 클릭시 검색으로 전달된 값 :", keyword);
   };
@@ -111,11 +136,14 @@ const StoreKeywordSearch = () => {
   useEffect(() => {
     refreshKeywords();
   }, []);
+  const deleteKeywords = () => {
+    setSearchInputState("");
+  };
   return (
     <>
       <StoreKeywordBox>
         <KeywordBoxLeftArea>
-          <Title>원하는 키워드가 있나요?</Title>
+          <Title>필요한 태그를 검색해주세요</Title>
           <FormArea onSubmit={handleFormSubmit}>
             <Input
               type="text"
@@ -123,10 +151,11 @@ const StoreKeywordSearch = () => {
               value={searchTagInput}
               onChange={handleInputChange}
             />
-            <SubmitBtn>제출하기</SubmitBtn>
+            <SubmitBtn>검색하기</SubmitBtn>
+            <SubmitBtn onClick={deleteKeywords}>태그삭제</SubmitBtn>
           </FormArea>
           <div className="hotHeaderWrap">
-            <Title>인기 키워드로 찾기</Title>
+            <Title>인기 태그로 찾기</Title>
             <GrPowerReset onClick={refreshKeywords} />
           </div>
 

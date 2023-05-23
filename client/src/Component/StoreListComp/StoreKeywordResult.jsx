@@ -6,14 +6,10 @@ import ReactPaginate from "react-paginate";
 import ImgBtn from "../style/ImgBtn";
 import styled from "styled-components";
 import { useRecoilValue } from "recoil";
-import {
-  searchResultsState,
-  searchInputState,
-} from "../../state/atoms/SearchStateAtom";
+import { searchResultsState } from "../../state/atoms/SearchStateAtom";
 import { searchStateTag } from "../../state/atoms/SearchStateTagAtom";
 import memberState from "../../state/atoms/SignAtom";
 
-console.log("2차검색키워드 저장중인 값", searchInputState.data);
 const NoResult = () => <div>검색결과가 없습니다</div>;
 const StoreKeywordResult = () => {
   const [, setLoading] = useState(true);
@@ -35,11 +31,14 @@ const StoreKeywordResult = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await api.get("members/mypage");
+        const refreshPageData = await api.get("/restaurants");
+        setStores(refreshPageData.data);
+        console.log("새로고침시 데이터받기11", refreshPageData);
+        console.log("새로고침시 데이터받기22", refreshPageData.data);
+        console.log("새로고침시 데이터받기33", refreshPageData.data.data);
+
+        const response = await api.get("/members/mypage");
         setUserDataFavor(response.data.favorites);
-        const refreshPageData = await api.get("/restaurants?page=1&size=30");
-        console.log("새로고침시 데이터받기", refreshPageData.data.data);
-        setStores(refreshPageData.data.data);
       } catch (error) {
         console.error("에러", error);
       }
@@ -47,6 +46,7 @@ const StoreKeywordResult = () => {
     fetchData();
   }, []);
   console.log("로그인된 사용자 즐겨찾기목록", userDataFavor);
+  console.log("새로고침시 데이터받기 stores에 저장값", stores);
 
   const handleButtonClick = async (restaurantId) => {
     try {
@@ -107,7 +107,7 @@ const StoreKeywordResult = () => {
           data = [...results];
           console.log("2차검색 '없'을때 필터시작할거", data);
         } else {
-          data = stores.data;
+          data = [...stores];
           console.log(
             "가게리스트 클릭해서 왔거나, 새로고침했을때 store에 저장했던 데이터:",
             data,
@@ -124,7 +124,7 @@ const StoreKeywordResult = () => {
           console.log("즐겨찾기순 데이터 :", data);
         }
         setStores(data);
-        console.log("필터링거쳐 저장된 가게데이터 :", stores);
+        console.log("최신순,리뷰순,즐찾순으로 저장된 가게데이터 :", data);
         setLoading(false);
       } catch (error) {
         console.error("Error fetching data: ", error);

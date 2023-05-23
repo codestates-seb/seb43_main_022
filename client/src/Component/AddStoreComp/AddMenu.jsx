@@ -97,10 +97,11 @@ const AddMenu = ({ formData, setFormData }) => {
     if (!name || !price) return;
     const updatedMenu = [...menu, { name, price }];
     setMenu(updatedMenu);
-    setFormData({
+    const updatedFormData = {
       ...rest,
-      menu: updatedMenu,
-    });
+      menu: updatedMenu.filter((item) => item !== null),
+    };
+    setFormData(updatedFormData);
   };
 
   const onMenuKeyPress = (e) => {
@@ -117,7 +118,13 @@ const AddMenu = ({ formData, setFormData }) => {
   };
 
   const onDeleteMenu = (index) => {
-    setMenu(menu.filter((item, idx) => idx !== index));
+    const updatedMenu = menu.filter((item, idx) => idx !== index);
+    setMenu(updatedMenu);
+
+    // 삭제된 항목을 formData에서 제외하도록 업데이트
+    const updatedFormData = { ...formData, menu: updatedMenu };
+    setFormData(updatedFormData);
+    console.log(formData);
   };
 
   return (

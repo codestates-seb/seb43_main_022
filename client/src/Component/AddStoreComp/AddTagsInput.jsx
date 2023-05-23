@@ -96,7 +96,7 @@ const AddTagsInput = ({ onAddTag, formData }) => {
   const removeTag = async (nameToRemove) => {
     const updatedTags = tag.filter((tag) => tag.name !== nameToRemove);
     setTag(updatedTags);
-    onAddTag(updatedTags);
+    // onAddTag(updatedTags);
   };
   return (
     <AddInfoTagWrap>

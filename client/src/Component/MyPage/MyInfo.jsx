@@ -1,7 +1,6 @@
 import styled from "styled-components";
 import Input from "./../style/StyleInput";
 import Button from "../style/StyleButton";
-import profile from "./../style/img/profile.png";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { api } from "../../Util/api";
@@ -60,7 +59,7 @@ const Profile = styled.div`
     height: 130px;
     width: 130px;
     border: none;
-    border-radius: 100%;
+    border-radius: 50%;
     margin-right: 50px;
   }
 `;
@@ -182,7 +181,6 @@ const MyInfo = () => {
     longitude: "",
     password: "",
     businessAccount: false,
-    photo: profile,
   });
 
   const [patchData, setPatchData] = useState({
@@ -303,7 +301,7 @@ const MyInfo = () => {
     const fetchUserData = async () => {
       try {
         const response = await api.get("members/mypage");
-        const { memberId, nickName, email, businessAccount, photo } =
+        const { memberId, nickName, email, businessAccount, image } =
           response.data;
         console.log("전체", response.data);
         setUserData({
@@ -313,7 +311,7 @@ const MyInfo = () => {
           email: email,
           location: response.data.address.streetAddress,
           businessAccount: businessAccount,
-          photo: photo || profile,
+          image: image,
         });
       } catch (error) {
         console.error("Failed to fetch user data:", error);
@@ -347,7 +345,7 @@ const MyInfo = () => {
     <Container>
       <Profile>
         <InfoName>프로필 이미지</InfoName>
-        <img className="profile-img" src={userData.photo} alt="profile" />
+        <img className="profile-img" src={userData.image} alt="profile" />
       </Profile>
       {!memberUpdate ? (
         <div className="info">
@@ -376,7 +374,7 @@ const MyInfo = () => {
           <Buttons>
             {/* 서버연결 후 확인하기 */}
             <div>
-              {!userData.businessAccount ? (
+              {userData.businessAccount ? (
                 <BusinessAccount>
                   <InfoReName>사업자 계정</InfoReName>
                   <button

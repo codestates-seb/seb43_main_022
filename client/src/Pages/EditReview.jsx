@@ -15,7 +15,7 @@ const BasicContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin-bottom: 70px;
+  margin: 90px 0px;
 `;
 const ButtonContainer = styled.div`
   width: 100%;
@@ -44,7 +44,6 @@ const EditReview = () => {
       }
     };
     fetchReviewData();
-    console.log("review 데이터 : ", reviewData);
   }, []);
 
   // 리뷰 남기기 버튼
@@ -82,13 +81,9 @@ const EditReview = () => {
   return (
     <BasicContainer className="Basic-Container">
       <ResInfo />
-
       {reviewData.title ? (
         <ReviewInfo reviewData={reviewData} setReviewData={setReviewData} />
-      ) : (
-        console.log("nonononononononon")
-      )}
-
+      ) : null}
       <ButtonContainer className="Button-Container">
         <Button btnstyle="Btn" onClick={hendleDelete}>
           리뷰 삭제

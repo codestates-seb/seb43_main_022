@@ -125,10 +125,7 @@ const ReviewItem = ({ data, onDelete }) => {
       <Container>
         <ReviewHead>
           <Left>
-            <Profile
-              src={data.member.photo || defaultProfile}
-              alt="defaultProfile"
-            />
+            <Profile src={data.member.image || defaultProfile} />
             <TitleInfo>
               <div className="title">{data.title}</div>
               <div className="day-button">
@@ -159,12 +156,18 @@ const ReviewItem = ({ data, onDelete }) => {
           <div className="username">{data.member.nickName}</div>
           <div className="contents">
             <Text>{data.content}</Text>
-            {/* <Photo>
-              {data.photo.map((data, imgIndex) => (
-                <PhotoItem key={imgIndex} src={data.photo}  />
-              ))}
-            </Photo> */}
-            <Photo>{data.photo ? <PhotoItem src={data.photo} /> : null}</Photo>
+            <Photo>
+              {data.image &&
+                data.image.length > 0 &&
+                data.image.map((imageData) => (
+                  <PhotoItem
+                    key={imageData.imageId}
+                    src={imageData.image}
+                    alt={imageData.imageName}
+                  />
+                ))}
+            </Photo>
+            {/* <Photo>{data.photo ? <PhotoItem src={data.photo} /> : null}</Photo> */}
           </div>
         </ReviewContent>
       </Container>

@@ -26,7 +26,7 @@ const Intro = styled.div`
 
 const StoreIntro = () => {
   const [data, setData] = useState({
-    photoUrl: defaultImg,
+    image: defaultImg,
     content: "",
   });
   const { res_id } = useParams();
@@ -35,9 +35,9 @@ const StoreIntro = () => {
     const fetchData = async () => {
       try {
         const response = await api.get(`/restaurants/${res_id}`);
-        const { photoUrl, content } = response.data;
+        const { image, content } = response.data;
         const newData = {
-          photoUrl: photoUrl || defaultImg,
+          image: image || defaultImg,
           content,
         };
         setData(newData);
@@ -50,7 +50,7 @@ const StoreIntro = () => {
 
   return (
     <Container>
-      <Image src={data.photoUrl} alt="defaultImg" />
+      <Image src={data.image} alt="defaultImg" />
       <Intro>{data.content}</Intro>
     </Container>
   );

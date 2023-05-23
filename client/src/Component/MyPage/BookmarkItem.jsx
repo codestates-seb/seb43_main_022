@@ -15,7 +15,7 @@ const Container = styled.div`
 const StoreName = styled.div`
   font-size: var(--large-font);
   margin-top: 30px;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 `;
 
 const Content = styled.div`
@@ -48,7 +48,7 @@ const BtnDiv = styled.div`
   background: white;
 `;
 
-const BookmarkItem = ({ data, setData, idx }) => {
+const BookmarkItem = ({ setData, data, setSlice, idx, setCount }) => {
   const [del, setDel] = useState(false);
 
   const deleteFunc = (key) => {
@@ -57,8 +57,10 @@ const BookmarkItem = ({ data, setData, idx }) => {
       .then(() => {
         api.get("/members/mypage").then((res) => {
           setData(res.data.favorites);
+          setSlice(res.data.favorites.slice(0, 6));
           console.log(res);
         });
+        setCount(0);
       })
       .catch((err) => console.log(err));
   };
@@ -69,7 +71,7 @@ const BookmarkItem = ({ data, setData, idx }) => {
         <>
           <StoreName>{data[idx].restaurantName}</StoreName>
           <Content>
-            <div className="area">{data[idx].address.streetAddress}</div>
+            <div className="area">{data[idx].streetAddress}</div>
             <div className="BtnDiv">
               <div className="menu">{data[idx].category}</div>
               <button className="Btn" onClick={() => setDel(!del)}>
@@ -82,7 +84,7 @@ const BookmarkItem = ({ data, setData, idx }) => {
         <>
           <StoreName>{data[idx].restaurantName}</StoreName>
           <Content>
-            <div className="area">{data[idx].address.streetAddress}</div>
+            <div className="area">{data[idx].streetAddress}</div>
             <div className="BtnDiv">
               <div className="menu">{data[idx].category}</div>
               <BtnDiv className="BtnDiv">

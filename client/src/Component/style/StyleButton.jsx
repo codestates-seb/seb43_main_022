@@ -18,21 +18,11 @@ const BtnType = {
     --font-size: 16px;
     --color: var(--black-900);
     &:focus {
-      box-shadow: 0px 1px 1px 0px #00000040;
-      background-color: var(--eatsgreen);
+      background: var(--eatsgreen);
       color: var(--white);
     }
   `,
 
-  Btn3: css`
-    --width: auto;
-    --padding: 10px 10px 10px 10px;
-    --height: 35px;
-    --background: var(--eatsgreen);
-    --border: 1px solid var(--black-200);
-    --font-size: 16px;
-    --color: var(--white);
-  `,
   HBtn: css`
     --min-width: 87px;
     --width: auto;
@@ -146,7 +136,7 @@ export const StyleButton = styled.button`
     border: none;
   }
 
-  &: active {
+  &:active {
     background: var(--active-background, var(--eatsgreen));
     border: none;
     color: var(--active-color, var(--white));

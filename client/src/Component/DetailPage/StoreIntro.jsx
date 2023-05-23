@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
-import defaultImg from "../style/img/defaultImg.png";
 import { api } from "../../Util/api";
+import { useParams } from "react-router-dom";
 
 const Container = styled.div`
   margin: auto;
@@ -12,7 +12,7 @@ const Image = styled.img`
   width: 1200px;
   height: 223px;
   border-radius: 30px;
-  border: none;
+  border: 1px solid gray;
   margin-top: 20px;
 `;
 
@@ -25,17 +25,18 @@ const Intro = styled.div`
 
 const StoreIntro = () => {
   const [data, setData] = useState({
-    photo: defaultImg,
+    image: "",
     content: "",
   });
+  const { res_id } = useParams();
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await api.get("/restaurants/1");
-        const { photo, content } = response.data;
+        const response = await api.get(`/restaurants/${res_id}/detail`);
+        const { image, content } = response.data;
         const newData = {
-          photo: photo || defaultImg,
+          image,
           content,
         };
         setData(newData);
@@ -48,7 +49,7 @@ const StoreIntro = () => {
 
   return (
     <Container>
-      <Image src={data.photo} alt="defaultImg" />
+      <Image src={data.image} />
       <Intro>{data.content}</Intro>
     </Container>
   );

@@ -39,6 +39,10 @@ const RouteList = [
     element: <Signup />,
   },
   {
+    path: "/detail/:res_id",
+    element: <DetailPage />,
+  },
+  {
     path: "/detail",
     element: <DetailPage />,
   },
@@ -49,10 +53,6 @@ const RouteList = [
   {
     path: "/editstore/:id",
     element: <EditStore />,
-  },
-  {
-    path: "/review/restaurants/:res_id",
-    element: <Review />,
   },
 ];
 

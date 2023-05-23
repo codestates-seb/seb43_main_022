@@ -42,7 +42,11 @@ const ReviewContainer = () => {
   const navigate = useNavigate();
   const { res_id } = useParams();
   const onClickReview = () => {
-    navigate(`/review/restaurants/${res_id}`);
+    {
+      sessionStorage.getItem("Authorization")
+        ? navigate(`/review/restaurants/${res_id}`)
+        : navigate(`/login`);
+    }
   };
 
   const data = useRecoilValue(reviewDataAtom);
@@ -98,6 +102,7 @@ const ReviewContainer = () => {
             </Button>
           </Buttons>
         </Order>
+
         <Button btnstyle="Btn" onClick={onClickReview}>
           리뷰 남기기
         </Button>

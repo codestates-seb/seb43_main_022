@@ -54,10 +54,6 @@ const RouteList = [
     path: "/editstore/:id",
     element: <EditStore />,
   },
-  {
-    path: "/review/restaurants/:res_id",
-    element: <Review />,
-  },
 ];
 
 export default RouteList;

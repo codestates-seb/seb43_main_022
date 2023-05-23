@@ -29,6 +29,13 @@ const Title = styled.div`
 const Buttons = styled.div`
   display: flex;
   flex-direction: row;
+  align-items: center;
+`;
+
+const VerticalLine = styled.div`
+  width: 1px;
+  height: 20px;
+  background-color: var(--black-350);
 `;
 
 const ReviewContainer = () => {
@@ -81,9 +88,11 @@ const ReviewContainer = () => {
             <Button btnstyle="SBtn" onClick={handleLatest}>
               최신순
             </Button>
+            <VerticalLine />
             <Button btnstyle="SBtn" className="latest" onClick={handlePositive}>
               긍정순
             </Button>
+            <VerticalLine />
             <Button btnstyle="SBtn" onClick={handleNegative}>
               부정순
             </Button>

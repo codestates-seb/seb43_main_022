@@ -104,7 +104,7 @@ const StoreInfo = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await api.get(`/restaurants/${res_id}`);
+        const response = await api.get(`/restaurants/${res_id}/detail`);
         const data = response.data;
         setData(data);
       } catch (error) {

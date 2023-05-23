@@ -71,7 +71,7 @@ const StoreHead = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await api.get(`/restaurants/${res_id}`);
+        const response = await api.get(`/restaurants/${res_id}/detail`);
         const data = response.data;
         console.log(response.data);
         setData(data);

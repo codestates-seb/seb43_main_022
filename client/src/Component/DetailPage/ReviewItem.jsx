@@ -1,7 +1,6 @@
 import styled from "styled-components";
 import Button from "../style/StyleButton";
 import ImgBtn from "../style/ImgBtn";
-import defaultProfile from "../style/img/profile.png";
 import { useParams, useNavigate } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import memberState from "../../state/atoms/SignAtom";
@@ -88,6 +87,7 @@ const VerticalLine = styled.div`
 `;
 const Photo = styled.div`
   display: flex;
+  width: 1200px;
   flex-direction: row;
   margin-top: 20px;
   overflow: hidden; //<PotoItem>이 컨테이너에 가득 차게 되면 가로 스크롤이 생기지 않고 숨겨진 상태로 보여짐
@@ -98,6 +98,7 @@ const PhotoItem = styled.img`
   flex-shrink: 0; //아이템의 크기를 고정시키기 위해 flex-shrink 속성 추가
   margin-right: 10px;
   margin-top: 50px;
+  border: 1px solid gray;
 `;
 
 const ReviewItem = ({ data, onDelete }) => {
@@ -125,7 +126,7 @@ const ReviewItem = ({ data, onDelete }) => {
       <Container>
         <ReviewHead>
           <Left>
-            <Profile src={data.member.image || defaultProfile} />
+            <Profile src={data.member.image} />
             <TitleInfo>
               <div className="title">{data.title}</div>
               <div className="day-button">
@@ -167,7 +168,6 @@ const ReviewItem = ({ data, onDelete }) => {
                   />
                 ))}
             </Photo>
-            {/* <Photo>{data.photo ? <PhotoItem src={data.photo} /> : null}</Photo> */}
           </div>
         </ReviewContent>
       </Container>

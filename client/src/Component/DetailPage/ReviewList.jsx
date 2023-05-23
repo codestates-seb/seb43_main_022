@@ -34,7 +34,7 @@ const ReviewList = ({ data }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await api.get(`/restaurants/${res_id}`);
+        const response = await api.get(`/restaurants/${res_id}/detail`);
         setReviewData(response.data.reviews);
         console.log(response.data.reviews);
       } catch (error) {

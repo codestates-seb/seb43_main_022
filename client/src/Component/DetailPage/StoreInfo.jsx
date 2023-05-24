@@ -62,7 +62,7 @@ const Modify = styled.div`
     position: absolute;
     top: 50%;
     left: 0%;
-    width: ${(props) => (props.showButton ? "800px" : "900px")};
+    width: ${(props) => (props.showButton ? "880px" : "980px")};
 
     height: 1px;
     background-color: var(--black-200);
@@ -147,7 +147,9 @@ const StoreInfo = () => {
         </MenuList>
       </Container>
       <Modify showButton={member.memberId === data.member.memberId}>
-        <span>{`최종 업데이트 ${data.modifiedAt || data.createdAt}`}</span>
+        <span>{`최종 업데이트 ${
+          data.modifiedAt.slice(0, 10) || data.createdAt.slice(0, 10)
+        }`}</span>
         {member.memberId === data.member.memberId ? (
           <Button btnstyle="SBtn2" onClick={onClickModify}>
             수정

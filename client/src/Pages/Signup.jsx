@@ -132,7 +132,7 @@ const { kakao } = window;
 function Signup() {
   const imgRef = useRef();
   const navi = useNavigate();
-  const [imageName, setImageName] = useState("");
+  const [imageName, setImageName] = useState(null);
   const [member, setMember] = useState({
     email: "",
     username: "",
@@ -143,7 +143,7 @@ function Signup() {
     photo: "",
   });
 
-  const [imgFile, setImgFile] = useState(""); // 프로필 이미지 상태
+  const [imgFile, setImgFile] = useState(null); // 프로필 이미지 상태
   const [pwCheck, setPwCheck] = useState(""); // 비밀번호 확인
   const [Address, setAddress] = useState({
     address: "",

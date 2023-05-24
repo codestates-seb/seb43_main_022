@@ -133,7 +133,6 @@ const Header = () => {
     setSearchResults(response.data.data);
 
     setSearchKeyword(searchInput);
-
     setSearchInput("");
     navi(`/itemlist?search=${encodedSearchTerm}`);
   };

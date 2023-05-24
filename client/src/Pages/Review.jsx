@@ -4,7 +4,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import Button from "../Component/style/StyleButton";
 import ResInfo from "../Component/ReviewPageComp/ResInfo";
 import ReviewInfo from "../Component/ReviewPageComp/ReviewInfo";
-import Loading from "../Component/Loading";
+// import Loading from "../Component/Loading";
 import { ReviewState } from "../state/atoms/ReviewAtom";
 import { IsLoadingState } from "../state/atoms/IsLoadingAtom";
 import { api } from "../Util/api";

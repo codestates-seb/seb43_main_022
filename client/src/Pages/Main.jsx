@@ -1,7 +1,10 @@
 import styled from "styled-components";
+import { useRecoilValue } from "recoil";
 import Hotlist from "../Component/MainPageComp/Hotlist";
 import Categorylist from "../Component/MainPageComp/Categorylist";
 import KakaoMap from "../Component/MainPageComp/KakaoMainMap";
+import Loading from "../Component/Loading";
+import { IsLoadingState } from "../state/atoms/IsLoadingAtom";
 
 const BasicContainer = styled.div`
   width: 100%;
@@ -21,12 +24,19 @@ const BasicContainer = styled.div`
 `;
 
 const Main = () => {
+  const isLoading = useRecoilValue(IsLoadingState);
   return (
-    <BasicContainer className="Basic-Container">
-      <KakaoMap />
-      <Hotlist />
-      <Categorylist />
-    </BasicContainer>
+    <>
+      {isLoading ? (
+        <Loading />
+      ) : (
+        <BasicContainer className="Basic-Container">
+          <KakaoMap />
+          <Hotlist />
+          <Categorylist />
+        </BasicContainer>
+      )}
+    </>
   );
 };
 

@@ -128,17 +128,11 @@ public class RestaurantController {
 
     @Transactional
     @GetMapping("/search")
-    public ResponseEntity searchRestaurants(@RequestParam(value = "keyword", name = "keyword") String keyword,
-                                            @RequestParam(value = "page", required = false) Integer page,
-                                            @RequestParam(value = "size", required = false) Integer size) {
+    public ResponseEntity searchRestaurants(@RequestParam(value = "keyword", name = "keyword") String keyword) {
 
-        if (page == null) page = 1;
-        if (size == null) size = 4;
-        Page<Restaurant> restaurantPage = restaurantService.searchRestaurants(keyword,page - 1, size);
-        List<Restaurant> restaurants = restaurantPage.getContent();
+        List<Restaurant> restaurants = restaurantService.searchRestaurants(keyword);
 
-        return new ResponseEntity<>(
-                new MultiResponseDto<>(mapper.restaurantToRestaurantResponseDtos(restaurants), restaurantPage), HttpStatus.OK);
+        return new ResponseEntity<>(mapper.restaurantToRestaurantResponseDtos(restaurants), HttpStatus.OK);
     }
 
 //    @Transactional

@@ -190,9 +190,9 @@ public class RestaurantService {
         restaurantRepository.delete(findRestaurant);
     }
 
-    public Page<Restaurant> searchRestaurants(String keyword, int page, int size) {
+    public List<Restaurant> searchRestaurants(String keyword) {
 
-        return restaurantRepository.searchByKeyword(keyword, PageRequest.of(page, size, Sort.by("restaurantId").descending()));
+        return restaurantRepository.searchByKeyword(keyword);
     }
 
     public void updateView(Restaurant restaurant) {

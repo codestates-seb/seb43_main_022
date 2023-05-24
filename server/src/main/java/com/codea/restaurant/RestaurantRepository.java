@@ -18,7 +18,7 @@ public interface RestaurantRepository extends JpaRepository<Restaurant, Long> {
 
     @Query("SELECT DISTINCT r FROM Restaurant r LEFT JOIN r.tagRestaurants tr LEFT JOIN tr.tag t " +
             "WHERE r.address.streetAddress LIKE %:keyword% OR r.restaurantName LIKE %:keyword% OR t.name LIKE %:keyword% OR r.category.name LIKE %:keyword%")
-    Page<Restaurant> searchByKeyword(@Param("keyword") String keyword, Pageable pageable);
+    List<Restaurant> searchByKeyword(@Param("keyword") String keyword);
     Page<Restaurant> findByCategory_Name(String name, Pageable pageable);
 
 

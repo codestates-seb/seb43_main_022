@@ -42,10 +42,10 @@ const ReviewContainer = () => {
   const navigate = useNavigate();
   const { res_id } = useParams();
   const onClickReview = () => {
-    {
-      sessionStorage.getItem("Authorization")
-        ? navigate(`/review/restaurants/${res_id}`)
-        : alert("로그인 후 이용해주세요.");
+    if (sessionStorage.getItem("Authorization")) {
+      navigate(`/review/restaurants/${res_id}`);
+    } else {
+      alert("로그인 후 이용해주세요.");
       navigate(`/login`);
     }
   };

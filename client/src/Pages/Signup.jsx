@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import Button from "../Component/style/StyleButton";
 import Input from "../Component/style/StyleInput";
-import Auth from "../Component/StyleAuth";
+
 import Plus from "../Component/style/img/signup.svg";
 import { SignupApi } from "../Util/SignupApi";
 
@@ -95,12 +95,6 @@ const Ceodiv = styled.div`
 const Ceospan = styled.span`
   color: var(--black-500);
   font-size: 14px;
-`;
-
-const Authdiv = styled.div`
-  display: flex;
-  flex-direction: column;
-  margin-top: 20px;
 `;
 
 const Errdiv = styled.div`
@@ -453,12 +447,6 @@ function Signup() {
           회원가입
         </Button>
       </Container>
-
-      <Authdiv>
-        <Auth Btnstyle="google"> 구글로 회원가입 </Auth>
-        <Auth Btnstyle="kakao"> 카카오로 회원가입 </Auth>
-      </Authdiv>
-      {console.log(imgFile)}
     </Main>
   );
 }

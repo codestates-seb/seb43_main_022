@@ -7,11 +7,14 @@ import isLoginState from "../state/atoms/IsLoginAtom";
 import Button from "../Component/style/StyleButton";
 import Input from "../Component/style/StyleInput";
 import Logo from "../Component/style/img/Eaaaaaaats.svg";
-import Auth from "../Component/StyleAuth";
+
 import { api } from "../Util/api";
 
 const Main = styled.div`
   flex-direction: column;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 const Container = styled.div`
@@ -56,11 +59,6 @@ const Errdiv = styled.div`
 const Errspan = styled.div`
   color: var(--red-500);
   font-size: 14px;
-`;
-const Authdiv = styled.div`
-  display: flex;
-  flex-direction: column;
-  margin-top: 20px;
 `;
 
 export default function Login() {
@@ -196,10 +194,6 @@ export default function Login() {
             </Link>
           </Btndiv>
         </Container>
-        <Authdiv>
-          <Auth Btnstyle="google"> 구글로 로그인 </Auth>
-          <Auth Btnstyle="kakao"> 카카오로 로그인 </Auth>
-        </Authdiv>
       </Main>
     </>
   );

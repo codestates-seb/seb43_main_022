@@ -91,9 +91,6 @@ const HotlistContainer = styled.div`
             p {
               font-size: 0.6em;
               color: var(--black-500);
-              &:hover {
-                color: var(--eatsgreen);
-              }
             }
           }
         }
@@ -167,9 +164,7 @@ const Hotlist = () => {
                       ? resInfo.tagRestaurants
                           .map((tag, idx) => (
                             <li className="res-tagli" key={idx}>
-                              <Link to={`/itemlist/search?=${tag.tag.name}`}>
-                                <p>#{tag.tag.name}</p>
-                              </Link>
+                              <p>#{tag.tag.name}</p>
                             </li>
                           ))
                           .slice(0, 2)

@@ -1,31 +1,43 @@
 import { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { Title } from "../../Pages/StoreList";
-import { useRecoilValue } from "recoil";
-import { searchTermState } from "../../state/atoms/SearchTermState";
 import { api } from "../../Util/api";
 import ReactPaginate from "react-paginate";
 import ImgBtn from "../style/ImgBtn";
 import styled from "styled-components";
+import { useRecoilValue, useSetRecoilState } from "recoil";
+import { searchResultsState } from "../../state/atoms/SearchStateAtom";
+import { searchStateTag } from "../../state/atoms/SearchStateTagAtom";
+import memberState from "../../state/atoms/SignAtom";
 
 const NoResult = () => <div>검색결과가 없습니다</div>;
 const StoreKeywordResult = () => {
-  const [stores, setStores] = useState([]);
-  const [, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(0);
-  const searchTerm = useRecoilValue(searchTermState);
   const resultsPerPage = 4;
   const [isHeartActive, setIsHeartActive] = useState(false);
   const [currentFilter, setCurrentFilter] = useState("createdAt");
   const [noResult, setNoResult] = useState(false);
-  const [userData, setUserData] = useState([]);
   const [userDataFavor, setUserDataFavor] = useState([]);
+  const [stores, setStores] = useState([]);
+  const member = useRecoilValue(memberState);
 
+  //해더에서 검색되서 온 값 result
+  const results = useRecoilValue(searchResultsState);
+  const setSearchResultsState = useSetRecoilState(searchResultsState);
+  //2차 검색해서 저장된 값 searchResults
+  const searchTagResults = useRecoilValue(searchStateTag);
+
+  console.log("헤더서치 검색결과 저장된 것 results :", results);
+  console.log("필터링데이터 searchTagResults :", searchTagResults);
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await api.get("members/mypage");
-        setUserData(response.data);
+        const refreshPageData = await api.get("/restaurants");
+        setSearchResultsState(refreshPageData.data);
+        console.log("새로고침시 데이터받기11", refreshPageData);
+        console.log("새로고침시 데이터받기22", refreshPageData.data);
+        console.log("새로고침시 데이터받기 stores에 저장값", results.data);
+        const response = await api.get("/members/mypage");
         setUserDataFavor(response.data.favorites);
       } catch (error) {
         console.error("에러", error);
@@ -33,11 +45,13 @@ const StoreKeywordResult = () => {
     };
     fetchData();
   }, []);
-  console.log("렌더링사용자데이터", userData);
-  console.log("렌더링사용자즐겨찾기값", userDataFavor);
+  console.log("로그인된 사용자 즐겨찾기목록", userDataFavor);
 
   const handleButtonClick = async (restaurantId) => {
     try {
+      if (!member.memberId) {
+        alert("로그인을해주세요");
+      }
       const isFavorite = userDataFavor.some(
         (fav) => fav.restaurantId === restaurantId,
       );
@@ -55,7 +69,6 @@ const StoreKeywordResult = () => {
         await api.post(`/favorites/restaurant/${restaurantId}`);
 
         const response = await api.get("members/mypage");
-        setUserData(response.data);
         setUserDataFavor(response.data.favorites);
       }
 
@@ -72,52 +85,54 @@ const StoreKeywordResult = () => {
   };
 
   const filterByReview = (a, b) => {
-    return b.total_review - a.total_review;
+    return b.total_reviews - a.total_reviews;
   };
 
   const filterByFavorites = (a, b) => {
-    return b.total_favorite - a.total_favorite;
+    return b.totalFavorite - a.totalFavorite;
   };
 
   useEffect(() => {
     const fetchStores = async () => {
       try {
         let data = [];
-        if (searchTerm.length !== 0) {
-          const response = await api.get(
-            `/restaurants/search?keyword=${searchTerm}`,
-          );
-          data = response.data.data;
-
-          if (data.length === 0) {
-            setNoResult(true);
-          } else {
-            setNoResult(false);
-          }
-        } else {
-          const allStoresResponse = await api.get("/restaurants");
-          data = allStoresResponse.data.data;
+        if (searchTagResults) {
+          //만약 searchResults가 있다면 searchResults값을 데이터로
+          data = [...searchTagResults];
+          console.log("2차검색 '있'을때 데이터(초기에도)", data);
         }
-
+        //검색된 결과값이 있으면 데이터는 헤더에서 검색된 값으로
+        else if (results) {
+          data = [...results];
+          console.log("2차검색 '없'을때 필터시작할거", data);
+        } else {
+          data = [...stores];
+          console.log(
+            "가게리스트 클릭해서 왔거나, 새로고침했을때 store에 저장했던 데이터:",
+            data,
+          );
+        }
         if (currentFilter === "createdAt") {
           data.sort(filterByLatest);
-        } else if (currentFilter === "total_review") {
+          console.log("최신순 데이터 :", data);
+        } else if (currentFilter === "total_reviews") {
           data.sort(filterByReview);
-        } else if (currentFilter === "total_favorite") {
+          console.log("리뷰순 데이터 :", data);
+        } else if (currentFilter === "totalFavorite") {
           data.sort(filterByFavorites);
+          console.log("즐겨찾기순 데이터 :", data);
         }
-
         setStores(data);
-        setLoading(false);
+        console.log("최신순,리뷰순,즐찾순으로 저장된 가게데이터 :", data);
       } catch (error) {
         console.error("Error fetching data: ", error);
-        setLoading(false);
+
         setNoResult(true);
       }
     };
 
     fetchStores();
-  }, [searchTerm, currentFilter]);
+  }, [currentFilter, results, searchTagResults]);
 
   const handlePageClick = ({ selected: selectedPage }) => {
     setCurrentPage(selectedPage);
@@ -143,8 +158,8 @@ const StoreKeywordResult = () => {
           <CardWrap>
             <StoreCard>
               <div className="photoUrl">
-                {store.photoUrl ? (
-                  <img src={store.photoUrl} alt={store.restaurantName} />
+                {store.image ? (
+                  <img src={store.image} alt={store.restaurantName} />
                 ) : (
                   "등록된 이미지가 없습니다."
                 )}
@@ -153,15 +168,19 @@ const StoreKeywordResult = () => {
               <h2 className="restaurantName">{store.restaurantName}</h2>
               <p className="content">{store.content}</p>
               <div className="Count">
-                <p>즐겨찾기 : {store.total_favorite}</p>
-                <p>리뷰 : {store.total_review}</p>
+                <p>즐겨찾기 : {store.totalFavorite}</p>
+                <p>리뷰 : {store.total_reviews}</p>
               </div>
               <div className="tagRestaurants">
-                {store.tagRestaurants.map((tag, index) => (
-                  <button key={index} className="tagButton">
-                    {tag.tag.name}
-                  </button>
-                ))}
+                {store.tagRestaurants
+                  ? store.tagRestaurants
+                      .map((tag, index) => (
+                        <button key={index} className="tagButton">
+                          {tag.tag.name}
+                        </button>
+                      ))
+                      .slice(0, 3)
+                  : null}
               </div>
             </StoreCard>
           </CardWrap>
@@ -198,14 +217,14 @@ const StoreKeywordResult = () => {
               최신순
             </FilterLi>
             <FilterLi
-              onClick={() => setCurrentFilter("total_review")}
-              className={currentFilter === "total_review" ? "active" : ""}
+              onClick={() => setCurrentFilter("total_reviews")}
+              className={currentFilter === "total_reviews" ? "active" : ""}
             >
               리뷰순
             </FilterLi>
             <FilterLi
-              onClick={() => setCurrentFilter("total_favorite")}
-              className={currentFilter === "total_favorite" ? "active" : ""}
+              onClick={() => setCurrentFilter("totalFavorite")}
+              className={currentFilter === "totalFavorite" ? "active" : ""}
             >
               즐겨찾기순
             </FilterLi>
@@ -316,7 +335,10 @@ const BtnPosition = styled.div`
   position: absolute;
   top: 20px;
   right: 20px;
-  button {
+  background-color: transparent;
+  svg {
+    width: 30px;
+    height: 30px;
     background-color: transparent;
   }
 `;

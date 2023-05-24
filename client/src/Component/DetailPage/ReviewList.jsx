@@ -5,11 +5,17 @@ import { useState, useEffect } from "react";
 import { useRecoilState } from "recoil";
 import { reviewDataAtom } from "../../state/atoms/reviewDataAtom";
 import { api } from "../../Util/api";
-
+import { useParams } from "react-router-dom";
 const ReviewListContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+`;
+
+const NoReviewMessage = styled.div`
+  margin-top: 100px;
+  color: gray;
+  font-size: 20px;
 `;
 
 const ReviewList = ({ data }) => {
@@ -18,6 +24,7 @@ const ReviewList = ({ data }) => {
   const [allReviews, setAllReviews] = useState(false);
   const [showButton, setShowButton] = useState(true);
 
+  const { res_id } = useParams();
   useEffect(() => {
     setDisplayData(data);
   }, [data]);
@@ -33,7 +40,7 @@ const ReviewList = ({ data }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await api.get(`/restaurants/1`); //${restaurant-id}
+        const response = await api.get(`/restaurants/${res_id}/detail`);
         setReviewData(response.data.reviews);
         console.log(response.data.reviews);
       } catch (error) {
@@ -61,6 +68,9 @@ const ReviewList = ({ data }) => {
   };
   return (
     <ReviewListContainer>
+      {showReview.length === 0 && (
+        <NoReviewMessage>"리뷰가 없습니다!"</NoReviewMessage>
+      )}
       {showReview.map((data) => (
         <ReviewItem key={data.reviewId} data={data} onDelete={handleDelete} />
       ))}

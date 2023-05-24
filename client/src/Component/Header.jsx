@@ -2,14 +2,18 @@ import styled from "styled-components";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { api } from "../Util/api";
-import { useRecoilState, useResetRecoilState, useSetRecoilState } from "recoil";
 import isLoginState from "../state/atoms/IsLoginAtom";
 import memberState from "../state/atoms/SignAtom";
 import Button from "./style/StyleButton";
 import Logo from "./style/img/Eaaaaaaats.svg";
 import Search from "./style/img/search.png";
 import Frame from "./style/img/Frame.svg";
-import { searchTermState } from "../state/atoms/SearchTermState";
+import { useRecoilState, useResetRecoilState, useSetRecoilState } from "recoil";
+import {
+  searchResultsState,
+  searchKeywordState,
+} from "../state/atoms/SearchStateAtom";
+
 const Container = styled.header`
   width: 100vw;
   height: 69px;
@@ -36,13 +40,18 @@ const InputContainer = styled.div`
 const LoginDiv = styled.div`
   display: flex;
   justify-content: center;
-  width: 300px;
+  width: 240px;
   @media screen and (max-width: 850px) {
     justify-content: center;
     width: 210px;
   }
 `;
+const ListItem = styled(LoginDiv)`
+  width: 100px;
+  margin-left: 20px;
 
+  font-size: var(--medium-font);
+`;
 const Hinput = styled.input`
   min-width: 800px;
   height: 35px;
@@ -95,12 +104,15 @@ const Frameicon = styled.img`
 `;
 
 const Header = () => {
+  const navi = useNavigate();
   const resetMember = useResetRecoilState(memberState);
   const [isLogin, setIsLogin] = useRecoilState(isLoginState);
-  const [localSearchTerm, setLocalSearchTerm] = useState("");
-  const setSearchTerm = useSetRecoilState(searchTermState);
-  const navi = useNavigate();
   const [isComposing, setIsComposing] = useState(false);
+  const [serchKeywordHeader, setSerchKeywordHeader] = useState("");
+  const setSearchResultsState = useSetRecoilState(searchResultsState);
+  const setSearchKeywordState = useSetRecoilState(searchKeywordState);
+  // const setSearchDefaultState = useSetRecoilState(searchDefaultState);
+  // const setResult = useSetRecoilState(searchResultsState);
 
   const logoutFunc = () => {
     setIsLogin(!isLogin);
@@ -111,15 +123,23 @@ const Header = () => {
     navi("/");
   };
 
-  const handleSearch = () => {
-    const encodedSearchTerm = encodeURIComponent(localSearchTerm);
-    setSearchTerm(localSearchTerm);
-    setLocalSearchTerm("");
+  const handleSearch = async () => {
+    const encodedSearchTerm = encodeURIComponent(serchKeywordHeader);
+
+    const response = await api.get(
+      `/restaurants/search?keyword=${encodedSearchTerm}`,
+    );
+    // console.log(response.data);
+    setSearchResultsState(response.data.data);
+
+    setSearchKeywordState(serchKeywordHeader);
+
+    setSerchKeywordHeader("");
     navi(`/itemlist?search=${encodedSearchTerm}`);
   };
 
-  const handleInputChange = (e) => {
-    setLocalSearchTerm(e.target.value);
+  const handleInputChange = (event) => {
+    setSerchKeywordHeader(event.target.value);
   };
 
   const handleKeyDown = (e) => {
@@ -138,6 +158,18 @@ const Header = () => {
       handleSearch();
     }
   };
+
+  const handleLinkStoreList = async () => {
+    try {
+      const allStore = await api.get(`/restaurants`);
+      setSearchResultsState(allStore.data);
+      console.log(searchResultsState.data);
+      navi(`/itemlist`);
+    } catch (error) {
+      console.log(error);
+      alert("데이터를 불러오는 중 오류가 발생했습니다.");
+    }
+  };
   return (
     <>
       {!isLogin ? (
@@ -148,7 +180,7 @@ const Header = () => {
           <InputContainer>
             <Hinput
               placeholder="지역/ 상호/ 키워드를 입력해주세요."
-              value={localSearchTerm}
+              value={serchKeywordHeader}
               onChange={handleInputChange}
               onKeyDown={handleKeyDown}
               onCompositionStart={handleCompositionStart}
@@ -156,7 +188,11 @@ const Header = () => {
             />
             <SearchButton onClick={handleSearch} />
           </InputContainer>
-
+          <ListItem>
+            <Button btnstyle="HBtn" onClick={handleLinkStoreList}>
+              가게 리스트
+            </Button>
+          </ListItem>
           <LoginDiv>
             <Link to="/login">
               <Button btnstyle="HBtn">로그인</Button>
@@ -174,7 +210,7 @@ const Header = () => {
           <InputContainer>
             <IsLoginInput
               placeholder="지역/ 상호/ 키워드를 입력해주세요."
-              value={localSearchTerm}
+              value={serchKeywordHeader}
               onChange={handleInputChange}
               onKeyDown={handleKeyDown}
               onCompositionStart={handleCompositionStart}
@@ -182,6 +218,11 @@ const Header = () => {
             />
             <SearchButton onClick={handleSearch} />
           </InputContainer>
+          <ListItem>
+            <Button btnstyle="HBtn" onClick={handleLinkStoreList}>
+              가게 리스트
+            </Button>
+          </ListItem>
           <LoginDiv>
             <Link to="/mypage">
               <Button btnstyle="HBtn">

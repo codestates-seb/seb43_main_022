@@ -1,9 +1,8 @@
 import styled from "styled-components";
 import Input from "./../style/StyleInput";
 import Button from "../style/StyleButton";
-import profile from "./../style/img/profile.png";
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { api } from "../../Util/api";
 import { useRecoilState } from "recoil";
 import memberState from "../../state/atoms/SignAtom";
@@ -41,7 +40,7 @@ const LocationBtn = styled.button`
   background: var(--white);
 
   z-index: 90;
-  &: hover {
+  &:hover {
     background: var(--eatsgreen);
     color: var(--white);
   }
@@ -60,7 +59,7 @@ const Profile = styled.div`
     height: 130px;
     width: 130px;
     border: none;
-    border-radius: 100%;
+    border-radius: 50%;
     margin-right: 50px;
   }
 `;
@@ -106,8 +105,7 @@ const BusinessAccount = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-
-  > .button {
+  > .buttonIM {
     width: auto;
     height: 41px;
     min-width: 110px;
@@ -127,6 +125,22 @@ const BusinessAccount = styled.div`
   }
   text-align: center;
 `;
+
+const ButtonIm = styled.button`
+  width: auto;
+  height: 41px;
+  min-width: 110px;
+  color: white;
+  background-color: var(--eatsgreen);
+  border: 1px solid var(--eatsgreen);
+  border-radius: 30px;
+  font-size: var(--font-size, 18px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  cursor: pointer;
+`;
 const Btns = styled.div`
   display: flex;
   flex-direction: row;
@@ -137,7 +151,7 @@ const Btns = styled.div`
 `;
 const Errdiv = styled.div`
   padding-top: 5px;
-  paddin-left: 5px;
+  padding-left: 5px;
 `;
 const Errspan = styled.div`
   color: var(--red-500);
@@ -182,7 +196,6 @@ const MyInfo = () => {
     longitude: "",
     password: "",
     businessAccount: false,
-    photo: profile,
   });
 
   const [patchData, setPatchData] = useState({
@@ -303,7 +316,7 @@ const MyInfo = () => {
     const fetchUserData = async () => {
       try {
         const response = await api.get("members/mypage");
-        const { memberId, nickName, email, businessAccount, photo } =
+        const { memberId, nickName, email, businessAccount, image } =
           response.data;
         console.log("전체", response.data);
         setUserData({
@@ -313,7 +326,7 @@ const MyInfo = () => {
           email: email,
           location: response.data.address.streetAddress,
           businessAccount: businessAccount,
-          photo: photo || profile,
+          image: image,
         });
       } catch (error) {
         console.error("Failed to fetch user data:", error);
@@ -347,7 +360,7 @@ const MyInfo = () => {
     <Container>
       <Profile>
         <InfoName>프로필 이미지</InfoName>
-        <img className="profile-img" src={userData.photo} alt="profile" />
+        <img className="profile-img" src={userData.image} alt="profile" />
       </Profile>
       {!memberUpdate ? (
         <div className="info">
@@ -376,15 +389,12 @@ const MyInfo = () => {
           <Buttons>
             {/* 서버연결 후 확인하기 */}
             <div>
-              {!userData.businessAccount ? (
+              {userData.businessAccount ? (
                 <BusinessAccount>
                   <InfoReName>사업자 계정</InfoReName>
-                  <button
-                    className="button"
-                    onClick={() => navigate("/addstore")}
-                  >
-                    업체등록
-                  </button>
+                  <Link to="/addstore">
+                    <ButtonIm>업체등록</ButtonIm>
+                  </Link>
                 </BusinessAccount>
               ) : null}
             </div>

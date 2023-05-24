@@ -1,11 +1,13 @@
 import styled from "styled-components";
 import { useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
-// import { categoryState } from "../../state/atoms/CategoryAtom";
-import { categoryState } from "../../state/atoms/CategoryAtom";
-import { searchTermState } from "../../state/atoms/SearchTermState";
-import { api } from "../../Util/api";
 import { useNavigate } from "react-router";
+import { categoryState } from "../../state/atoms/CategoryAtom";
+import {
+  searchKeywordState,
+  searchResultsState,
+} from "../../state/atoms/SearchStateAtom";
+import { api } from "../../Util/api";
 
 const CategoryContainer = styled.div`
   width: 100%;
@@ -40,7 +42,10 @@ const CategoryContainer = styled.div`
         margin: 10px;
         overflow: hidden;
         position: relative;
-        transition: transform 0.3s;
+        box-shadow: 0px 1px 10px 1px var(--black-200);
+        &:hover {
+          box-shadow: 0px 1px 10px 1px var(--eatsgreen);
+        }
         img {
           width: 200px;
         }
@@ -51,6 +56,7 @@ const CategoryContainer = styled.div`
           transform: translate(-50%, -50%);
         }
         p {
+          width: 12vw;
           color: #fefefe;
           font-size: 24px;
           font-weight: bold;
@@ -87,7 +93,8 @@ const CategoryContainer = styled.div`
 `;
 const Categorylist = () => {
   const [categoryData, setCategoryData] = useRecoilState(categoryState);
-  const [, setSearchTerm] = useRecoilState(searchTermState);
+  const [, setSearchKeyword] = useRecoilState(searchKeywordState);
+  const [, setSearchResults] = useRecoilState(searchResultsState);
   const [currentPage, setCurrentPage] = useState(1);
   const [visibleCategory, setVisibleCategory] = useState([]);
   const navi = useNavigate();
@@ -106,9 +113,14 @@ const Categorylist = () => {
     fetchCategories();
   }, [currentPage, setCategoryData]);
 
-  const handleCategoryClick = (name) => {
-    setSearchTerm(name);
-    navi(`/itemlist?search=${name}`);
+  const handleCategoryClick = async (name) => {
+    const encodedCategoryName = encodeURIComponent(name);
+    const response = await api.get(
+      `/restaurants/search?keyword=${encodedCategoryName}&page=1&size=100`,
+    );
+    setSearchResults(response.data.data);
+    setSearchKeyword(name);
+    navi(`/itemlist?search=${encodedCategoryName}`);
   };
 
   useEffect(() => {
@@ -119,11 +131,9 @@ const Categorylist = () => {
 
   const prevPage = () => {
     setCurrentPage((page) => Math.max(page - 1, 1));
-    console.log(currentPage, "이전");
   };
   const nextPage = () => {
     setCurrentPage((page) => page + 1);
-    console.log(currentPage, "앞으로");
   };
   return (
     <CategoryContainer className="Category-Container">

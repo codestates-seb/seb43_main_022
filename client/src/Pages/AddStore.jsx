@@ -37,7 +37,8 @@ const AddStore = () => {
   const initFormData = {
     restaurantName: "",
     tag: [],
-    photoUrl: null,
+    imageName: null,
+    base64Image: null,
     content: "",
     tel: "",
     category: "",

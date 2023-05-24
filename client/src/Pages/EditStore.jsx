@@ -42,7 +42,8 @@ const EditStore = () => {
   const initFormData = {
     restaurantName: "",
     tag: null,
-    photoUrl: null,
+    imageName: null,
+    base64Image: null,
     content: "",
     tel: "",
     category: "",
@@ -63,7 +64,6 @@ const EditStore = () => {
         console.log("페이지렌더링시 저장된 데이터 : ", response.data);
       } catch (error) {
         console.error(error);
-        alert("업체 정보를 가져오는데 실패하였습니다.");
       }
     };
     fetchRestaurant();
@@ -74,21 +74,21 @@ const EditStore = () => {
       await api.patch(`/restaurants/${id}`, formData);
       console.log(formData);
       window.location.reload();
-      alert("업체 정보가 수정되었습니다.");
+      alert("리뷰 정보가 수정되었습니다.");
     } catch (error) {
       console.error(error);
-      alert("업체 정보 수정에 실패하였습니다.");
+      alert("리뷰 정보 수정에 실패하였습니다.");
     }
   };
   const deleteFormData = async () => {
-    if (window.confirm("업체 정보를 삭제하시겠습니까?")) {
+    if (window.confirm("리뷰를 정말 삭제하시겠습니까?")) {
       try {
         await api.delete(`/restaurants/${id}`);
-        alert("업체 정보가 삭제되었습니다.");
+        alert("리뷰가 삭제되었습니다.");
         navigate(-1);
       } catch (error) {
         console.error(error);
-        alert("업체 정보 삭제에 실패하였습니다.");
+        alert("리뷰 삭제에 실패하였습니다.");
       }
     }
   };

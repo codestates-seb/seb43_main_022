@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import Button from "../Component/style/StyleButton";
 import Input from "../Component/style/StyleInput";
-import Auth from "../Component/StyleAuth";
+
 import Plus from "../Component/style/img/signup.svg";
 import { SignupApi } from "../Util/SignupApi";
 
@@ -50,7 +50,8 @@ const Imglabel = styled.label`
 
 const Textdiv = styled.div`
   width: 100%;
-  height: 100px;
+  min-height: 90px;
+  height: auto;
   margin-bottom: 5px;
 `;
 
@@ -96,13 +97,8 @@ const Ceospan = styled.span`
   font-size: 14px;
 `;
 
-const Authdiv = styled.div`
-  display: flex;
-  flex-direction: column;
-  margin-top: 20px;
-`;
-
 const Errdiv = styled.div`
+  width: 100%;
   padding: 7px 6px;
 `;
 const Errspan = styled.div`
@@ -119,7 +115,7 @@ const TextArea = styled.textarea`
   padding: 5px 10px;
   white-space: pre-line;
   overflow: hidden;
-
+  resize: none;
   &:active,
   &:focus {
     outline: none;
@@ -130,6 +126,7 @@ const { kakao } = window;
 function Signup() {
   const imgRef = useRef();
   const navi = useNavigate();
+  const [imageName, setImageName] = useState(null);
   const [member, setMember] = useState({
     email: "",
     username: "",
@@ -140,7 +137,7 @@ function Signup() {
     photo: "",
   });
 
-  const [imgFile, setImgFile] = useState(""); // 프로필 이미지 상태
+  const [imgFile, setImgFile] = useState(null); // 프로필 이미지 상태
   const [pwCheck, setPwCheck] = useState(""); // 비밀번호 확인
   const [Address, setAddress] = useState({
     address: "",
@@ -152,6 +149,7 @@ function Signup() {
     username: true,
     password: true,
     streetAddress: true,
+    detali: true,
     duplicationEmail: true,
   });
 
@@ -161,6 +159,7 @@ function Signup() {
     "* 비밀번호가 다릅니다.",
     "* 지역을 선택해주세요.",
     "* 중복된 이메일 입니다.",
+    "* 상세 지역을 입력해주세요.",
   ];
 
   const handleInputValue = (key) => (e) => {
@@ -176,7 +175,7 @@ function Signup() {
     }
     const file = imgRef.current.files[0];
     const reader = new FileReader();
-
+    setImageName(leng[0].name);
     reader.readAsDataURL(file);
     reader.onloadend = () => {
       setImgFile(reader.result);
@@ -198,11 +197,27 @@ function Signup() {
 
   const checkingFunc = () => {
     if (!member.username) {
-      setCheck({ ...Check, username: false });
+      setCheck({
+        ...Check,
+        username: false,
+        email: true,
+        detali: true,
+        password: true,
+        streetAddress: true,
+        duplicationEmail: true,
+      });
       return;
     }
     if (!member.email || !member.email.includes("@")) {
-      setCheck({ ...Check, email: false, username: true });
+      setCheck({
+        ...Check,
+        email: false,
+        username: true,
+        detali: true,
+        password: true,
+        streetAddress: true,
+        duplicationEmail: true,
+      });
       return;
     }
     if (
@@ -210,11 +225,39 @@ function Signup() {
       pwCheck !== member.password ||
       !member.password
     ) {
-      setCheck({ ...Check, password: false, email: true });
+      setCheck({
+        ...Check,
+        password: false,
+        email: true,
+        username: true,
+        streetAddress: true,
+        duplicationEmail: true,
+        detali: true,
+      });
       return;
     }
     if (!Address.address) {
-      setCheck({ ...Check, streetAddress: false, password: true });
+      setCheck({
+        ...Check,
+        streetAddress: false,
+        password: true,
+        email: true,
+        detali: true,
+        username: true,
+        duplicationEmail: true,
+      });
+      return;
+    }
+    if (!Address.detailAddress) {
+      setCheck({
+        ...Check,
+        streetAddress: true,
+        password: true,
+        email: true,
+        detali: false,
+        username: true,
+        duplicationEmail: true,
+      });
       return;
     }
 
@@ -226,7 +269,8 @@ function Signup() {
       latitude: member.latitude,
       longitude: member.longitude,
       businessAccount: member.businessAccount,
-      photo: imgFile,
+      imageName: imageName,
+      base64Image: imgFile,
     })
       .then(() => {
         alert("회원가입한 계정으로 로그인 해주세요.");
@@ -349,12 +393,18 @@ function Signup() {
               검색
             </LocationBtn>
           </LocationWrap>
+
           <TextArea
             type="text"
             inputType="default"
             value={Address.address || ""}
             readOnly="readOnly"
           />
+          {!Check.streetAddress ? (
+            <Errdiv>
+              <Errspan>{errMsg[3]}</Errspan>
+            </Errdiv>
+          ) : null}
         </Textdiv>
 
         {!Address.address ? null : (
@@ -368,6 +418,11 @@ function Signup() {
                 setAddress({ ...Address, detailAddress: e.target.value })
               }
             />
+            {!Check.detali ? (
+              <Errdiv>
+                <Errspan>{errMsg[5]}</Errspan>
+              </Errdiv>
+            ) : null}
           </Textdiv>
         )}
 
@@ -392,11 +447,6 @@ function Signup() {
           회원가입
         </Button>
       </Container>
-
-      <Authdiv>
-        <Auth Btnstyle="google"> 구글로 회원가입 </Auth>
-        <Auth Btnstyle="kakao"> 카카오로 회원가입 </Auth>
-      </Authdiv>
     </Main>
   );
 }

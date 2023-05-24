@@ -40,8 +40,9 @@ const InfoContent = styled.div`
   font-size: var(--medium-font);
 `;
 
-const More = styled.button`
+const MoreMenu = styled.button`
   font-size: var(--large-font);
+  background-color: transparent;
 `;
 
 const Modify = styled.div`
@@ -61,7 +62,7 @@ const Modify = styled.div`
     position: absolute;
     top: 50%;
     left: 0%;
-    width: 850px;
+    width: ${(props) => (props.showButton ? "800px" : "900px")};
 
     height: 1px;
     background-color: var(--black-200);
@@ -71,9 +72,9 @@ const Modify = styled.div`
 
 const StoreInfo = () => {
   const navigate = useNavigate();
-  const { id } = useParams();
+  const { res_id } = useParams();
   const onClickModify = () => {
-    navigate(`/editstore/${id}`);
+    navigate(`/editstore/${res_id}`);
   };
 
   const [modal, setModal] = useState(false);
@@ -94,12 +95,16 @@ const StoreInfo = () => {
     open_time: "",
     createdAt: "",
     modifiedAt: "",
+    member: {
+      memberId: 0,
+      email: "",
+    },
   });
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await api.get(`/restaurants/1`);
+        const response = await api.get(`/restaurants/${res_id}/detail`);
         const data = response.data;
         setData(data);
       } catch (error) {
@@ -138,12 +143,12 @@ const StoreInfo = () => {
           <div>
             {modal ? <Modal menu={data.menu} showModal={showModal} /> : null}
           </div>
-          <More onClick={showModal}>메뉴 전체보기</More>
+          <MoreMenu onClick={showModal}>메뉴 전체보기</MoreMenu>
         </MenuList>
       </Container>
-      <Modify>
+      <Modify showButton={member.memberId === data.member.memberId}>
         <span>{`최종 업데이트 ${data.modifiedAt || data.createdAt}`}</span>
-        {member.businessAccount ? (
+        {member.memberId === data.member.memberId ? (
           <Button btnstyle="SBtn2" onClick={onClickModify}>
             수정
           </Button>

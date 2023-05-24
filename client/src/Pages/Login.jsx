@@ -102,10 +102,10 @@ export default function Login() {
           res.headers.get("Authorization"),
         );
         navi("/");
-
         api
           .get(`/members/mypage`)
           .then((res) => {
+            setIsLogin(!isLogin);
             setMember({
               ...member,
               memberId: res.data.memberId,
@@ -125,6 +125,9 @@ export default function Login() {
       })
       .catch((err) => {
         if (err.response.status === 401) {
+          alert("이메일 혹은 비밀번호가 다릅니다.");
+        }
+        if (err.response.status === 405) {
           alert("이메일 혹은 비밀번호가 다릅니다.");
         }
       });

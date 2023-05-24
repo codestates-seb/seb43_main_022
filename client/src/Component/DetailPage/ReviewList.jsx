@@ -42,7 +42,6 @@ const ReviewList = ({ data }) => {
       try {
         const response = await api.get(`/restaurants/${res_id}/detail`);
         setReviewData(response.data.reviews);
-        console.log(response.data.reviews);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -50,11 +49,6 @@ const ReviewList = ({ data }) => {
     fetchData();
   }, []);
 
-  // const showReview = allReviews
-  //   ? displayData
-  //   : displayData
-  //   ? displayData.slice(0, 5)
-  //   : [];
   const showReview = allReviews ? displayData : displayData.slice(0, 5);
 
   const handleMoreReviews = () => {

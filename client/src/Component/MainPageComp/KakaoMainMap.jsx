@@ -9,45 +9,53 @@ const Container = styled.div`
   width: 100%;
   max-width: 1040px;
   height: 40vh;
-  max-height: 320px;
+  height: 340px;
   display: flex;
   border-radius: 10px;
   overflow: hidden;
+  background-color: #dbd9cd;
 `;
 const InfoContainer = styled.div`
-  width: 600px;
+  width: 400px;
   height: 100%;
-  border: 4px solid var(--eatsgreen);
-  border-radius: 10px;
+  border: 1px solid beige;
+  border-left: none;
+  border-radius: 0 10px 10px 0;
+
   padding: 5px 20px;
   font-size: var(--medium-font);
 `;
 const HeadSpan = styled.span`
-  font-size: var(--large-font);
+  font-size: 18px;
   font-weight: 600;
+  display: block;
+  :first-of-type {
+    padding-top: 10px;
+  }
 `;
 const TextSpan = styled.span`
   padding: 5px 10px;
   font-size: var(--medium-font);
   margin: 10px 0px;
   display: block;
-  border: 2px solid var(--eatsgreen);
   border-radius: 50px;
+  background-color: #fff;
 `;
 const FlexSpan = styled.span`
+  padding: 5px 10px;
   margin: 10px 0px;
   display: block;
-  border: 2px solid var(--eatsgreen);
   border-radius: 50px;
   text-align: center;
-  font-size: var(--small-font);
+  display: block;
   width: 100%;
   min-width: 160px;
-  height: 20px;
+  background-color: #fff;
 `;
 const TextFlex = styled.div`
   display: flex;
   justify-content: space-between;
+  gap: 10px;
   width: 100%;
   height: 80px;
 `;
@@ -124,7 +132,7 @@ export default function KakaoMap() {
       {info.category && (
         <InfoContainer>
           <TextDiv>
-            <HeadSpan>이름</HeadSpan>
+            <HeadSpan>가게 이름</HeadSpan>
             <TextSpan>{info.restaurantName}</TextSpan>
           </TextDiv>
           <TextDiv>

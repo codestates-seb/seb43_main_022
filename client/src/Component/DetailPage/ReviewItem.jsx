@@ -130,7 +130,9 @@ const ReviewItem = ({ data, onDelete }) => {
             <TitleInfo>
               <div className="title">{data.title}</div>
               <div className="day-button">
-                <span>{data.modifiedAt || data.createdAt}</span>
+                <span>
+                  {data.modifiedAt.slice(0, 10) || data.createdAt.slice(0, 10)}
+                </span>
                 {/* data.modified_at의 값이 존재하는 경우(truthy 값) 그 값을 반환하고, data.modified_at의 값이 존재하지 않는 경우(falsy 값) data.created_at의 값을 반환 */}
                 {member.memberId === data.member.memberId ? (
                   <ButtonGroup>

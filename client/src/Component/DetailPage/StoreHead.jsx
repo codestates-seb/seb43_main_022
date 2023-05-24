@@ -73,7 +73,6 @@ const StoreHead = () => {
       try {
         const response = await api.get(`/restaurants/${res_id}/detail`);
         const data = response.data;
-        console.log(response.data);
         setData(data);
         if (!heartFunc(response.data.favorites)) {
           setHeartIcon(!heartIcon);
@@ -99,7 +98,6 @@ const StoreHead = () => {
   const handleHeartIcon = async () => {
     try {
       if (!member.memberId) {
-        console.log("로그인이 필요합니다");
         alert("로그인이 필요합니다.");
         return;
       }
@@ -107,18 +105,14 @@ const StoreHead = () => {
         await api.post(`/favorites/restaurant/${data.restaurantId}`);
         const response = await api.get(`/restaurants/${res_id}`);
         const postData = response.data;
-        console.log(postData);
         setData(postData);
-        console.log("즐겨찾기 저장");
       } else {
         const endpoint = deleteFunc(data.favorites);
-        console.log(endpoint);
         const responseData = await api.delete(`/favorites/${endpoint}`);
         const response1 = await api.get(`/restaurants/${res_id}`);
         const deleteData = response1.data;
         setData(deleteData);
         console.log(responseData);
-        console.log("즐겨찾기 해제");
       }
       setHeartIcon(!heartIcon);
     } catch (error) {
@@ -130,10 +124,8 @@ const StoreHead = () => {
     setShareIcon(!shareIcon);
     if (navigator.clipboard) {
       navigator.clipboard.writeText(window.location.href);
-      console.log("링크 복사 완료");
       alert("링크가 복사되었습니다.");
     } else {
-      console.log("링크 복사 실패");
       alert("링크 복사에 실패했습니다.");
     }
   };

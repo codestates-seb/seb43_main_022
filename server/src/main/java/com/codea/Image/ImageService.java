@@ -20,7 +20,7 @@ public class ImageService {
     private final AmazonS3 amazonS3;
 
     public String uploadImage(String imageName, String image, String email) {
-        imageName = imageName.substring(0, imageName.indexOf(".")) + "_" + image.substring(0, Math.min(image.length(), 11)) + imageName.substring(imageName.indexOf("."));
+//        imageName = imageName.substring(0, imageName.indexOf(".")) + "_" + imageName.substring(imageName.indexOf("."));
         String uploadUrl = "image/" + email + "/" + imageName;
         byte[] decodeImage = Base64.getMimeDecoder().decode(image.substring(image.indexOf(",") + 1));
 

@@ -158,12 +158,17 @@ const Header = () => {
       handleSearch();
     }
   };
+
   const handleLinkStoreList = async () => {
-    const allStore = await api.get(`/restaurants`);
-    // 검색결과상태를 저장하는곳에 저장. 결과페이지에서는 results로 사용됨
-    setSearchResultsState(allStore.data);
-    console.log(searchResultsState.data);
-    navi(`/itemlist`);
+    try {
+      const allStore = await api.get(`/restaurants`);
+      setSearchResultsState(allStore.data);
+      console.log(searchResultsState.data);
+      navi(`/itemlist`);
+    } catch (error) {
+      console.log(error);
+      alert("데이터를 불러오는 중 오류가 발생했습니다.");
+    }
   };
   return (
     <>

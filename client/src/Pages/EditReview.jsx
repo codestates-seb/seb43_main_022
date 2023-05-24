@@ -70,7 +70,7 @@ const EditReview = () => {
       try {
         await api.delete(`/reviews/${review_id}`);
         setReviewData({});
-        alert("업체 정보가 삭제되었습니다.");
+        alert("리뷰가 삭제되었습니다.");
         navi(-1);
       } catch (err) {
         console.log(err);
@@ -89,9 +89,9 @@ const EditReview = () => {
     //   ) : (
     <BasicContainer className="Basic-Container">
       <ResInfo />
-      {/* {reviewData.title ? ( */}
-      <ReviewInfo reviewData={reviewData} setReviewData={setReviewData} />
-      {/* ) : null} */}
+      {reviewData.title ? (
+        <ReviewInfo reviewData={reviewData} setReviewData={setReviewData} />
+      ) : null}
       <ButtonContainer className="Button-Container">
         <Button btnstyle="Btn" onClick={hendleDelete}>
           리뷰 삭제

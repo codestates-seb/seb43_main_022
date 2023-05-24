@@ -2,7 +2,7 @@ import styled from "styled-components";
 import Input from "./../style/StyleInput";
 import Button from "../style/StyleButton";
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { api } from "../../Util/api";
 import { useRecoilState } from "recoil";
 import memberState from "../../state/atoms/SignAtom";
@@ -40,7 +40,7 @@ const LocationBtn = styled.button`
   background: var(--white);
 
   z-index: 90;
-  &: hover {
+  &:hover {
     background: var(--eatsgreen);
     color: var(--white);
   }
@@ -105,8 +105,7 @@ const BusinessAccount = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-
-  > .button {
+  > .buttonIM {
     width: auto;
     height: 41px;
     min-width: 110px;
@@ -126,6 +125,22 @@ const BusinessAccount = styled.div`
   }
   text-align: center;
 `;
+
+const ButtonIm = styled.button`
+  width: auto;
+  height: 41px;
+  min-width: 110px;
+  color: white;
+  background-color: var(--eatsgreen);
+  border: 1px solid var(--eatsgreen);
+  border-radius: 30px;
+  font-size: var(--font-size, 18px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  cursor: pointer;
+`;
 const Btns = styled.div`
   display: flex;
   flex-direction: row;
@@ -136,7 +151,7 @@ const Btns = styled.div`
 `;
 const Errdiv = styled.div`
   padding-top: 5px;
-  paddin-left: 5px;
+  padding-left: 5px;
 `;
 const Errspan = styled.div`
   color: var(--red-500);
@@ -377,12 +392,9 @@ const MyInfo = () => {
               {userData.businessAccount ? (
                 <BusinessAccount>
                   <InfoReName>사업자 계정</InfoReName>
-                  <button
-                    className="button"
-                    onClick={() => navigate("/addstore")}
-                  >
-                    업체등록
-                  </button>
+                  <Link to="/addstore">
+                    <ButtonIm>업체등록</ButtonIm>
+                  </Link>
                 </BusinessAccount>
               ) : null}
             </div>

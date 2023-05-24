@@ -42,9 +42,8 @@ const EditStore = () => {
   const initFormData = {
     restaurantName: "",
     tag: null,
-    image: null,
-    imageName: "",
-    base64Image: "base64",
+    imageName: null,
+    base64Image: null,
     content: "",
     tel: "",
     category: "",

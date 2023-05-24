@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import Button from "../Component/style/StyleButton";
 import Input from "../Component/style/StyleInput";
-import Auth from "../Component/StyleAuth";
+
 import Plus from "../Component/style/img/signup.svg";
 import { SignupApi } from "../Util/SignupApi";
 
@@ -97,12 +97,6 @@ const Ceospan = styled.span`
   font-size: 14px;
 `;
 
-const Authdiv = styled.div`
-  display: flex;
-  flex-direction: column;
-  margin-top: 20px;
-`;
-
 const Errdiv = styled.div`
   width: 100%;
   padding: 7px 6px;
@@ -121,7 +115,7 @@ const TextArea = styled.textarea`
   padding: 5px 10px;
   white-space: pre-line;
   overflow: hidden;
-
+  resize: none;
   &:active,
   &:focus {
     outline: none;
@@ -132,7 +126,7 @@ const { kakao } = window;
 function Signup() {
   const imgRef = useRef();
   const navi = useNavigate();
-  const [imageName, setImageName] = useState("");
+  const [imageName, setImageName] = useState(null);
   const [member, setMember] = useState({
     email: "",
     username: "",
@@ -143,7 +137,7 @@ function Signup() {
     photo: "",
   });
 
-  const [imgFile, setImgFile] = useState(""); // 프로필 이미지 상태
+  const [imgFile, setImgFile] = useState(null); // 프로필 이미지 상태
   const [pwCheck, setPwCheck] = useState(""); // 비밀번호 확인
   const [Address, setAddress] = useState({
     address: "",
@@ -453,12 +447,6 @@ function Signup() {
           회원가입
         </Button>
       </Container>
-
-      <Authdiv>
-        <Auth Btnstyle="google"> 구글로 회원가입 </Auth>
-        <Auth Btnstyle="kakao"> 카카오로 회원가입 </Auth>
-      </Authdiv>
-      {console.log(imgFile)}
     </Main>
   );
 }

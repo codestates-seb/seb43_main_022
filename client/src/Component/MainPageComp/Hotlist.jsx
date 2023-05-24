@@ -34,6 +34,7 @@ const HotlistContainer = styled.div`
       width: 250px;
       height: 160px;
       display: flex;
+      justify-content: center;
       align-items: center;
       margin: 5px 10px;
       border: 1px solid var(--black-200);
@@ -43,9 +44,16 @@ const HotlistContainer = styled.div`
       &:hover {
         box-shadow: 0px 1px 10px 1px var(--eatsgreen);
       }
+      .hotlist-link {
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
       .hotitem-imgbox {
         width: 5em;
         height: 100%;
+        border-right: 1px solid var(--black-200);
         margin-right: 8px;
         overflow: hidden;
         .hotitem-img {
@@ -60,7 +68,6 @@ const HotlistContainer = styled.div`
         display: flex;
         flex-direction: column;
         justify-content: center;
-
         .hotitem-grade,
         .hotitem-localtag {
           font-size: var(--medium-font);
@@ -84,9 +91,6 @@ const HotlistContainer = styled.div`
             p {
               font-size: 0.6em;
               color: var(--black-500);
-              &:hover {
-                color: var(--eatsgreen);
-              }
             }
           }
         }
@@ -140,12 +144,15 @@ const Hotlist = () => {
       <ul className="hotlist-ul">
         {hotListData ? (
           filterData.map((resInfo, idx) => (
-            <Link key={idx} to={`/detail/${resInfo.restaurantId} `}>
-              <li className="hotlist-item">
+            <li className="hotlist-item" key={idx}>
+              <Link
+                to={`/detail/${resInfo.restaurantId} `}
+                className="hotlist-link"
+              >
                 <div className="hotitem-imgbox">
                   <img
                     className="hotitem-img"
-                    src="https://interactive-examples.mdn.mozilla.net/media/cc0-images/grapefruit-slice-332-332.jpg"
+                    src={`${resInfo.image}`}
                     alt={`${resInfo.restaurantName} 이미지`}
                   />
                 </div>
@@ -157,17 +164,15 @@ const Hotlist = () => {
                       ? resInfo.tagRestaurants
                           .map((tag, idx) => (
                             <li className="res-tagli" key={idx}>
-                              <Link to={`/itemlist/search?=${tag.tag.name}`}>
-                                <p>#{tag.tag.name}</p>
-                              </Link>
+                              <p>#{tag.tag.name}</p>
                             </li>
                           ))
                           .slice(0, 2)
                       : null}
                   </ul>
                 </div>
-              </li>
-            </Link>
+              </Link>
+            </li>
           ))
         ) : (
           <p>No hot list available</p>

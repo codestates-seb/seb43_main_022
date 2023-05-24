@@ -18,8 +18,8 @@ const GlobalStyles = createGlobalStyle`
     min-height: 100vh;
     margin: 0;
     padding: 10px 0;
-   
-    
+    display: flex;
+    justify-content: center;
   }
   
   body {

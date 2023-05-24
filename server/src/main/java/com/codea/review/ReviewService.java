@@ -5,6 +5,7 @@ import com.codea.Image.Image;
 import com.codea.Image.ImageDto;
 import com.codea.Image.ImageRepository;
 import com.codea.Menu.Menu;
+import com.codea.Menu.MenuDto;
 import com.codea.common.exception.ExceptionCode;
 import com.codea.common.exception.BusinessLogicException;
 import com.codea.member.Member;
@@ -90,21 +91,18 @@ public class ReviewService {
         Optional.ofNullable(review.getRating()).ifPresent(rating -> findReview.setRating(rating));
         findReview.setModifiedAt(LocalDateTime.now());
 
-
         Optional.ofNullable(review.getImage()).ifPresent((imageList) -> {
             imageRepository.deleteAllByReview_ReviewId(reviewId);
             List<Image> newImageList = new ArrayList<>();
             for (ImageDto.Post imageTemp : patch.getImage()) {
                 String imageUrl = imageService.uploadImage(imageTemp.getImageName(), imageTemp.getImage() , email);
-
                 Image newImage = new Image(imageTemp.getImageName(), imageUrl, findReview);
 
-                newImageList.add(newImage);
                 imageRepository.save(newImage);
+                newImageList.add(newImage);
             }
             findReview.setImage(newImageList);
         });
-
 
         return reviewRepository.save(findReview);
     }

@@ -7,7 +7,7 @@ import { reviewDataAtom } from "../../state/atoms/reviewDataAtom";
 import { useState, useEffect } from "react";
 
 const Container = styled.div`
-  margin: auto;
+  margin: 0 0 170px auto;
   display: flex;
   flex-direction: column;
   width: 1200px;
@@ -42,7 +42,12 @@ const ReviewContainer = () => {
   const navigate = useNavigate();
   const { res_id } = useParams();
   const onClickReview = () => {
-    navigate(`/review/restaurants/${res_id}`);
+    {
+      sessionStorage.getItem("Authorization")
+        ? navigate(`/review/restaurants/${res_id}`)
+        : alert("로그인 후 이용해주세요.");
+      navigate(`/login`);
+    }
   };
 
   const data = useRecoilValue(reviewDataAtom);
@@ -98,6 +103,7 @@ const ReviewContainer = () => {
             </Button>
           </Buttons>
         </Order>
+
         <Button btnstyle="Btn" onClick={onClickReview}>
           리뷰 남기기
         </Button>

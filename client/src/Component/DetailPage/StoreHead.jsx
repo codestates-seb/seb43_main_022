@@ -7,7 +7,7 @@ import memberState from "../../state/atoms/SignAtom";
 import { api } from "../../Util/api";
 
 const Container = styled.div`
-  margin: auto;
+  margin: 70px 0 0 auto;
   width: 1200px;
 `;
 

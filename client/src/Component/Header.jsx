@@ -111,6 +111,7 @@ const Header = () => {
   const [serchKeywordHeader, setSerchKeywordHeader] = useState("");
   const setSearchResultsState = useSetRecoilState(searchResultsState);
   const setSearchKeywordState = useSetRecoilState(searchKeywordState);
+
   // const setSearchDefaultState = useSetRecoilState(searchDefaultState);
   // const setResult = useSetRecoilState(searchResultsState);
 
@@ -159,16 +160,9 @@ const Header = () => {
     }
   };
 
-  const handleLinkStoreList = async () => {
-    try {
-      const allStore = await api.get(`/restaurants`);
-      setSearchResultsState(allStore.data);
-      console.log(searchResultsState.data);
-      navi(`/itemlist`);
-    } catch (error) {
-      console.log(error);
-      alert("데이터를 불러오는 중 오류가 발생했습니다.");
-    }
+  const handleLinkStoreList = () => {
+    setSearchKeywordState("");
+    navi(`/itemlist`);
   };
   return (
     <>

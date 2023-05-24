@@ -34,6 +34,10 @@ public class ImageService {
             case "jpeg":
                 contentType = "image/jpeg";
                 break;
+            case "JPG":
+            case "jpg":
+                contentType = "image/jpg";
+                break;
             case "PNG":
             case "png":
                 contentType = "image/png";
@@ -53,13 +57,13 @@ public class ImageService {
         }
 
         //object 정보 가져오기
-        ListObjectsV2Result listObjectsV2Result = amazonS3.listObjectsV2(bucket);
-        List<S3ObjectSummary> objectSummaries = listObjectsV2Result.getObjectSummaries();
-
-        for (S3ObjectSummary object: objectSummaries) {
-            System.out.println("object = " + object.toString());
-        }
-        String s3url = amazonS3.getUrl(bucket, uploadUrl).toString();
+//        ListObjectsV2Result listObjectsV2Result = amazonS3.listObjectsV2(bucket);
+//        List<S3ObjectSummary> objectSummaries = listObjectsV2Result.getObjectSummaries();
+//
+//        for (S3ObjectSummary object: objectSummaries) {
+//            System.out.println("object = " + object.toString());
+//        }
+        String s3url = amazonS3.getUrl(bucket, uploadUrl).toString().replaceAll("%40","@");
         return s3url;
     }
 }

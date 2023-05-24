@@ -115,7 +115,7 @@ const TextArea = styled.textarea`
   padding: 5px 10px;
   white-space: pre-line;
   overflow: hidden;
-
+  resize: none;
   &:active,
   &:focus {
     outline: none;

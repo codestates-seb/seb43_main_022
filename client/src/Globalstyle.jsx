@@ -20,6 +20,8 @@ const GlobalStyles = createGlobalStyle`
     padding: 10px 0;
     display: flex;
     justify-content: center;
+
+    
   }
   
   body {

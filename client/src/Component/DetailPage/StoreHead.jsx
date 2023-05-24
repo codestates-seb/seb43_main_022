@@ -2,7 +2,7 @@ import styled from "styled-components";
 import ImgBtn from "../style/ImgBtn";
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { useRecoilValue } from "recoil";
+import { useRecoilState } from "recoil";
 import memberState from "../../state/atoms/SignAtom";
 import { api } from "../../Util/api";
 
@@ -48,7 +48,7 @@ const StoreHead = () => {
   const { res_id } = useParams();
 
   const navigate = useNavigate();
-  const member = useRecoilValue(memberState);
+  const [member, setMember] = useRecoilState(memberState);
 
   const [heartIcon, setHeartIcon] = useState(false);
   const [shareIcon, setShareIcon] = useState(false);
@@ -107,15 +107,19 @@ const StoreHead = () => {
       if (!heartIcon && member.memberId) {
         await api.post(`/favorites/restaurant/${data.restaurantId}`);
         const response = await api.get(`/restaurants/${res_id}`);
+        const res = await api.get(`members/mypage`);
         const postData = response.data;
         setData(postData);
+        setMember(res.data);
       } else {
         const endpoint = deleteFunc(data.favorites);
         const responseData = await api.delete(`/favorites/${endpoint}`);
         const response1 = await api.get(`/restaurants/${res_id}`);
+        const res = await api.get(`members/mypage`);
         const deleteData = response1.data;
         setData(deleteData);
         console.log(responseData);
+        setMember(res.data);
       }
       setHeartIcon(!heartIcon);
     } catch (error) {

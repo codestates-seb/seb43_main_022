@@ -86,8 +86,8 @@ const AddImg = ({ formData, setFormData }) => {
       setImgFile(reader.result);
       setFormData({
         ...formData,
-        image: reader.result,
         imageName: selectedImage.name,
+        base64Image: imgFile,
       });
       setIsUploaded(true);
     };

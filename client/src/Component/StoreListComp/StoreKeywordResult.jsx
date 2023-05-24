@@ -6,9 +6,13 @@ import ReactPaginate from "react-paginate";
 import ImgBtn from "../style/ImgBtn";
 import styled from "styled-components";
 import { useRecoilValue, useSetRecoilState } from "recoil";
-import { searchResultsState } from "../../state/atoms/SearchStateAtom";
+import {
+  searchResultsState,
+  searchKeywordState,
+} from "../../state/atoms/SearchStateAtom";
 import { searchStateTag } from "../../state/atoms/SearchStateTagAtom";
 import memberState from "../../state/atoms/SignAtom";
+import { IsLoadingState } from "../../state/atoms/IsLoadingAtom";
 
 const NoResult = () => <div>검색결과가 없습니다</div>;
 const StoreKeywordResult = () => {
@@ -20,7 +24,7 @@ const StoreKeywordResult = () => {
   const [userDataFavor, setUserDataFavor] = useState([]);
   const [stores, setStores] = useState([]);
   const member = useRecoilValue(memberState);
-
+  const searchKeyword = useRecoilValue(searchKeywordState);
   //해더에서 검색되서 온 값 result
   const results = useRecoilValue(searchResultsState);
   const setSearchResultsState = useSetRecoilState(searchResultsState);
@@ -29,11 +33,23 @@ const StoreKeywordResult = () => {
 
   console.log("헤더서치 검색결과 저장된 것 results :", results);
   console.log("필터링데이터 searchTagResults :", searchTagResults);
+
+  const nav = useNavigate();
+
   useEffect(() => {
+    const setIsLoading = useSetRecoilState(IsLoadingState); //<= default 값 true -> 로딩화면이 보이는상태
+    const encodedCategoryName = encodeURIComponent(searchKeyword);
     const fetchData = async () => {
       try {
-        const refreshPageData = await api.get("/restaurants");
-        setSearchResultsState(refreshPageData.data);
+        const refreshPageData = await api.get(
+          `/restaurants/search?keyword=${encodedCategoryName}`,
+        );
+        setSearchResultsState(refreshPageData.data.data);
+
+        if (encodedCategoryName) {
+          nav(`/itemlist?search=${encodedCategoryName}`);
+        }
+        setIsLoading(false);
         console.log("새로고침시 데이터받기11", refreshPageData);
         console.log("새로고침시 데이터받기22", refreshPageData.data);
         console.log("새로고침시 데이터받기 stores에 저장값", results.data);
@@ -360,6 +376,7 @@ const StoreCard = styled.li`
     position: absolute;
     left: 0;
     top: 0;
+    border-bottom: 1px solid var(--black-100);
     img {
       width: 100%;
       height: 185px;

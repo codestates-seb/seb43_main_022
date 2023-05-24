@@ -111,6 +111,7 @@ const StoreKeywordResult = () => {
           console.log("리뷰순데이터:", data);
         } else if (currentFilter === "total_favorite") {
           data.sort(filterByFavorites);
+          searchResults.sort(filterByFavorites);
           console.log("즐겨찾기순데이터:", data);
         }
         console.log("이기기기기기기깁ㅈ", data);

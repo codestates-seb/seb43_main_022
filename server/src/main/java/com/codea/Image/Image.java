@@ -11,7 +11,7 @@ import javax.persistence.*;
 @Getter
 @Setter
 @NoArgsConstructor
-public class ReviewImage {
+public class Image {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,15 +21,16 @@ public class ReviewImage {
     private String imageName;
 
     @Column
-    private String s3Url;
+    private String Image;
 
     @ManyToOne
     @JoinColumn(name = "review_id")
     private Review review;
 
-    public ReviewImage(String imageName, String s3Url) {
+    public Image(String imageName, String image, Review review) {
         this.imageName = imageName;
-        this.s3Url = s3Url;
+        Image = image;
+        this.review = review;
     }
 
     @Override
@@ -37,7 +38,7 @@ public class ReviewImage {
         return "Image{" +
                 "id=" + imageId +
                 ", imageName='" + imageName + '\'' +
-                ", s3Url='" + s3Url + '\'' +
+                ", s3Url='" + Image + '\'' +
                 '}';
     }
 }

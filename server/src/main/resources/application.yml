@@ -1,19 +1,20 @@
-#logging:
-#  level:
-#    org:
-#      springframework:
-#        web: debug
-#    org.springframework.web.servlet: debug
-#    org.hibernate.type.descriptor.sql.BasicBinder: trace
+logging:
+  level:
+    root: DEBUG
+    org:
+      springframework:
+        web: debug
+    org.springframework.web.servlet: debug
+    org.hibernate.type.descriptor.sql.BasicBinder: trace
 
 
 cloud:
   aws:
     credentials:
-      access-key: AKIAXBFDN3IW3QG43QGG
-      secret-key: 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
-    s3: #버킷이름
-      bucket: codemain022
+      access-key: AKIAVZCEWUKJ6A52AAOQ
+      secret-key: 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
+    s3:
+      bucket: main022
     region:
       static: ap-northeast-2
     stack:
@@ -21,49 +22,58 @@ cloud:
 
 
 spring:
-  #  servlet:
-  #    multipart:
-  #      max-file-size: 10MB
-  #      max-request-size: 10MB
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+
+  h2:
+    console:
+      enabled: true
+      path: /h2
   datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url : jdbc:mysql://database-1.cyfntkyjd4c0.ap-northeast-2.rds.amazonaws.com:13306/main?useSSL=false&characterEncoding=UTF-8&serverTimezone=UTC&createDatabaseIfNotExist=true
-    username: admin
-    password: admin1234
-  mvc:
-    pathmatch:
-      matching-strategy: ant_path_matcher
-    log-request-details: true
+    url: jdbc:h2:mem:test
+#  datasource:
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+#    url: jdbc:mysql://localhost:3306/main022?serverTimezone=Asia/Seoul
+#    username: root
+#    password: root
   jpa:
-    database: mysql
-    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
     defer-datasource-initialization: true
-    hibernate:
-      ddl-auto: update
+    hibernate.ddl-auto: create
     open-in-view: false
     show-sql: true
     properties:
-      hibernate.format_sql: true
-      hibernate.default_batch_fetch_size: 100
-#  security:
-#    oauth2:
-#      client:
-#        registration:
-#          google:
-#            client-id:
-#            clientSecret: ${GoogleClientSecret}
-#            scope:
-#              - email
-#              - profile
-#  sql.init.mode: always
-mail:
-  address:
-    admin: admin@admin
+      hibernate:
+        show_sql: true
+        format_sql: true
+        use_sql_comments: true
+        default_batch_fetch_size: 100
+
+
+#  redis:
+#    host: localhost  # 배포 시 ec2 주소 사용
+#    port: 6379
+
+
+
 jwt:
   key: abcd123456789123456789123456789abcdabcd
-  access-token-expiration-minutes: 480
-  refresh-token-expiration-minutes: 900
+  access-token-expiration-minutes: 30000
+  refresh-token-expiration-minutes: 30000
 
-image:
-  upload:
-    dir : classpath:/static/images/
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: subgusals6650@gmail.com
+    password: ${GOOGLE_CLIENT_PASSWORD}
+    properties:
+      mail:
+        smtp:
+          starttls:
+            enable: true
+          auth: true
+mail:
+  address:
+    admin: admin@gmail.com
+

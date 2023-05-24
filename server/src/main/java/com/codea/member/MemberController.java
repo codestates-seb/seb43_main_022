@@ -51,7 +51,7 @@ public class MemberController {
         AddressDto.Post addressDto = new AddressDto.Post(requestBody.getStreetAddress(), requestBody.getLatitude(), requestBody.getLongitude());
         Address address = addressMapper.addressPostDtoToAddress(addressDto);
 
-        String imageUrl = "https://main022.s3.ap-northeast-2.amazonaws.com/image/default.PNG";
+        String imageUrl = "https://main022.s3.ap-northeast-2.amazonaws.com/image/default_profile.png";
         if (requestBody.getBase64Image() != null && requestBody.getImageName() != null && !(requestBody.getBase64Image().isEmpty()) && !(requestBody.getImageName().isEmpty())) {
             imageUrl = imageService.uploadImage(requestBody.getImageName(), requestBody.getBase64Image(), requestBody.getEmail());
         }
@@ -73,8 +73,8 @@ public class MemberController {
         AddressDto.Post addressDto = new AddressDto.Post(requestBody.getStreetAddress(), requestBody.getLatitude(), requestBody.getLongitude());
         Address address = addressMapper.addressPostDtoToAddress(addressDto);
 
-        String imageUrl = null;
-        if (requestBody.getBase64Image() != null) {
+        String imageUrl = "https://main022.s3.ap-northeast-2.amazonaws.com/image/default_profile.png";
+        if (requestBody.getBase64Image() != null && requestBody.getImageName() != null && !(requestBody.getBase64Image().isEmpty()) && !(requestBody.getImageName().isEmpty())) {
             imageUrl = imageService.uploadImage(requestBody.getImageName(), requestBody.getBase64Image(), email);
         }
 

@@ -1,11 +1,14 @@
 package com.codea.review;
 
+import com.codea.Image.Image;
 import com.codea.common.BaseEntity.BaseEntity;
 import com.codea.member.Member;
 import com.codea.restaurant.Restaurant;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -20,8 +23,6 @@ public class Review extends BaseEntity {
     private String title;
     @Column(nullable = false)
     private String content;
-    @Column
-    private String image;
     @Enumerated(EnumType.STRING)
     private Rating rating;
     @Enumerated(EnumType.STRING)
@@ -32,7 +33,8 @@ public class Review extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "restaurant_id")
     private Restaurant restaurant;
-
+    @OneToMany(mappedBy = "review", cascade = CascadeType.REMOVE)//, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    private List<Image> image = new ArrayList<>();
 
     public enum Rating {
         LIKE("맛있어요",5),
@@ -59,5 +61,9 @@ public class Review extends BaseEntity {
         this.rating = rating;
     }
 
-
+    public Review(String title, String content, Rating rating) {
+        this.title = title;
+        this.content = content;
+        this.rating = rating;
+    }
 }

@@ -3,14 +3,20 @@ package com.codea.Image;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
-public class ReviewImageDto {
+public class ImageDto {
+    @Getter
+    @AllArgsConstructor
+    public static class Post {
+        private String imageName;
+        private String image;
+    }
 
     @Getter
     @AllArgsConstructor
     public static class Response {
         private long imageId;
         private String imageName;
-        private String s3Url;
+        private String image;
     }
 
 }

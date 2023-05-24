@@ -40,7 +40,7 @@ const LocationBtn = styled.button`
   background: var(--white);
 
   z-index: 90;
-  &: hover {
+  &:hover {
     background: var(--eatsgreen);
     color: var(--white);
   }
@@ -151,6 +151,7 @@ const Btns = styled.div`
 `;
 const Errdiv = styled.div`
   padding-top: 5px;
+  padding-left: 5px;
 `;
 const Errspan = styled.div`
   color: var(--red-500);

@@ -2,18 +2,18 @@
   "restaurants": [
     {
       "restaurantId": 1,
-      "restaurantName": "가로수길햄버거",
+      "restaurantName": "가로수길햄버거HhHhHh",
       "tagRestaurants": [
         {
           "tag": {
             "tagId": 1,
-            "name": "햄버거"
+            "name": "콜라"
           }
         },
         {
           "tag": {
             "tagId": 2,
-            "name": "가로수길"
+            "name": "빵"
           }
         }
       ],
@@ -42,26 +42,26 @@
       "longitude": "127.565059558998",
       "id": 1,
       "total_views": 0,
-      "total_review" : 45,
-      "total_favorite" : 24, 
+      "total_reviews" : 45,
+      "totalFavorite" : 24, 
       "rating" : 4.5,
-      "isFavorite":true,
+    
       "createdAt": "2023-05-20T13:11:43.664707",
       "modifiedAt": "2023-05-20T13:11:43.664707"
     }, {
       "restaurantId": 2,
-      "restaurantName": "22222222",
+      "restaurantName": "AaaaAaaaAA대문자가게",
       "tagRestaurants": [
         {
           "tag": {
             "tagId": 1,
-            "name": "햄버거"
+            "name": "핫도그"
           }
         },
         {
           "tag": {
             "tagId": 2,
-            "name": "가로수길"
+            "name": "치킨"
           }
         }
       ],
@@ -90,10 +90,10 @@
       "longitude": "127.565059558998",
       "id": 1,
       "total_views": 0,
-      "total_review" : 0,
-      "total_favorite" : 1, 
+      "total_reviews" : 0,
+      "totalFavorite" : 1, 
       "rating" : 4.5,
-      "isFavorite":true,
+    
       "createdAt": "2023-05-12T13:11:43.664707",
       "modifiedAt": "2023-05-20T13:11:43.664707"
     }, 
@@ -104,7 +104,7 @@
         {
           "tag": {
             "tagId": 1,
-            "name": "햄버거"
+            "name": "태그2"
           }
         },
         {
@@ -139,10 +139,10 @@
       "longitude": "127.565059558998",
       "id": 1,
       "total_views": 0,
-      "total_review" : 15,
-      "total_favorite" : 44, 
+      "total_reviews" : 65,
+      "totalFavorite" : 44, 
       "rating" : 4.5,
-      "isFavorite":true,
+    
       "createdAt": "2023-05-24T13:11:43.664707",
       "modifiedAt": "2023-05-20T13:11:43.664707"
     }, {
@@ -152,13 +152,13 @@
         {
           "tag": {
             "tagId": 1,
-            "name": "햄버거"
+            "name": "태그1"
           }
         },
         {
           "tag": {
             "tagId": 2,
-            "name": "가로수길"
+            "name": "태그2"
           }
         }
       ],
@@ -187,10 +187,10 @@
       "longitude": "127.565059558998",
       "id": 1,
       "total_views": 0,
-      "total_review" : 145,
-      "total_favorite" : 244, 
+      "total_reviews" : 15,
+      "totalFavorite" : 244, 
       "rating" : 4.5,
-      "isFavorite":true,
+    
       "createdAt": "2023-05-10T13:11:43.664707",
       "modifiedAt": "2023-05-10T13:11:43.664707"
     }, {
@@ -235,10 +235,10 @@
       "longitude": "127.565059558998",
       "id": 1,
       "total_views": 0,
-      "total_review" : 55,
-      "total_favorite" : 54, 
+      "total_reviews" : 99,
+      "totalFavorite" : 54, 
       "rating" : 4.5,
-      "isFavorite":true,
+    
       "createdAt": "2023-04-20T13:11:43.664707",
       "modifiedAt": "2023-02-20T13:11:43.664707"
     }

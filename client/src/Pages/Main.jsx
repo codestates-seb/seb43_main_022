@@ -1,7 +1,13 @@
 import styled from "styled-components";
+import { useEffect } from "react";
+import { useRecoilState } from "recoil";
+import KakaoMap from "../Component/MainPageComp/KakaoMainMap";
 import Hotlist from "../Component/MainPageComp/Hotlist";
 import Categorylist from "../Component/MainPageComp/Categorylist";
-import KakaoMap from "../Component/MainPageComp/KakaoMainMap";
+// import Loading from "../Component/Loading";
+import { IsLoadingState } from "../state/atoms/IsLoadingAtom";
+import { RestaurantState } from "../state/atoms/RestaurantAtom";
+import { api } from "../Util/api";
 
 const BasicContainer = styled.div`
   width: 100%;
@@ -21,12 +27,38 @@ const BasicContainer = styled.div`
 `;
 
 const Main = () => {
+  const [, setisLoading] = useRecoilState(IsLoadingState);
+  const [, setHotListData] = useRecoilState(RestaurantState);
+  const local = "강남";
+
+  useEffect(() => {
+    const fetchHotlist = async () => {
+      try {
+        const res = await api.get(
+          `/restaurants/search?keyword=${local}&page=1&size=15`,
+        );
+        setHotListData(res.data.data);
+        setisLoading(false);
+        console.log(res.data.data, "데이터");
+      } catch (err) {
+        console.error(err);
+      }
+    };
+    fetchHotlist();
+  }, []);
+
   return (
+    // <>
+    //   {isLoading ? (
+    //     <Loading />
+    //   ) : (
     <BasicContainer className="Basic-Container">
       <KakaoMap />
       <Hotlist />
       <Categorylist />
     </BasicContainer>
+    //   )}
+    // </>
   );
 };
 

@@ -1,10 +1,7 @@
 import styled from "styled-components";
-import { useEffect } from "react";
-import { useNavigate } from "react-router";
-import { Link } from "react-router-dom";
-import { useRecoilState } from "recoil";
+import { Link, useNavigate } from "react-router-dom";
+import { useRecoilValue } from "recoil";
 import { RestaurantState } from "../../state/atoms/RestaurantAtom";
-import { api } from "../../Util/api";
 
 const HotlistContainer = styled.div`
   width: 100%;
@@ -112,23 +109,9 @@ const HotlistContainer = styled.div`
 `;
 
 const Hotlist = () => {
-  const [hotListData, setHotListData] = useRecoilState(RestaurantState);
+  const hotListData = useRecoilValue(RestaurantState);
   const navi = useNavigate();
   const local = "강남";
-
-  useEffect(() => {
-    const fetchHotlist = async () => {
-      try {
-        const res = await api.get(
-          `/restaurants/search?keyword=${local}&page=1&size=15`,
-        );
-        setHotListData(res.data.data);
-      } catch (err) {
-        console.error(err);
-      }
-    };
-    fetchHotlist();
-  }, [local]);
 
   const filterData = hotListData
     .filter((item) => item.streetAddress.includes(local))
@@ -137,6 +120,7 @@ const Hotlist = () => {
   const MoreHotList = () => {
     navi(`/itemlist?serch=${local}`);
   };
+
   return (
     <HotlistContainer className="Hotlist-Container">
       <div className="hotlist-title">내 지역 인기 맛집</div>

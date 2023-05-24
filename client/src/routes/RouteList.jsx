@@ -43,10 +43,6 @@ const RouteList = [
     element: <DetailPage />,
   },
   {
-    path: "/detail",
-    element: <DetailPage />,
-  },
-  {
     path: "/mypage",
     element: <MyPage />,
   },

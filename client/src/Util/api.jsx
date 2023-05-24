@@ -1,9 +1,6 @@
 import axios from "axios";
 
-const baseURL =
-  process.env.NODE_ENV === "production"
-    ? process.env.REACT_APP_API_URL
-    : "https://0524-58-122-102-109.ngrok-free.app";
+const baseURL = process.env.REACT_APP_API_URL;
 
 const api = axios.create({
   baseURL,

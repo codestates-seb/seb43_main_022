@@ -18,9 +18,9 @@ const GlobalStyles = createGlobalStyle`
     min-height: 100vh;
     margin: 0;
     padding: 10px 0;
-    display: flex;
+    /* display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: center; */
   }
   
   body {

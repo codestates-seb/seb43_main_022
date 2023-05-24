@@ -344,7 +344,7 @@ const BtnPosition = styled.div`
 `;
 
 const StoreCard = styled.li`
-  height: 422px;
+  height: 432px;
   cursor: pointer;
   width: 390px;
   border-radius: 30px;

@@ -3,10 +3,8 @@ import { useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
 import { useNavigate } from "react-router";
 import { categoryState } from "../../state/atoms/CategoryAtom";
-import {
-  searchKeywordState,
-  searchResultsState,
-} from "../../state/atoms/SearchStateAtom";
+import { searchKeywordState } from "../../state/atoms/SearchStateAtom";
+
 import { api } from "../../Util/api";
 
 const CategoryContainer = styled.div`
@@ -94,7 +92,7 @@ const CategoryContainer = styled.div`
 const Categorylist = () => {
   const [categoryData, setCategoryData] = useRecoilState(categoryState);
   const [, setSearchKeyword] = useRecoilState(searchKeywordState);
-  const [, setSearchResults] = useRecoilState(searchResultsState);
+  // const [, setSearchResults] = useRecoilState(searchResultsState);
   const [currentPage, setCurrentPage] = useState(1);
   const [visibleCategory, setVisibleCategory] = useState([]);
   const navi = useNavigate();
@@ -114,13 +112,8 @@ const Categorylist = () => {
   }, [currentPage, setCategoryData]);
 
   const handleCategoryClick = async (name) => {
-    const encodedCategoryName = encodeURIComponent(name);
-    const response = await api.get(
-      `/restaurants/search?keyword=${encodedCategoryName}&page=1&size=100`,
-    );
-    setSearchResults(response.data.data);
     setSearchKeyword(name);
-    navi(`/itemlist?search=${encodedCategoryName}`);
+    navi(`/itemlist?search=${name}`);
   };
 
   useEffect(() => {

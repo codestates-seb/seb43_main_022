@@ -131,7 +131,7 @@ const Header = () => {
       `/restaurants/search?keyword=${encodedSearchTerm}`,
     );
     // console.log(response.data);
-    setSearchResultsState(response.data.data);
+    setSearchResultsState(response.data);
 
     setSearchKeywordState(serchKeywordHeader);
 

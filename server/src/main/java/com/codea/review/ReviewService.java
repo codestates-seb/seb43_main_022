@@ -91,11 +91,18 @@ public class ReviewService {
         Optional.ofNullable(review.getRating()).ifPresent(rating -> findReview.setRating(rating));
         findReview.setModifiedAt(LocalDateTime.now());
 
+        List<Image> newImageList = new ArrayList<>();
         Optional.ofNullable(review.getImage()).ifPresent((imageList) -> {
             imageRepository.deleteAllByReview_ReviewId(reviewId);
-            List<Image> newImageList = new ArrayList<>();
             for (ImageDto.Post imageTemp : patch.getImage()) {
-                String imageUrl = imageService.uploadImage(imageTemp.getImageName(), imageTemp.getImage() , email);
+
+                String imageUrl = "";
+                if (imageTemp.getImage().contains("@")) {
+                    imageUrl = imageTemp.getImage();
+                } else {
+                    imageUrl = imageService.uploadImage(imageTemp.getImageName(), imageTemp.getImage() , email);
+                }
+
                 Image newImage = new Image(imageTemp.getImageName(), imageUrl, findReview);
 
                 imageRepository.save(newImage);

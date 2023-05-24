@@ -10,10 +10,10 @@
 cloud:
   aws:
     credentials:
-      access-key: AKIAXBFDN3IW3QG43QGG
-      secret-key: 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
-    s3: #버킷이름
-      bucket: codemain022
+      access-key: AKIA2D2TVXCAB3U5YMVN
+      secret-key: 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
+    s3:
+      bucket: projectmain
     region:
       static: ap-northeast-2
     stack:
@@ -27,9 +27,9 @@ spring:
   #      max-request-size: 10MB
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url : jdbc:mysql://database-1.cyfntkyjd4c0.ap-northeast-2.rds.amazonaws.com:13306/main?useSSL=false&characterEncoding=UTF-8&serverTimezone=UTC&createDatabaseIfNotExist=true
+    url: jdbc:mysql://mainproject.cnrzfccaaadb.ap-northeast-2.rds.amazonaws.com:13306/mainproject?useSSL=false&characterEncoding=UTF-8&serverTimezone=UTC&createDatabaseIfNotExist=true
     username: admin
-    password: admin1234
+    password: admin123
   mvc:
     pathmatch:
       matching-strategy: ant_path_matcher

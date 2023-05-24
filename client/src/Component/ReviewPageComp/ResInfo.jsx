@@ -1,11 +1,10 @@
 import styled from "styled-components";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router";
-import ImgBtn from "../style/ImgBtn";
-import { api } from "../../Util/api";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useRecoilValue } from "recoil";
+import ImgBtn from "../style/ImgBtn";
 import memberState from "../../state/atoms/SignAtom";
+import { api } from "../../Util/api";
 
 const RestaurantContainer = styled.div`
   width: 100%;
@@ -52,7 +51,6 @@ const ResInfo = () => {
   const { res_id } = useParams();
   const [resInfo, setresInfo] = useState({});
   const userData = useRecoilValue(memberState);
-
   useEffect(() => {
     const fetchRestaurant = async () => {
       try {

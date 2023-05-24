@@ -4,7 +4,9 @@ import { useNavigate, useParams } from "react-router-dom";
 import Button from "../Component/style/StyleButton";
 import ResInfo from "../Component/ReviewPageComp/ResInfo";
 import ReviewInfo from "../Component/ReviewPageComp/ReviewInfo";
+import Loading from "../Component/Loading";
 import { ReviewState } from "../state/atoms/ReviewAtom";
+import { IsLoadingState } from "../state/atoms/IsLoadingAtom";
 import { api } from "../Util/api";
 
 const BasicContainer = styled.div`
@@ -30,7 +32,7 @@ const Review = () => {
   const navi = useNavigate();
   const [ReviewData, setReviewData] = useRecoilState(ReviewState);
   const { res_id } = useParams();
-
+  const [isLoaing, setisLoading] = useRecoilState(IsLoadingState);
   // 리뷰 남기기 버튼
   const handleSubmit = async () => {
     await api
@@ -39,6 +41,7 @@ const Review = () => {
         console.log("잘보냄");
         alert("리뷰를 등록하였습니다.");
         setReviewData({});
+        setisLoading(false);
         navi(-1);
       })
       .catch((err) => {
@@ -52,18 +55,24 @@ const Review = () => {
     navi(-1);
   };
   return (
-    <BasicContainer className="Basic-Container">
-      <ResInfo />
-      <ReviewInfo reviewData={ReviewData} setReviewData={setReviewData} />
-      <ButtonContainer className="Button-Container">
-        <Button btnstyle="Btn" onClick={handleSubmit}>
-          리뷰 작성
-        </Button>
-        <Button btnstyle="Btn" onClick={handleCancel}>
-          취 소
-        </Button>
-      </ButtonContainer>
-    </BasicContainer>
+    <>
+      {isLoaing ? (
+        <Loading />
+      ) : (
+        <BasicContainer className="Basic-Container">
+          <ResInfo />
+          <ReviewInfo reviewData={ReviewData} setReviewData={setReviewData} />
+          <ButtonContainer className="Button-Container">
+            <Button btnstyle="Btn" onClick={handleSubmit}>
+              리뷰 작성
+            </Button>
+            <Button btnstyle="Btn" onClick={handleCancel}>
+              취 소
+            </Button>
+          </ButtonContainer>
+        </BasicContainer>
+      )}
+    </>
   );
 };
 

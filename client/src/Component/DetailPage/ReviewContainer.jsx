@@ -45,7 +45,8 @@ const ReviewContainer = () => {
     {
       sessionStorage.getItem("Authorization")
         ? navigate(`/review/restaurants/${res_id}`)
-        : navigate(`/login`);
+        : alert("로그인 후 이용해주세요.");
+      navigate(`/login`);
     }
   };
 

@@ -35,29 +35,37 @@ function KakaoMap({ onAddressUpdate }) {
   let infowindow = null;
 
   useEffect(() => {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition((position) => {
-        setLatitude(position.coords.latitude);
-        setLongitude(position.coords.longitude);
+    const fetchData = async () => {
+      try {
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition((position) => {
+            setLatitude(position.coords.latitude);
+            setLongitude(position.coords.longitude);
 
-        const geocoder = new window.kakao.maps.services.Geocoder();
-        const coord = new window.kakao.maps.LatLng(
-          position.coords.latitude,
-          position.coords.longitude,
-        );
-        geocoder.coord2RegionCode(
-          coord.getLng(),
-          coord.getLat(),
-          (result, status) => {
-            if (status === window.kakao.maps.services.Status.OK) {
-              onAddressUpdate(result[0].address_name);
-            }
-          },
-        );
-      });
-    } else {
-      alert("Your browser does not support geolocation.");
-    }
+            const geocoder = new window.kakao.maps.services.Geocoder();
+            const coord = new window.kakao.maps.LatLng(
+              position.coords.latitude,
+              position.coords.longitude,
+            );
+            geocoder.coord2RegionCode(
+              coord.getLng(),
+              coord.getLat(),
+              (result, status) => {
+                if (status === window.kakao.maps.services.Status.OK) {
+                  onAddressUpdate(result[0].address_name);
+                }
+              },
+            );
+          });
+        } else {
+          alert("Your browser does not support geolocation.");
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchData();
   }, [onAddressUpdate]);
 
   useEffect(() => {

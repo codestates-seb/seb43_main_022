@@ -115,11 +115,11 @@ const Imgadd = styled.div`
 `;
 
 const ReviewInfo = ({ reviewData, setReviewData }) => {
-  const [showImages, setShowImages] = useState(reviewData.image);
-  const [rating, setRating] = useState(reviewData.rating);
+  const [showImages, setShowImages] = useState(reviewData.image || []);
+  const [rating, setRating] = useState(reviewData.rating || "");
   const [{ title, content }, onInputChange] = useInput({
-    title: `${reviewData.title}`,
-    content: `${reviewData.content}`,
+    title: `${reviewData.title || ""}`,
+    content: `${reviewData.content || ""}`,
   });
   useEffect(() => {
     const image = showImages.map((image) => image);
@@ -204,15 +204,17 @@ const ReviewInfo = ({ reviewData, setReviewData }) => {
         <p>리뷰 사진은 3개만 등록이 가능합니다.</p>
         {/* // 저장해둔 이미지들을 순회하면서 화면에 이미지 출력 */}
         <Imgul>
-          {showImages.map((image, id) => (
-            <li className="review-img" key={id}>
-              <img src={image.image} alt={`${image.name}-${id}`} />
-              {console.log(image, "맵안 이미지")}
-              <div>
-                <button onClick={() => handleDeleteImage(id)}>X</button>
-              </div>
-            </li>
-          ))}
+          {showImages
+            ? showImages.map((image, id) => (
+                <li className="review-img" key={id}>
+                  <img src={image.image} alt={`${image.name}-${id}`} />
+                  {console.log(image, "맵안 이미지")}
+                  <div>
+                    <button onClick={() => handleDeleteImage(id)}>X</button>
+                  </div>
+                </li>
+              ))
+            : null}
           {showImages.length >= 3 ? null : (
             <Imgadd className="img-add margin">
               <label htmlFor="img-input">

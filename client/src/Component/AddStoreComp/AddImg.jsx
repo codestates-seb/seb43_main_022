@@ -98,8 +98,8 @@ const AddImg = ({ formData, setFormData }) => {
     setIsUploaded(false);
     setFormData({
       ...formData,
-      image: "",
-      imageName: "",
+      image: null,
+      imageName: null,
     });
   };
   return (

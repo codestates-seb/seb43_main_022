@@ -75,22 +75,38 @@ const AddImg = ({ formData, setFormData }) => {
     }
   }, [formData.image]);
 
+  // const handleImageChange = (e) => {
+  //   const selectedImage = e.target.files[0];
+  //   // if (selectedImage.length === 0) {
+  //   //   setImgFile("");
+  //   //   return;
+  //   // }
+  //   const reader = new FileReader();
+  //   reader.onloadend = () => {
+  //     setImgFile(reader.result); //  base64 URL 형식을 저장하는 변수
+  //     console.log("이미지", imgFile);
+  //     setFormData({
+  //       ...formData,
+  //       imageName: selectedImage.name,
+  //       base64Image: imgFile,
+  //     });
+  //     setIsUploaded(true);
+  //   };
+  //   reader.readAsDataURL(selectedImage);
+  // };
   const handleImageChange = (e) => {
     const selectedImage = e.target.files[0];
-    if (selectedImage.length === 0) {
-      setImgFile("");
-      return;
-    }
     const reader = new FileReader();
     reader.onloadend = () => {
       setImgFile(reader.result);
       setFormData({
         ...formData,
-        image: reader.result,
         imageName: selectedImage.name,
+        base64Image: reader.result,
       });
       setIsUploaded(true);
     };
+
     reader.readAsDataURL(selectedImage);
   };
   const handleDelete = () => {

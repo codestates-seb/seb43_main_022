@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import ImgBtn from "../style/ImgBtn";
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import memberState from "../../state/atoms/SignAtom";
 import { api } from "../../Util/api";
@@ -46,6 +46,8 @@ const SubInfo = styled.div`
 
 const StoreHead = () => {
   const { res_id } = useParams();
+
+  const navigate = useNavigate();
   const member = useRecoilValue(memberState);
 
   const [heartIcon, setHeartIcon] = useState(false);
@@ -99,6 +101,7 @@ const StoreHead = () => {
     try {
       if (!member.memberId) {
         alert("로그인이 필요합니다.");
+        navigate("/login");
         return;
       }
       if (!heartIcon && member.memberId) {

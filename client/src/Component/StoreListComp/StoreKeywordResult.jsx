@@ -12,7 +12,7 @@ import {
 } from "../../state/atoms/SearchStateAtom";
 import { searchStateTag } from "../../state/atoms/SearchStateTagAtom";
 import memberState from "../../state/atoms/SignAtom";
-import { IsLoadingState } from "../../state/atoms/IsLoadingAtom";
+// import { IsLoadingState } from "../../state/atoms/IsLoadingAtom";
 
 const NoResult = () => <div>검색결과가 없습니다</div>;
 const StoreKeywordResult = () => {
@@ -37,7 +37,7 @@ const StoreKeywordResult = () => {
   const nav = useNavigate();
 
   useEffect(() => {
-    const setIsLoading = useSetRecoilState(IsLoadingState); //<= default 값 true -> 로딩화면이 보이는상태
+    // const setIsLoading = useSetRecoilState(IsLoadingState); //<= default 값 true -> 로딩화면이 보이는상태
     const encodedCategoryName = encodeURIComponent(searchKeyword);
     const fetchData = async () => {
       try {
@@ -49,12 +49,13 @@ const StoreKeywordResult = () => {
         if (encodedCategoryName) {
           nav(`/itemlist?search=${encodedCategoryName}`);
         }
-        setIsLoading(false);
+
         console.log("새로고침시 데이터받기11", refreshPageData);
         console.log("새로고침시 데이터받기22", refreshPageData.data);
         console.log("새로고침시 데이터받기 stores에 저장값", results.data);
-        const response = await api.get("/members/mypage");
-        setUserDataFavor(response.data.favorites);
+        // const response = await api.get("/members/mypage");
+
+        setUserDataFavor(member.favorites);
       } catch (error) {
         console.error("에러", error);
       }
@@ -67,6 +68,7 @@ const StoreKeywordResult = () => {
     try {
       if (!member.memberId) {
         alert("로그인을해주세요");
+        nav(`/login`);
       }
       const isFavorite = userDataFavor.some(
         (fav) => fav.restaurantId === restaurantId,
@@ -360,7 +362,7 @@ const BtnPosition = styled.div`
 `;
 
 const StoreCard = styled.li`
-  height: 422px;
+  height: 432px;
   cursor: pointer;
   width: 390px;
   border-radius: 30px;

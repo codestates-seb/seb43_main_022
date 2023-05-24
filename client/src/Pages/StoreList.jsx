@@ -2,9 +2,9 @@ import styled from "styled-components";
 import StoreKeywordSearch from "../Component/StoreListComp/StoreKeywordSearch";
 import StoreKeywordResult from "../Component/StoreListComp/StoreKeywordResult";
 import StoreMap from "../Component/StoreListComp/StoreMap";
-import { useRecoilValue } from "recoil";
-import { IsLoadingState } from "../state/atoms/IsLoadingAtom";
-import Loading from "../Component/Loading";
+// import { useRecoilValue } from "recoil";
+// import { IsLoadingState } from "../state/atoms/IsLoadingAtom";
+// import Loading from "../Component/Loading";
 const StoreListWrap = styled.div`
   display: flex;
   flex-wrap: wrap;
@@ -26,21 +26,19 @@ export const Title = styled.h2`
   flex-basis: 100%;
 `;
 const StoreList = () => {
-  const isLoading = useRecoilValue(IsLoadingState);
+  // const isLoading = useRecoilValue(IsLoadingState);
 
   return (
     <>
-      {isLoading ? (
-        <Loading />
-      ) : (
-        <StoreListWrap>
-          <StoreKeywordSearch />
-          <StoreMainWrap>
-            <StoreKeywordResult />
-            <StoreMap />
-          </StoreMainWrap>
-        </StoreListWrap>
-      )}
+      {/* <Loading /> */}
+
+      <StoreListWrap>
+        <StoreKeywordSearch />
+        <StoreMainWrap>
+          <StoreKeywordResult />
+          <StoreMap />
+        </StoreMainWrap>
+      </StoreListWrap>
     </>
   );
 };

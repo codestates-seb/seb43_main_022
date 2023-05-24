@@ -40,7 +40,7 @@ const LocationBtn = styled.button`
   background: var(--white);
 
   z-index: 90;
-  &: hover {
+  &:hover {
     background: var(--eatsgreen);
     color: var(--white);
   }

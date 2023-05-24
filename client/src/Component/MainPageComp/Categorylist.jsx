@@ -5,10 +5,7 @@ import { categoryState } from "../../state/atoms/CategoryAtom";
 // import { searchTermState } from "../../state/atoms/SearchTermState";
 import { api } from "../../Util/api";
 import { useNavigate } from "react-router";
-import {
-  searchKeywordState,
-  searchResultsState,
-} from "../../state/atoms/SearchStateAtom";
+import { searchKeywordState } from "../../state/atoms/SearchStateAtom";
 
 const CategoryContainer = styled.div`
   width: 100%;
@@ -94,8 +91,7 @@ const CategoryContainer = styled.div`
 `;
 const Categorylist = () => {
   const [categoryData, setCategoryData] = useRecoilState(categoryState);
-  const setSearchKeyword = useSetRecoilState(searchKeywordState);
-  const setSearchResults = useSetRecoilState(searchResultsState);
+  const [, setSearchTerm] = useRecoilState(searchKeywordState);
   const [currentPage, setCurrentPage] = useState(1);
   const [visibleCategory, setVisibleCategory] = useState([]);
   const navi = useNavigate();

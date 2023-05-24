@@ -47,8 +47,6 @@ public class MemberDto {
         private String streetAddress;
         private double latitude;
         private double longitude;
-        private String base64Image;
-        private String imageName;
 
         public void setMemberId(long memberId) {
             this.memberId = memberId;

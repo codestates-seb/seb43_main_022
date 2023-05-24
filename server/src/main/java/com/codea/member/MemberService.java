@@ -71,12 +71,11 @@ public class MemberService {
     }
 
     @Transactional(propagation = Propagation.REQUIRED)
-    public Member updateMember(String email, Address address, String imageUrl, Member member) {
+    public Member updateMember(String email, Address address, Member member) {
 
         Member findMember = findMember(email);
 
         if (!findMember.getEmail().equals(email)) throw new BusinessLogicException(ExceptionCode.UNAUTHORIZED_EDIT);
-
 
         Optional.ofNullable(member.getNickName()).ifPresent(name -> findMember.setNickName(name));
         Optional.ofNullable(member.getPassword()).ifPresent(password -> {
@@ -92,8 +91,6 @@ public class MemberService {
                     .orElseGet(() -> addressRepository.save(address));
             findMember.setAddress(persistedAddress);
         }
-
-        if (imageUrl != null) findMember.setImage(imageUrl);
 
         return memberRepository.save(findMember);
     }

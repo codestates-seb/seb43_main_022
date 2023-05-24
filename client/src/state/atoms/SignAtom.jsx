@@ -15,6 +15,7 @@ let memberState = atom({
     longitude: "",
     businessAccount: false,
     photo: "",
+    favorite: [],
   },
   effects_UNSTABLE: [persistAtom],
 });

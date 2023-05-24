@@ -44,7 +44,7 @@ const StoreKeywordResult = () => {
         const refreshPageData = await api.get(
           `/restaurants/search?keyword=${encodedCategoryName}`,
         );
-        setSearchResultsState(refreshPageData.data.data);
+        setSearchResultsState(refreshPageData.data);
 
         if (encodedCategoryName) {
           nav(`/itemlist?search=${encodedCategoryName}`);

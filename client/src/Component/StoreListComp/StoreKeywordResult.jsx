@@ -5,14 +5,13 @@ import { api } from "../../Util/api";
 import ReactPaginate from "react-paginate";
 import ImgBtn from "../style/ImgBtn";
 import styled from "styled-components";
-import { useRecoilValue } from "recoil";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 import { searchResultsState } from "../../state/atoms/SearchStateAtom";
 import { searchStateTag } from "../../state/atoms/SearchStateTagAtom";
 import memberState from "../../state/atoms/SignAtom";
 
 const NoResult = () => <div>검색결과가 없습니다</div>;
 const StoreKeywordResult = () => {
-  const [, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(0);
   const resultsPerPage = 4;
   const [isHeartActive, setIsHeartActive] = useState(false);
@@ -21,8 +20,10 @@ const StoreKeywordResult = () => {
   const [userDataFavor, setUserDataFavor] = useState([]);
   const [stores, setStores] = useState([]);
   const member = useRecoilValue(memberState);
+
   //해더에서 검색되서 온 값 result
   const results = useRecoilValue(searchResultsState);
+  const setSearchResultsState = useSetRecoilState(searchResultsState);
   //2차 검색해서 저장된 값 searchResults
   const searchTagResults = useRecoilValue(searchStateTag);
 
@@ -32,11 +33,10 @@ const StoreKeywordResult = () => {
     const fetchData = async () => {
       try {
         const refreshPageData = await api.get("/restaurants");
-        setStores(refreshPageData.data);
+        setSearchResultsState(refreshPageData.data);
         console.log("새로고침시 데이터받기11", refreshPageData);
         console.log("새로고침시 데이터받기22", refreshPageData.data);
-        console.log("새로고침시 데이터받기33", refreshPageData.data.data);
-
+        console.log("새로고침시 데이터받기 stores에 저장값", results.data);
         const response = await api.get("/members/mypage");
         setUserDataFavor(response.data.favorites);
       } catch (error) {
@@ -46,7 +46,6 @@ const StoreKeywordResult = () => {
     fetchData();
   }, []);
   console.log("로그인된 사용자 즐겨찾기목록", userDataFavor);
-  console.log("새로고침시 데이터받기 stores에 저장값", stores);
 
   const handleButtonClick = async (restaurantId) => {
     try {
@@ -125,10 +124,9 @@ const StoreKeywordResult = () => {
         }
         setStores(data);
         console.log("최신순,리뷰순,즐찾순으로 저장된 가게데이터 :", data);
-        setLoading(false);
       } catch (error) {
         console.error("Error fetching data: ", error);
-        setLoading(false);
+
         setNoResult(true);
       }
     };

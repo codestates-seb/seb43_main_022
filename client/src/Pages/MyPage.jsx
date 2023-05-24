@@ -17,13 +17,11 @@ const Container = styled.div`
 const MyPage = () => {
   return (
     <Container>
-      <>
-        <MyInfo />
-        <RowBox>
-          <MyReviewContainer />
-          <BookmarkContainer />
-        </RowBox>
-      </>
+      <MyInfo />
+      <RowBox>
+        <MyReviewContainer />
+        <BookmarkContainer />
+      </RowBox>
     </Container>
   );
 };

@@ -13,6 +13,10 @@ const Container = styled.div`
   border-radius: 10px;
   overflow: hidden;
   background-color: #dbd9cd;
+  > #map {
+    width: 100%;
+    height: 100%;
+  }
   > .InfoContainer {
     width: 500px;
     height: 340px;
@@ -83,10 +87,7 @@ const Container = styled.div`
     background-color: #fff;
   }
 
-  > #map {
-    width: 100%;
-    height: 100%;
-  }
+  
 `;
 
 export default function KakaoMap() {

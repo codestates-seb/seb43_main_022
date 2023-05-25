@@ -15,13 +15,14 @@ const MapElement = styled.div`
 
 const RestaurantList = styled.div`
   margin-top: 20px;
-
   > div {
     margin: 10px 0;
-    border-radius: 10px;
-    background-color: beige;
+    border-bottom: 1px solid #ebebeb;
     font-size: var(--small-font);
     cursor: pointer;
+    font-size: 16px;
+    padding: 10px 4px;
+    text-indent: 10px;
     :hover {
       color: var(--eatsgreen);
     }
@@ -186,7 +187,7 @@ function KakaoMap({ onAddressUpdate }) {
         <MapElement ref={mapRef} />
       </MapContainer>
       <RestaurantList>
-        {restaurants.map((restaurant, index) => (
+        {restaurants.slice(0, 10).map((restaurant, index) => (
           <div
             key={index}
             onClick={() => handleRestaurantClick(restaurant)}

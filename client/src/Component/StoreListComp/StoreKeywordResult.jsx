@@ -12,7 +12,6 @@ import {
 } from "../../state/atoms/SearchStateAtom";
 import { searchStateTag } from "../../state/atoms/SearchStateTagAtom";
 import memberState from "../../state/atoms/SignAtom";
-// import { IsLoadingState } from "../../state/atoms/IsLoadingAtom";
 
 const NoResult = () => <div>검색결과가 없습니다</div>;
 const StoreKeywordResult = () => {
@@ -25,19 +24,15 @@ const StoreKeywordResult = () => {
   const [stores, setStores] = useState([]);
   const [member, setMember] = useRecoilState(memberState);
   const searchKeyword = useRecoilValue(searchKeywordState);
-  //해더에서 검색되서 온 값 result
+
   const results = useRecoilValue(searchResultsState);
   const setSearchResultsState = useSetRecoilState(searchResultsState);
-  //2차 검색해서 저장된 값 searchResults
-  const searchTagResults = useRecoilValue(searchStateTag);
 
-  console.log("헤더서치 검색결과 저장된 것 results :", results);
-  console.log("필터링데이터 searchTagResults :", searchTagResults);
+  const searchTagResults = useRecoilValue(searchStateTag);
 
   const nav = useNavigate();
 
   useEffect(() => {
-    // const setIsLoading = useSetRecoilState(IsLoadingState); //<= default 값 true -> 로딩화면이 보이는상태
     const encodedCategoryName = encodeURIComponent(searchKeyword);
     const fetchData = async () => {
       try {
@@ -50,10 +45,6 @@ const StoreKeywordResult = () => {
           nav(`/itemlist?search=${encodedCategoryName}`);
         }
 
-        console.log("새로고침시 데이터받기11", refreshPageData);
-        console.log("새로고침시 데이터받기22", refreshPageData.data);
-        console.log("새로고침시 데이터받기 stores에 저장값", results.data);
-
         setUserDataFavor(member.favorites);
       } catch (error) {
         console.error("에러", error);
@@ -61,7 +52,6 @@ const StoreKeywordResult = () => {
     };
     fetchData();
   }, []);
-  console.log("로그인된 사용자 즐겨찾기목록", userDataFavor);
 
   const handleButtonClick = async (restaurantId) => {
     try {
@@ -86,7 +76,7 @@ const StoreKeywordResult = () => {
         await api.post(`/favorites/restaurant/${restaurantId}`);
 
         const response = await api.get("members/mypage");
-        setMember(response.data);
+        setMember({ ...member, favorites: response.data.favorites });
         setUserDataFavor(response.data.favorites);
       }
 
@@ -115,33 +105,20 @@ const StoreKeywordResult = () => {
       try {
         let data = [];
         if (searchTagResults) {
-          //만약 searchResults가 있다면 searchResults값을 데이터로
           data = [...searchTagResults];
-          console.log("2차검색 '있'을때 데이터(초기에도)", data);
-        }
-        //검색된 결과값이 있으면 데이터는 헤더에서 검색된 값으로
-        else if (results) {
+        } else if (results) {
           data = [...results];
-          console.log("2차검색 '없'을때 필터시작할거", data);
         } else {
           data = [...stores];
-          console.log(
-            "가게리스트 클릭해서 왔거나, 새로고침했을때 store에 저장했던 데이터:",
-            data,
-          );
         }
         if (currentFilter === "createdAt") {
           data.sort(filterByLatest);
-          console.log("최신순 데이터 :", data);
         } else if (currentFilter === "total_reviews") {
           data.sort(filterByReview);
-          console.log("리뷰순 데이터 :", data);
         } else if (currentFilter === "totalFavorite") {
           data.sort(filterByFavorites);
-          console.log("즐겨찾기순 데이터 :", data);
         }
         setStores(data);
-        console.log("최신순,리뷰순,즐찾순으로 저장된 가게데이터 :", data);
       } catch (error) {
         console.error("Error fetching data: ", error);
 
@@ -156,9 +133,7 @@ const StoreKeywordResult = () => {
     setCurrentPage(selectedPage);
   };
 
-  const handleClick = (restaurantId) => {
-    console.log(`Clicked on store with : ${restaurantId}`);
-
+  const handleClick = () => {
     setIsHeartActive(!isHeartActive);
   };
 
@@ -167,10 +142,7 @@ const StoreKeywordResult = () => {
     .slice(offset, offset + resultsPerPage)
     .map((store) => (
       <DataContentWrap key={store.restaurantId}>
-        <Link
-          to={`/detail/${store.restaurantId}`}
-          onClick={() => handleClick(store.restaurantId)}
-        >
+        <Link to={`/detail/${store.restaurantId}`} onClick={handleClick}>
           <CardWrap>
             <StoreCard>
               <div className="photoUrl">

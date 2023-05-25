@@ -35,7 +35,7 @@ const KeywordBoxLeftArea = styled.div`
     display: flex;
     align-items: center;
     > h2 {
-      flex-basis: 150px;
+      flex-basis: 180px;
     }
     > svg {
       width: 20px;
@@ -108,31 +108,28 @@ const StoreKeywordSearch = () => {
   useEffect(() => {
     setSearchInputState("");
   }, []);
-  // 현재 페이지에서만 작동하는 searchTagInput 입력되면 2중검색태그키워드에 저장된다.
+
   const handleFormSubmit = (event) => {
     event.preventDefault();
     setSearchInputState(searchTagInput);
-    console.log("제출된 2차검색값 :", searchTagInput);
+
     setSearchInput("");
   };
 
-  // 인풋창에 입력된값이 searchTagInput에 set되도록 함
   const handleInputChange = (event) => {
     setSearchInput(event.target.value);
   };
-  //인기키워드가 클릭되면 setSearchInput에 클릭된값을 넣는다(화면용), setSearchInputState(실제 검색용)값도 변경시킨다.
+
   const handleKeywordClick = (keyword) => {
-    // setSearchInput(keyword);
     setSearchInputState(keyword);
-    console.log("인기키워드 클릭시 검색으로 전달된 값 :", keyword);
   };
-  // 새로고침 클릭시 인기키워드 랜덤하게 뽑아줌
+
   const refreshKeywords = () => {
     setRandomKeywords(
       [...keywords].sort(() => Math.random() - 0.5).slice(0, 12),
     );
   };
-  // 인기키워드 랜더링시에보이고, 클릭될때만 실행
+
   useEffect(() => {
     refreshKeywords();
   }, []);

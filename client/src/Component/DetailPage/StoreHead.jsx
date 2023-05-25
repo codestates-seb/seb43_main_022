@@ -60,7 +60,6 @@ const StoreHead = () => {
     totalFavorite: 0,
   });
 
-  // 데이터조회
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -78,25 +77,22 @@ const StoreHead = () => {
     fetchData();
   }, []);
 
-  //사용자가 해당 가게를 즐겨찾기한 경우
   const heartFunc = (b) => {
     const filterArr = b.filter((item) => {
       return item.memberId === member.memberId ? item : null;
     });
-    console.log(filterArr);
+
     return filterArr.length === 0;
   };
 
-  //사용자가 즐겨찾기한 항목을 삭제
   const deleteFunc = (a) => {
     const filterArr = a.filter((item) => {
       return item.memberId === member.memberId ? item : null;
     });
-    console.log(filterArr);
+
     return filterArr[0].favoriteId;
   };
 
-  // 즐겨찾기
   const handleHeartIcon = async () => {
     try {
       if (!member.memberId) {
@@ -108,18 +104,33 @@ const StoreHead = () => {
         await api.post(`/favorites/restaurant/${data.restaurantId}`);
         const response = await api.get(`/restaurants/${res_id}`);
         const res = await api.get(`members/mypage`);
+
         const postData = response.data;
         setData(postData);
         setMember(res.data);
+        setMember({
+          ...member,
+          streetAddress: res.data.address.streetAddress,
+          latitude: res.data.address.latitude,
+          longitude: res.data.address.longitude,
+          favorites: res.data.favorites,
+        });
       } else {
         const endpoint = deleteFunc(data.favorites);
-        const responseData = await api.delete(`/favorites/${endpoint}`);
+        await api.delete(`/favorites/${endpoint}`);
         const response1 = await api.get(`/restaurants/${res_id}`);
         const res = await api.get(`members/mypage`);
         const deleteData = response1.data;
         setData(deleteData);
-        console.log(responseData);
+
         setMember(res.data);
+        setMember({
+          ...member,
+          streetAddress: res.data.address.streetAddress,
+          latitude: res.data.address.latitude,
+          longitude: res.data.address.longitude,
+          favorites: res.data.favorites,
+        });
       }
       setHeartIcon(!heartIcon);
     } catch (error) {
@@ -127,13 +138,20 @@ const StoreHead = () => {
     }
   };
 
-  const handleShareIcon = () => {
+  const handleShareIcon = async () => {
     setShareIcon(!shareIcon);
-    if (navigator.clipboard) {
-      navigator.clipboard.writeText(window.location.href);
-      alert("링크가 복사되었습니다.");
-    } else {
+    const link = window.location.href;
+
+    try {
+      if (navigator.clipboard) {
+        await navigator.clipboard.writeText(link);
+        alert("링크가 복사되었습니다.");
+      } else {
+        alert("이 브라우저에서는 링크 복사를 지원하지 않습니다.");
+      }
+    } catch (error) {
       alert("링크 복사에 실패했습니다.");
+      console.error("링크 복사 오류:", error);
     }
   };
 

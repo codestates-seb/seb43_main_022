@@ -1,7 +1,5 @@
 import { useState, useEffect } from "react";
 import styled from "styled-components";
-// import { useRecoilValue } from "recoil";
-// import { categoryState } from "../../state/atoms/CategoryAtom";
 
 const AddInfoWrap = styled.div`
   width: calc(50% - 25px);
@@ -93,7 +91,6 @@ const AddInfo = ({ formData, setFormData }) => {
     setFormData({ ...formData, tel: value });
   };
 
-  /** 주소지 입력, 위도 경도 변환*/
   useEffect(() => {
     const script = document.createElement("script");
     script.src =
@@ -120,13 +117,13 @@ const AddInfo = ({ formData, setFormData }) => {
       oncomplete: function (data) {
         if (window.kakao && window.kakao.maps) {
           const geocoder = new window.kakao.maps.services.Geocoder();
-          geocoder.addressSearch(data.jibunAddress, function (result, status) {
+          geocoder.addressSearch(data.roadAddress, function (result, status) {
             if (status === window.kakao.maps.services.Status.OK) {
               setLatitude(result[0].y);
               setLongitude(result[0].x);
               setFormData({
                 ...formData,
-                streetAddress: data.jibunAddress,
+                streetAddress: data.roadAddress,
                 latitude: result[0].y,
                 longitude: result[0].x,
               });
@@ -139,16 +136,15 @@ const AddInfo = ({ formData, setFormData }) => {
       },
     }).open();
   };
-  //const category = useRecoilValue(categoryState);
-  const catagory = [
+  const category = [
     "한식",
-    "중식",
-    "일식",
     "양식",
+    "일식",
+    "중식",
     "베트남 요리",
     "인도 요리",
     "분식",
-    "디저트",
+    "후식",
     "퓨전요리",
     "채식",
     "해물",
@@ -157,7 +153,7 @@ const AddInfo = ({ formData, setFormData }) => {
 
   const onInputCategoryChange = (e) => {
     const { name, value } = e.target;
-    console.log(e.target);
+
     setFormData({ ...formData, [name]: value });
   };
   return (
@@ -200,7 +196,7 @@ const AddInfo = ({ formData, setFormData }) => {
         onChange={onInputCategoryChange}
       >
         <option value="">가게 카테고리를 선택해주세요</option>
-        {catagory.map((category, index) => (
+        {category.map((category, index) => (
           <option key={index} value={category}>
             {category}
           </option>

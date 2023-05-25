@@ -31,7 +31,7 @@ const HotlistContainer = styled.div`
       width: 250px;
       height: 160px;
       display: flex;
-      justify-content: center;
+      justify-content: flex-start;
       align-items: center;
       margin: 5px 10px;
       border: 1px solid var(--black-200);
@@ -44,11 +44,11 @@ const HotlistContainer = styled.div`
       .hotlist-link {
         height: 100%;
         display: flex;
-        justify-content: center;
+        justify-content: flex-start;
         align-items: center;
       }
       .hotitem-imgbox {
-        width: 5em;
+        width: 6em;
         height: 100%;
         border-right: 1px solid var(--black-200);
         margin-right: 8px;
@@ -76,6 +76,7 @@ const HotlistContainer = styled.div`
         .hotitem-title {
           width: 6em;
           height: 3em;
+          padding-right: 10px;
           color: var(--black-800);
           font-weight: bold;
           margin: 10px 0px 20px;
@@ -111,11 +112,25 @@ const HotlistContainer = styled.div`
 const Hotlist = () => {
   const hotListData = useRecoilValue(RestaurantState);
   const navi = useNavigate();
-  const local = "강남";
+  const local = "강남" || "서초";
 
-  const filterData = hotListData
-    .filter((item) => item.streetAddress.includes(local))
-    .slice(0, 8);
+  const getRandomItems = (array, count) => {
+    const shuffled = array.slice();
+    let currentIndex = array.length;
+    let temporaryValue, randomIndex;
+    while (currentIndex !== 0) {
+      randomIndex = Math.floor(Math.random() * currentIndex);
+      currentIndex -= 1;
+      temporaryValue = shuffled[currentIndex];
+      shuffled[currentIndex] = shuffled[randomIndex];
+      shuffled[randomIndex] = temporaryValue;
+    }
+    return shuffled.slice(0, count);
+  };
+  const filterData = hotListData.filter((item) =>
+    item.streetAddress.includes(local),
+  );
+  const randomItems = getRandomItems(filterData, 8);
 
   const MoreHotList = () => {
     navi(`/itemlist?serch=${local}`);
@@ -123,11 +138,11 @@ const Hotlist = () => {
 
   return (
     <HotlistContainer className="Hotlist-Container">
-      <div className="hotlist-title">내 지역 인기 맛집</div>
-      <div className="hotlist-subtitle">가장 인기가 많은 맛집이에요</div>
+      <div className="hotlist-title">내 지역 맛집 리스트</div>
+      <div className="hotlist-subtitle">내 지역 맛집 리스트 목록이에요</div>
       <ul className="hotlist-ul">
         {hotListData ? (
-          filterData.map((resInfo, idx) => (
+          randomItems.map((resInfo, idx) => (
             <li className="hotlist-item" key={idx}>
               <Link
                 to={`/detail/${resInfo.restaurantId} `}

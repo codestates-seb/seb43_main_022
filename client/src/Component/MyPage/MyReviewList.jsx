@@ -72,7 +72,6 @@ const MyReviewList = () => {
           <PrevBtn onClick={() => Pagenation((count += 6))}>다음</PrevBtn>
         ) : null}
       </Pagediv>
-      {console.log(slice, count)}
     </>
   );
 };

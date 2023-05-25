@@ -112,8 +112,6 @@ const Header = () => {
   const setSearchResultsState = useSetRecoilState(searchResultsState);
   const setSearchKeywordState = useSetRecoilState(searchKeywordState);
   const [member, setMember] = useRecoilState(memberState);
-  // const setSearchDefaultState = useSetRecoilState(searchDefaultState);
-  // const setResult = useSetRecoilState(searchResultsState);
 
   const logoutFunc = () => {
     setIsLogin(!isLogin);
@@ -131,8 +129,8 @@ const Header = () => {
     const response = await api.get(
       `/restaurants/search?keyword=${encodedSearchTerm}`,
     );
-    // console.log(response.data);
-    setSearchResultsState(response.data.data);
+
+    setSearchResultsState(response.data);
 
     setSearchKeywordState(serchKeywordHeader);
 
@@ -166,13 +164,13 @@ const Header = () => {
       api
         .get("/members/mypage")
         .then((res) => {
-          console.log(res.data);
           setMember(res.data);
           setMember({
             ...member,
             streetAddress: res.data.address.streetAddress,
             latitude: res.data.address.latitude,
             longitude: res.data.address.longitude,
+            favorites: res.data.favorites,
           });
         })
         .catch((err) => console.log(err));

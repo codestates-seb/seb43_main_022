@@ -1,12 +1,10 @@
 import styled from "styled-components";
-import { useRecoilState } from "recoil";
 import { useNavigate, useParams } from "react-router-dom";
+import { useRecoilState } from "recoil";
 import Button from "../Component/style/StyleButton";
 import ResInfo from "../Component/ReviewPageComp/ResInfo";
 import ReviewInfo from "../Component/ReviewPageComp/ReviewInfo";
-// import Loading from "../Component/Loading";
 import { ReviewState } from "../state/atoms/ReviewAtom";
-import { IsLoadingState } from "../state/atoms/IsLoadingAtom";
 import { api } from "../Util/api";
 
 const BasicContainer = styled.div`
@@ -32,22 +30,18 @@ const Review = () => {
   const navi = useNavigate();
   const [ReviewData, setReviewData] = useRecoilState(ReviewState);
   const { res_id } = useParams();
-  const [, setisLoading] = useRecoilState(IsLoadingState);
   // 리뷰 남기기 버튼
   const handleSubmit = async () => {
     await api
       .post(`/reviews/restaurants/${res_id}`, ReviewData)
       .then(() => {
-        console.log("잘보냄");
         alert("리뷰를 등록하였습니다.");
         setReviewData({});
-        setisLoading(false);
         navi(-1);
       })
       .catch((err) => {
-        alert("리뷰 등록에 실패하였습니다.");
+        alert("모든 내용을 입력하였는지 확인해주세요.");
         console.log(err);
-        console.log(ReviewData, "리뷰 페이지");
       });
   };
   // 취소 버튼
@@ -55,10 +49,6 @@ const Review = () => {
     navi(-1);
   };
   return (
-    // <>
-    //   {isLoaing ? (
-    //     <Loading />
-    //   ) : (
     <BasicContainer className="Basic-Container">
       <ResInfo />
       <ReviewInfo reviewData={ReviewData} setReviewData={setReviewData} />
@@ -71,8 +61,6 @@ const Review = () => {
         </Button>
       </ButtonContainer>
     </BasicContainer>
-    //   )}
-    // </>
   );
 };
 

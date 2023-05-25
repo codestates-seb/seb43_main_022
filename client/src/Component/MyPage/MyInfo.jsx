@@ -289,6 +289,7 @@ const MyInfo = () => {
           longitude: res.data.address.longitude,
           favorites: res.data.favorites,
         });
+
         setMemberUpdate(!memberUpdate);
       })
       .catch((err) => {

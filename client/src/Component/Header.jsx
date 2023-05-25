@@ -111,7 +111,7 @@ const Header = () => {
   const [serchKeywordHeader, setSerchKeywordHeader] = useState("");
   const setSearchResultsState = useSetRecoilState(searchResultsState);
   const setSearchKeywordState = useSetRecoilState(searchKeywordState);
-
+  const [member, setMember] = useRecoilState(memberState);
   // const setSearchDefaultState = useSetRecoilState(searchDefaultState);
   // const setResult = useSetRecoilState(searchResultsState);
 
@@ -161,6 +161,20 @@ const Header = () => {
   };
 
   const handleLinkStoreList = () => {
+    if (sessionStorage.getItem("Authorization")) {
+      api
+        .get("/members/mypage")
+        .then((res) => {
+          console.log(res.data);
+          setMember(res.data);
+          setMember({
+            ...member,
+            latitude: res.data.address.latitude,
+            longitude: res.data.address.longitude,
+          });
+        })
+        .catch((err) => console.log(err));
+    }
     setSearchKeywordState("");
     navi(`/itemlist`);
   };

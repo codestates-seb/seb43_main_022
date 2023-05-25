@@ -89,9 +89,9 @@ const EditReview = () => {
     //   ) : (
     <BasicContainer className="Basic-Container">
       <ResInfo />
-      {/* {reviewData.title ? ( */}
-      <ReviewInfo reviewData={reviewData} setReviewData={setReviewData} />
-      {/* ) : null} */}
+      {reviewData.title ? (
+        <ReviewInfo reviewData={reviewData} setReviewData={setReviewData} />
+      ) : null}
       <ButtonContainer className="Button-Container">
         <Button btnstyle="Btn" onClick={hendleDelete}>
           리뷰 삭제

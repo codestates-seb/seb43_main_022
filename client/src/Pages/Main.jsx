@@ -39,7 +39,7 @@ const Main = () => {
         );
         setHotListData(res.data);
         setisLoading(false);
-        console.log(res.data.data, "데이터");
+        console.log(res.data, "데이터");
       } catch (err) {
         console.error(err);
       }
@@ -52,11 +52,13 @@ const Main = () => {
     //   {isLoading ? (
     //     <Loading />
     //   ) : (
+
     <BasicContainer className="Basic-Container">
       <KakaoMap />
       <Hotlist />
       <Categorylist />
     </BasicContainer>
+
     //   )}
     // </>
   );

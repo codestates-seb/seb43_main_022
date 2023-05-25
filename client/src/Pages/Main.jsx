@@ -37,9 +37,9 @@ const Main = () => {
         const res = await api.get(
           `/restaurants/search?keyword=${local}&page=1&size=15`,
         );
-        setHotListData(res.data.data);
+        setHotListData(res.data);
         setisLoading(false);
-        console.log(res.data.data, "데이터");
+        console.log(res.data, "데이터");
       } catch (err) {
         console.error(err);
       }
@@ -52,11 +52,13 @@ const Main = () => {
     //   {isLoading ? (
     //     <Loading />
     //   ) : (
+
     <BasicContainer className="Basic-Container">
       <KakaoMap />
       <Hotlist />
       <Categorylist />
     </BasicContainer>
+
     //   )}
     // </>
   );

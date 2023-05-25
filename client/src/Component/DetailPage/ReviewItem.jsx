@@ -29,7 +29,7 @@ const Left = styled.div`
 const Profile = styled.img`
   height: 110px;
   width: 110px;
-  border: none;
+  border: 1px solid gray;
   border-radius: 100px;
 `;
 const TitleInfo = styled.div`

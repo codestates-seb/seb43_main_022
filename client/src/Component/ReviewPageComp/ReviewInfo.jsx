@@ -129,10 +129,8 @@ const ReviewInfo = ({ reviewData, setReviewData }) => {
       image,
       rating,
     });
-    console.log(showImages, "리뷰 데이터");
   }, [title, content, showImages, rating, setReviewData]);
 
-  // 이미지 추가 기능
   const handleAddImages = async (e) => {
     const imgLists = e.target.files;
     let imgUrlLists = [...showImages];
@@ -142,7 +140,6 @@ const ReviewInfo = ({ reviewData, setReviewData }) => {
       const readFile = () =>
         new Promise((res) => {
           reader.onload = () => {
-            // const currentImgUrl = URL.createObjectURL(imgLists[i]);
             res(reader.result);
           };
         });
@@ -152,20 +149,18 @@ const ReviewInfo = ({ reviewData, setReviewData }) => {
         image: currentImgUrl,
       });
     }
-    // 3개넘게 선택 시 3개만 잘라서 보여주기
+
     if (imgUrlLists.length > 3) {
       imgUrlLists = imgUrlLists.slice(0, 3);
     }
     setShowImages(imgUrlLists);
   };
-  // 이미지 삭제 기능
+
   const handleDeleteImage = (id) => {
     const updatedImages = showImages.filter((_, index) => index !== id);
     setShowImages(updatedImages);
-    console.log(updatedImages.length);
   };
 
-  //rating 변경 함수
   const handleRating = (choice) => {
     setRating(choice);
   };
@@ -202,13 +197,13 @@ const ReviewInfo = ({ reviewData, setReviewData }) => {
           리뷰 사진
         </label>
         <p>리뷰 사진은 3개만 등록이 가능합니다.</p>
-        {/* // 저장해둔 이미지들을 순회하면서 화면에 이미지 출력 */}
+
         <Imgul>
           {showImages
             ? showImages.map((image, id) => (
                 <li className="review-img" key={id}>
                   <img src={image.image} alt={`${image.name}-${id}`} />
-                  {console.log(image, "맵안 이미지")}
+
                   <div>
                     <button onClick={() => handleDeleteImage(id)}>X</button>
                   </div>

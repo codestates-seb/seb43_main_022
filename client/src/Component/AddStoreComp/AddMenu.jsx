@@ -121,10 +121,8 @@ const AddMenu = ({ formData, setFormData }) => {
     const updatedMenu = menu.filter((item, idx) => idx !== index);
     setMenu(updatedMenu);
 
-    // 삭제된 항목을 formData에서 제외하도록 업데이트
     const updatedFormData = { ...formData, menu: updatedMenu };
     setFormData(updatedFormData);
-    console.log(formData);
   };
 
   return (

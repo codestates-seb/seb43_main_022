@@ -15,7 +15,7 @@ const AddImgWrap = styled.form`
     height: 200px;
     color: var(--black-200);
   }
-  // label태그
+
   > .signup-image-label {
     /* border: 1px solid var(--eatsgreen); */
     box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);
@@ -74,26 +74,6 @@ const AddImg = ({ formData, setFormData }) => {
       setIsUploaded(true);
     }
   }, [formData.image]);
-
-  // const handleImageChange = (e) => {
-  //   const selectedImage = e.target.files[0];
-  //   // if (selectedImage.length === 0) {
-  //   //   setImgFile("");
-  //   //   return;
-  //   // }
-  //   const reader = new FileReader();
-  //   reader.onloadend = () => {
-  //     setImgFile(reader.result); //  base64 URL 형식을 저장하는 변수
-  //     console.log("이미지", imgFile);
-  //     setFormData({
-  //       ...formData,
-  //       imageName: selectedImage.name,
-  //       base64Image: imgFile,
-  //     });
-  //     setIsUploaded(true);
-  //   };
-  //   reader.readAsDataURL(selectedImage);
-  // };
   const handleImageChange = (e) => {
     const selectedImage = e.target.files[0];
     const reader = new FileReader();
@@ -126,7 +106,7 @@ const AddImg = ({ formData, setFormData }) => {
         <IoMdImages className="AddImgIcon" />
       )}
 
-      {isUploaded && ( // 이미지가 업로드되었다면 수정, 삭제 버튼 표시
+      {isUploaded && (
         <ButtonContainer>
           <button className="delete-button" onClick={handleDelete}>
             X

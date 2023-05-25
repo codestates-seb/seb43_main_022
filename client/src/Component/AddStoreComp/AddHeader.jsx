@@ -1,4 +1,3 @@
-// AddHeader.jsx
 import styled from "styled-components";
 import AddTagsInput from "./AddTagsInput";
 

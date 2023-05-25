@@ -61,7 +61,6 @@ const BookmarkItem = ({ setData, data, setSlice, idx, setCount }) => {
           setData(res.data.favorites);
           setMember({ ...member, favorites: res.data.favorites });
           setSlice(res.data.favorites.slice(0, 6));
-          console.log(res);
         });
         setCount(0);
       })

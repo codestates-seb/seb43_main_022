@@ -37,7 +37,7 @@ const AddBtnWrap = styled.div`
   }
 `;
 const EditStore = () => {
-  const { id } = useParams(); // URL 파라미터에서 업체 ID를 가져옴
+  const { id } = useParams();
   const navigate = useNavigate();
   const initFormData = {
     restaurantName: "",
@@ -61,7 +61,6 @@ const EditStore = () => {
       try {
         const response = await api.get(`/restaurants/${id}`);
         setFormData(response.data);
-        console.log("페이지렌더링시 저장된 데이터 : ", response.data);
       } catch (error) {
         console.error(error);
       }
@@ -72,7 +71,7 @@ const EditStore = () => {
   const patchFormData = async () => {
     try {
       await api.patch(`/restaurants/${id}`, formData);
-      console.log(formData);
+
       window.location.reload();
       alert("업체정보가 수정되었습니다.");
     } catch (error) {

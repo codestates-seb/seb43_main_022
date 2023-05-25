@@ -134,7 +134,6 @@ function Signup() {
     latitude: "",
     longitude: "",
     businessAccount: false,
-    photo: "",
   });
 
   const [imgFile, setImgFile] = useState(null); // 프로필 이미지 상태

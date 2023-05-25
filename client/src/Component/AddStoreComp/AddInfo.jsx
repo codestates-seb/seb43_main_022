@@ -143,6 +143,7 @@ const AddInfo = ({ formData, setFormData }) => {
 
   const onInputCategoryChange = (e) => {
     const { name, value } = e.target;
+    console.log(e.target);
     setFormData({ ...formData, [name]: value });
   };
   return (
@@ -190,7 +191,6 @@ const AddInfo = ({ formData, setFormData }) => {
             {category.name}
           </option>
         ))}
-        {console.log(category, "카테고리")}
       </SelectCategory>
       <label htmlFor="open_time">영업시간</label>
       <InfoInput

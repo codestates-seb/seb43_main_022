@@ -33,5 +33,4 @@ public class Address {
         this.longitude = longitude;
     }
 
-
 }

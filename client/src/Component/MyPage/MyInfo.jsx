@@ -232,7 +232,7 @@ const MyInfo = () => {
         alert("정상적으로 회원 탈퇴가 되었습니다.");
         setIsLogin(!isLogin);
         api.defaults.headers.common["Authorization"] = "";
-        localStorage.removeItem("recoil-persist");
+        sessionStorage.removeItem("member");
         sessionStorage.removeItem("Authorization");
         sessionStorage.removeItem("IsLogin");
         navigate("/");

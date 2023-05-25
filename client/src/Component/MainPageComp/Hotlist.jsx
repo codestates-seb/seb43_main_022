@@ -31,7 +31,7 @@ const HotlistContainer = styled.div`
       width: 250px;
       height: 160px;
       display: flex;
-      justify-content: center;
+      justify-content: flex-start;
       align-items: center;
       margin: 5px 10px;
       border: 1px solid var(--black-200);
@@ -44,11 +44,11 @@ const HotlistContainer = styled.div`
       .hotlist-link {
         height: 100%;
         display: flex;
-        justify-content: center;
+        justify-content: flex-start;
         align-items: center;
       }
       .hotitem-imgbox {
-        width: 5em;
+        width: 6em;
         height: 100%;
         border-right: 1px solid var(--black-200);
         margin-right: 8px;

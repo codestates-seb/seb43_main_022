@@ -8,59 +8,85 @@ const { kakao } = window;
 const Container = styled.div`
   width: 100%;
   max-width: 1040px;
-  height: 40vh;
   height: 340px;
   display: flex;
   border-radius: 10px;
   overflow: hidden;
   background-color: #dbd9cd;
-`;
-const InfoContainer = styled.div`
-  width: 500px;
-  height: 100%;
-  border: 1px solid beige;
-  border-left: none;
-  border-radius: 0 10px 10px 0;
-  padding: 5px 20px;
-  font-size: var(--medium-font);
-`;
-const HeadSpan = styled.span`
-  font-size: 18px;
-  font-weight: 600;
-  display: block;
-  :first-of-type {
-    padding-top: 10px;
+  > .InfoContainer {
+    width: 500px;
+    height: 340px;
+    border: 1px solid beige;
+    border-left: none;
+    border-radius: 0 10px 10px 0;
+    padding: 5px 20px;
+    font-size: var(--medium-font);
+    background-color: #dbd9cd;
   }
-`;
-const TextSpan = styled.span`
-  padding: 5px 10px;
-  font-size: var(--medium-font);
-  margin: 10px 0px;
-  display: block;
-  border-radius: 50px;
-  background-color: #fff;
-`;
-const FlexSpan = styled.span`
-  padding: 5px 10px;
-  margin: 10px 0px;
-  display: block;
-  font-size: var(--medium-font);
-  border-radius: 50px;
-  text-align: center;
-  display: block;
-  width: 100%;
-  min-width: 160px;
-  background-color: #fff;
-`;
-const TextFlex = styled.div`
-  display: flex;
-  justify-content: space-between;
-  gap: 10px;
-  width: 100%;
-  height: 80px;
-`;
-const TextDiv = styled.div`
-  height: 80px;
+  > .InfoContainer > .TextDiv {
+    gap: 10px;
+    width: 100%;
+    height: 80px;
+  }
+  > .InfoContainer > .TextFlex {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    height: 80px;
+  }
+  > .InfoContainer > .TextDiv > .HeadSpan {
+    font-size: 18px;
+    font-weight: 600;
+    display: block;
+    :first-of-type {
+      padding-top: 10px;
+    }
+  }
+  > .InfoContainer > .TextDiv > .TextSpan {
+    padding: 6px 10px;
+    font-size: var(--medium-font);
+    margin: 10px 0px;
+    display: block;
+    border-radius: 50px;
+    background-color: #fff;
+    min-height: 35px;
+  }
+
+  > .InfoContainer > .TextFlex > .TextDiv > .HeadSpan {
+    font-size: 18px;
+    font-weight: 600;
+    display: block;
+    :first-of-type {
+      padding-top: 10px;
+    }
+  }
+  > .InfoContainer > .TextFlex > .TextDiv > .TextSpan {
+    padding: 5px 10px;
+    font-size: var(--medium-font);
+    margin: 10px 0px;
+    display: block;
+    border-radius: 50px;
+    background-color: #fff;
+    min-height: 35px;
+  }
+  > .InfoContainer > .TextFlex > .TextDiv > .FlexSpan {
+    padding: 5px 10px;
+    margin: 10px 0px;
+    display: block;
+    font-size: var(--medium-font);
+    border-radius: 50px;
+    text-align: center;
+    display: block;
+    min-width: 150px;
+    width: 100%
+    min-height: 35px;
+    background-color: #fff;
+  }
+
+  > #map {
+    width: 100%;
+    height: 100%;
+  }
 `;
 
 export default function KakaoMap() {
@@ -132,34 +158,33 @@ export default function KakaoMap() {
 
   return (
     <Container>
-      <div id="map" style={{ width: "100%", height: "100%" }}></div>
-
-      <InfoContainer>
-        <TextDiv>
-          <HeadSpan>가게 이름</HeadSpan>
-          <TextSpan>{info.restaurantName}</TextSpan>
-        </TextDiv>
-        <TextDiv>
-          <HeadSpan>음식종류</HeadSpan>
-          <TextSpan>{info.category}</TextSpan>
-        </TextDiv>
-        <TextDiv>
-          <HeadSpan>가게 위치</HeadSpan>
-          <TextSpan>{info.streetAddress}</TextSpan>
-        </TextDiv>
-        <TextFlex>
-          <TextDiv>
-            <HeadSpan>영업 시간</HeadSpan>
-            <FlexSpan>{info.open_time}</FlexSpan>
-          </TextDiv>
-          <TextDiv>
-            <HeadSpan>전화번호</HeadSpan>
-            <FlexSpan>{info.tel}</FlexSpan>
-          </TextDiv>
-        </TextFlex>
-      </InfoContainer>
-
-      {console.log("in", info)}
+      <div id="map"></div>
+      {info.category ? (
+        <div className="InfoContainer">
+          <div className="TextDiv">
+            <span className="HeadSpan">가게 이름</span>
+            <span className="TextSpan">{info.restaurantName}</span>
+          </div>
+          <div className="TextDiv">
+            <span className="HeadSpan">음식종류</span>
+            <span className="TextSpan">{info.category}</span>
+          </div>
+          <div className="TextDiv">
+            <span className="HeadSpan">가게 위치</span>
+            <span className="TextSpan">{info.streetAddress}</span>
+          </div>
+          <div className="TextFlex">
+            <div className="TextDiv">
+              <span className="HeadSpan">영업 시간</span>
+              <span className="FlexSpan">{info.open_time}</span>
+            </div>
+            <div className="TextDiv">
+              <span className="HeadSpan">전화번호</span>
+              <span className="FlexSpan">{info.tel}</span>
+            </div>
+          </div>
+        </div>
+      ) : null}
     </Container>
   );
 }

@@ -2,9 +2,10 @@ import styled from "styled-components";
 import Button from "../style/StyleButton";
 import ReviewList from "./ReviewList";
 import { useNavigate, useParams } from "react-router-dom";
-import { useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { reviewDataAtom } from "../../state/atoms/reviewDataAtom";
 import { useState, useEffect } from "react";
+import { ReviewState } from "../../state/atoms/ReviewAtom";
 
 const Container = styled.div`
   margin: 0 0 170px auto;
@@ -41,7 +42,9 @@ const VerticalLine = styled.div`
 const ReviewContainer = () => {
   const navigate = useNavigate();
   const { res_id } = useParams();
+  const [, setReviewData] = useRecoilState(ReviewState);
   const onClickReview = () => {
+    setReviewData({});
     if (sessionStorage.getItem("Authorization")) {
       navigate(`/review/restaurants/${res_id}`);
     } else {

@@ -34,21 +34,23 @@ const AddBtnWrap = styled.div`
 `;
 const AddStore = () => {
   const history = useNavigate();
-  const initFormData = {
-    restaurantName: "",
-    tag: [],
-    imageName: null,
-    base64Image: null,
-    content: "",
-    tel: "",
-    category: "",
-    open_time: "",
-    menu: [],
-    streetAddress: "",
-    detailAddress: "",
-    latitude: "",
-    longitude: "",
-  };
+  const initFormData = [
+    {
+      restaurantName: "",
+      tag: [],
+      imageName: null,
+      base64Image: null,
+      content: "",
+      tel: "",
+      category: "",
+      open_time: "",
+      menu: [],
+      streetAddress: "",
+      detailAddress: "",
+      latitude: "",
+      longitude: "",
+    },
+  ];
   const [formData, setFormData] = useState(initFormData);
 
   const postFormData = async () => {

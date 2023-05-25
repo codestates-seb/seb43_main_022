@@ -156,6 +156,7 @@ const AddInfo = ({ formData, setFormData }) => {
 
   const onInputCategoryChange = (e) => {
     const { name, value } = e.target;
+    console.log(e.target);
     setFormData({ ...formData, [name]: value });
   };
   return (
@@ -199,8 +200,8 @@ const AddInfo = ({ formData, setFormData }) => {
       >
         <option value="">가게 카테고리를 선택해주세요</option>
         {category.map((category, index) => (
-          <option key={index} value={category}>
-            {category}
+          <option key={index} value={category.name}>
+            {category.name}
           </option>
         ))}
       </SelectCategory>

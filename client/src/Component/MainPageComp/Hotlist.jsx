@@ -123,8 +123,8 @@ const Hotlist = () => {
 
   return (
     <HotlistContainer className="Hotlist-Container">
-      <div className="hotlist-title">내 지역 인기 맛집</div>
-      <div className="hotlist-subtitle">가장 인기가 많은 맛집이에요</div>
+      <div className="hotlist-title">내 지역 맛집 리스트</div>
+      <div className="hotlist-subtitle">내 지역 맛집 리스트 목록이에요</div>
       <ul className="hotlist-ul">
         {hotListData ? (
           filterData.map((resInfo, idx) => (

@@ -5,7 +5,7 @@ import { api } from "../../Util/api";
 import ReactPaginate from "react-paginate";
 import ImgBtn from "../style/ImgBtn";
 import styled from "styled-components";
-import { useRecoilValue, useSetRecoilState } from "recoil";
+import { useRecoilValue, useSetRecoilState, useRecoilState } from "recoil";
 import {
   searchResultsState,
   searchKeywordState,
@@ -23,7 +23,7 @@ const StoreKeywordResult = () => {
   const [noResult, setNoResult] = useState(false);
   const [userDataFavor, setUserDataFavor] = useState([]);
   const [stores, setStores] = useState([]);
-  const member = useRecoilValue(memberState);
+  const [member, setMember] = useRecoilState(memberState);
   const searchKeyword = useRecoilValue(searchKeywordState);
   //해더에서 검색되서 온 값 result
   const results = useRecoilValue(searchResultsState);
@@ -53,7 +53,6 @@ const StoreKeywordResult = () => {
         console.log("새로고침시 데이터받기11", refreshPageData);
         console.log("새로고침시 데이터받기22", refreshPageData.data);
         console.log("새로고침시 데이터받기 stores에 저장값", results.data);
-        // const response = await api.get("/members/mypage");
 
         setUserDataFavor(member.favorites);
       } catch (error) {
@@ -87,6 +86,7 @@ const StoreKeywordResult = () => {
         await api.post(`/favorites/restaurant/${restaurantId}`);
 
         const response = await api.get("members/mypage");
+        setMember(response.data);
         setUserDataFavor(response.data.favorites);
       }
 
@@ -156,11 +156,9 @@ const StoreKeywordResult = () => {
     setCurrentPage(selectedPage);
   };
 
-  const history = useNavigate();
-
   const handleClick = (restaurantId) => {
     console.log(`Clicked on store with : ${restaurantId}`);
-    history.push(`/detail/${restaurantId}`);
+
     setIsHeartActive(!isHeartActive);
   };
 

@@ -29,7 +29,7 @@ const Left = styled.div`
 const Profile = styled.img`
   height: 110px;
   width: 110px;
-  border: none;
+  border: 1px solid gray;
   border-radius: 100px;
 `;
 const TitleInfo = styled.div`
@@ -109,16 +109,18 @@ const ReviewItem = ({ data, onDelete }) => {
     console.log(data);
     navigate(`/review/edit/${res_id}/${data.reviewId}`);
   };
+
   const member = useRecoilValue(memberState);
 
   const handleDelete = async () => {
-    try {
-      const response = await api.delete(`/reviews/${data.reviewId}`);
-      console.log("리뷰삭제:", response.data);
-      onDelete(data);
-    } catch (error) {
-      console.error("리뷰삭제 실패:", error);
-    }
+    if (window.confirm("리뷰를 삭제 하시겠습니까?"))
+      try {
+        const response = await api.delete(`/reviews/${data.reviewId}`);
+        console.log("리뷰삭제:", response.data);
+        onDelete(data);
+      } catch (error) {
+        console.error("리뷰삭제 실패:", error);
+      }
   };
 
   return (

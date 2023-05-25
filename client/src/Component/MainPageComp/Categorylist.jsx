@@ -36,6 +36,7 @@ const CategoryContainer = styled.div`
         display: flex;
         justify-content: center;
         align-items: center;
+        border: 1px solid var(--black-200);
         border-radius: 20px;
         margin: 10px;
         overflow: hidden;
@@ -46,6 +47,7 @@ const CategoryContainer = styled.div`
         }
         img {
           width: 200px;
+          height: 15vh;
         }
         div {
           position: absolute;
@@ -55,10 +57,12 @@ const CategoryContainer = styled.div`
         }
         p {
           width: 12vw;
-          color: #fefefe;
+          color: var(--black-050);
           font-size: 24px;
           font-weight: bold;
           text-align: center;
+          text-shadow: -1px 0px var(--black-500), 0px 1px var(--black-500),
+            1px 0px var(--black-500), 0px -1px var(--black-500);
         }
       }
     }
@@ -151,7 +155,7 @@ const Categorylist = () => {
                 }}
               >
                 <img
-                  src="https://interactive-examples.mdn.mozilla.net/media/cc0-images/grapefruit-slice-332-332.jpg"
+                  src={`./CategoryImg/${category.name}.jpg`}
                   alt={`${category.name} 그림`}
                 />
                 <div className="category-text">

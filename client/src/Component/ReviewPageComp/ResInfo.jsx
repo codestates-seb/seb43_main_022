@@ -70,10 +70,8 @@ const ResInfo = () => {
   const handleShareIcon = () => {
     if (navigator.clipboard) {
       navigator.clipboard.writeText(window.location.href);
-      console.log("링크 복사 완료");
       alert("링크가 복사되었습니다.");
     } else {
-      console.log("링크 복사 실패");
       alert("링크 복사에 실패했습니다.");
     }
   };

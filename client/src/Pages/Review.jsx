@@ -42,7 +42,6 @@ const Review = () => {
       .catch((err) => {
         alert("리뷰 등록에 실패하였습니다.");
         console.log(err);
-        console.log(ReviewData, "리뷰 페이지");
       });
   };
   // 취소 버튼

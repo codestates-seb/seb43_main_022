@@ -1,0 +1,68 @@
+{
+  "members": [
+    {
+      "id": 1,
+      "memberId": 1,
+      "nickName": "닉네임1",
+      "email": "email1@codea.com",
+      "location": "강남구",
+      "password": "12341234",
+      "businessAccount": true,
+      "reviews": [
+        {
+          "restaurantId": 2,
+          "restaurantName": "김밥천국",
+          "reviewId": 1,
+          "title": "리뷰제목1",
+          "created_at": "작성일"
+        },
+        {
+          "restaurantId": 1,
+          "restaurantName": "김밥천국2",
+          "reviewId": 2,
+          "title": "리뷰제목2",
+          "created_at": "작성일"
+        }
+      ],
+      "favorite": [
+        {
+          "restaurantId": 2,
+          "name": "김밥천국",
+          "streetAddress": "도로명주소",
+          "latitude": 12.12312313,
+          "longitude": 12.3123123,
+          "category": "브런치 / 샌드위치"
+        },
+        {
+          "restaurantId": 1,
+          "name": "김밥천국2",
+          "streetAddress": "도로명주소",
+          "latitude": 12.12312313,
+          "longitude": 12.3123123,
+          "category": "브런치 / 샌드위치"
+        }
+      ]
+    }
+  ],
+  "reviews": [
+    {
+      "id": 2,
+      "restaurantId": 1,
+      "restaurantName": "김밥천국2",
+      "reviewId": 2,
+      "title": "리뷰제목2",
+      "created_at": "작성일"
+    }
+  ],
+  "favorite": [
+    {
+      "id": 1,
+      "restaurantId": 2,
+      "name": "김밥천국",
+      "streetAddress": "도로명주소",
+      "latitude": 12.12312313,
+      "longitude": 12.3123123,
+      "category": "브런치 / 샌드위치"
+    }
+  ]
+}

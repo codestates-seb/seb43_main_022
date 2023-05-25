@@ -208,7 +208,6 @@ const MyInfo = () => {
   });
 
   const [Check, setCheck] = useState({
-    // 회원가입 양식 확인
     detailAddress: true,
     nickName: true,
     password: true,
@@ -262,14 +261,11 @@ const MyInfo = () => {
       .patch(`members`, {
         nickName: patchData.nickName,
         password: patchData.password,
-        streetAddress: patchData.streetAddress + " " + patchData.detailAddress, //streetAddress
+        streetAddress: patchData.streetAddress + " " + patchData.detailAddress,
         latitude: patchData.latitude,
         longitude: patchData.longitude,
       })
       .then((res) => {
-        console.log("patch", res.data);
-        console.log(patchData);
-
         setUserData({
           ...userData,
           nickName: res.data.nickName,
@@ -319,7 +315,7 @@ const MyInfo = () => {
         const response = await api.get("members/mypage");
         const { memberId, nickName, email, businessAccount, image } =
           response.data;
-        console.log("전체", response.data);
+
         setUserData({
           memberId: memberId,
           nickName: nickName,
@@ -351,11 +347,6 @@ const MyInfo = () => {
       },
     );
   }, [patchData.streetAddress]);
-
-  // useEffect(() => {
-  //   console.log("패치 데이터", patchData);
-  //   console.log("유저 데이터", userData);
-  // }, [patchData]);
 
   return (
     <Container>

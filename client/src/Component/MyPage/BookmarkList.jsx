@@ -41,8 +41,6 @@ const BookmarkList = () => {
         const response = await api.get("members/mypage");
         setData(response.data.favorites);
         setSlice(response.data.favorites.slice(0, 6));
-        console.log("res", response.data.favorites);
-        console.log(slice);
       } catch (error) {
         console.error("에러", error);
       }
@@ -52,7 +50,6 @@ const BookmarkList = () => {
 
   return (
     <>
-      {console.log(slice)}
       <div>
         {data ? (
           slice.map((item, idx) => (

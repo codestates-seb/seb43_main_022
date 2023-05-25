@@ -1,4 +1,3 @@
-// AddStore.jsx
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
@@ -56,12 +55,11 @@ const AddStore = () => {
   const postFormData = async () => {
     try {
       await api.post("/restaurants", formData);
-      console.log(formData);
+
       alert("업체 정보가 등록되었습니다.");
-      setFormData(initFormData); // 폼 데이터 초기화
+      setFormData(initFormData);
       history("/");
     } catch (error) {
-      console.log(formData);
       console.error(error);
       alert("모든 내용을 입력했는지 확인해주세요.");
     }

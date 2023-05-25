@@ -60,7 +60,6 @@ const StoreHead = () => {
     totalFavorite: 0,
   });
 
-  // 데이터조회
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -78,25 +77,22 @@ const StoreHead = () => {
     fetchData();
   }, []);
 
-  //사용자가 해당 가게를 즐겨찾기한 경우
   const heartFunc = (b) => {
     const filterArr = b.filter((item) => {
       return item.memberId === member.memberId ? item : null;
     });
-    console.log(filterArr);
+
     return filterArr.length === 0;
   };
 
-  //사용자가 즐겨찾기한 항목을 삭제
   const deleteFunc = (a) => {
     const filterArr = a.filter((item) => {
       return item.memberId === member.memberId ? item : null;
     });
-    console.log(filterArr);
+
     return filterArr[0].favoriteId;
   };
 
-  // 즐겨찾기
   const handleHeartIcon = async () => {
     try {
       if (!member.memberId) {
@@ -121,12 +117,12 @@ const StoreHead = () => {
         });
       } else {
         const endpoint = deleteFunc(data.favorites);
-        const responseData = await api.delete(`/favorites/${endpoint}`);
+        await api.delete(`/favorites/${endpoint}`);
         const response1 = await api.get(`/restaurants/${res_id}`);
         const res = await api.get(`members/mypage`);
         const deleteData = response1.data;
         setData(deleteData);
-        console.log(responseData);
+
         setMember(res.data);
         setMember({
           ...member,

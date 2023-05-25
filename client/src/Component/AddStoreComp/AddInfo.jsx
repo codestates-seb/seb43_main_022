@@ -1,7 +1,5 @@
 import { useState, useEffect } from "react";
 import styled from "styled-components";
-// import { useRecoilValue } from "recoil";
-// import { categoryState } from "../../state/atoms/CategoryAtom";
 
 const AddInfoWrap = styled.div`
   width: calc(50% - 25px);
@@ -93,7 +91,6 @@ const AddInfo = ({ formData, setFormData }) => {
     setFormData({ ...formData, tel: value });
   };
 
-  /** 주소지 입력, 위도 경도 변환*/
   useEffect(() => {
     const script = document.createElement("script");
     script.src =
@@ -156,7 +153,7 @@ const AddInfo = ({ formData, setFormData }) => {
 
   const onInputCategoryChange = (e) => {
     const { name, value } = e.target;
-    console.log(e.target);
+
     setFormData({ ...formData, [name]: value });
   };
   return (

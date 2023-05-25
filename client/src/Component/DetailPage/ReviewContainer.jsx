@@ -56,7 +56,6 @@ const ReviewContainer = () => {
   const data = useRecoilValue(reviewDataAtom);
   const [filteredData, setFilteredData] = useState(data);
 
-  //최신순 정렬
   const sortByLatest = (reviews) => {
     return reviews.sort((a, b) => {
       const dateA = new Date(a.createdAt);
@@ -65,24 +64,20 @@ const ReviewContainer = () => {
     });
   };
 
-  //최신순
   const handleLatest = () => {
     setFilteredData(sortByLatest([...data]));
   };
 
-  //긍정순
   const handlePositive = () => {
     const positiveReviews = data.filter((review) => review.rating === "LIKE");
     setFilteredData(sortByLatest(positiveReviews));
   };
 
-  //부정순
   const handleNegative = () => {
     const negativeReviews = data.filter((review) => review.rating === "HATE");
     setFilteredData(sortByLatest(negativeReviews));
   };
 
-  //첫렌더링에서 최신순으로 초기 정렬
   useEffect(() => {
     setFilteredData(sortByLatest([...data]));
   }, [data]);

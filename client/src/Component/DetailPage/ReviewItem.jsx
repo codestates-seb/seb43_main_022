@@ -71,8 +71,6 @@ const ReviewContent = styled.div`
 `;
 const Text = styled.section`
   font-size: var(--medium-font);
-  /* white-space: pre-wrap; // 줄바꿈을 유지하면서 공백도 유지
-  overflow-wrap: break-all; */
 `;
 
 const ButtonGroup = styled.div`
@@ -90,12 +88,12 @@ const Photo = styled.div`
   width: 1200px;
   flex-direction: row;
   margin-top: 20px;
-  overflow: hidden; //<PotoItem>이 컨테이너에 가득 차게 되면 가로 스크롤이 생기지 않고 숨겨진 상태로 보여짐
+  overflow: hidden;
 `;
 const PhotoItem = styled.img`
   width: 281px;
   height: 135px;
-  flex-shrink: 0; //아이템의 크기를 고정시키기 위해 flex-shrink 속성 추가
+  flex-shrink: 0;
   margin-right: 10px;
   margin-top: 50px;
   border: 1px solid gray;
@@ -106,7 +104,6 @@ const ReviewItem = ({ data, onDelete }) => {
 
   const navigate = useNavigate();
   const modifyClick = () => {
-    console.log(data);
     navigate(`/review/edit/${res_id}/${data.reviewId}`);
   };
 
@@ -115,8 +112,7 @@ const ReviewItem = ({ data, onDelete }) => {
   const handleDelete = async () => {
     if (window.confirm("리뷰를 삭제 하시겠습니까?"))
       try {
-        const response = await api.delete(`/reviews/${data.reviewId}`);
-        console.log("리뷰삭제:", response.data);
+        await api.delete(`/reviews/${data.reviewId}`);
         onDelete(data);
       } catch (error) {
         console.error("리뷰삭제 실패:", error);

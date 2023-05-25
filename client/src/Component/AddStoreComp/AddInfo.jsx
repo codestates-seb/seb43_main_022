@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import styled from "styled-components";
-// import { useRecoilValue } from "recoil";
-// import { categoryState } from "../../state/atoms/CategoryAtom";
+import { useRecoilValue } from "recoil";
+import { categoryState } from "../../state/atoms/CategoryAtom";
 
 const AddInfoWrap = styled.div`
   width: calc(50% - 25px);
@@ -139,21 +139,7 @@ const AddInfo = ({ formData, setFormData }) => {
       },
     }).open();
   };
-  //const category = useRecoilValue(categoryState);
-  const catagory = [
-    "한식",
-    "중식",
-    "일식",
-    "양식",
-    "베트남 요리",
-    "인도 요리",
-    "분식",
-    "디저트",
-    "퓨전요리",
-    "채식",
-    "해물",
-    "고기",
-  ];
+  const category = useRecoilValue(categoryState);
 
   const onInputCategoryChange = (e) => {
     const { name, value } = e.target;
@@ -200,9 +186,9 @@ const AddInfo = ({ formData, setFormData }) => {
         onChange={onInputCategoryChange}
       >
         <option value="">가게 카테고리를 선택해주세요</option>
-        {catagory.map((category, index) => (
-          <option key={index} value={category}>
-            {category}
+        {category.map((category, index) => (
+          <option key={index} value={category.name}>
+            {category.name}
           </option>
         ))}
       </SelectCategory>

@@ -4,6 +4,8 @@ import Check from "../style/img/check.svg";
 import XBtn from "../style/img/x.svg";
 import { useState } from "react";
 import { api } from "../../Util/api";
+import { useRecoilState } from "recoil";
+import memberState from "../../state/atoms/SignAtom";
 const Container = styled.div`
   border-bottom: 1px solid var(--black-350);
   width: 480px;
@@ -50,13 +52,14 @@ const BtnDiv = styled.div`
 
 const BookmarkItem = ({ setData, data, setSlice, idx, setCount }) => {
   const [del, setDel] = useState(false);
-
+  const [member, setMember] = useRecoilState(memberState);
   const deleteFunc = (key) => {
     return api
       .delete(`/favorites/${key}`)
       .then(() => {
         api.get("/members/mypage").then((res) => {
           setData(res.data.favorites);
+          setMember({ ...member, favorites: res.data.favorites });
           setSlice(res.data.favorites.slice(0, 6));
           console.log(res);
         });

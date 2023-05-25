@@ -59,11 +59,11 @@ const AddStore = () => {
       console.log(formData);
       alert("업체 정보가 등록되었습니다.");
       setFormData(initFormData); // 폼 데이터 초기화
-      history(-1);
+      history("/");
     } catch (error) {
       console.log(formData);
       console.error(error);
-      alert("업체 정보 등록에 실패하였습니다.");
+      alert("모든 내용을 입력했는지 확인해주세요.");
     }
   };
 

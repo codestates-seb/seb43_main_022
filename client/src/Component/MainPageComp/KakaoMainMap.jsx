@@ -82,12 +82,10 @@ const Container = styled.div`
     text-align: center;
     display: block;
     min-width: 150px;
-    width: 100%
+    width: 100%;
     min-height: 35px;
     background-color: #fff;
   }
-
-  
 `;
 
 export default function KakaoMap() {

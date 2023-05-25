@@ -74,21 +74,21 @@ const EditStore = () => {
       await api.patch(`/restaurants/${id}`, formData);
       console.log(formData);
       window.location.reload();
-      alert("리뷰 정보가 수정되었습니다.");
+      alert("업체정보가 수정되었습니다.");
     } catch (error) {
       console.error(error);
-      alert("리뷰 정보 수정에 실패하였습니다.");
+      alert("업체정보 수정에 실패하였습니다.");
     }
   };
   const deleteFormData = async () => {
-    if (window.confirm("리뷰를 정말 삭제하시겠습니까?")) {
+    if (window.confirm("업체정보를 정말 삭제하시겠습니까?")) {
       try {
         await api.delete(`/restaurants/${id}`);
-        alert("리뷰가 삭제되었습니다.");
-        navigate(-1);
+        alert("업체정보가 삭제되었습니다.");
+        navigate("/itemlist");
       } catch (error) {
         console.error(error);
-        alert("리뷰 삭제에 실패하였습니다.");
+        alert("업체정보 삭제에 실패하였습니다.");
       }
     }
   };

@@ -120,13 +120,13 @@ const AddInfo = ({ formData, setFormData }) => {
       oncomplete: function (data) {
         if (window.kakao && window.kakao.maps) {
           const geocoder = new window.kakao.maps.services.Geocoder();
-          geocoder.addressSearch(data.jibunAddress, function (result, status) {
+          geocoder.addressSearch(data.roadAddress, function (result, status) {
             if (status === window.kakao.maps.services.Status.OK) {
               setLatitude(result[0].y);
               setLongitude(result[0].x);
               setFormData({
                 ...formData,
-                streetAddress: data.jibunAddress,
+                streetAddress: data.roadAddress,
                 latitude: result[0].y,
                 longitude: result[0].x,
               });
@@ -200,8 +200,8 @@ const AddInfo = ({ formData, setFormData }) => {
       >
         <option value="">가게 카테고리를 선택해주세요</option>
         {category.map((category, index) => (
-          <option key={index} value={category.name}>
-            {category.name}
+          <option key={index} value={category}>
+            {category}
           </option>
         ))}
       </SelectCategory>

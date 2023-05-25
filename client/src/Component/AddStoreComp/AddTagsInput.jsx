@@ -4,13 +4,24 @@ const AddInfoTagWrap = styled.div`
   display: flex;
   align-items: flex-start;
   flex-wrap: wrap;
-  width: 70%;
+  width: 1200px;
   padding: 0 8px;
   border-radius: 6px;
   margin-bottom: 6px;
 
   &:focus-within {
     box-shadow: 0 0 0 1px var(--eatsgreen);
+  }
+  form {
+    width: 1200px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    .enterTag {
+      font-size: var(--x-large-font);
+      color: var(--eatsgreen);
+    }
   }
 `;
 const TagInput = styled.input`
@@ -120,6 +131,7 @@ const AddTagsInput = ({ onAddTag, formData }) => {
           onChange={handleTagInputChange}
           placeholder="태그를 입력해주세요."
         />
+        <div className="enterTag">(태그입력 후 Enter를 눌러 추가해주세요)</div>
       </form>
     </AddInfoTagWrap>
   );

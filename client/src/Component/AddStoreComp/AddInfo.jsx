@@ -186,10 +186,11 @@ const AddInfo = ({ formData, setFormData }) => {
       >
         <option value="">가게 카테고리를 선택해주세요</option>
         {category.map((category, index) => (
-          <option key={index} value={category}>
-            {category}
+          <option key={index} value={category.name}>
+            {category.name}
           </option>
         ))}
+        {console.log(category, "카테고리")}
       </SelectCategory>
       <label htmlFor="open_time">영업시간</label>
       <InfoInput

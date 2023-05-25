@@ -60,15 +60,6 @@ const StoreHead = () => {
     totalFavorite: 0,
   });
 
-  //사용자가 해당 가게를 즐겨찾기한 경우
-  const heartFunc = (b) => {
-    const filterArr = b.filter((item) => {
-      return item.memberId === member.memberId ? item : null;
-    });
-    console.log(filterArr);
-    return filterArr.length === 0;
-  };
-
   // 데이터조회
   useEffect(() => {
     const fetchData = async () => {
@@ -86,6 +77,15 @@ const StoreHead = () => {
 
     fetchData();
   }, []);
+
+  //사용자가 해당 가게를 즐겨찾기한 경우
+  const heartFunc = (b) => {
+    const filterArr = b.filter((item) => {
+      return item.memberId === member.memberId ? item : null;
+    });
+    console.log(filterArr);
+    return filterArr.length === 0;
+  };
 
   //사용자가 즐겨찾기한 항목을 삭제
   const deleteFunc = (a) => {

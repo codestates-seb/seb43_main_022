@@ -111,7 +111,7 @@ const HotlistContainer = styled.div`
 const Hotlist = () => {
   const hotListData = useRecoilValue(RestaurantState);
   const navi = useNavigate();
-  const local = "강남";
+  const local = "강남" || "서초";
 
   const filterData = hotListData
     .filter((item) => item.streetAddress.includes(local))

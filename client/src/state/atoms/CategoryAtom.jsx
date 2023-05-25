@@ -2,17 +2,41 @@ import { atom } from "recoil";
 export const categoryState = atom({
   key: "categoryState",
   default: [
-    "한식",
-    "중식",
-    "일식",
-    "양식",
-    "베트남 요리",
-    "인도 요리",
-    "분식",
-    "디저트",
-    "퓨전요리",
-    "채식",
-    "해물",
-    "고기",
+    {
+      name: "한식",
+    },
+    {
+      name: "양식",
+    },
+    {
+      name: "일식",
+    },
+    {
+      name: "중식",
+    },
+    {
+      name: "베트남 요리",
+    },
+    {
+      name: "인도 요리",
+    },
+    {
+      name: "분식",
+    },
+    {
+      name: "후식",
+    },
+    {
+      name: "퓨전 요리",
+    },
+    {
+      name: "채식",
+    },
+    {
+      name: "해물",
+    },
+    {
+      name: "고기",
+    },
   ],
 });

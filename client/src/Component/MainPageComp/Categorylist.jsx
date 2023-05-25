@@ -92,7 +92,6 @@ const CategoryContainer = styled.div`
 const Categorylist = () => {
   const [categoryData, setCategoryData] = useRecoilState(categoryState);
   const [, setSearchKeyword] = useRecoilState(searchKeywordState);
-  // const [, setSearchResults] = useRecoilState(searchResultsState);
   const [currentPage, setCurrentPage] = useState(1);
   const [visibleCategory, setVisibleCategory] = useState([]);
   const navi = useNavigate();

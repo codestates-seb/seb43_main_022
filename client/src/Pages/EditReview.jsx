@@ -1,14 +1,12 @@
 import styled from "styled-components";
 import { useEffect } from "react";
-import { useRecoilState } from "recoil";
 import { useNavigate, useParams } from "react-router-dom";
+import { useRecoilState } from "recoil";
 import Button from "../Component/style/StyleButton";
 import ResInfo from "../Component/ReviewPageComp/ResInfo";
 import ReviewInfo from "../Component/ReviewPageComp/ReviewInfo";
 import { ReviewState } from "../state/atoms/ReviewAtom";
 import { api } from "../Util/api";
-// import Loading from "../Component/Loading";
-import { IsLoadingState } from "../state/atoms/IsLoadingAtom";
 
 const BasicContainer = styled.div`
   width: 100%;
@@ -32,7 +30,6 @@ const ButtonContainer = styled.div`
 const EditReview = () => {
   const navi = useNavigate();
   const [reviewData, setReviewData] = useRecoilState(ReviewState);
-  const [, setisLoading] = useRecoilState(IsLoadingState);
   const { review_id } = useParams();
 
   useEffect(() => {
@@ -40,8 +37,6 @@ const EditReview = () => {
       try {
         const res = await api.get(`/reviews/${review_id}`);
         setReviewData(res.data);
-        setisLoading(false);
-        console.log(res.data, "리뷰 데이터 가져옴");
       } catch (error) {
         alert("리뷰 데이터를 가져오는데 실패하였습니다.");
         console.error(error);
@@ -56,7 +51,6 @@ const EditReview = () => {
       .patch(`/reviews/${review_id}`, reviewData)
       .then(() => {
         alert("리뷰를 정상적으로 수정하였습니다.");
-        console.log("리뷰 수정하기");
         setReviewData({});
         navi(-1);
       })
@@ -82,11 +76,8 @@ const EditReview = () => {
     setReviewData({});
     navi(-1);
   };
+
   return (
-    // <>
-    //   {isLoading ? (
-    //     <Loading />
-    //   ) : (
     <BasicContainer className="Basic-Container">
       <ResInfo />
       {reviewData.title ? (
@@ -104,8 +95,6 @@ const EditReview = () => {
         </Button>
       </ButtonContainer>
     </BasicContainer>
-    //   )}
-    // </>
   );
 };
 

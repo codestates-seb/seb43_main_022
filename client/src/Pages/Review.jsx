@@ -40,7 +40,7 @@ const Review = () => {
         navi(-1);
       })
       .catch((err) => {
-        alert("리뷰 등록에 실패하였습니다.");
+        alert("모든 내용을 입력하였는지 확인해주세요.");
         console.log(err);
       });
   };

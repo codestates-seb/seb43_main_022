@@ -66,13 +66,18 @@ const ResInfo = () => {
   const isFavorite = userData.favorites.some(
     (favorites) => favorites.restaurantId === parseInt(res_id),
   );
-
-  const handleShareIcon = () => {
-    if (navigator.clipboard) {
-      navigator.clipboard.writeText(window.location.href);
-      alert("링크가 복사되었습니다.");
-    } else {
+  const handleShareIcon = async () => {
+    const link = window.location.href;
+    try {
+      if (navigator.clipboard) {
+        await navigator.clipboard.writeText(link);
+        alert("링크가 복사되었습니다.");
+      } else {
+        alert("이 브라우저에서는 링크 복사를 지원하지 않습니다.");
+      }
+    } catch (error) {
       alert("링크 복사에 실패했습니다.");
+      console.error("링크 복사 오류:", error);
     }
   };
 

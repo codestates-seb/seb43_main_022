@@ -112,13 +112,14 @@ const ReviewItem = ({ data, onDelete }) => {
   const member = useRecoilValue(memberState);
 
   const handleDelete = async () => {
-    try {
-      const response = await api.delete(`/reviews/${data.reviewId}`);
-      console.log("리뷰삭제:", response.data);
-      onDelete(data);
-    } catch (error) {
-      console.error("리뷰삭제 실패:", error);
-    }
+    if (window.confirm("리뷰를 삭제 하시겠습니까?"))
+      try {
+        const response = await api.delete(`/reviews/${data.reviewId}`);
+        console.log("리뷰삭제:", response.data);
+        onDelete(data);
+      } catch (error) {
+        console.error("리뷰삭제 실패:", error);
+      }
   };
 
   return (

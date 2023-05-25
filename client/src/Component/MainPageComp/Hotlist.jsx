@@ -31,7 +31,7 @@ const HotlistContainer = styled.div`
       width: 250px;
       height: 160px;
       display: flex;
-      justify-content: left;
+      justify-content: flex-start;
       align-items: center;
       margin: 5px 10px;
       border: 1px solid var(--black-200);
@@ -44,7 +44,7 @@ const HotlistContainer = styled.div`
       .hotlist-link {
         height: 100%;
         display: flex;
-        justify-content: left;
+        justify-content: flex-start;
         align-items: center;
       }
       .hotitem-imgbox {
@@ -112,7 +112,7 @@ const HotlistContainer = styled.div`
 const Hotlist = () => {
   const hotListData = useRecoilValue(RestaurantState);
   const navi = useNavigate();
-  const local = "강남";
+  const local = "강남" || "서초";
 
   const getRandomItems = (array, count) => {
     const shuffled = array.slice();

@@ -86,7 +86,7 @@ const StoreKeywordResult = () => {
         await api.post(`/favorites/restaurant/${restaurantId}`);
 
         const response = await api.get("members/mypage");
-        setMember(response.data);
+        setMember({ ...member, favorites: response.data.favorites });
         setUserDataFavor(response.data.favorites);
       }
 

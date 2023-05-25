@@ -121,6 +121,8 @@ const Header = () => {
     localStorage.removeItem("recoil-persist");
     sessionStorage.removeItem("Authorization");
     sessionStorage.removeItem("IsLogin");
+    sessionStorage.removeItem("member");
+
     navi("/");
   };
 
@@ -169,8 +171,10 @@ const Header = () => {
           setMember(res.data);
           setMember({
             ...member,
+            streetAddress: res.data.address.streetAddress,
             latitude: res.data.address.latitude,
             longitude: res.data.address.longitude,
+            favorites: res.data.favorites,
           });
         })
         .catch((err) => console.log(err));

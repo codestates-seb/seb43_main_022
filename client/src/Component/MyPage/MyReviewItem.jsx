@@ -51,19 +51,23 @@ const Condiv = styled.div`
   display: flex;
   background: white;
 `;
+
 const MyReviewItem = ({ setData, setSlice, review, idx, setCount }) => {
   const deleteFunc = (key) => {
-    return api
-      .delete(`/reviews/${key}`)
-      .then(() => {
-        api.get("/members/mypage").then((res) => {
-          setData(res.data.reviews);
-          setSlice(res.data.reviews.slice(0, 6));
-        });
-        setCount(0);
-      })
-      .catch((err) => console.log("삭제", err));
+    if (window.confirm("리뷰를 삭제하시겠습니까?")) {
+      return api
+        .delete(`/reviews/${key}`)
+        .then(() => {
+          api.get("/members/mypage").then((res) => {
+            setData(res.data.reviews);
+            setSlice(res.data.reviews.slice(0, 6));
+          });
+          setCount(0);
+        })
+        .catch((err) => console.log("삭제", err));
+    }
   };
+
   return (
     <Condiv>
       <Link

@@ -14,6 +14,7 @@ const Image = styled.img`
   border-radius: 30px;
   border: 1px solid gray;
   margin-top: 20px;
+  object-fit: cover;
 `;
 
 const Intro = styled.div`

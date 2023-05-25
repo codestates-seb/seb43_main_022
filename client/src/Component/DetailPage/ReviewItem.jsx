@@ -109,6 +109,7 @@ const ReviewItem = ({ data, onDelete }) => {
     console.log(data);
     navigate(`/review/edit/${res_id}/${data.reviewId}`);
   };
+
   const member = useRecoilValue(memberState);
 
   const handleDelete = async () => {

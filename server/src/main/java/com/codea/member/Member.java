@@ -22,13 +22,13 @@ public class Member extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long memberId;
-    @Column(length = 30)
+    @Column(length = 30, nullable = false)
     private String nickName;
     @Column(length = 30, nullable = false, updatable = false, unique = true)
     private String email;
-    @Column(length = 68)
+    @Column(length = 68, nullable = false)
     private String password;
-    @Column
+    @Column(nullable = false)
     private  String image;
     @Column
     private Boolean businessAccount = false;
@@ -37,6 +37,7 @@ public class Member extends BaseEntity {
     private MemberStatus memberStatus = MemberStatus.MEMBER_ACTIVE;
 
     @ElementCollection(fetch = FetchType.EAGER)
+    @Column(length = 20, nullable = false)
     private List<String> roles = new ArrayList<>();
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)//, cascade = CascadeType.REMOVE)

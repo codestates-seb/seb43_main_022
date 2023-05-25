@@ -25,13 +25,13 @@ public class Restaurant extends BaseEntity {
     private long restaurantId;
     @Column(length = 30, nullable = false)
     private String restaurantName;
-    @Column(length = 255, nullable = false)
+    @Column(nullable = false)
     private String content;
-    @Column(length = 50, nullable = false)
+    @Column(length = 30, nullable = false)
     private String tel;
     @Column(length = 50, nullable = false)
     private String open_time;
-    @Column
+    @Column(nullable = false)
     private String image;
     @Column
     private int total_views;
@@ -43,7 +43,7 @@ public class Restaurant extends BaseEntity {
     private double rating;
 //    @Column
 //    private String streetAddress;
-    @Column
+    @Column(nullable = false)
     private String detailAddress;
 //    @Column
 //    private double latitude;

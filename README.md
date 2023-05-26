@@ -146,7 +146,7 @@
             </td>
             <td style="width:270px"><img src="https://media.discordapp.net/attachments/1101384266052550666/1110891024949194833/png_1.png" width="100%" alt="" /><br />
                 <h2>
-                    <b>BE: 조현민</b>
+                    <b>BE: 조현민 <a href="https://github.com/jhm6650"><img src="https://img.shields.io/badge/github-181717??style=social&logo=github&logoColor=white" /></a></b>
                 </h2>
             </td>
             <td style="width:270px"> <img src="https://media.discordapp.net/attachments/1101384266052550666/1110891103592386630/png_2.png" width="100%" alt="" /><br />

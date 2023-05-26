@@ -63,7 +63,7 @@
   </tr>
   <tr>
     <td>
-      <img src="서버닫힘" alt="detail" width = 100%>
+      <img src="https://user-images.githubusercontent.com/118884127/241087793-ae4fc25a-293f-4ab3-941e-1993b27913cf.gif" alt="detail" width = 100%>
 	</td >   
 	<td>
       <img src="서버닫힘" alt="상세페이지" width = 100%>
@@ -180,7 +180,7 @@
 </div>
 <br>
 	
-## 🛠Frontend Tools 🛠
+## 🛠Backend Tools 🛠
 <div align=left>
  <img src="https://img.shields.io/badge/java-007396?style=for-the-badge&logo=java&logoColor=white">
 	<img src="https://img.shields.io/badge/Springboot-6DB33F?style=for-the-badge&logo=springboot&logoColor=white" />

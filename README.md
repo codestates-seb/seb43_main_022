@@ -76,31 +76,31 @@
 	
 # 팀원소개
 <table>
-    <tbody>
+    <tbody style="backgorund-color:#fff">
         <tr>
-            <th colspan="4" style="width: 100%; border-collapse: collapse; border: 1px solid black; padding: 10px; text-align: center;">FE Team</th>
+            <th colspan="4" style="width: 100%; border-collapse: collapse; border: 1px solid black; padding: 10px; text-align: center; background-color: white;">FE Team</th>
         </tr>
         <tr>
-            <th width=25%><img src="https://media.discordapp.net/attachments/1101384266052550666/1110887306786770994/anicon_1.png" width="100%" alt="" /><br>
+            <td width=25%><img src="https://media.discordapp.net/attachments/1101384266052550666/1110887306786770994/anicon_1.png" width="100%" alt="" /><br>
                 <h2>
                     <b>FE: 임민규</b>
                 </h2>
-            </th>
-            <th width=25%> <img src="https://media.discordapp.net/attachments/1101384266052550666/1110887135881470002/anicon_2.png" width="100%" alt="" /><br>
+            </td>
+            <td width=25%> <img src="https://media.discordapp.net/attachments/1101384266052550666/1110887135881470002/anicon_2.png" width="100%" alt="" /><br>
                 <h2>
                     <b>FE: 고정윤</b>
                 </h2>
-            </th>
-            <th width=25%> <img src="https://media.discordapp.net/attachments/1101384266052550666/1110887443705634868/png.png" width="100%" alt="" /><br>
+            </td>
+            <td width=25%> <img src="https://media.discordapp.net/attachments/1101384266052550666/1110887443705634868/png.png" width="100%" alt="" /><br>
                 <h2>
                     <b>FE: 임주헌</b>
                 </h2>
-            </th>
-            <th width=25%> <img src="https://media.discordapp.net/attachments/1101384266052550666/1110889364566835220/74f24fc0d8adcc8c.png" width="100%" alt="" /><br>
+            </td>
+            <td width=25%> <img src="https://media.discordapp.net/attachments/1101384266052550666/1110889364566835220/74f24fc0d8adcc8c.png" width="100%" alt="" /><br>
                 <h2>
                     <b>FE: 정은옥</b>
                 </h2>
-            </th>
+            </td>
         </tr>
         <tr>
             <td>
@@ -124,7 +124,7 @@
             </td>
         </tr>
         <tr>
-            <th colspan="4">BE Team</th>
+            <th colspan="4" style="background-color: white;">BE Team</th>
         </tr>
         <tr>
             <td> <img src="https://media.discordapp.net/attachments/1101384266052550666/1110890992464297984/png.png" width="100%" alt="" /><br />
@@ -141,8 +141,7 @@
                 <h2>
                     <b>BE: 서지웅</b>
                 </h2>
-            </td>
-
+            </td><td style="border: none;"></td>
         </tr>
         <tr>
             <td>
@@ -156,7 +155,7 @@
                 <li>태그 CRUD</li>
                 <li>카테고리 CRUD</li>
             </td>
-     
+		<td style="border: none; background-color: #ffffff"></td>
         </tr>
     </tbody>
 </table>

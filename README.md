@@ -1,6 +1,6 @@
 ![header](https://capsule-render.vercel.app/api?type=waving&color=61D373&fontColor=ffffff&height=200&section=header&text=Eaaaaaaats&fontSize=70&animation=fadeIn&fontAlignY=40&desc=-codea-&descSize=30&width=100)
 
-# Eaaaaaaaats 🍽️
+# Eaaaaaaaats <a href="http://codemain022.s3-website.ap-northeast-2.amazonaws.com/" target="_blank">배포사이트</a>
 ### “뭐 먹지?”, “한 끼 먹어도 제대로 먹어야지", “이번 주 맛집 탐방은 어디가지….??”
 매일 매일 이런 고민들을 하신 적 있으신가요? 매일 한 끼 식사 무엇을 먹을지 매번 고민은 되고, 한 끼를 대충 때우기에는 돈은
 아깝고,취미가 맛집 탐방 인분들에게는 매번 어디로 갈지에 대한 고민을 해결해 줄 웹사이트 Eaaaaaaats(잇츠) 입니다. 
@@ -83,22 +83,22 @@
         <tr>
             <td width=25%><img src="https://media.discordapp.net/attachments/1101384266052550666/1110887306786770994/anicon_1.png" width="100%" alt="" /><br>
                 <h2>
-                    <b>FE: 임민규</b>
+                    <b>FE: 임민규 <a href="https://github.com/nile27"><img src="https://img.shields.io/badge/github-181717??style=social&logo=github&logoColor=white" /></a></b>
                 </h2>
             </td>
             <td width=25%> <img src="https://media.discordapp.net/attachments/1101384266052550666/1110887135881470002/anicon_2.png" width="100%" alt="" /><br>
                 <h2>
-                    <b>FE: 고정윤</b>
+                    <b>FE: 고정윤 <a href="https://github.com/gjy0605"><img src="https://img.shields.io/badge/github-181717??style=social&logo=github&logoColor=white" /></a></b>
                 </h2>
             </td>
             <td width=25%> <img src="https://media.discordapp.net/attachments/1101384266052550666/1110887443705634868/png.png" width="100%" alt="" /><br>
                 <h2>
-                    <b>FE: 임주헌</b>
+                    <b>FE: 임주헌 <a href="https://github.com/LimJooHun"><img src="https://img.shields.io/badge/github-181717??style=social&logo=github&logoColor=white" /></a></b>
                 </h2>
             </td>
             <td width=25%> <img src="https://media.discordapp.net/attachments/1101384266052550666/1110889364566835220/74f24fc0d8adcc8c.png" width="100%" alt="" /><br>
                 <h2>
-                    <b>FE: 정은옥</b>
+                    <b>FE: 정은옥  <a href="https://github.com/ock2023"><img src="https://img.shields.io/badge/github-181717??style=social&logo=github&logoColor=white" /></a></b>
                 </h2>
             </td>
         </tr>
@@ -134,7 +134,7 @@
         <tr>
             <td style="width:270px"> <img src="https://media.discordapp.net/attachments/1101384266052550666/1110890992464297984/png.png" width="100%" alt="" /><br />
                 <h2>
-                    <b>BE: 차진수</b>
+                    <b>BE: 차진수 <a href="https://github.com/JSooCha"><img src="https://img.shields.io/badge/github-181717??style=social&logo=github&logoColor=white" /></a></b>
                 </h2>
             </td>
             <td style="width:270px"><img src="https://media.discordapp.net/attachments/1101384266052550666/1110891024949194833/png_1.png" width="100%" alt="" /><br />
@@ -144,7 +144,7 @@
             </td>
             <td style="width:270px"> <img src="https://media.discordapp.net/attachments/1101384266052550666/1110891103592386630/png_2.png" width="100%" alt="" /><br />
                 <h2>
-                    <b>BE: 서지웅</b>
+                    <b>BE: 서지웅 <a href="https://github.com/sksjw95"><img src="https://img.shields.io/badge/github-181717??style=social&logo=github&logoColor=white" /></a></b>
                 </h2>
             </td> 
         </tr>

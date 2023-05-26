@@ -120,7 +120,7 @@
                 <li>리뷰 CRUD</li>
             </td>
             <td>
-                <li>업체 상세 페이지</li>
+                <li >업체 상세 페이지</li>
             </td>
         </tr>
     </tbody>
@@ -132,36 +132,34 @@
             <th colspan="4" style="width: 100%; border-collapse: collapse; border: 1px solid black; padding: 10px; text-align: center; background-color: white;">BE Team</th>
         </tr>
         <tr>
-            <td style="width:25%"> <img src="https://media.discordapp.net/attachments/1101384266052550666/1110890992464297984/png.png" width="100%" alt="" /><br />
+            <td style="width:270px"> <img src="https://media.discordapp.net/attachments/1101384266052550666/1110890992464297984/png.png" width="100%" alt="" /><br />
                 <h2>
                     <b>BE: 차진수</b>
                 </h2>
             </td>
-            <td style="width:25%"><img src="https://media.discordapp.net/attachments/1101384266052550666/1110891024949194833/png_1.png" width="100%" alt="" /><br />
+            <td style="width:270px"><img src="https://media.discordapp.net/attachments/1101384266052550666/1110891024949194833/png_1.png" width="100%" alt="" /><br />
                 <h2>
                     <b>BE: 조현민</b>
                 </h2>
             </td>
-            <td style="width:25%"> <img src="https://media.discordapp.net/attachments/1101384266052550666/1110891103592386630/png_2.png" width="100%" alt="" /><br />
+            <td style="width:270px"> <img src="https://media.discordapp.net/attachments/1101384266052550666/1110891103592386630/png_2.png" width="100%" alt="" /><br />
                 <h2>
                     <b>BE: 서지웅</b>
                 </h2>
             </td> 
-	    <td style="border:none"></td>
         </tr>
         <tr>
             <td style="width:25%">
                 <li>업체 CRUD</li>
                 <li>리뷰 CRUD</li>
-            </td style="width:25%; backgorund-color:#fff">
-            <td>
+            </td>
+            <td style="width:270px">
                 <li>회원관련(인증, Members data)</li>
             </td>
-            <td style="width:25%">
+            <td style="width:270px">
                 <li>태그 CRUD</li>
                 <li>카테고리 CRUD</li>
             </td>
-	    <td style="border:none; backgorund-color:#fff"></td>
         </tr>
     </tbody>
 </table>
@@ -208,15 +206,6 @@
 </div>
 <br>
 
-
-
-## branch
-브랜치는 항상 `PR`을 통해 병합.
-<br />
-+ `main`: 배포 브랜치
-+ `fe-dev/be-dev`: `fe`/`be` 개발 브랜치
-+ `feat/기능명` `|` `feat/페이지명`: 상세 개발 브랜치		
-	
 # 깃 컨벤션
 ## Commit message 7가지 규칙
 1. 제목과 본문을 한 줄 띄어 구분
@@ -227,13 +216,6 @@
 6. 본문의 각 행은 72자 이내 (줄바꿈 사용)
 7. 본문은 어떻게 보다 무엇을, 왜에 대하여 설명
 
-## Commit message 구조
-```
-<type>: <subject>
-<body>
-<footer> 
-```
-	
 ## Type
 + `feat` : 새로운 기능 추가, 기존의 기능을 요구 사항에 맞추어 수정
 + `fix` : 기능에 대한 버그 수정
@@ -248,20 +230,4 @@
 + `remove`: 파일을 삭제만 한 경우
 + `rename`: 설정을 변경(코드의 수정 없이)
 	
-
-
-
-## Subject
-Type 함께 헤더 구성
-ex) ` feat: Add App.Css` 
-(App.css 파일 추가)
-
-## Body
-헤더로 표현이 가능하면 생략이 가능하며, 아닌 경우 자세한 내용을 함께 적어 본문 구성한다.
-
-참조 링크
-[커밋 메세지 컨벤션](https://beomseok95.tistory.com/328)
-
-
-
 

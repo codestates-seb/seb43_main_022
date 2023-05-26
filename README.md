@@ -92,154 +92,90 @@
 <br>
 	
 	
-<html>
 <table>
-  <tbody>
-    <tr>
-       <td align="left" style="width: 25%;">
-        <a href="">
-          <img
-            src="https://media.discordapp.net/attachments/1101384266052550666/1110887306786770994/anicon_1.png"
-            width="100%;"
-            alt=""
-          />
-          <br />
-          <h2>
-            <b>FE: 임민규</b>
-          </h2>
-          <br />
-          <ul style="text-align:left">
-            <li>로그인/ 회원가입 (멤버쉽)</li>
-            <li>마이페이지 통신 및 기능 구현</li>
-            <li>헤더/푸터 컴포넌트</li>
-            <li>Button/Input 컴포넌트</li>
-            <li>메인 페이지 Kakao Map</li>
-          </ul>
-        </a>
-        <br />
-      </td>
-       <td align="left" style="width: 25%;">
-        <a href="">
-          <img
-            src="https://media.discordapp.net/attachments/1101384266052550666/1110887135881470002/anicon_2.png"
-            width="100%;"
-            alt=""
-          />
-          <br />
-          <h2>
-            <b>FE: 고정윤</b>
-          </h2>
-          <br />
-          <ul style="text-align:left">
-            <li>업체 CRUD</li>
-            <li>업체 검색 및 검색결과 리스트 페이지</li>
-            <li>내 주변 맛집 카카오 Map</li>
-          </ul>
-        </a>
-        <br />
-      </td>
-       <td align="left" style="width: 25%;">
-        <a href="">
-          <img
-            src="https://media.discordapp.net/attachments/1101384266052550666/1110887443705634868/png.png"
-            width="100%;"
-            alt=""
-          />
-          <br />
-          <h2>
-            <b>FE: 임주헌</b>
-          </h2>
-          <br />
-          <ul style="text-align:left">
-            <li>메인 페이지(내 지역 인기 맛집, 카테고리)</li>
-            <li>리뷰 CRUD</li>
-          </ul>
-        </a>
-        <br />
-      </td>
-       <td align="left" style="width: 25%;">
-        <a href="">
-          <img
-            src="https://media.discordapp.net/attachments/1101384266052550666/1110889364566835220/74f24fc0d8adcc8c.png"
-            width="100%;"
-            alt=""
-          />
-          <br />
-          <h2>
-            <b>FE: 정은옥</b>
-          </h2>
-          <br />
-          <ul style="text-align:left">
-            <li>업체 상세 페이지</li>
-          </ul>
-        </a>
-        <br />
-      </td>
-      <tr />
-       <td align="left" style="width: 25%;">
-        <a href="">
-          <img
-            src="https://media.discordapp.net/attachments/1101384266052550666/1110890992464297984/png.png"
-            width="100%;"
-            alt=""
-          />
-          <br />
-          <h2>
-            <b>BE: 차진수</b>
-          </h2>
-          <br />
-          <ul style="text-align:left">
-            <li>업체 CRUD</li>
-            <li>리뷰 CRUD</li>
-        
-          </ul>
-        </a>
-        <br />
-      </td>
-       <td align="left" style="width: 25%;">
-        <a href="">
-          <img
-            src="https://media.discordapp.net/attachments/1101384266052550666/1110891024949194833/png_1.png"
-            width="100%;"
-            alt=""
-          />
-          <br />
-          <h2>
-            <b>BE: 조현민</b>
-          </h2>
-          <br />
-          <ul style="text-align:left">
-            <li>회원관련(인증, Members data)</li>
-          </ul>
-        </a>
-        <br />
-      </td>
-       <td align="left" style="width: 25%;">
-        <a href="">
-          <img
-            src="https://media.discordapp.net/attachments/1101384266052550666/1110891103592386630/png_2.png"
-            width="100%;"
-            alt=""
-          />
-          <br />
-          <h2>
-            <b>BE: 서지웅</b>
-          </h2>
-          <br />
-          <ul style="text-align:left">
-            <li>태그 CRUD</li>
-            <li>카테고리 CRUD</li>
-          </ul>
-        </a>
-        <br />
-      </td>
-    </tr>
-  </tbody>
-</table>;
-
-
-
-</html>
+    <tbody>
+        <tr>
+            <th colspan="4" style="width: 100%; border-collapse: collapse; border: 1px solid black; padding: 10px; text-align: center;">FE Team</th>
+        </tr>
+        <tr>
+            <th width=25%><img src="https://media.discordapp.net/attachments/1101384266052550666/1110887306786770994/anicon_1.png"width="100%" alt="" /><br>
+                <h2>
+                    <b>FE: 임민규</b>
+                </h2>
+            </th>
+            <th width=25%> <img src="https://media.discordapp.net/attachments/1101384266052550666/1110887135881470002/anicon_2.png"width="100%" alt="" /><br>
+                <h2>
+                    <b>FE: 고정윤</b>
+                </h2>
+            </th>
+            <th width=25%> <img src="https://media.discordapp.net/attachments/1101384266052550666/1110887443705634868/png.png"width="100%" alt="" /><br>
+                <h2>
+                    <b>FE: 임주헌</b>
+                </h2>
+            </th>
+            <th width=25%> <img src="https://media.discordapp.net/attachments/1101384266052550666/1110889364566835220/74f24fc0d8adcc8c.png"width="100%" alt="" /><br>
+                <h2>
+                    <b>FE: 정은옥</b>
+                </h2>
+            </th>
+        </tr>
+        <tr>
+            <td>
+                <li>로그인/ 회원가입 (멤버쉽)</li>
+                <li>마이페이지 통신 및 기능 구현</li>
+                <li>헤더/푸터 컴포넌트</li>
+                <li>Button/Input 컴포넌트</li>
+                <li>메인 페이지 Kakao Map</li>
+            </td>
+            <td>
+                <li>업체 CRUD</li>
+                <li>업체 검색 및 검색결과 리스트 페이지</li>
+                <li>내 주변 맛집 카카오 Map</li>
+            </td>
+            <td>
+                <li>메인 페이지(내 지역 인기 맛집, 카테고리)</li>
+                <li>리뷰 CRUD</li>
+            </td>
+            <td>
+                <li>업체 상세 페이지</li>
+            </td>
+        </tr>
+        <tr>
+            <th colspan="3">BE Team</th>
+        </tr>
+        <tr>
+            <td> <img src="https://media.discordapp.net/attachments/1101384266052550666/1110890992464297984/png.png" width="100%" alt="" /><br />
+                <h2>
+                    <b>BE: 차진수</b>
+                </h2>
+            </td>
+            <td><img src="https://media.discordapp.net/attachments/1101384266052550666/1110891024949194833/png_1.png" width="100%" alt="" /><br />
+                <h2>
+                    <b>BE: 조현민</b>
+                </h2>
+            </td>
+            <td> <img src="https://media.discordapp.net/attachments/1101384266052550666/1110891103592386630/png_2.png" width="100%" alt="" /><br />
+                <h2>
+                    <b>BE: 서지웅</b>
+                </h2>
+            </td>
+<td></td>
+        </tr>
+        <tr>
+            <td>
+                <li>업체 CRUD</li>
+                <li>리뷰 CRUD</li>
+            </td>
+            <td>
+                <li>회원관련(인증, Members data)</li>
+            </td>
+            <td>
+                <li>태그 CRUD</li>
+                <li>카테고리 CRUD</li>
+            </td><td></td>
+        </tr>
+    </tbody>
+	</table>
 	
 	
 ## 🛠Frontend Tools 🛠

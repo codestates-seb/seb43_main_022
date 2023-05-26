@@ -123,43 +123,48 @@
                 <li>업체 상세 페이지</li>
             </td>
         </tr>
+    </tbody>
+</table>
+
+<table>
+    <tbody style="backgorund-color:#fff">
         <tr>
-            <th colspan="4" style="background-color: white;">BE Team</th>
+            <th colspan="4" style="width: 100%; border-collapse: collapse; border: 1px solid black; padding: 10px; text-align: center; background-color: white;">BE Team</th>
         </tr>
         <tr>
-            <td> <img src="https://media.discordapp.net/attachments/1101384266052550666/1110890992464297984/png.png" width="100%" alt="" /><br />
+            <td style="width:25%"> <img src="https://media.discordapp.net/attachments/1101384266052550666/1110890992464297984/png.png" width="100%" alt="" /><br />
                 <h2>
                     <b>BE: 차진수</b>
                 </h2>
             </td>
-            <td><img src="https://media.discordapp.net/attachments/1101384266052550666/1110891024949194833/png_1.png" width="100%" alt="" /><br />
+            <td style="width:25%"><img src="https://media.discordapp.net/attachments/1101384266052550666/1110891024949194833/png_1.png" width="100%" alt="" /><br />
                 <h2>
                     <b>BE: 조현민</b>
                 </h2>
             </td>
-            <td> <img src="https://media.discordapp.net/attachments/1101384266052550666/1110891103592386630/png_2.png" width="100%" alt="" /><br />
+            <td style="width:25%"> <img src="https://media.discordapp.net/attachments/1101384266052550666/1110891103592386630/png_2.png" width="100%" alt="" /><br />
                 <h2>
                     <b>BE: 서지웅</b>
                 </h2>
-            </td><td style="border: none;"></td>
+            </td> 
+	    <td style="border:none"></td>
         </tr>
         <tr>
-            <td>
+            <td style="width:25%">
                 <li>업체 CRUD</li>
                 <li>리뷰 CRUD</li>
-            </td>
+            </td style="width:25%; backgorund-color:#fff">
             <td>
                 <li>회원관련(인증, Members data)</li>
             </td>
-            <td>
+            <td style="width:25%">
                 <li>태그 CRUD</li>
                 <li>카테고리 CRUD</li>
             </td>
-		<td style="border: none; background-color: #ffffff"></td>
+	    <td style="border:none; backgorund-color:#fff"></td>
         </tr>
     </tbody>
 </table>
-		
 	
 # 📚 Tech Stack 📚
 ## 🛠Frontend Tools 🛠

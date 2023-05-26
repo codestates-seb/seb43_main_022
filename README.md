@@ -66,7 +66,7 @@
       <img src="https://user-images.githubusercontent.com/118884127/241087793-ae4fc25a-293f-4ab3-941e-1993b27913cf.gif" alt="detail" width = 100%>
 	</td >   
 	<td>
-      <img src="서버닫힘" alt="상세페이지" width = 100%>
+      <img src="https://user-images.githubusercontent.com/118884127/241088286-99f4ff31-8496-489e-bb63-96388298cc00.gif" alt="mypage" width = 100%>
     </td
   </tr>
       <br/>
@@ -124,7 +124,7 @@
             </td>
         </tr>
         <tr>
-            <th colspan="3">BE Team</th>
+            <th colspan="4">BE Team</th>
         </tr>
         <tr>
             <td> <img src="https://media.discordapp.net/attachments/1101384266052550666/1110890992464297984/png.png" width="100%" alt="" /><br />
@@ -142,7 +142,7 @@
                     <b>BE: 서지웅</b>
                 </h2>
             </td>
-            <td></td>
+
         </tr>
         <tr>
             <td>
@@ -156,7 +156,7 @@
                 <li>태그 CRUD</li>
                 <li>카테고리 CRUD</li>
             </td>
-            <td></td>
+     
         </tr>
     </tbody>
 </table>

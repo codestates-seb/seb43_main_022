@@ -4,10 +4,15 @@
 ### “뭐 먹지?”, “한 끼 먹어도 제대로 먹어야지", “이번 주 맛집 탐방은 어디가지….??”
 매일 매일 이런 고민들을 하신 적 있으신가요? 매일 한 끼 식사 무엇을 먹을지 매번 고민은 되고, 한 끼를 대충 때우기에는 돈은
 아깝고,취미가 맛집 탐방 인분들에게는 매번 어디로 갈지에 대한 고민을 해결해 줄 웹사이트 Eaaaaaaats(잇츠) 입니다. <br>
-<a href="http://codemain022.s3-website.ap-northeast-2.amazonaws.com/" target="_blank">잇츠 배포사이트 구경하기</a>
 
-<table>
-  <tr>
+
+<table>	
+	<tr>
+		<th colspan="2">
+		<a href="http://codemain022.s3-website.ap-northeast-2.amazonaws.com/" target="_blank">잇츠 배포사이트 바로가기</a>
+		</th>
+	</tr>
+ <tr>
     <th>
       회원 가입 페이지
     </th>

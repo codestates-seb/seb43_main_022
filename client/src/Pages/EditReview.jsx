@@ -30,7 +30,7 @@ const ButtonContainer = styled.div`
 const EditReview = () => {
   const navi = useNavigate();
   const [reviewData, setReviewData] = useRecoilState(ReviewState);
-  const { review_id } = useParams();
+  const { res_id, review_id } = useParams();
 
   useEffect(() => {
     const fetchReviewData = async () => {
@@ -52,7 +52,7 @@ const EditReview = () => {
       .then(() => {
         alert("리뷰를 정상적으로 수정하였습니다.");
         setReviewData({});
-        navi(-1);
+        navi(`/detail/${res_id}`);
       })
       .catch((err) => {
         console.log(`${err} 에러가 발생함`);
@@ -65,7 +65,7 @@ const EditReview = () => {
         await api.delete(`/reviews/${review_id}`);
         setReviewData({});
         alert("리뷰가 삭제되었습니다.");
-        navi(-1);
+        navi(`/detail/${res_id}`);
       } catch (err) {
         console.log(err);
       }

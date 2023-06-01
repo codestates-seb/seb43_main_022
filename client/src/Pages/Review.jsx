@@ -37,7 +37,7 @@ const Review = () => {
       .then(() => {
         alert("리뷰를 등록하였습니다.");
         setReviewData({});
-        navi(-1);
+        navi(`/detail/${res_id}`);
       })
       .catch((err) => {
         alert("모든 내용을 입력하였는지 확인해주세요.");
@@ -46,7 +46,7 @@ const Review = () => {
   };
   // 취소 버튼
   const handleCancel = () => {
-    navi(-1);
+    navi(`/detail/${res_id}`);
   };
   return (
     <BasicContainer className="Basic-Container">

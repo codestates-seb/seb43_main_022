@@ -35,7 +35,7 @@ const KeywordBoxLeftArea = styled.div`
     display: flex;
     align-items: center;
     > h2 {
-      flex-basis: 150px;
+      flex-basis: 180px;
     }
     > svg {
       width: 20px;

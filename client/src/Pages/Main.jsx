@@ -26,7 +26,7 @@ const BasicContainer = styled.div`
 
 const Main = () => {
   const [, setHotListData] = useRecoilState(RestaurantState);
-  // const local = "강남";
+  // const local = "강남" || "서초";
 
   useEffect(() => {
     const fetchHotlist = async () => {

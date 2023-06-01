@@ -26,15 +26,16 @@ const BasicContainer = styled.div`
 
 const Main = () => {
   const [, setHotListData] = useRecoilState(RestaurantState);
-  const local = "강남";
+  // const local = "강남";
 
   useEffect(() => {
     const fetchHotlist = async () => {
       try {
         const res = await api.get(
-          `/restaurants/search?keyword=${local}&page=1&size=15`,
+          `/restaurants/search?keyword=&page=1&size=15`,
         );
         setHotListData(res.data);
+        console.log(res.data);
       } catch (err) {
         console.error(err);
       }

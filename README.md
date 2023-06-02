@@ -10,7 +10,7 @@
 <table>	
 	<tr>
 		<th colspan="2">
-		<a href="http://codemain022.s3-website.ap-northeast-2.amazonaws.com/" target="_blank">잇츠 배포사이트 바로가기</a>
+		<a href="http://projectmain.s3-website.ap-northeast-2.amazonaws.com/" target="_blank">잇츠 배포사이트 바로가기</a>
 		</th>
 	</tr>
  <tr>

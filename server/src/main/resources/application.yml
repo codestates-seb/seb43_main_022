@@ -11,7 +11,7 @@ logging:
 cloud:
   aws:
     credentials:
-      access-key: AKIAVZCEWUKJ6A52AAOQ
+      access-key: 
       secret-key: 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
     s3:
       bucket: main022
